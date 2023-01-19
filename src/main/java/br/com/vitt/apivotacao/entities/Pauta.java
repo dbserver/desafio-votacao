@@ -46,7 +46,6 @@ public class Pauta implements Serializable{
 
 	public Pauta(Long id, String titulo, Integer status, LocalDateTime data, LocalDateTime inicio, LocalDateTime fim,
 			boolean ativo) {
-		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.status = status;
@@ -129,4 +128,10 @@ public class Pauta implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
+	@Override
+	public String toString() {
+		return "Pauta [id=" + id + ", titulo=" + titulo + ", status=" + status + ", data=" + data + ", inicio=" + inicio
+				+ ", fim=" + fim + ", ativo=" + ativo + "]";
+	}
+	
 }
