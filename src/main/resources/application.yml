@@ -1,0 +1,22 @@
+server:
+ port: 8080
+ #servlet:
+    #context-path: /client/app
+
+spring:
+  datasource:
+    driver-class-name: ${CLIENT_DB_DRIVER:org.h2.Driver}
+    url: ${CLIENT_DB_URL:jdbc:h2:mem:client-test}
+    username: ${CLIENT_DB_USERNAME:sa}
+    password: ${CLIENT_DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
