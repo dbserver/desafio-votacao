@@ -70,7 +70,7 @@ public class PautaService {
 	
 	private void copyDtoToEntity(PautaDTO dto, Pauta entity) {
 		entity.setTitulo(dto.getTitulo());
-		entity.setStatus(dto.getStatus());
+		entity.setStatusPauta(dto.getStatusPauta());
 		entity.setData(dto.getData());
 		entity.setInicio(dto.getInicio());
 		entity.setFim(dto.getFim());

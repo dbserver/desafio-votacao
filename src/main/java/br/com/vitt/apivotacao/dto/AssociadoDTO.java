@@ -3,6 +3,7 @@ package br.com.vitt.apivotacao.dto;
 import java.io.Serializable;
 
 import br.com.vitt.apivotacao.entities.Associado;
+import br.com.vitt.apivotacao.entities.enums.Status;
 
 public class AssociadoDTO implements Serializable{
 	
@@ -28,7 +29,7 @@ public class AssociadoDTO implements Serializable{
 		this.id =  entity.getId();
 		this.nome =  entity.getNome();
 		this.cpf = entity.getCpf();
-		this.status =  entity.getStatus();
+		this.status =  entity.getStatus().getCod();
 		this.ativo =  entity.getAtivo();
 	}
 
@@ -56,12 +57,12 @@ public class AssociadoDTO implements Serializable{
 		this.cpf = cpf;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public Status getStatus() {
+		return Status.toEnum(status);
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public void setStatus(Status status) {
+		this.status = status.getCod();
 	}
 
 	public boolean getAtivo() {

@@ -3,7 +3,10 @@ package br.com.vitt.apivotacao.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.vitt.apivotacao.entities.Pauta;
+import br.com.vitt.apivotacao.entities.enums.StatusPauta;
 
 public class PautaDTO implements Serializable{
 	
@@ -11,20 +14,24 @@ public class PautaDTO implements Serializable{
 
 	private Long id;
 	private String titulo;
-	private Integer status;
+	private Integer statusPauta = 1;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime data = LocalDateTime.now();
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime inicio;
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime fim;
 	private boolean ativo;
 	
 	public PautaDTO() {}
 
-	public PautaDTO(Long id, String titulo, Integer status, LocalDateTime data, LocalDateTime inicio, LocalDateTime fim,
+	public PautaDTO(Long id, String titulo, Integer status, LocalDateTime inicio, LocalDateTime fim,
 			boolean ativo) {
 		this.id = id;
 		this.titulo = titulo;
-		this.status = status;
-		this.data = data;
+		this.statusPauta = status;
 		this.inicio = inicio;
 		this.fim = fim;
 		this.ativo = ativo;
@@ -33,7 +40,7 @@ public class PautaDTO implements Serializable{
 	public PautaDTO(Pauta entity) {
 		this.id =  entity.getId();
 		this.titulo =  entity.getTitulo();
-		this.status =  entity.getStatus();
+		this.statusPauta =  entity.getStatusPauta().getCod();
 		this.data =  entity.getData();
 		this.inicio =  entity.getInicio();
 		this.fim =  entity.getFim();
@@ -56,24 +63,24 @@ public class PautaDTO implements Serializable{
 		this.titulo = titulo;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public StatusPauta getStatusPauta() {		
+		return StatusPauta.toEnum(statusPauta);
+	}
+	
+	public void setStatusPauta(StatusPauta statusPauta) {
+		this.statusPauta = statusPauta.getCod();
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	public LocalDateTime getInicio() {
+		return inicio;
 	}
-
+	
 	public LocalDateTime getData() {
 		return data;
 	}
 
 	public void setData(LocalDateTime data) {
 		this.data = data;
-	}
-
-	public LocalDateTime getInicio() {
-		return inicio;
 	}
 
 	public void setInicio(LocalDateTime inicio) {
