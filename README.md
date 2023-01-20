@@ -18,6 +18,12 @@ Para fins de exercício, a segurança das interfaces pode ser abstraída e qualq
 
 O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato padrão dessas mensagens será detalhado no anexo 1.
 
+## Como proceder
+
+Por favor, realize o FORK desse repositório e implemente sua solução no FORK em seu repositório GItHub, ao final, notifique da conclusão para que possamos analisar o código implementado.
+
+Lembre de deixar todas as orientações necessárias para executar o seu código.
+
 ### Tarefas bônus
 
 - Tarefa Bônus 1 - Integração com sistemas externos
@@ -107,4 +113,5 @@ Obs: o formato da url acima é meramente ilustrativo e não define qualquer padr
 A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
 
 O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
+
 # desafio-votacao
