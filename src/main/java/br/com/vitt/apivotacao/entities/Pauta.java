@@ -139,6 +139,10 @@ public class Pauta implements Serializable{
 		this.ativo = ativo;
 	}
 	
+	public void setAtivo() {
+		this.ativo = false;
+	}
+	
 	public Set<PautaAssociado> getPautaAssociado() {
 		return pautaAssociado;
 	}

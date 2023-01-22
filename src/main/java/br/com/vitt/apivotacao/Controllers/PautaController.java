@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.vitt.apivotacao.dto.PautaDTO;
+import br.com.vitt.apivotacao.entities.Pauta;
+import br.com.vitt.apivotacao.entities.PautaAssociado;
 import br.com.vitt.apivotacao.services.PautaService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/pautas")
@@ -33,39 +37,69 @@ public class PautaController {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PautaDTO> findById(@PathVariable Long id) {
-
 		PautaDTO dto = service.findById(id);
 
 		return ResponseEntity.ok().body(dto);
-
+	}
+	
+	@GetMapping("/abertas")
+	public ResponseEntity<List<PautaDTO>> findAllOpen(){
+		List<PautaDTO> abertas = service.findAllOpen();
+		return ResponseEntity.ok(abertas);
+	}
+	
+	@GetMapping("/aprovadas")
+	public ResponseEntity<List<PautaDTO>> findAllApproved(){
+		List<PautaDTO> aprovadas = service.findAllApproved();
+		return ResponseEntity.ok(aprovadas);
 	}
 
 	@PostMapping
 	public ResponseEntity<PautaDTO> insert(@RequestBody PautaDTO dto) {
-
 		dto = service.insert(dto);
-
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 
 		return ResponseEntity.created(uri).body(dto);
-
 	}
-
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<PautaDTO> update(@PathVariable Long id, @RequestBody PautaDTO dto) {
-
-		dto = service.update(id, dto);
-
-		return ResponseEntity.ok().body(dto);
-
+	
+	@PostMapping("/votar/{id}")
+	public ResponseEntity<PautaAssociado> votar(@PathVariable Long id,
+										@RequestParam(name="cpf") String cpf,
+										@RequestParam(name="voto") String voto){
+		PautaAssociado votoInfo = service.votar(id, cpf, voto);
+		return ResponseEntity.ok(votoInfo);
+	}
+	
+	@PostMapping("/reabrir/{id}")
+	public ResponseEntity<PautaDTO> reabrirPauta(@PathVariable Long id) {
+		PautaDTO pauta = service.reabrirPauta(id);
+		return ResponseEntity.ok(pauta);
+	}
+	
+	@PostMapping("/abrir/{id}")
+	public ResponseEntity<Pauta> novaPautaHorario(@PathVariable Long id, 
+												@RequestParam(required = false, name="time") String time) {		
+		Pauta pauta = service.abrirVotacao(id, time);
+		return ResponseEntity.ok(pauta);
+	}
+	
+	@PutMapping("/id/{id}")
+	public ResponseEntity<PautaDTO> novaPauta(@PathVariable Long id,
+										@RequestBody PautaDTO pauta) {
+		PautaDTO obj = service.update(id, pauta);
+		return ResponseEntity.ok(obj);
+	}	
+	
+	@DeleteMapping("/id/{id}")
+	public ResponseEntity<Void> deletarPauta(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<PautaDTO> delete(@PathVariable Long id) {
-
 		service.delete(id);
 
 		return ResponseEntity.noContent().build();
-
 	}
 }
