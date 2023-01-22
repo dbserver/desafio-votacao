@@ -1,22 +1,26 @@
 package br.com.vitt.apivotacao.Controllers;
 
-import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.vitt.apivotacao.dto.AssociadoDTO;
+import br.com.vitt.apivotacao.entities.Associado;
+import br.com.vitt.apivotacao.entities.enums.Status;
 import br.com.vitt.apivotacao.services.AssociadoService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/associados")
@@ -37,20 +41,41 @@ public class AssociadoController {
 
 		return ResponseEntity.ok().body(dto);
 	}
-
-	@PostMapping
-	public ResponseEntity<AssociadoDTO> insert(@RequestBody AssociadoDTO dto) {
-		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-
-		return ResponseEntity.created(uri).body(dto);
+	
+	@GetMapping("/aptos/{cpf}")
+	public ResponseEntity<Status> consultaStatusVotar(@PathVariable String cpf){
+		Status status = service.verificarSeAptoParaVotar(cpf);
+		return ResponseEntity.ok(status);
 	}
 
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<AssociadoDTO> update(@PathVariable Long id, @RequestBody AssociadoDTO dto) {
-		dto = service.update(id, dto);
-
-		return ResponseEntity.ok().body(dto);
+	@GetMapping("/aptos")
+	public ResponseEntity<List<AssociadoDTO>> todosAssociadosAptosAVotar(){
+		List<AssociadoDTO> aptos = service.acharTodosAptosAVotar();
+		return ResponseEntity.ok(aptos);
+	}
+	
+	@PostMapping("/id/{id}")
+	public ResponseEntity<AssociadoDTO> ativarAssociado(@PathVariable Long id) {
+		AssociadoDTO associado = service.ativarAssociado(id);
+		return ResponseEntity.ok(associado);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@ApiResponses(value = {	
+		    @ApiResponse(code = 201, response = Associado.class, message = "Created"),
+		   	    
+		})	
+	@PostMapping
+	public ResponseEntity novoAssociado(@RequestBody AssociadoDTO associado) {
+		AssociadoDTO obj = service.insert(associado);		
+		return new ResponseEntity(obj, HttpStatus.CREATED);
+	}
+	
+	@PatchMapping("/id/{id}")
+	public ResponseEntity<Associado> mudarStatus(@PathVariable Long id,
+													@RequestParam(name="status") String status){
+		Associado response = service.mudarStatus(id, status);
+		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping(value = "/{id}")
