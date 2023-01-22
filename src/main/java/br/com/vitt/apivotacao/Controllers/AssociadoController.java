@@ -30,14 +30,14 @@ public class AssociadoController {
 	private AssociadoService service;
 
 	@GetMapping
-	public ResponseEntity<List<AssociadoDTO>> findAll(){
-		List<AssociadoDTO> pautas = service.findAll();
+	public ResponseEntity<List<Associado>> findAll(){
+		List<Associado> pautas = service.findAll();
 		return ResponseEntity.ok(pautas);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<AssociadoDTO> findById(@PathVariable Long id) {
-		AssociadoDTO dto = service.findById(id);
+	public ResponseEntity<Associado> findById(@PathVariable Long id) {
+		Associado dto = service.findById(id);
 
 		return ResponseEntity.ok().body(dto);
 	}
@@ -49,14 +49,14 @@ public class AssociadoController {
 	}
 
 	@GetMapping("/aptos")
-	public ResponseEntity<List<AssociadoDTO>> todosAssociadosAptosAVotar(){
-		List<AssociadoDTO> aptos = service.acharTodosAptosAVotar();
+	public ResponseEntity<List<Associado>> todosAssociadosAptosAVotar(){
+		List<Associado> aptos = service.acharTodosAptosAVotar();
 		return ResponseEntity.ok(aptos);
 	}
 	
 	@PostMapping("/id/{id}")
-	public ResponseEntity<AssociadoDTO> ativarAssociado(@PathVariable Long id) {
-		AssociadoDTO associado = service.ativarAssociado(id);
+	public ResponseEntity<Associado> ativarAssociado(@PathVariable Long id) {
+		Associado associado = service.ativarAssociado(id);
 		return ResponseEntity.ok(associado);
 	}
 	
@@ -66,8 +66,8 @@ public class AssociadoController {
 		   	    
 		})	
 	@PostMapping
-	public ResponseEntity novoAssociado(@RequestBody AssociadoDTO associado) {
-		AssociadoDTO obj = service.insert(associado);		
+	public ResponseEntity novoAssociado(@RequestBody Associado associado) {
+		Associado obj = service.insert(associado);		
 		return new ResponseEntity(obj, HttpStatus.CREATED);
 	}
 	

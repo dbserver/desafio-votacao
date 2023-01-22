@@ -20,7 +20,6 @@ import br.com.vitt.apivotacao.dto.PautaDTO;
 import br.com.vitt.apivotacao.entities.Pauta;
 import br.com.vitt.apivotacao.entities.PautaAssociado;
 import br.com.vitt.apivotacao.services.PautaService;
-import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/pautas")
@@ -37,9 +36,9 @@ public class PautaController {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PautaDTO> findById(@PathVariable Long id) {
-		PautaDTO dto = service.findById(id);
+		Pauta obj = service.findById(id);
 
-		return ResponseEntity.ok().body(dto);
+		return ResponseEntity.ok().body(new PautaDTO(obj));
 	}
 	
 	@GetMapping("/abertas")
@@ -55,8 +54,8 @@ public class PautaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PautaDTO> insert(@RequestBody PautaDTO dto) {
-		dto = service.insert(dto);
+	public ResponseEntity<PautaDTO> insert(@RequestBody Pauta pauta) {
+		PautaDTO dto = service.insert(pauta);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 
 		return ResponseEntity.created(uri).body(dto);
@@ -85,8 +84,8 @@ public class PautaController {
 	
 	@PutMapping("/id/{id}")
 	public ResponseEntity<PautaDTO> novaPauta(@PathVariable Long id,
-										@RequestBody PautaDTO pauta) {
-		PautaDTO obj = service.update(id, pauta);
+										@RequestBody Pauta pauta) {
+		PautaDTO obj = service.atualizar(id, pauta);
 		return ResponseEntity.ok(obj);
 	}	
 	

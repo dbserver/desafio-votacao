@@ -16,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 
@@ -55,6 +54,10 @@ public class Pauta implements Serializable{
 	private Set<PautaAssociado> pautaAssociado = new HashSet<>();
 	
 	public Pauta() {}
+	
+	public Pauta(String titulo) {
+		this.titulo = titulo;		
+	}
 
 	public Pauta(Long id, String titulo, Integer statusPauta, LocalDateTime data, LocalDateTime inicio, LocalDateTime fim,
 			boolean ativo) {

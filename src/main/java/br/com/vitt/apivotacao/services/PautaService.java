@@ -8,11 +8,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.vitt.apivotacao.dto.PautaDTO;
 import br.com.vitt.apivotacao.entities.Associado;
@@ -24,8 +23,6 @@ import br.com.vitt.apivotacao.entities.enums.Voto;
 import br.com.vitt.apivotacao.repositories.AssociadoRepository;
 import br.com.vitt.apivotacao.repositories.PautaAssociadoRepository;
 import br.com.vitt.apivotacao.repositories.PautaRepository;
-import br.com.vitt.apivotacao.services.exceptions.DatabaseException;
-import br.com.vitt.apivotacao.services.exceptions.ResourceNotFoundException;
 import br.com.vitt.apivotacao.services.exceptions.ValidationException;
 import br.com.vitt.apivotacao.validation.CPF;
 import br.com.vitt.apivotacao.validation.Time;
@@ -42,102 +39,35 @@ public class PautaService {
 	@Autowired
 	AssociadoRepository associadoRepository;
 	
-	@Transactional(readOnly = true)
-	public List<PautaDTO> findAll() {
-		List<Pauta> page = repository.findAll();
+	public Pauta findById(Long id) {
+		Optional<Pauta> pauta = repository.findById(id);
+		if (pauta.isEmpty() || !pauta.get().getAtivo())
+			throw new ValidationException("Nenhuma pauta encontrada com id: " + id);
+		return pauta.get();
+	}	
 
-		return page.stream().map(x -> new PautaDTO(x)).toList();
+	public List<PautaDTO> findAll() {		
+		return pautasValidas(repository.findAll());		
 	}
-	
-	@Transactional(readOnly = true)
-	public List<PautaDTO> findAllOpen() {
-		List<PautaDTO> page = pautasValidas(repository.findAllByStatusPauta(1));
 
-		return page;
-	}
-	
-	@Transactional(readOnly = true)
+	public List<PautaDTO> findAllOpen() {		
+		return pautasValidas(repository.findAllByStatusPauta(1));		
+	}		
+
 	public List<PautaDTO> findAllApproved() {
-		List<PautaDTO> page = pautasValidas(repository.findAllByStatusPauta(3));
+		return pautasValidas(repository.findAllByStatusPauta(3));
+	}
 
-		return page;
-	}
-	
-	@Transactional(readOnly = true)
-	public PautaDTO findById(Long id) {
-		Optional<Pauta> obj = repository.findById(id);
-		Pauta entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new PautaDTO(entity);
-	}
-	
-	@Transactional
-	public PautaDTO insert(PautaDTO dto) {
-		if (dto.getTitulo().isEmpty())
+	public PautaDTO insert(Pauta pauta) {
+		if (pauta.getTitulo().isEmpty())
 			throw new ValidationException("Título nao pode estar em branco");
-		Pauta entity = new Pauta();
-		copyDtoToEntity(dto, entity);
-		entity = repository.save(entity);
+		Pauta obj = repository.save(pauta);
 		
-		return new PautaDTO(entity);
-	}
-	
-	public PautaDTO update(Long id, PautaDTO pauta) {
-		Pauta obj = copyDtoToNewEntity(findById(id));	
-		if (obj.getStatusPauta() != StatusPauta.OPEN)
-			throw new ValidationException("Pautas votadas ou em votação não podem ser alteradas");
-		obj.setTitulo(pauta.getTitulo());
-		return insert(new PautaDTO(obj));
-	}
+		return new PautaDTO(obj);
+	}	
 
-	public PautaDTO reabrirPauta(Long id) {
-		Pauta pauta = copyDtoToNewEntity(findById(id));	
-		if (pauta.getStatusPauta() != StatusPauta.DRAW)
-			throw new ValidationException("A pauta não pode ser reaberta");
-		pauta.setStatusPauta(StatusPauta.OPEN);
-		String time = "4000_12_31_00_00";
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm");
-		LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
-		pauta.setFim(dateTime);
-		for (PautaAssociado x : pauta.getPautaAssociado()) {
-			x.setVoto(Voto.SEM_VOTO);
-		}
-		repository.save(pauta);
-		return new PautaDTO(pauta);
-	}
-
-	public void delete(Long id) {
-		try {
-			Pauta pauta = copyDtoToNewEntity(findById(id));	
-			if(pauta.getStatusPauta()!=StatusPauta.OPEN) throw new ValidationException("Pautas votadas ou em votação não podem ser deletadas");
-			pauta.setAtivo();
-			repository.save(pauta);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Id not found " + id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Integrity violation");
-		}
-	}
-	
-	private List<PautaDTO> pautasValidas(List<Pauta> pautas){
-		pautas = pautas.stream().filter(x->x.getAtivo()).collect(Collectors.toList());
-		if (pautas.isEmpty())throw new ResourceNotFoundException("Entity not found");
-		
-		return pautas.stream().map(x -> new PautaDTO(x)).collect(Collectors.toList());		
-	}
-	
-	private Set<PautaAssociado> criandoVotacao(Pauta pauta) {
-		List<Associado> aptosVotar = associadoRepository.findAllByStatus(1);
-		if (aptosVotar.isEmpty())
-			throw new ValidationException("Não pode ser aberta a votação, pois não temos associados aptos à votar");
-		Set<PautaAssociado> list = new HashSet<>();
-		for (Associado x : aptosVotar) {				
-			list.add(new PautaAssociado(x, pauta));
-		}
-		return list;
-	}
-	
 	public Pauta abrirVotacao(Long id, String time) {
-		Pauta pauta = copyDtoToNewEntity(findById(id));	
+		Pauta pauta = findById(id);	
 		
 		if (!pauta.getStatusPauta().equals(StatusPauta.OPEN))
 			throw new ValidationException("Pauta já foi aberta para votação");
@@ -161,9 +91,9 @@ public class PautaService {
 		repository.save(pauta);
 		return pauta;
 	}
-	
+
 	public PautaAssociado votar(Long id, String cpf, String voto) {
-		Pauta pauta = copyDtoToNewEntity(findById(id));	
+		Pauta pauta = findById(id);
 
 		if (pauta.getStatusPauta() != StatusPauta.IN_VOTING)
 			throw new ValidationException("Pauta não está em votação");
@@ -194,6 +124,37 @@ public class PautaService {
 		}
 		throw new ValidationException("Erro na urna");
 	}
+
+	public PautaDTO atualizar(Long id, Pauta pauta) {
+		Pauta obj = findById(id);
+		if (obj.getStatusPauta() != StatusPauta.OPEN)
+			throw new ValidationException("Pautas votadas ou em votação não podem ser alteradas");
+		obj.setTitulo(pauta.getTitulo());
+		return insert(obj);
+	}
+
+	public PautaDTO reabrirPauta(Long id) {
+		Pauta pauta = findById(id);
+		if (pauta.getStatusPauta() != StatusPauta.DRAW)
+			throw new ValidationException("A pauta não pode ser reaberta");
+		pauta.setStatusPauta(StatusPauta.OPEN);
+		String time = "4000_12_31_00_00";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm");
+		LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+		pauta.setFim(dateTime);
+		for (PautaAssociado x : pauta.getPautaAssociado()) {
+			x.setVoto(Voto.SEM_VOTO);
+		}
+		repository.save(pauta);
+		return new PautaDTO(pauta);
+	}	
+
+	public void delete(Long id) {
+		Pauta pauta = findById(id);
+		if(pauta.getStatusPauta()!=StatusPauta.OPEN) throw new ValidationException("Pautas votadas ou em votação não podem ser deletadas");
+		pauta.setAtivo();
+		repository.save(pauta);
+	}
 	
 	private Associado validarCPF(String cpf) {
 		if (cpf.isEmpty())
@@ -208,25 +169,22 @@ public class PautaService {
 		return optAssociado.get();
 	}
 	
-	private void copyDtoToEntity(PautaDTO dto, Pauta entity) {
-		entity.setTitulo(dto.getTitulo());
-		entity.setStatusPauta(dto.getStatusPauta());
-		entity.setData(dto.getData());
-		entity.setInicio(dto.getInicio());
-		entity.setFim(dto.getFim());
-		entity.setAtivo(dto.getAtivo());
+	private List<PautaDTO> pautasValidas(List<Pauta> pautas){
+		pautas = pautas.stream().filter(x->x.getAtivo()).collect(Collectors.toList());
+		if (pautas.isEmpty())throw new EntityNotFoundException("Nenhuma pauta cadastrada");
+		
+		return pautas.stream().map(x -> new PautaDTO(x)).collect(Collectors.toList());		
 	}
 	
-	private Pauta copyDtoToNewEntity(PautaDTO dto) {
-		Pauta entity = new Pauta();
-		entity.setTitulo(dto.getTitulo());
-		entity.setStatusPauta(dto.getStatusPauta());
-		entity.setData(dto.getData());
-		entity.setInicio(dto.getInicio());
-		entity.setFim(dto.getFim());
-		entity.setAtivo(dto.getAtivo());
-		
-		return entity;
+	private Set<PautaAssociado> criandoVotacao(Pauta pauta) {
+		List<Associado> aptosVotar = associadoRepository.findAllByStatus(1);
+		if (aptosVotar.isEmpty())
+			throw new ValidationException("Não pode ser aberta a votação, pois não temos associados aptos à votar");
+		Set<PautaAssociado> list = new HashSet<>();
+		for (Associado x : aptosVotar) {				
+			list.add(new PautaAssociado(x, pauta));
+		}
+		return list;
 	}
 
 }

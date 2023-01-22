@@ -40,7 +40,16 @@ public class Associado implements Serializable{
 	
 	public Associado() {}
 
+	public Associado(String nome,String cpf) {
+		this.nome = nome;
+		this.cpf = cpf;
+	}
 	
+	public Associado(String nome,String cpf,Status status) {
+		this.nome = nome;
+		this.cpf = cpf;
+		setStatus(status);
+	}
 
 	public Associado(Long id, String nome, String cpf, Integer status, boolean ativo) {
 		this.id = id;
