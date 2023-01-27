@@ -1,0 +1,33 @@
+
+spring:
+  datasource:
+    url: jdbc:h2:/h2/data/votacao
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+  flyway:
+    locations: classpath:/db/migration
+    baseline-version: 1
+    baseline-on-migrate: true
+    schemas: PUBLIC
+    user: sa
+    password: password
+    enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+server:
+  port: 8080
+  servlet:
+    context-path: /votacao-api

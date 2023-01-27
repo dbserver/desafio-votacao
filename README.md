@@ -2,7 +2,8 @@
 
 ## Objetivo
 
-No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Imagine que você deve criar uma solução para dispositivos móveis para gerenciar e participar dessas sessões de votação.
+No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Imagine que você
+deve criar uma solução para dispositivos móveis para gerenciar e participar dessas sessões de votação.
 Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
 
 - Cadastrar uma nova pauta
@@ -12,24 +13,33 @@ Essa solução deve ser executada na nuvem e promover as seguintes funcionalidad
   é identificado por um id único e pode votar apenas uma vez por pauta)
 - Contabilizar os votos e dar o resultado da votação na pauta
 
-Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser considerada como autorizada. A solução deve ser construída em java, usando Spring-boot, mas os frameworks e bibliotecas são de livre escolha (desde que não infrinja direitos de uso).
+Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser
+considerada como autorizada. A solução deve ser construída em java, usando Spring-boot, mas os frameworks e bibliotecas
+são de livre escolha (desde que não infrinja direitos de uso).
 
 É importante que as pautas e os votos sejam persistidos e que não sejam perdidos com o restart da aplicação.
 
-O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato padrão dessas mensagens será detalhado no anexo 1.
+O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de
+mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai
+interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato
+padrão dessas mensagens será detalhado no anexo 1.
 
 ## Como proceder
 
-Por favor, realize o FORK desse repositório e implemente sua solução no FORK em seu repositório GItHub, ao final, notifique da conclusão para que possamos analisar o código implementado.
+Por favor, realize o FORK desse repositório e implemente sua solução no FORK em seu repositório GItHub, ao final,
+notifique da conclusão para que possamos analisar o código implementado.
 
 Lembre de deixar todas as orientações necessárias para executar o seu código.
 
 ### Tarefas bônus
 
 - Tarefa Bônus 1 - Integração com sistemas externos
-  - Criar uma Facade/Client Fake que retorna aleátoriamente se um CPF recebido é válido ou não.
-  - Caso o CPF seja inválido, a API retornará o HTTP Status 404 (Not found). Você pode usar geradores de CPF para gerar CPFs válidos
-  - Caso o CPF seja válido, a API retornará se o usuário pode (ABLE_TO_VOTE) ou não pode (UNABLE_TO_VOTE) executar a operação. Essa operação retorna resultados aleatórios, portanto um mesmo CPF pode funcionar em um teste e não funcionar no outro.
+    - Criar uma Facade/Client Fake que retorna aleátoriamente se um CPF recebido é válido ou não.
+    - Caso o CPF seja inválido, a API retornará o HTTP Status 404 (Not found). Você pode usar geradores de CPF para
+      gerar CPFs válidos
+    - Caso o CPF seja válido, a API retornará se o usuário pode (ABLE_TO_VOTE) ou não pode (UNABLE_TO_VOTE) executar a
+      operação. Essa operação retorna resultados aleatórios, portanto um mesmo CPF pode funcionar em um teste e não
+      funcionar no outro.
 
 ```
 // CPF Ok para votar
@@ -86,14 +96,17 @@ Exemplos de retorno do serviço
 
 ### Introdução
 
-A seguir serão detalhados os tipos de tela que o cliente mobile suporta, assim como os tipos de campos disponíveis para a interação do usuário.
+A seguir serão detalhados os tipos de tela que o cliente mobile suporta, assim como os tipos de campos disponíveis para
+a interação do usuário.
 
 ### Tipo de tela – FORMULARIO
 
 A tela do tipo FORMULARIO exibe uma coleção de campos (itens) e possui um ou dois botões de ação na parte inferior.
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada botão quando o mesmo é acionado. Nos casos onde temos campos de entrada
-de dados na tela, os valores informados pelo usuário são adicionados ao corpo da requisição. Abaixo o exemplo da requisição que o aplicativo vai fazer quando o botão “Ação 1” for acionado:
+O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada botão
+quando o mesmo é acionado. Nos casos onde temos campos de entrada
+de dados na tela, os valores informados pelo usuário são adicionados ao corpo da requisição. Abaixo o exemplo da
+requisição que o aplicativo vai fazer quando o botão “Ação 1” for acionado:
 
 ```
 POST http://seudominio.com/ACAO1
@@ -112,6 +125,7 @@ Obs: o formato da url acima é meramente ilustrativo e não define qualquer padr
 
 A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
+O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da
+lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
 
 # desafio-votacao
