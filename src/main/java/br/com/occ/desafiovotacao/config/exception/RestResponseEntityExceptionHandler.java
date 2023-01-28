@@ -21,4 +21,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         return ex.getResponseEntity();
     }
+
+    @ExceptionHandler(value = {ServiceException.class})
+    protected ResponseEntity<Object> handleConflict(ServiceException ex, WebRequest request) {
+
+        if (ex.getStatus().is4xxClientError()) {
+            log.warn("Falha ao executar servico {}", ex.getMessage());
+        } else {
+            log.error("Erro ao executar servico", ex);
+        }
+
+        return ex.getResponseEntity();
+    }
 }

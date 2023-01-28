@@ -1,6 +1,7 @@
 package br.com.occ.desafiovotacao.v1.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class Sessao extends BaseModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Atributo pauta é obrigatório")
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pauta_id", nullable = false)
     private Pauta pauta;
