@@ -1,5 +1,6 @@
 package br.com.adonias.desafiovotacao.business;
 
+import br.com.adonias.desafiovotacao.business.services.impl.SessionServiceImpl;
 import br.com.adonias.desafiovotacao.business.services.impl.VoteServiceImpl;
 import br.com.adonias.desafiovotacao.dto.VoteDTO;
 import br.com.adonias.desafiovotacao.entities.Vote;
@@ -20,6 +21,9 @@ import java.util.Optional;
 public class VoteBusiness {
     @Autowired
     private VoteServiceImpl voteService;
+
+    @Autowired
+    private SessionServiceImpl sessionService;
 
     @Autowired
     private VoteMapper mapper;

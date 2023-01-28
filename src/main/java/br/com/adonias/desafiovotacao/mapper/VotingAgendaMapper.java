@@ -16,8 +16,10 @@ public class VotingAgendaMapper {
 
     public VotingAgendaDTO convertToDto(VotingAgenda agenda) {
         VotingAgendaDTO agendaDTO = modelMapper.map(agenda, VotingAgendaDTO.class);
-        agendaDTO.setQt_no(countVotes(agenda, Answer.NO));
-        agendaDTO.setQt_yes(countVotes(agenda, Answer.YES));
+        if(agendaDTO.getVotes() != null) {
+            agendaDTO.setQt_no(countVotes(agenda, Answer.NO));
+            agendaDTO.setQt_yes(countVotes(agenda, Answer.YES));
+        }
         return agendaDTO;
     }
 

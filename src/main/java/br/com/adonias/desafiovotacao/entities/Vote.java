@@ -23,11 +23,10 @@ public class Vote {
     @Column(nullable = false)
     private Answer answer;
 
-    @OneToOne
-    @JsonIgnore
-    private VotingAgenda agenda;
+    @Column
+    private Long agenda_id;
 
-    @Column()
+    @Column
     private LocalDateTime dateTime;
 
 }

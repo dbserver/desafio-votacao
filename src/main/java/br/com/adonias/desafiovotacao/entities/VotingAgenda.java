@@ -18,7 +18,7 @@ public class VotingAgenda {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "agenda_id")
     private List<Vote> votes;
 }
