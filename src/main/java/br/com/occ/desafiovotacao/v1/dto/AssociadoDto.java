@@ -17,5 +17,6 @@ public class AssociadoDto extends BaseDto {
     private Long id;
     @NotNull(message = "Atributo nome é obrigatório")
     private String nome;
+    private String cpf;
     private boolean ativo;
 }
