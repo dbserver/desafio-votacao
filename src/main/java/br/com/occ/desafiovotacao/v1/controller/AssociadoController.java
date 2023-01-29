@@ -52,7 +52,7 @@ public class AssociadoController {
     @ApiOperation(value = "Realiza consulta de asssociados aptos a voto")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Lista de Associados aptos pra votar", response = AssociadoDto.class),
-            @ApiResponse(code = 401, message = "Não existe associados aptos"),
+            @ApiResponse(code = 400, message = "Não existe associados aptos"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @GetMapping("/ativos")

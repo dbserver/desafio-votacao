@@ -1,7 +1,9 @@
 package br.com.occ.desafiovotacao.v1.dto;
 
+import lombok.EqualsAndHashCode;
 import org.modelmapper.ModelMapper;
 
+@EqualsAndHashCode
 public abstract class BaseDto {
 
     public <D> D toEntity(ModelMapper modelMapper, Class<D> d) {

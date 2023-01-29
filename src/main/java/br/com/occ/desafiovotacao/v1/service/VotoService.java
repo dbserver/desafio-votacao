@@ -38,6 +38,10 @@ public class VotoService implements IVotoService{
     @Override
     public Voto votar(Voto voto) {
         Optional<Associado> associadoOptional = associadoService.findById(voto.getAssociado().getId());
+
+        if(repository.existsVotoByAssociado_IdAndPauta_Id(voto.getAssociado().getId(), voto.getPauta().getId()))
+            throw new ServiceException("Associado já votou nesta pauta", HttpStatus.BAD_REQUEST);
+
         if (associadoOptional.isEmpty())
             throw new ServiceException("Associado não encontrado", HttpStatus.BAD_REQUEST);
 
@@ -46,9 +50,9 @@ public class VotoService implements IVotoService{
             throw new ServiceException("Pauta não encontrada", HttpStatus.BAD_REQUEST);
 
         if (pautaOptional.get().getSessao() == null)
-            throw new ServiceException("Sessão ainda não foi aberta para esta pauta", HttpStatus.BAD_REQUEST);
+            throw new ServiceException("Sessão ainda não foi aberta para pauta selecionada", HttpStatus.BAD_REQUEST);
 
-        if (pautaOptional.get().getSessao().getDataFim().isAfter(LocalDateTime.now()))
+        if (pautaOptional.get().getSessao().getDataFim().isBefore(LocalDateTime.now()))
             throw new ServiceException("Sessão encerrada! Não pode mais receber votos", HttpStatus.BAD_REQUEST);
 
         return repository.save(voto);

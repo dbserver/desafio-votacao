@@ -3,16 +3,14 @@ package br.com.occ.desafiovotacao.v1.dto;
 import br.com.occ.desafiovotacao.v1.enums.VotoEnum;
 import br.com.occ.desafiovotacao.v1.model.Associado;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
-import br.com.occ.desafiovotacao.v1.model.Sessao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

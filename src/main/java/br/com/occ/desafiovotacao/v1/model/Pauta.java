@@ -1,19 +1,20 @@
 package br.com.occ.desafiovotacao.v1.model;
 
 import br.com.occ.desafiovotacao.v1.enums.PautaStatusEnum;
+import br.com.occ.desafiovotacao.v1.enums.VotoEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,17 +30,44 @@ public class Pauta extends BaseModel{
     @Column(nullable = false)
     private String descricao;
 
-    @Enumerated(EnumType.STRING)
-    private PautaStatusEnum status;
-
     @OneToOne
     @JoinColumn(name = "sessao_id")
     private Sessao sessao;
 
-    @OneToMany(mappedBy = "pauta")
-    private Set<Voto> votos;
+    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL)
+    private List<Voto> votos;
+    @Transient
+    @Enumerated(EnumType.STRING)
+    private PautaStatusEnum status;
 
-    public Pauta(Long id) {
-        this.id = id;
+    @Transient
+    private Long totalVotosSim;
+
+    @Transient
+    private Long totalVotosNao;
+
+    @Transient
+    private Long totalVotos;
+
+    public Long getTotalVotos() {
+        if (!this.votos.isEmpty()) {
+            this.totalVotos = (long) this.votos.size();
+            long votosSim = votos.stream().filter(voto -> voto.getVoto().equals(VotoEnum.SIM)).count();
+            long votosNao = votos.stream().filter(voto -> voto.getVoto().equals(VotoEnum.NAO)).count();
+            this.totalVotosSim = votosSim;
+            this.totalVotosNao = votosNao;
+            this.setStatus(votosSim, votosNao);
+            return this.totalVotos;
+        } else
+            return BigDecimal.ZERO.longValue();
+    }
+
+    public void setStatus(Long sim, Long nao) {
+        if(sim > nao)
+            this.status = PautaStatusEnum.APROVADA;
+        else if (nao > sim)
+            this.status = PautaStatusEnum.NAO_APROVADA;
+        else
+            this.status = PautaStatusEnum.EMPATADA;
     }
 }

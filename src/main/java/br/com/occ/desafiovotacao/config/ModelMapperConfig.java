@@ -11,7 +11,9 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        modelMapper.getConfiguration()
+                .setPropertyCondition(Conditions.isNotNull())
+                .isImplicitMappingEnabled();
         return modelMapper;
     }
 }
