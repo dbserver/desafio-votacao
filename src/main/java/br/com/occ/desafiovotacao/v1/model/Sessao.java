@@ -23,11 +23,6 @@ public class Sessao extends BaseModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "pauta_id", nullable = false)
-    private Pauta pauta;
-
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataInicio;
 

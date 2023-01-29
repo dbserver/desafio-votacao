@@ -1,10 +1,13 @@
 package br.com.occ.desafiovotacao.v1.model;
 
 import br.com.occ.desafiovotacao.v1.enums.PautaStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,10 +32,14 @@ public class Pauta extends BaseModel{
     @Enumerated(EnumType.STRING)
     private PautaStatusEnum status;
 
-    @OneToOne(mappedBy = "pauta")
+    @OneToOne
+    @JoinColumn(name = "sessao_id")
     private Sessao sessao;
 
     @OneToMany(mappedBy = "pauta")
     private Set<Voto> votos;
 
+    public Pauta(Long id) {
+        this.id = id;
+    }
 }

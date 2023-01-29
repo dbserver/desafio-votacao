@@ -9,8 +9,9 @@ import java.util.Optional;
 public interface ISessaoService {
     Optional<Sessao> findById(Long id);
     List<Sessao> findAll();
-    Sessao save(Sessao sessao);
+    Sessao save(Sessao sessao, Long idPauta);
     Sessao update(Sessao sessao);
     void remove(Sessao sessao);
     List<Sessao> findAllAtivas();
+
 }

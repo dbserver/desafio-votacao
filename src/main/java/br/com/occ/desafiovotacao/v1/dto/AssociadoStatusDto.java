@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.time.LocalTime;
+import java.util.Random;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,8 @@ public class AssociadoStatusDto {
     private CpfStatusEnum status;
 
     public AssociadoStatusDto() {
-        if (LocalTime.now().getSecond() % 2 == 0)
+        Random gerador = new Random();
+        if (gerador.nextInt(1000) % 2 == 0)
             this.status = CpfStatusEnum.ABLE_TO_VOTE;
         else
             this.status = CpfStatusEnum.UNABLE_TO_VOTE;

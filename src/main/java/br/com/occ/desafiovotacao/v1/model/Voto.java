@@ -1,6 +1,7 @@
 package br.com.occ.desafiovotacao.v1.model;
 
 import br.com.occ.desafiovotacao.v1.enums.VotoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

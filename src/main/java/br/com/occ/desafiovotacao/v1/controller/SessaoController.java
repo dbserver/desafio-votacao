@@ -37,9 +37,12 @@ public class SessaoController {
             @ApiResponse(code = 400, message = "Não foi possível cadastrar a sessão"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PostMapping
-    public ResponseEntity<SessaoDto> salvar(@RequestBody SessaoDto sessaoDto){
-        return ResponseEntity.ok(service.save(sessaoDto.toEntity(modelMapper, Sessao.class)).toDto(modelMapper, SessaoDto.class));
+    @PostMapping("/pauta/{id}")
+    public ResponseEntity<SessaoDto> salvar(@RequestBody SessaoDto sessaoDto, @PathVariable("id") Long idPauta){
+        return ResponseEntity.ok(service.save(
+                sessaoDto.toEntity(modelMapper, Sessao.class),
+                idPauta).toDto(modelMapper, SessaoDto.class)
+        );
     }
 
     @ApiOperation(value = "Realiza consulta pelo id de uma Sessão")

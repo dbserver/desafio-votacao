@@ -17,7 +17,8 @@ public class PautaService implements IPautaService{
 
     @Override
     public Optional<Pauta> findById(Long id) {
-        return repository.findById(id);
+        Optional<Pauta> pautaOptional = repository.findById(id);
+        return pautaOptional;
     }
 
     @Override

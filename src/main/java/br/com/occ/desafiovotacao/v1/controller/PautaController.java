@@ -91,7 +91,7 @@ public class PautaController {
                 .map(pauta -> pauta.toDto(modelMapper, PautaDto.class))
                 .collect(Collectors.toList());
         if (pautaDtos.isEmpty())
-            throw new ApiException("Não existe pautas cadastradas", HttpStatus.BAD_REQUEST);
+            throw new ApiException("Não existe pautas ativas", HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(pautaDtos);
     }
 }
