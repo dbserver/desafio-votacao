@@ -1,13 +1,8 @@
 package br.com.occ.desafiovotacao.v1.controller;
 
 import br.com.occ.desafiovotacao.config.exception.ApiException;
-import br.com.occ.desafiovotacao.v1.dto.AssociadoDto;
-import br.com.occ.desafiovotacao.v1.dto.AssociadoStatusDto;
 import br.com.occ.desafiovotacao.v1.dto.PautaDto;
-import br.com.occ.desafiovotacao.v1.enums.CpfStatusEnum;
-import br.com.occ.desafiovotacao.v1.model.Associado;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
-import br.com.occ.desafiovotacao.v1.service.IAssociadoService;
 import br.com.occ.desafiovotacao.v1.service.IPautaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
