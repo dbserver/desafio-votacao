@@ -32,6 +32,19 @@ public class AssociadoController {
     @Autowired
     ModelMapper modelMapper;
 
+    @ApiOperation(value = "Realiza criação de um Associado")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Associado criado", response = AssociadoDto.class),
+            @ApiResponse(code = 404, message = "Não foi possível salvar associado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @PostMapping
+    public ResponseEntity<AssociadoDto> save(@RequestBody AssociadoDto associadoDto){
+
+        return ResponseEntity.ok(service.save(associadoDto.toEntity(modelMapper, Associado.class))
+                .toDto(modelMapper, AssociadoDto.class));
+    }
+
     @ApiOperation(value = "Realiza consulta pelo id de um Associado")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Associado encontrado", response = AssociadoDto.class),
@@ -41,12 +54,7 @@ public class AssociadoController {
     @GetMapping("/{id}")
     public ResponseEntity<AssociadoDto> getById(@PathVariable Long id){
 
-        Optional<Associado> associadoOptional = service.findById(id);
-
-        if(associadoOptional.isEmpty())
-            throw new ApiException("Associado não encontrado", HttpStatus.NOT_FOUND);
-
-        return ResponseEntity.ok(associadoOptional.get().toDto(modelMapper, AssociadoDto.class));
+        return ResponseEntity.ok(service.findById(id).toDto(modelMapper, AssociadoDto.class));
     }
 
     @ApiOperation(value = "Realiza consulta de asssociados aptos a voto")
@@ -57,10 +65,9 @@ public class AssociadoController {
     })
     @GetMapping("/ativos")
     public ResponseEntity<List<AssociadoDto>> getAssociadosAptos(){
-        List<AssociadoDto> associadoDtoList = service.findAllAtivos().stream()
+        return ResponseEntity.ok(service.findAllAtivos().stream()
                 .map(associado -> associado.toDto(modelMapper, AssociadoDto.class))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(associadoDtoList);
+                .collect(Collectors.toList()));
     }
 
     @ApiOperation(value = "Realiza consulta se CPF")
