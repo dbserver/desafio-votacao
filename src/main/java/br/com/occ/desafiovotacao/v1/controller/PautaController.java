@@ -1,6 +1,5 @@
 package br.com.occ.desafiovotacao.v1.controller;
 
-import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.v1.dto.PautaDto;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.service.IPautaService;
@@ -10,16 +9,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Api(value = "Pauta", description = "Realiza operações referentes as pautas de votação")
+@Api(value = "Pauta")
 @RestController
 @RequestMapping(value = "/v1/pauta", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PautaController {
