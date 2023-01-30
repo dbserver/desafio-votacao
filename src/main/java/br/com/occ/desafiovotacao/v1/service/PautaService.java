@@ -1,8 +1,11 @@
 package br.com.occ.desafiovotacao.v1.service;
 
+import br.com.occ.desafiovotacao.config.exception.ApiException;
+import br.com.occ.desafiovotacao.config.exception.ServiceException;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.repository.PautaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,14 +19,17 @@ public class PautaService implements IPautaService{
     PautaRepository repository;
 
     @Override
-    public Optional<Pauta> findById(Long id) {
+    public Pauta findById(Long id) {
         Optional<Pauta> pautaOptional = repository.findById(id);
-        return pautaOptional;
+        return pautaOptional.orElseThrow(() -> new ServiceException("Pauta não encontrada",  HttpStatus.NOT_FOUND));
     }
 
     @Override
     public List<Pauta> findAll() {
-        return repository.findAll();
+        List<Pauta> pautas = repository.findAll();
+        if (pautas.isEmpty())
+            throw new ServiceException("Não existe pautas cadastradas", HttpStatus.BAD_REQUEST);
+        return pautas;
     }
 
     @Override
@@ -32,17 +38,10 @@ public class PautaService implements IPautaService{
     }
 
     @Override
-    public Pauta update(Pauta pauta) {
-        return repository.save(pauta);
-    }
-
-    @Override
-    public void remove(Pauta pauta) {
-        repository.delete(pauta);
-    }
-
-    @Override
     public List<Pauta> findAllAtivas() {
-        return repository.findAllPautasAtivas(LocalDateTime.now());
+        List<Pauta> pautas = repository.findAllPautasAtivas(LocalDateTime.now());
+        if (pautas.isEmpty())
+            throw new ApiException("Não existe pautas ativas", HttpStatus.BAD_REQUEST);
+        return pautas;
     }
 }

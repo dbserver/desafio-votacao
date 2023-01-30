@@ -49,13 +49,7 @@ public class PautaController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<PautaDto> getById(@PathVariable Long id){
-
-        Optional<Pauta> pauta = service.findById(id);
-
-        if(pauta.isEmpty())
-            throw new ApiException("Pauta não encontrada", HttpStatus.NOT_FOUND);
-
-        return ResponseEntity.ok(pauta.get().toDto(modelMapper, PautaDto.class));
+        return ResponseEntity.ok(service.findById(id).toDto(modelMapper, PautaDto.class));
     }
 
     @ApiOperation(value = "Lista todas as pautas")
@@ -69,8 +63,6 @@ public class PautaController {
         List<PautaDto> pautaDtos = service.findAll().stream()
                 .map(pauta -> pauta.toDto(modelMapper, PautaDto.class))
                 .collect(Collectors.toList());
-        if (pautaDtos.isEmpty())
-            throw new ApiException("Não existe pautas cadastradas", HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(pautaDtos);
     }
 
@@ -85,8 +77,6 @@ public class PautaController {
         List<PautaDto> pautaDtos = service.findAllAtivas().stream()
                 .map(pauta -> pauta.toDto(modelMapper, PautaDto.class))
                 .collect(Collectors.toList());
-        if (pautaDtos.isEmpty())
-            throw new ApiException("Não existe pautas ativas", HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(pautaDtos);
     }
 }
