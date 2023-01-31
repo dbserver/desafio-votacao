@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "f4107332-0dc4-41bd-a987-e11f1c585f45",
+		"name": "Votação",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7201929"
+	},
+	"item": [
+		{
+			"name": "Associado",
+			"item": [
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/associado/5",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"associado",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAtivos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/associado/ativos",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"associado",
+								"ativos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validCpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/associado/valid-cpf/80244572291",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"associado",
+								"valid-cpf",
+								"80244572291"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pauta",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/pauta/",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"pauta",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Pauta de votação 3\",\r\n    \"status\": null,\r\n    \"sessao\": null,\r\n    \"votos\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/v1/pauta/",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"pauta",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAtivas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/pauta/ativas",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"pauta",
+								"ativas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/pauta/3",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"pauta",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sessão",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/sessao/",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"sessao",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "iniciarSessao",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dataInicio\": \"\",\r\n    \"dataFim\": \"29/01/2023 15:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/v1/sessao/pauta/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"sessao",
+								"pauta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAtivas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/sessao/ativas",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"sessao",
+								"ativas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/sessao/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"sessao",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Voto",
+			"item": [
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/voto/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"voto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "votar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"voto\": \"Sim\",\r\n    \"associado\": {\r\n        \"id\": 1\r\n    },\r\n    \"sessao\": {\r\n        \"id\": 2\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/v1/voto",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"voto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllVotosByAssociado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/v1/voto/associado/1",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"v1",
+								"voto",
+								"associado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
