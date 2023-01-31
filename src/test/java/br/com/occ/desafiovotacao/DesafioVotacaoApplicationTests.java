@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DesafioVotacaoApplicationTests {
 
     @Test
-    void contextLoads() {
+    void main() {
+        DesafioVotacaoApplication.main(new String[] {});
     }
 
 }

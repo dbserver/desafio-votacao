@@ -10,18 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(value = {ApiException.class})
-    protected ResponseEntity<Object> handleConflict(ApiException ex, WebRequest request) {
-
-        if (ex.getStatus().is4xxClientError()) {
-            log.warn("Falha ao realizar requisição {}", ex.getMessage());
-        } else {
-            log.error("Erro ao realizar requisição", ex);
-        }
-
-        return ex.getResponseEntity();
-    }
-
     @ExceptionHandler(value = {ServiceException.class})
     protected ResponseEntity<Object> handleConflict(ServiceException ex, WebRequest request) {
 

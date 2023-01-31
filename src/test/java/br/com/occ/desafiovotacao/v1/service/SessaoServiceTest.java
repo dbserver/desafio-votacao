@@ -1,5 +1,6 @@
 package br.com.occ.desafiovotacao.v1.service;
 
+import br.com.occ.desafiovotacao.v1.dto.PautaDto;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.model.Sessao;
 import br.com.occ.desafiovotacao.v1.repository.PautaRepository;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -23,13 +25,16 @@ import static org.mockito.Mockito.when;
 class SessaoServiceTest {
 
     @InjectMocks
-    SessaoService service;
+    private SessaoService service;
 
     @Mock
-    SessaoRepository repository;
+    private SessaoRepository repository;
 
     @Mock
-    PautaService pautaService;
+    private PautaRepository pautaRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
 
 
     @BeforeEach
@@ -67,10 +72,11 @@ class SessaoServiceTest {
 
     @Test
     void whenCreateThenReturnSuccess() {
-        when(repository.save(any(Sessao.class))).thenReturn(criarSessaoUmMinuto());
-        when(pautaService.findById(anyLong())).thenReturn(criarPauta());
+        when(repository.save(any())).thenReturn(criarSessaoUmMinuto());
+        when(modelMapper.map(any(), any())).thenReturn(criarSessaoUmMinuto());
+        when(pautaRepository.findById(anyLong())).thenReturn(criarPautaOptional());
 
-        Sessao response = service.save(criarSessaoDataFimNull(), ID);
+        Sessao response = service.save(criarSessaoDtoDataFimNull(), ID);
 
         assertNotNull(response);
 
@@ -82,10 +88,11 @@ class SessaoServiceTest {
 
     @Test
     void whenCreateThenReturnSuccessOnDateFinal() {
-        when(repository.save(any(Sessao.class))).thenReturn(criarSessao());
-        when(pautaService.findById(anyLong())).thenReturn(criarPauta());
+        when(repository.save(any())).thenReturn(criarSessao());
+        when(pautaRepository.findById(anyLong())).thenReturn(criarPautaOptional());
+        when(modelMapper.map(any(), any())).thenReturn(criarSessao());
 
-        Sessao response = service.save(criarSessao(), ID_PAUTA);
+        Sessao response = service.save(criarSessaoDto(), ID_PAUTA);
 
         assertNotNull(response);
 

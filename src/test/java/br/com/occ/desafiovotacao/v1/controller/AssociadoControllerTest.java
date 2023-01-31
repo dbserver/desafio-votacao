@@ -28,12 +28,12 @@ class AssociadoControllerTest {
     private static final String ASSOCIADOS_ATIVOS_NAO_ENCONTRADOS = "Não foi encontrado associados ativos";
 
     @InjectMocks
-    AssociadoController controller;
+    private AssociadoController controller;
 
     @Mock
-    IAssociadoService service;
+    private IAssociadoService service;
     @Mock
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @BeforeEach
     void setUp() {

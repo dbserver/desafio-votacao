@@ -37,8 +37,7 @@ public class SessaoController {
     @PostMapping("/pauta/{id}")
     public ResponseEntity<SessaoDto> salvar(@RequestBody SessaoDto sessaoDto, @PathVariable("id") Long idPauta){
         return ResponseEntity.ok(service.save(
-                sessaoDto.toEntity(modelMapper, Sessao.class),
-                idPauta).toDto(modelMapper, SessaoDto.class)
+                sessaoDto, idPauta).toDto(modelMapper, SessaoDto.class)
         );
     }
 

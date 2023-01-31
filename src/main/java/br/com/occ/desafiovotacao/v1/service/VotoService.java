@@ -1,11 +1,12 @@
 package br.com.occ.desafiovotacao.v1.service;
 
-import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
+import br.com.occ.desafiovotacao.v1.dto.VotoDto;
 import br.com.occ.desafiovotacao.v1.model.Associado;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.model.Voto;
 import br.com.occ.desafiovotacao.v1.repository.VotoRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class VotoService implements IVotoService{
     @Autowired
     IPautaService pautaService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Override
     public Voto findById(Long id) {
         Optional<Voto> votoOptional = repository.findById(id);
@@ -41,7 +45,7 @@ public class VotoService implements IVotoService{
     }
 
     @Override
-    public Voto votar(Voto voto) {
+    public Voto votar(VotoDto voto) {
         Associado associado = associadoService.findById(voto.getAssociado().getId());
 
         if(repository.existsVotoByAssociado_IdAndPauta_Id(voto.getAssociado().getId(), voto.getPauta().getId()))
@@ -58,7 +62,7 @@ public class VotoService implements IVotoService{
         if (pauta.getSessao().getDataFim().isBefore(LocalDateTime.now()))
             throw new ServiceException("Sessão encerrada! Não pode mais receber votos", HttpStatus.BAD_REQUEST);
 
-        return repository.save(voto);
+        return repository.save(voto.toEntity(modelMapper, Voto.class));
     }
 
 }

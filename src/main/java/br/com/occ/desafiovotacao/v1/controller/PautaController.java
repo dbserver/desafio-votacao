@@ -1,7 +1,6 @@
 package br.com.occ.desafiovotacao.v1.controller;
 
 import br.com.occ.desafiovotacao.v1.dto.PautaDto;
-import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.service.IPautaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +34,7 @@ public class PautaController {
     })
     @PostMapping
     public ResponseEntity<PautaDto> salvar(@RequestBody PautaDto pautaDto){
-        return ResponseEntity.ok(service.save(pautaDto.toEntity(modelMapper, Pauta.class)).toDto(modelMapper, PautaDto.class));
+        return ResponseEntity.ok(service.save(pautaDto).toDto(modelMapper, PautaDto.class));
     }
 
     @ApiOperation(value = "Realiza consulta pelo id de uma Pauta")

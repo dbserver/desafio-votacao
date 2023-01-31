@@ -31,5 +31,9 @@ public class PautaDto extends BaseDto {
     private Long totalVotosNao;
     private Long totalVotos;
 
+    public PautaDto(Long id, String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+    }
 
 }

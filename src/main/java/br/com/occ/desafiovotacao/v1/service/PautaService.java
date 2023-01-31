@@ -1,8 +1,10 @@
 package br.com.occ.desafiovotacao.v1.service;
 
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
+import br.com.occ.desafiovotacao.v1.dto.PautaDto;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.repository.PautaRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class PautaService implements IPautaService{
 
     @Autowired
     PautaRepository repository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public Pauta findById(Long id) {
@@ -32,8 +37,8 @@ public class PautaService implements IPautaService{
     }
 
     @Override
-    public Pauta save(Pauta pauta) {
-        return repository.save(pauta);
+    public Pauta save(PautaDto pauta) {
+        return repository.save(pauta.toEntity(modelMapper, Pauta.class));
     }
 
     @Override

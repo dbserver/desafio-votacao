@@ -2,8 +2,6 @@ package br.com.occ.desafiovotacao.v1.service;
 
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
 import br.com.occ.desafiovotacao.v1.enums.VotoEnum;
-import br.com.occ.desafiovotacao.v1.model.Pauta;
-import br.com.occ.desafiovotacao.v1.model.Sessao;
 import br.com.occ.desafiovotacao.v1.model.Voto;
 import br.com.occ.desafiovotacao.v1.repository.VotoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
@@ -30,16 +29,15 @@ class VotoServiceTest {
     private static final String SEM_VOTO = "Associado não possui voto em nenhuma pauta";
 
     @InjectMocks
-    VotoService service;
+    private VotoService service;
     @Mock
-    VotoRepository repository;
+    private VotoRepository repository;
     @Mock
-    AssociadoService associadoService;
+    private AssociadoService associadoService;
     @Mock
-    PautaService pautaService;
-
+    private PautaService pautaService;
     @Mock
-    SessaoService sessaoService;
+    private ModelMapper modelMapper;
 
     @BeforeEach
     void setUp() {
@@ -106,8 +104,9 @@ class VotoServiceTest {
         when(repository.save(any(Voto.class))).thenReturn(criarVoto());
         when(associadoService.findById(anyLong())).thenReturn(criarAssociado(true));
         when(pautaService.findById(anyLong())).thenReturn(criarPautaComSessao());
+        when(modelMapper.map(any(),any())).thenReturn(criarVoto());
 
-        Voto response = service.votar(criarVoto());
+        Voto response = service.votar(criarVotoDto());
 
         assertEquals(Voto.class, response.getClass());
         assertEquals(ID, response.getId());
@@ -122,7 +121,9 @@ class VotoServiceTest {
         when(associadoService.findById(anyLong())).thenReturn(criarAssociado(true));
         when(pautaService.findById(anyLong())).thenReturn(criarPautaComSessao());
         when(repository.existsVotoByAssociado_IdAndPauta_Id(anyLong(),anyLong())).thenThrow(new ServiceException("Associado já votou nesta pauta", HttpStatus.BAD_REQUEST));
+        when(modelMapper.map(any(),any())).thenReturn(criarVoto());
 
-        assertThrows(ServiceException.class, () -> service.votar(criarVoto()));
+
+        assertThrows(ServiceException.class, () -> service.votar(criarVotoDto()));
     }
 }

@@ -19,4 +19,9 @@ public class SessaoDto extends BaseDto {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataFim;
 
+    public SessaoDto(Long id, LocalDateTime dataFim) {
+        this.id = id;
+        this.dataFim = dataFim;
+    }
 }
+

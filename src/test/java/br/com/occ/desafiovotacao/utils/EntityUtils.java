@@ -1,7 +1,6 @@
 package br.com.occ.desafiovotacao.utils;
 
-import br.com.occ.desafiovotacao.v1.dto.AssociadoDto;
-import br.com.occ.desafiovotacao.v1.dto.AssociadoStatusDto;
+import br.com.occ.desafiovotacao.v1.dto.*;
 import br.com.occ.desafiovotacao.v1.enums.CpfStatusEnum;
 import br.com.occ.desafiovotacao.v1.enums.VotoEnum;
 import br.com.occ.desafiovotacao.v1.model.Associado;
@@ -50,6 +49,9 @@ public class EntityUtils {
     public static Pauta criarPauta() {
         return new Pauta(ID, DESCRICAO_PAUTA);
     }
+    public static PautaDto criarPautaDto() {
+        return new PautaDto(ID, DESCRICAO_PAUTA);
+    }
 
     public static Pauta criarPautaComSessao() {
         return new Pauta(ID, DESCRICAO_PAUTA, criarSessao());
@@ -63,6 +65,10 @@ public class EntityUtils {
         return new Sessao(ID,DATA_INICIO, DATA_FIM_DEZ_MINUTOS);
     }
 
+    public static SessaoDto criarSessaoDto() {
+        return new SessaoDto(ID,DATA_INICIO, DATA_FIM_DEZ_MINUTOS);
+    }
+
     public static Optional<Sessao> criarSessaoOptional() {
         return Optional.of(new Sessao(ID,DATA_INICIO, DATA_FIM_DEZ_MINUTOS));
     }
@@ -71,12 +77,24 @@ public class EntityUtils {
         return new Sessao(ID,DATA_INICIO);
     }
 
+    public static SessaoDto criarSessaoDtoDataFimNull() {
+        return new SessaoDto(ID,DATA_INICIO);
+    }
+
     public static Sessao criarSessaoUmMinuto() {
         return new Sessao(ID,DATA_INICIO, DATA_FIM_UM_MINUTO);
     }
 
+    public static SessaoDto criarSessaoDtoUmMinuto() {
+        return new SessaoDto(ID,DATA_INICIO, DATA_FIM_UM_MINUTO);
+    }
+
     public static Voto criarVoto() {
         return new Voto(ID,criarPauta(),criarAssociado(true), VotoEnum.SIM);
+    }
+
+    public static VotoDto criarVotoDto() {
+        return new VotoDto(ID,criarPauta(),criarAssociado(true), VotoEnum.SIM);
     }
 
     public static Optional<Voto> criarVotoOptional() {

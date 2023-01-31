@@ -1,9 +1,13 @@
 package br.com.occ.desafiovotacao.v1.service;
 
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
+import br.com.occ.desafiovotacao.v1.dto.PautaDto;
+import br.com.occ.desafiovotacao.v1.dto.SessaoDto;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.model.Sessao;
+import br.com.occ.desafiovotacao.v1.repository.PautaRepository;
 import br.com.occ.desafiovotacao.v1.repository.SessaoRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +24,10 @@ public class SessaoService implements ISessaoService{
     SessaoRepository repository;
 
     @Autowired
-    IPautaService pautaService;
+    PautaRepository pautaRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public Sessao findById(Long id) {
@@ -38,16 +45,19 @@ public class SessaoService implements ISessaoService{
 
     @Override
     @Transactional
-    public Sessao save(Sessao sessao, Long idPauta) {
-        Pauta pauta = pautaService.findById(idPauta);
+    public Sessao save(SessaoDto sessao, Long idPauta) {
+        Pauta pauta = pautaRepository
+                .findById(idPauta)
+                .orElseThrow(() -> new ServiceException("Pauta não encontrada",  HttpStatus.NOT_FOUND));
 
         if (sessao.getDataFim() == null)
             sessao.setDataFim(LocalDateTime.now().plusMinutes(1));
-        Sessao sessaoSalva = repository.save(sessao);
+        Sessao sessaoSalva = repository.save(sessao.toEntity(modelMapper, Sessao.class));
 
         pauta.setSessao(sessaoSalva);
 
-        pautaService.save(pauta);
+        pautaRepository.save(pauta);
+
         return sessaoSalva;
     }
 

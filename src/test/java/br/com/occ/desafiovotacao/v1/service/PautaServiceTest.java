@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
@@ -27,6 +28,9 @@ class PautaServiceTest {
     private PautaService service;
     @Mock
     private PautaRepository repository;
+
+    @Mock
+    private ModelMapper modelMapper;
 
     @BeforeEach
     void setUp() {
@@ -75,8 +79,9 @@ class PautaServiceTest {
     @Test
     void whenCreateThenReturnSuccess() {
         when(repository.save(any(Pauta.class))).thenReturn(criarPauta());
+        when(modelMapper.map(any(), any())).thenReturn(criarPauta());
 
-        Pauta response = service.save(criarPauta());
+        Pauta response = service.save(criarPautaDto());
 
         assertNotNull(response);
 
