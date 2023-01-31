@@ -15,14 +15,14 @@ public class VotingAgendaController {
     @Autowired
     private VotingAgendaBusiness business;
 
-    @GetMapping("{id}")
-    public ResponseEntity<VotingAgendaDTO> getVotingAgendaById(@PathVariable Long id){
-        return business.getVotingAgendaById(id);
-    }
-
     @GetMapping
     public ResponseEntity<List<VotingAgendaDTO>> getVotingAgendas(){
         return business.getAllVotingAgendas();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<VotingAgendaDTO> getVotingAgendaById(@PathVariable Long id){
+        return business.getVotingAgendaById(id);
     }
 
     @PostMapping
@@ -39,5 +39,4 @@ public class VotingAgendaController {
     public void delete(@PathVariable Long id){
         business.delete(id);
     }
-
 }

@@ -10,7 +10,11 @@ public interface IVoteService {
 
     List<Vote> getAllVotes();
 
-    Vote save(Vote associate);
+    List<Vote> getVotesByAgendaId(Long agendaId);
+
+    Vote create(Vote vote);
+
+    Vote update(Vote vote);
 
     void delete(Long id);
 }

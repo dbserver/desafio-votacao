@@ -1,13 +1,14 @@
 package br.com.adonias.desafiovotacao.dto;
 
-import br.com.adonias.desafiovotacao.entities.Vote;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
 @Data
+@Builder
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class VotingAgendaDTO {
     private Long id;
 

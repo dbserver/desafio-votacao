@@ -1,7 +1,6 @@
 package br.com.adonias.desafiovotacao.entities;
 
 import br.com.adonias.desafiovotacao.entities.enums.Answer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -17,14 +16,14 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String cpf_associate;
+    @Column(name = "cpf_associate", nullable = false)
+    private String cpfAssociate;
 
     @Column(nullable = false)
     private Answer answer;
 
-    @Column
-    private Long agenda_id;
+    @Column(name = "agenda_id", nullable = false)
+    private Long agendaId;
 
     @Column
     private LocalDateTime dateTime;

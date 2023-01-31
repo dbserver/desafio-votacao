@@ -1,10 +1,12 @@
 package br.com.adonias.desafiovotacao.controllers;
 
 import br.com.adonias.desafiovotacao.business.SessionBusiness;
-import br.com.adonias.desafiovotacao.entities.Session;
+import br.com.adonias.desafiovotacao.dto.SessionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("sessions")
@@ -13,13 +15,18 @@ public class SessionController {
     @Autowired
     private SessionBusiness sessionBusiness;
 
+    @GetMapping
+    public ResponseEntity<List<SessionDTO>> getAllVotes(){
+        return sessionBusiness.getAllSessions();
+    }
+
     @GetMapping("{id}")
-    public ResponseEntity<Session> getSessionById(@PathVariable("id") Long id){
+    public ResponseEntity<SessionDTO> getSessionById(@PathVariable("id") Long id){
         return sessionBusiness.getSessionById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Session> create(@RequestBody Session session){
+    public ResponseEntity<SessionDTO> create(@RequestBody SessionDTO session){
         return sessionBusiness.save(session);
     }
 
@@ -29,7 +36,7 @@ public class SessionController {
     }
 
     @PutMapping
-    public ResponseEntity<Session> update(@RequestBody Session session){
+    public ResponseEntity<SessionDTO> update(@RequestBody SessionDTO session){
         return sessionBusiness.save(session);
     }
 }

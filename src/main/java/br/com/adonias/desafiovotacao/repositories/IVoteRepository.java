@@ -10,4 +10,8 @@ import java.util.List;
 public interface IVoteRepository extends CrudRepository<Vote, Long> {
 
     List<Vote> findAll();
+
+    List<Vote> findAllByAgendaId(Long agendaId);
+
+    boolean existsVoteByAgendaIdAndCpfAssociate(Long agendaId, String cpf);
 }

@@ -25,7 +25,20 @@ public class VoteServiceImpl implements IVoteService {
     }
 
     @Override
-    public Vote save(Vote vote) {
+    public List<Vote> getVotesByAgendaId(Long agendaId) {
+        return voteRepository.findAllByAgendaId(agendaId);
+    }
+
+    @Override
+    public Vote create(Vote vote) {
+        if (!voteRepository.existsVoteByAgendaIdAndCpfAssociate(vote.getAgendaId(), vote.getCpfAssociate())){
+            return voteRepository.save(vote);
+        }
+        return null;
+    }
+
+    @Override
+    public Vote update(Vote vote) {
         return voteRepository.save(vote);
     }
 
