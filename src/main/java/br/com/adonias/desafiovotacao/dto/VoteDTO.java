@@ -19,7 +19,7 @@ public class VoteDTO {
 
     private Long id;
 
-    private String cpf_associate;
+    private String cpfAssociate;
 
     private Answer answer;
 

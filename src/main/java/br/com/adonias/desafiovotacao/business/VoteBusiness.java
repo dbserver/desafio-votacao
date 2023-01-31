@@ -121,7 +121,7 @@ public class VoteBusiness {
 
     private static boolean validateVote(VoteDTO vote, Session session) {
         return session != null
-                && vote.getDateTime().isAfter(session.getStartDate())
-                && vote.getDateTime().isBefore(session.getEndDate());
+                && (vote.getDateTime().isAfter(session.getStartDate()) ||  vote.getDateTime().isEqual(session.getStartDate()))
+                && (vote.getDateTime().isBefore(session.getEndDate()) || vote.getDateTime().isEqual(session.getEndDate()));
     }
 }
