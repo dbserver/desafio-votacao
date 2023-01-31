@@ -2,10 +2,7 @@ package br.com.occ.desafiovotacao.v1.model;
 
 import br.com.occ.desafiovotacao.v1.enums.PautaStatusEnum;
 import br.com.occ.desafiovotacao.v1.enums.VotoEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -48,6 +45,17 @@ public class Pauta extends BaseModel{
 
     @Transient
     private Long totalVotos;
+
+    public Pauta(Long id, String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+    }
+
+    public Pauta(Long id, String descricao, Sessao sessao) {
+        this.id = id;
+        this.descricao = descricao;
+        this.sessao = sessao;
+    }
 
     public Long getTotalVotos() {
         if (!this.votos.isEmpty()) {

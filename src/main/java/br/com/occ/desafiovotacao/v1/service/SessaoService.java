@@ -23,25 +23,24 @@ public class SessaoService implements ISessaoService{
     IPautaService pautaService;
 
     @Override
-    public Optional<Sessao> findById(Long id) {
-        return repository.findById(id);
+    public Sessao findById(Long id) {
+        Optional<Sessao> sessao = repository.findById(id);
+        return sessao.orElseThrow(() -> new ServiceException("Sessão não encontrada", HttpStatus.NOT_FOUND));
     }
 
     @Override
     public List<Sessao> findAll() {
-        return repository.findAll();
+        List<Sessao> sessaos = repository.findAll();
+        if (sessaos.isEmpty())
+            throw new ServiceException("Não existe sessões cadastradas", HttpStatus.BAD_REQUEST);
+        return sessaos;
     }
 
     @Override
     @Transactional
     public Sessao save(Sessao sessao, Long idPauta) {
-        Optional<Pauta> pautaOptional = pautaService.findById(idPauta);
-        if (pautaOptional.isEmpty())
-            throw new ServiceException("Pauta não encontrada para iniciar a sessão", HttpStatus.BAD_REQUEST);
+        Pauta pauta = pautaService.findById(idPauta);
 
-        Pauta pauta = pautaOptional.get();
-
-        sessao.setDataInicio(LocalDateTime.now());
         if (sessao.getDataFim() == null)
             sessao.setDataFim(LocalDateTime.now().plusMinutes(1));
         Sessao sessaoSalva = repository.save(sessao);
@@ -53,20 +52,10 @@ public class SessaoService implements ISessaoService{
     }
 
     @Override
-    public Sessao update(Sessao sessao) {
-        Optional<Sessao> sessaoOptional = repository.findById(sessao.getId());
-        if (sessaoOptional.isEmpty())
-            throw new ServiceException("Sessão não encontrada!", HttpStatus.NOT_FOUND);
-        return repository.save(sessao);
-    }
-
-    @Override
-    public void remove(Sessao sessao) {
-        repository.delete(sessao);
-    }
-
-    @Override
     public List<Sessao> findAllAtivas() {
-        return repository.findAllSessoesAtivas(LocalDateTime.now());
+        List<Sessao> sessaos = repository.findAllSessoesAtivas(LocalDateTime.now());
+        if (sessaos.isEmpty())
+            throw new ServiceException("Não existe sessões cadastradas", HttpStatus.BAD_REQUEST);
+        return sessaos;
     }
 }

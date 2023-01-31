@@ -1,6 +1,5 @@
 package br.com.occ.desafiovotacao.v1.service;
 
-import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
 import br.com.occ.desafiovotacao.v1.repository.PautaRepository;
@@ -41,7 +40,7 @@ public class PautaService implements IPautaService{
     public List<Pauta> findAllAtivas() {
         List<Pauta> pautas = repository.findAllPautasAtivas(LocalDateTime.now());
         if (pautas.isEmpty())
-            throw new ApiException("Não existe pautas ativas", HttpStatus.BAD_REQUEST);
+            throw new ServiceException("Não existe pautas ativas", HttpStatus.BAD_REQUEST);
         return pautas;
     }
 }

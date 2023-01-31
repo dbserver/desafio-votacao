@@ -1,6 +1,5 @@
 package br.com.occ.desafiovotacao.v1.controller;
 
-import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.v1.dto.PautaDto;
 import br.com.occ.desafiovotacao.v1.dto.SessaoDto;
 import br.com.occ.desafiovotacao.v1.model.Sessao;
@@ -11,16 +10,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Api(value = "Sessao", description = "Realiza operações referentes as sessões de votação")
+@Api(value = "Sessao")
 @RestController
 @RequestMapping(value = "/v1/sessao", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SessaoController {
@@ -53,13 +50,7 @@ public class SessaoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<SessaoDto> getById(@PathVariable Long id){
-
-        Optional<Sessao> sessao = service.findById(id);
-
-        if(sessao.isEmpty())
-            throw new ApiException("Sessão não encontrada", HttpStatus.NOT_FOUND);
-
-        return ResponseEntity.ok(sessao.get().toDto(modelMapper, SessaoDto.class));
+        return ResponseEntity.ok(service.findById(id).toDto(modelMapper, SessaoDto.class));
     }
 
     @ApiOperation(value = "Lista todas as sessões")
@@ -73,8 +64,6 @@ public class SessaoController {
         List<SessaoDto> sessaoDtos = service.findAll().stream()
                 .map(sessao -> sessao.toDto(modelMapper, SessaoDto.class))
                 .collect(Collectors.toList());
-        if (sessaoDtos.isEmpty())
-            throw new ApiException("Não existe sessões abertas", HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(sessaoDtos);
     }
 
@@ -89,8 +78,6 @@ public class SessaoController {
         List<SessaoDto> sessaoDtos = service.findAllAtivas().stream()
                 .map(sessao -> sessao.toDto(modelMapper, SessaoDto.class))
                 .collect(Collectors.toList());
-        if (sessaoDtos.isEmpty())
-            throw new ApiException("Não existe sessões cadastradas", HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(sessaoDtos);
     }
 }

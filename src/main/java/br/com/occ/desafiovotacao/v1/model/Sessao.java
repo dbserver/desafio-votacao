@@ -27,4 +27,9 @@ public class Sessao extends BaseModel{
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataFim;
+
+    public Sessao(Long id, LocalDateTime dataFim) {
+        this.id = id;
+        this.dataFim = dataFim;
+    }
 }

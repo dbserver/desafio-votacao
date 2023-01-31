@@ -1,5 +1,6 @@
 package br.com.occ.desafiovotacao.v1.service;
 
+import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
 import br.com.occ.desafiovotacao.v1.model.Associado;
 import br.com.occ.desafiovotacao.v1.model.Pauta;
@@ -26,13 +27,17 @@ public class VotoService implements IVotoService{
     IPautaService pautaService;
 
     @Override
-    public Optional<Voto> findById(Long id) {
-        return repository.findById(id);
+    public Voto findById(Long id) {
+        Optional<Voto> votoOptional = repository.findById(id);
+        return votoOptional.orElseThrow(() -> new ServiceException("Voto não encontrado para o id informado", HttpStatus.NOT_FOUND));
     }
 
     @Override
     public List<Voto> findAllByAssociado(Long associadoId) {
-        return repository.findAllByAssociado_Id(associadoId);
+        List<Voto> votos = repository.findAllByAssociado_Id(associadoId);
+        if (votos.isEmpty())
+            throw new ServiceException("Associado não possui voto em nenhuma pauta", HttpStatus.NOT_FOUND);
+        return votos;
     }
 
     @Override
@@ -43,16 +48,14 @@ public class VotoService implements IVotoService{
             throw new ServiceException("Associado já votou nesta pauta", HttpStatus.BAD_REQUEST);
 
         if (Boolean.FALSE.equals(associado.getAtivo()))
-            throw new ServiceException("Associado não ativo", HttpStatus.BAD_REQUEST);
+            throw new ServiceException("Associado não está ativo", HttpStatus.BAD_REQUEST);
 
-        Optional<Pauta> pautaOptional = pautaService.findById(voto.getPauta().getId());
-        if (pautaOptional.isEmpty())
-            throw new ServiceException("Pauta não encontrada", HttpStatus.BAD_REQUEST);
+        Pauta pauta = pautaService.findById(voto.getPauta().getId());
 
-        if (pautaOptional.get().getSessao() == null)
+        if (pauta.getSessao() == null)
             throw new ServiceException("Sessão ainda não foi aberta para pauta selecionada", HttpStatus.BAD_REQUEST);
 
-        if (pautaOptional.get().getSessao().getDataFim().isBefore(LocalDateTime.now()))
+        if (pauta.getSessao().getDataFim().isBefore(LocalDateTime.now()))
             throw new ServiceException("Sessão encerrada! Não pode mais receber votos", HttpStatus.BAD_REQUEST);
 
         return repository.save(voto);

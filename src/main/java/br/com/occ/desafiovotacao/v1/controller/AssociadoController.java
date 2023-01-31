@@ -1,6 +1,5 @@
 package br.com.occ.desafiovotacao.v1.controller;
 
-import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.v1.dto.AssociadoDto;
 import br.com.occ.desafiovotacao.v1.dto.AssociadoStatusDto;
 import br.com.occ.desafiovotacao.v1.enums.CpfStatusEnum;
@@ -18,10 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Api(value = "Associado", description = "Realiza operações referentes aos associados")
+@Api(value = "Associado")
 @RestController
 @RequestMapping(value = "/v1/associado", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AssociadoController {
@@ -40,9 +38,7 @@ public class AssociadoController {
     })
     @PostMapping
     public ResponseEntity<AssociadoDto> save(@RequestBody AssociadoDto associadoDto){
-
-        return ResponseEntity.ok(service.save(associadoDto.toEntity(modelMapper, Associado.class))
-                .toDto(modelMapper, AssociadoDto.class));
+        return ResponseEntity.ok(service.save(associadoDto).toDto(modelMapper, AssociadoDto.class));
     }
 
     @ApiOperation(value = "Realiza consulta pelo id de um Associado")

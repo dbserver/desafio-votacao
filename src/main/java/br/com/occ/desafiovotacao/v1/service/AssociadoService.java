@@ -1,15 +1,15 @@
 package br.com.occ.desafiovotacao.v1.service;
 
 import br.com.occ.desafiovotacao.config.exception.ServiceException;
+import br.com.occ.desafiovotacao.v1.dto.AssociadoDto;
 import br.com.occ.desafiovotacao.v1.dto.AssociadoStatusDto;
-import br.com.occ.desafiovotacao.v1.enums.CpfStatusEnum;
 import br.com.occ.desafiovotacao.v1.model.Associado;
 import br.com.occ.desafiovotacao.v1.repository.AssociadoRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +19,14 @@ public class AssociadoService implements IAssociadoService{
     @Autowired
     AssociadoRepository repository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Override
-    public Associado save(Associado associado) {
+    public Associado save(AssociadoDto associado) {
         if (repository.existsByCpf(associado.getCpf()))
             throw new ServiceException("CPF já cadastrado", HttpStatus.CONFLICT);
-        return repository.save(associado);
+        return repository.save(associado.toEntity(modelMapper, Associado.class));
     }
 
     @Override

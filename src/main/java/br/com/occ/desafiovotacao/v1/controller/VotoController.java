@@ -1,6 +1,5 @@
 package br.com.occ.desafiovotacao.v1.controller;
 
-import br.com.occ.desafiovotacao.config.exception.ApiException;
 import br.com.occ.desafiovotacao.v1.dto.VotoDto;
 import br.com.occ.desafiovotacao.v1.model.Voto;
 import br.com.occ.desafiovotacao.v1.service.IVotoService;
@@ -10,16 +9,14 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Api(value = "Voto", description = "Realiza operações referentes aos votos dos associados")
+@Api(value = "Voto")
 @RestController
 @RequestMapping(value = "/v1/voto", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VotoController {
@@ -38,13 +35,7 @@ public class VotoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<VotoDto> getById(@PathVariable Long id){
-
-        Optional<Voto> votoOptional = service.findById(id);
-
-        if(votoOptional.isEmpty())
-            throw new ApiException("Voto não encontrado para o id informado", HttpStatus.NOT_FOUND);
-
-        return ResponseEntity.ok(votoOptional.get().toDto(modelMapper, VotoDto.class));
+        return ResponseEntity.ok(service.findById(id).toDto(modelMapper, VotoDto.class));
     }
 
     @ApiOperation(value = "Realiza consulta de votos de um associado")
@@ -58,8 +49,6 @@ public class VotoController {
         List<VotoDto> votoDtos = service.findAllByAssociado(associadoId).stream()
                 .map(voto -> voto.toDto(modelMapper, VotoDto.class))
                 .collect(Collectors.toList());
-        if (votoDtos.isEmpty())
-            throw new ApiException("Associado não possui voto em nenhuma pauta", HttpStatus.NOT_FOUND);
         return ResponseEntity.ok(votoDtos);
     }
 
