@@ -55,16 +55,13 @@ public class SessionBusiness {
         }
     }
 
-    public ResponseEntity<SessionDTO> save(SessionDTO session) {
+    public ResponseEntity<SessionDTO> create(SessionDTO session) {
+        log.info("Saving {}", session.toString());
         try{
-            if (session != null) {
-                log.info("Saving {}", session.toString());
+            if (validateSession(session)) {
                 Session result = sessionService.save(sessionMapper.convertToEntity(session));
-                SessionDTO dto =sessionMapper.convertToDto(result);
-                if (session.getAgenda_id() == null) {
-                    return ResponseEntity.status(HttpStatus.CREATED).body(dto);
-                }
-                return ResponseEntity.ok(dto);
+                session = sessionMapper.convertToDto(result);
+                return ResponseEntity.status(HttpStatus.CREATED).body(session);
             }
             return ResponseEntity.badRequest().build();
         }catch (Exception e){
@@ -72,6 +69,26 @@ public class SessionBusiness {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    private boolean validateSession(SessionDTO session) {
+        return session != null && session.getAgenda_id() != null && !sessionService.exists(session.getAgenda_id());
+    }
+
+    public ResponseEntity<SessionDTO> update(SessionDTO session) {
+        log.info("Updating {}", session.toString());
+        try{
+            if (sessionService.exists(session.getAgenda_id())) {
+                Session result = sessionService.save(sessionMapper.convertToEntity(session));
+                session = sessionMapper.convertToDto(result);
+                return ResponseEntity.ok(session);
+            }
+            return ResponseEntity.badRequest().build();
+        }catch (Exception e){
+            log.error("Occurred an error >>> {} {}", e.getMessage(), e.getCause());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 
     public void delete(Long id) {
         try {

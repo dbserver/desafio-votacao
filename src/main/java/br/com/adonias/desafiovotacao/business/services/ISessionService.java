@@ -14,4 +14,6 @@ public interface ISessionService {
     void deleteById(Long id);
 
     List<Session> getAllSessions();
+
+    boolean exists(Long id);
 }

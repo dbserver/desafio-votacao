@@ -1,15 +1,17 @@
 package br.com.adonias.desafiovotacao.entities;
 
 import br.com.adonias.desafiovotacao.entities.enums.Answer;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @ToString
+@Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_vote")
 public class Vote {
     @Id

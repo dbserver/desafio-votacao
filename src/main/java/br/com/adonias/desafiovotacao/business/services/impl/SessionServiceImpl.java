@@ -35,4 +35,9 @@ public class SessionServiceImpl implements ISessionService {
     public List<Session> getAllSessions() {
         return repository.findAll();
     }
+
+    @Override
+    public boolean exists(Long id) {
+        return repository.existsById(id);
+    }
 }
