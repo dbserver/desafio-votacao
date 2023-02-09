@@ -3,10 +3,7 @@ package br.com.aplicationvotacao.aplicationvotacao.dto;
 
 import br.com.aplicationvotacao.aplicationvotacao.model.enums.StatusPautaEnum;
 import br.com.aplicationvotacao.aplicationvotacao.model.enums.StatusSessaoVotacaoEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,6 +11,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ResultadoPautaDTO {
 
     private List<VotoResponseDTO> listaVotos;
