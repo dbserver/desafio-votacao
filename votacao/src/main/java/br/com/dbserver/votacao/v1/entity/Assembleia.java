@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -21,11 +22,13 @@ public class Assembleia {
     @Builder.Default
     private LocalDateTime inicio = LocalDateTime.now();
 
-    private LocalDateTime fim;
+    @Builder.Default
+    private LocalDateTime fim = LocalDateTime.now().plusHours(4);
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "assembleia_pauta", joinColumns = {
             @JoinColumn(name = "assembleia_id", referencedColumnName = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "pauta_id", referencedColumnName = "id") })
-    List<Pauta> pautas;
+    @Builder.Default
+    List<Pauta> pautas = new ArrayList<>();
 }

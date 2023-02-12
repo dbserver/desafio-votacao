@@ -4,6 +4,7 @@ import br.com.dbserver.votacao.v1.enums.PautaStatusEnum;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -25,11 +26,16 @@ public class Pauta {
     @JoinTable(name = "pauta_votacao", joinColumns = {
             @JoinColumn(name = "pauta_id", referencedColumnName = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "votos_id", referencedColumnName = "id") })
-    private List<Voto> votos;
-
-    private LocalDateTime inicio;
-    private LocalDateTime fim;
+    @Builder.Default
+    private List<Voto> votos = new ArrayList<>();
 
     @Builder.Default
+    private LocalDateTime inicio = LocalDateTime.now();
+
+    @Builder.Default
+    private LocalDateTime fim = LocalDateTime.now().plusMinutes(1);
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
     private PautaStatusEnum status = PautaStatusEnum.AGUARDANDO_RESULTADO;
 }

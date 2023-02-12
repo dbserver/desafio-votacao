@@ -1,6 +1,6 @@
 package br.com.dbserver.votacao.v1.entity;
 
-import br.com.dbserver.votacao.v1.enums.StatusUsuario;
+import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,5 +24,6 @@ public class Associado {
     private String cpf;
 
     @Builder.Default
-    private StatusUsuario status = StatusUsuario.PODE_VOTAR;
+    @Enumerated(EnumType.STRING)
+    private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
 }
