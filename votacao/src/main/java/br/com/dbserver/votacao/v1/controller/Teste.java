@@ -43,8 +43,9 @@ public class Teste {
 
 
     @RouterOperation(operation = @Operation(operationId = "Terste do gfuhr", summary = "sumario", tags = { "Cadatrar" },
-            parameters = { @Parameter(in = ParameterIn.PATH, name = "id", description = "Employee Id") },
-            responses = { @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = String.class))),
+            parameters = { @Parameter()},
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = String.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid Employee ID supplied"),
                     @ApiResponse(responseCode = "404", description = "Employee not found") }))
 
