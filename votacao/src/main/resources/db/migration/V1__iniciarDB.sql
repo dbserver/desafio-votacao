@@ -1,8 +1,8 @@
 CREATE TABLE associado (
  id serial PRIMARY KEY,
- nome VARCHAR(255) NOT NULL,
- cpf VARCHAR(255) NOT NULL,
- status VARCHAR(255) NOT NULL
+ nome VARCHAR(150) NOT NULL,
+ cpf VARCHAR(11) NOT NULL,
+ status VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE assembleia (
@@ -23,7 +23,7 @@ CREATE TABLE voto (
  id serial PRIMARY KEY,
  pauta_id integer NOT NULL,
  associado_id integer NOT NULL,
- valor VARCHAR(255) NOT NULL,
+ valor VARCHAR(10) NOT NULL,
  FOREIGN KEY (pauta_id) REFERENCES pauta (id),
  FOREIGN KEY (associado_id) REFERENCES associado (id)
 );
