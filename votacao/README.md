@@ -32,3 +32,5 @@ OBS: <br>
 `````
 http://localhost:8080/swagger-ui/index.html
 `````
+# UML do Banco de Dados
+![mapeamentoDB.png](mapeamentoDB.png)

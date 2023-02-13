@@ -2,7 +2,8 @@ CREATE TABLE associado (
  id serial PRIMARY KEY,
  nome VARCHAR(150) NOT NULL,
  cpf VARCHAR(11) NOT NULL,
- status VARCHAR(40) NOT NULL
+ status VARCHAR(40) NOT NULL,
+ UNIQUE (cpf)
 );
 
 CREATE TABLE assembleia (
