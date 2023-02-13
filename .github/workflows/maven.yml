@@ -27,9 +27,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Executar o comando CD
-      run: |
-       cd votacao
+    - name: Buscar projeto votacao
+      run: cd votacao
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
