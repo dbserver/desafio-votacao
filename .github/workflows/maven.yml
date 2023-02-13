@@ -29,7 +29,10 @@ jobs:
         cache: maven
     - name: Change working directory
       run: |
-        cd votacao
+        cd ..
+    - name: votacao    
+      run: |
+        cd votacao    
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
