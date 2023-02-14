@@ -1,4 +1,4 @@
-package br.tec.db.desafio.business.repository;
+package br.tec.db.desafio.repository;
 
 import br.tec.db.desafio.business.entity.Pauta;
 import org.springframework.data.jpa.repository.JpaRepository;

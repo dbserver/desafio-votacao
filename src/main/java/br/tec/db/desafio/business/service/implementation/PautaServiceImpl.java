@@ -4,8 +4,8 @@ import br.tec.db.desafio.api.v1.dto.PautaMapperV1;
 import br.tec.db.desafio.api.v1.dto.PautaRequestV1;
 import br.tec.db.desafio.api.v1.dto.PautaResponseV1;
 import br.tec.db.desafio.business.entity.Pauta;
-import br.tec.db.desafio.business.repository.PautaRepository;
 import br.tec.db.desafio.business.service.PautaService;
+import br.tec.db.desafio.repository.PautaRepository;
 import org.springframework.stereotype.Service;
 
 @Service

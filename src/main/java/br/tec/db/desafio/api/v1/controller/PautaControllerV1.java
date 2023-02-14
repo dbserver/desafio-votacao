@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
-@RequestMapping("v1/pauta")
+@RequestMapping("api/v1/pauta")
 @Tag(name = "Pauta")
 public class PautaControllerV1 {
     private final PautaService pautaService;
