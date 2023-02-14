@@ -1,5 +1,6 @@
 package br.com.dbserver.votacao.v1.dto.response;
 
+import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
 import lombok.*;
 
 @Getter
@@ -12,5 +13,5 @@ public class AssociadoResponse {
     private Long id;
     private String nome;
     private String cpf;
-    private String status;
+    private StatusUsuarioEnum status;
 }

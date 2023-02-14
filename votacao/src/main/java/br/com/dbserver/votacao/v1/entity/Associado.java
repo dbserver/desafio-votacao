@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Entity
+@Setter
 @Table(name = "associado")
 public class Associado {
 

@@ -23,6 +23,5 @@ public class AssociadoRequest {
     private String cpf;
 
     @Builder.Default
-    @Enumerated(EnumType.STRING)
-    private String status = StatusUsuarioEnum.PODE_VOTAR.getValor();
+    private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
 }
