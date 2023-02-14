@@ -3,25 +3,34 @@ package br.com.dbserver.votacao.v1.service;
 import br.com.dbserver.votacao.v1.dto.request.AssociadoRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssociadoResponse;
 import br.com.dbserver.votacao.v1.entity.Associado;
+import br.com.dbserver.votacao.v1.exception.BadRequestException;
 import br.com.dbserver.votacao.v1.mapper.MapperAssociado;
 import br.com.dbserver.votacao.v1.repository.AssociadoRepository;
 
 import lombok.AllArgsConstructor;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @AllArgsConstructor
 @Service
 public class AssociadoServiceImpl implements AssociadoService {
 
-    private final AssociadoRepository associadoRepository;
+	private final AssociadoRepository associadoRepository;
 
 
-    @Override
-    public AssociadoResponse salvar(AssociadoRequest associadoDto) {
-        Associado associado = MapperAssociado.INSTANCE.associadoRequesToAssociado(associadoDto);
-        associadoRepository.save(associado);
-
-        return MapperAssociado.INSTANCE.associadoToResponse(associado);
-    }
+	@Override
+	public AssociadoResponse salvar(AssociadoRequest associadoDto) throws BadRequestException {
+		log.info("Metodo: salvar , ID Cliente: " + associadoDto.getCpf());
+		try {
+			Associado associado = MapperAssociado.INSTANCE.associadoRequesToAssociado(associadoDto);
+			associadoRepository.save(associado);
+			return MapperAssociado.INSTANCE.associadoToResponse(associado);
+		} catch (DataAccessException e) {
+			log.error("CPF: " + associadoDto.getCpf() + " já foi cadastrado");
+			throw  new BadRequestException("CPF: "  + associadoDto.getCpf() + " já foi cadastrado");
+		}
+	}
 }

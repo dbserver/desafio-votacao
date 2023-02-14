@@ -10,12 +10,14 @@
 	</parent>
 	<groupId>br.com.dbserver</groupId>
 	<artifactId>votacao</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v1.0.0-SNAPSHOT</version>
 	<name>votacao</name>
 	<description>Desafio tecnico</description>
 	<properties>
 		<java.version>17</java.version>
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+		<org.lombok.version>1.18.26</org.lombok.version>
+		<org.swwager.version>1.6.6</org.swwager.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -33,7 +35,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.16</version>
+			<version>${org.lombok.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -58,16 +60,12 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.6</version>
+			<version>${org.swwager.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${org.mapstruct.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -84,7 +82,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.16</version>
+							<version>${org.lombok.version}</version>
 						</path>
 						<!-- This is needed when using Lombok 1.18.16 and above -->
 						<path>

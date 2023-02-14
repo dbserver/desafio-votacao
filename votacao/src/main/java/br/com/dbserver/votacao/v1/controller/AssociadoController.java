@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Log4j2
 @AllArgsConstructor
 @RequestMapping("v1/associado")
 @RestController
@@ -40,6 +41,7 @@ public class AssociadoController {
                     })
     @PostMapping()
     public ResponseEntity<AssociadoResponse> salvarAssociado(@RequestBody @Valid AssociadoRequest associadoRequest){
+       log.info("Metodo: salvarAssociado - ID Cliente: " + associadoRequest.getCpf());
         return new ResponseEntity<>(associadoService.salvar(associadoRequest), HttpStatus.OK);
     }
 }

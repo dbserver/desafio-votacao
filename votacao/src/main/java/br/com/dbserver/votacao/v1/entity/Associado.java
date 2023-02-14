@@ -24,7 +24,6 @@ public class Associado {
     @Column(nullable = false)
     private String cpf;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
     private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
 }
