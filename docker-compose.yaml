@@ -1,0 +1,16 @@
+version: '3.7'
+volumes:
+  database:
+services:
+  db:
+    image: mysql:latest
+    container_name: votacao-mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=votacao
+      - MYSQL_DATABASE=votacao
+      - MYSQL_USER=votacao
+      - MYSQL_PASSWORD=votacao
