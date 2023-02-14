@@ -15,15 +15,14 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class AssociadoRequest {
 
-    @NotBlank(message = "Campo nome não pode ser nulo ou vazio")
-    @Size(min=4, max = 150, message = "Campo nome Ultrapassou o limite de caracteres, max 150")
-    private String nome;
+	@NotBlank(message = "Campo nome não pode ser nulo ou vazio")
+	@Size(min = 4, max = 150, message = "Campo nome Ultrapassou o limite de caracteres, max 150")
+	private String nome;
 
-    @NotBlank(message = "Campo documento não pode ser nulo ou vazio")
-    @CpfOuCnpj
-    private String documento;
+	@NotBlank(message = "Campo documento não pode ser nulo ou vazio")
+	@CpfOuCnpj
+	private String documento;
 
-
-    @Builder.Default
-    private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
+	@Builder.Default
+	private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
 }

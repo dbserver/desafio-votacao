@@ -8,9 +8,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 @Entity
-@Setter
 @Table(name = "associado")
 public class Associado {
 
@@ -25,5 +25,5 @@ public class Associado {
     private String documento;
 
     @Enumerated(EnumType.STRING)
-    private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
+    private StatusUsuarioEnum status;
 }

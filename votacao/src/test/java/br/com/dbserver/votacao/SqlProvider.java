@@ -1,0 +1,6 @@
+package br.com.dbserver.votacao;
+
+public class SqlProvider {
+	public static final String resetarDB= "/resetarDB.sql";
+	public static final String insertAssociado= "/insertAssociado.sql";
+}
