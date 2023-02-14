@@ -41,7 +41,7 @@ public class AssociadoController {
                     })
     @PostMapping()
     public ResponseEntity<AssociadoResponse> salvarAssociado(@RequestBody @Valid AssociadoRequest associadoRequest){
-       log.info("Metodo: salvarAssociado - ID Cliente: " + associadoRequest.getCpf());
+       log.info("Metodo: salvarAssociado - ID Cliente: " + associadoRequest.getDocumento());
         return new ResponseEntity<>(associadoService.salvar(associadoRequest), HttpStatus.OK);
     }
 }

@@ -55,6 +55,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 						.mensagem("Cheque a documentação da API")
 						.build(), HttpStatus.NOT_FOUND);
 	}
+
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<BadRequestExceptionDto> handlerNotFoundException(BadRequestException exception) {
 		return new ResponseEntity<>(

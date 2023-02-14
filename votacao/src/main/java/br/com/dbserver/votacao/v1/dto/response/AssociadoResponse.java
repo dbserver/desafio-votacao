@@ -12,6 +12,6 @@ import lombok.*;
 public class AssociadoResponse {
     private Long id;
     private String nome;
-    private String cpf;
+    private String documento;
     private StatusUsuarioEnum status;
 }

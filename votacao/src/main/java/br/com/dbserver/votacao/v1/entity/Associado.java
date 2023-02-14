@@ -22,7 +22,7 @@ public class Associado {
     private String nome;
 
     @Column(nullable = false)
-    private String cpf;
+    private String documento;
 
     @Enumerated(EnumType.STRING)
     private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;

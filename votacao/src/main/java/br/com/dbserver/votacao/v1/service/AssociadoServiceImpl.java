@@ -23,14 +23,14 @@ public class AssociadoServiceImpl implements AssociadoService {
 
 	@Override
 	public AssociadoResponse salvar(AssociadoRequest associadoDto) throws BadRequestException {
-		log.info("Metodo: salvar , ID Cliente: " + associadoDto.getCpf());
+		log.info("Metodo: salvar , ID Cliente: " + associadoDto.getDocumento());
 		try {
 			Associado associado = MapperAssociado.INSTANCE.associadoRequesToAssociado(associadoDto);
 			associadoRepository.save(associado);
 			return MapperAssociado.INSTANCE.associadoToResponse(associado);
 		} catch (DataAccessException e) {
-			log.error("CPF: " + associadoDto.getCpf() + " já foi cadastrado");
-			throw  new BadRequestException("CPF: "  + associadoDto.getCpf() + " já foi cadastrado");
+			log.error("Documento: " + associadoDto.getDocumento() + " já foi cadastrado");
+			throw  new BadRequestException("Documento: "  + associadoDto.getDocumento() + " já foi cadastrado ou é inválido");
 		}
 	}
 }

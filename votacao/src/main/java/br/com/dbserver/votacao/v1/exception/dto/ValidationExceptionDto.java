@@ -1,6 +1,5 @@
 package br.com.dbserver.votacao.v1.exception.dto;
 
-import br.com.dbserver.votacao.v1.exception.dto.ExceptionDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
