@@ -30,8 +30,4 @@ public class PautaServiceImpl implements PautaService {
                 pautaRepository.save(pautaToCreate)
         );
     }
-
-    public void validar(PautaRequestV1 pautaRequestV1){
-
-    }
 }
