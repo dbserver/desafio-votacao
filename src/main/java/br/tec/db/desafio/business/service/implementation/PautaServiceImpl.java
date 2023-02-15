@@ -1,11 +1,11 @@
 package br.tec.db.desafio.business.service.implementation;
 
-import br.tec.db.desafio.api.v1.dto.PautaMapperV1;
-import br.tec.db.desafio.api.v1.dto.PautaRequestV1;
-import br.tec.db.desafio.api.v1.dto.PautaResponseV1;
+import br.tec.db.desafio.api.v1.dto.pauta.PautaMapperV1;
+import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
+import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
 import br.tec.db.desafio.business.entity.Pauta;
 import br.tec.db.desafio.business.service.PautaService;
-import br.tec.db.desafio.business.service.implementation.validacao.ValidacaoPauta;
+import br.tec.db.desafio.business.service.implementation.validacao.pauta.ValidacaoPauta;
 import br.tec.db.desafio.repository.PautaRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package br.tec.db.desafio.api.v1.dto;
+package br.tec.db.desafio.api.v1.dto.pauta;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,6 @@
-package br.tec.db.desafio.business.service.implementation.validacao;
+package br.tec.db.desafio.business.service.implementation.validacao.pauta;
 
-import br.tec.db.desafio.api.v1.dto.PautaRequestV1;
-import br.tec.db.desafio.business.entity.Pauta;
+import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
 import br.tec.db.desafio.exception.BusinessException;
 
 public class ValidarPautaVazia implements ValidacaoPauta{
