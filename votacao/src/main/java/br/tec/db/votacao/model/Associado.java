@@ -1,5 +1,6 @@
 package br.tec.db.votacao.model;
 
+import br.tec.db.votacao.enums.AssociadoStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,4 +29,6 @@ public class Associado {
     @ManyToOne
     private Assembleia assembleia;
 
+    @Enumerated(EnumType.STRING)
+    private AssociadoStatusEnum status;
 }

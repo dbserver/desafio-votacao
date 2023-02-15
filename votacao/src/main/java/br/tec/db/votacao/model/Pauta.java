@@ -1,5 +1,6 @@
 package br.tec.db.votacao.model;
 
+import br.tec.db.votacao.enums.PautaStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,4 +26,7 @@ public class Pauta {
 
     @ManyToOne
     private Assembleia assembleia;
+
+    @Enumerated(EnumType.STRING)
+    private PautaStatusEnum status;
 }

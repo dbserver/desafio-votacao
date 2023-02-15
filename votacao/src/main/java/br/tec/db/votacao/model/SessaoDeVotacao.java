@@ -1,5 +1,6 @@
 package br.tec.db.votacao.model;
 
+import br.tec.db.votacao.enums.SessaoDeVotacaoStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,4 +32,6 @@ public class SessaoDeVotacao {
     @OneToOne
     private Pauta pauta;
 
+    @Enumerated(EnumType.STRING)
+    private SessaoDeVotacaoStatusEnum status;
 }

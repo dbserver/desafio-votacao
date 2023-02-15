@@ -1,5 +1,6 @@
 package br.tec.db.votacao.model;
 
+import br.tec.db.votacao.enums.AssembleiaStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,5 +32,6 @@ public class Assembleia {
     @OneToMany
     private List<Pauta> pautas;
 
-
+    @Enumerated(EnumType.STRING)
+    private AssembleiaStatusEnum status;
 }
