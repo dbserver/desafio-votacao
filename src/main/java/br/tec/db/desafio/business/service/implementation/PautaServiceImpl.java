@@ -21,7 +21,7 @@ public class PautaServiceImpl implements PautaService {
     }
     @Override
     public PautaResponseV1 criarUmaNovaPauta(PautaRequestV1 pautaRequestV1) {
-        this.validacoesPauta.forEach(validacaoPauta -> validacaoPauta.validarPauta(pautaRequestV1));
+        this.validacoesPauta.forEach(v -> v.validarPauta(pautaRequestV1));
 
         Pauta pautaToCreate = PautaMapperV1.pautaRequestV1ToPauta(
                 pautaRequestV1
@@ -29,5 +29,9 @@ public class PautaServiceImpl implements PautaService {
         return PautaMapperV1.pautaToPautaResponseV1(
                 pautaRepository.save(pautaToCreate)
         );
+    }
+
+    public void validar(PautaRequestV1 pautaRequestV1){
+
     }
 }
