@@ -7,7 +7,7 @@ public class ValidarPautaComPoucoCaracter implements ValidacaoPauta{
     @Override
     public void validarPauta(PautaRequestV1 pautaRequestV1) {
         if(pautaRequestV1.getAssunto().length() < 3){
-            throw new BusinessException("A pauta não pode estar vazia");
+            throw new BusinessException("Pauta com menos de 3 caracteres");
         }
     }
 }
