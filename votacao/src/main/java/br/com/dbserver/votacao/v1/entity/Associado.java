@@ -4,6 +4,7 @@ import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor

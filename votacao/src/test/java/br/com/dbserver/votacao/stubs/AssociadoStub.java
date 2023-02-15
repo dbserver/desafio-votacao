@@ -8,7 +8,7 @@ import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
 public interface AssociadoStub {
 	static AssociadoRequest construirAssociadoRequest(StatusUsuarioEnum status){
 		return AssociadoRequest.builder()
-				.documento("16232240049")
+				.documento("90015955028")
 				.nome("Usuario Teste")
 				.status(status)
 				.build();
@@ -17,11 +17,18 @@ public interface AssociadoStub {
 	static AssociadoResponse construirAssociadoResponse(StatusUsuarioEnum status){
 		return AssociadoResponse.builder()
 				.id(1L)
-				.documento("16232240049")
+				.documento("90015955028")
 				.nome("Usuario Teste")
 				.status(status)
 				.build();
 	}
 
-
+	static Associado construirAssociado(){
+		return Associado.builder()
+				.id(1L)
+				.documento("90015955028")
+				.nome("Usuario Teste")
+				.status(StatusUsuarioEnum.PODE_VOTAR)
+				.build();
+	}
 }

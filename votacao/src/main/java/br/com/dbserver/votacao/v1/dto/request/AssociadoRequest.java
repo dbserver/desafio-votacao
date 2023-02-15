@@ -7,12 +7,10 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
-@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class AssociadoRequest {
 
 	@NotBlank(message = "Campo nome não pode ser nulo ou vazio")

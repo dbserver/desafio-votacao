@@ -80,7 +80,7 @@ class AssociadoControllerTest {
 			@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
 	})
 	void buscarAssociadoPorCpfOuCnpj() throws Exception {
-		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "16232240049")
+		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "90015955028")
 						.content(envioComoJSON)
 						.accept(MediaType.APPLICATION_JSON_VALUE)
 						.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -91,7 +91,7 @@ class AssociadoControllerTest {
 	@Test
 	@DisplayName("Teste GET/Error ao buscar associado inexistente")
 	public void testeGetDocumentoInvalido() throws Exception {
-		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "16232240049")
+		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "90015955028")
 						.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isNotFound());
 	}
