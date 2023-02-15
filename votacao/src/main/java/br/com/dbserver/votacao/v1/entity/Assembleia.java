@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Builder
 @Entity
+@Setter
 @Table(name = "assembleia")
 public class Assembleia {
 

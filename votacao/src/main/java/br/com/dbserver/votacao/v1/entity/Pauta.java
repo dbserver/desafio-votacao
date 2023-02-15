@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Builder
 @Entity
+@Setter
 @Table(name = "pauta")
 public class Pauta {
 

@@ -4,10 +4,12 @@ import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "associado")
@@ -21,9 +23,8 @@ public class Associado {
     private String nome;
 
     @Column(nullable = false)
-    private String cpf;
+    private String documento;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private StatusUsuarioEnum status = StatusUsuarioEnum.PODE_VOTAR;
+    private StatusUsuarioEnum status;
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Entity
+@Setter
 @Table(name = "voto")
 public class Voto {
 
@@ -21,7 +22,7 @@ public class Voto {
     @JoinColumn(name = "pauta_id", nullable = false)
     private Pauta pauta;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "associado_id", nullable = false)
     private Associado associado;
 
