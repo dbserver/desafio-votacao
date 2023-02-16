@@ -1,6 +1,6 @@
 package br.tec.db.desafio.api.v1.dto.pauta;
 
-import br.tec.db.desafio.business.entity.Pauta;
+import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.exception.BusinessException;
 
 public class PautaMapperV1 {

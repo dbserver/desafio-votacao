@@ -1,10 +1,14 @@
 package br.tec.db.desafio.business.service.implementation;
 
 import br.tec.db.desafio.api.v1.dto.sessao.SessaoMapperV1;
-import br.tec.db.desafio.api.v1.dto.sessao.SessaoRequestV1;
-import br.tec.db.desafio.api.v1.dto.sessao.SessaoResponseV1;
-import br.tec.db.desafio.business.entity.Pauta;
-import br.tec.db.desafio.business.entity.Sessao;
+import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaCriarRequestV1;
+import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaSaberTotalVotosRequestV1;
+import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaVotarRequestV1;
+import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
+import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoTotalVotosResponseV1;
+import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
+import br.tec.db.desafio.business.domain.Pauta;
+import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.business.service.SessaoService;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.ValidacaoSessao;
 import br.tec.db.desafio.repository.PautaRepository;
@@ -26,10 +30,10 @@ public class SessaoServiceImpl implements SessaoService {
     }
 
     @Override
-    public SessaoResponseV1 criarUmaNovaSessao(SessaoRequestV1 sessaoRequestV1) {
+    public SessaoCriadaResponseV1 criarUmaNovaSessao(SessaoParaCriarRequestV1 sessaoRequestV1) {
         this.validacoesSessao.forEach(v -> v.validarSessao(sessaoRequestV1));
 
-        Sessao sessaoToCreate = SessaoMapperV1.sessaoRequestV1ToSessao(
+        Sessao sessaoToCreate = SessaoMapperV1.sessaoParaCriarRequestV1ToSessao(
                 sessaoRequestV1
         );
         Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
@@ -37,8 +41,42 @@ public class SessaoServiceImpl implements SessaoService {
 
         sessaoToCreate.setPauta(pautaEncontrada);
 
-        return SessaoMapperV1.sessaoToSessaoResponseV1(
+        return SessaoMapperV1.sessaoToSessaoCriadaResponseV1(
                 sessaoRepository.save(sessaoToCreate)
         );
     }
+
+    @Override
+    public SessaoVotadaResponseV1 votarEmUmaSessao(SessaoParaVotarRequestV1 sessaoRequestV1) {
+        Sessao sessaoToCreate = SessaoMapperV1.sessaoParaVotarRequestV1ToSessao(
+                sessaoRequestV1
+        );
+        Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
+                (sessaoToCreate.getPauta().getAssunto());
+        Sessao sessaoEncontrada = sessaoRepository.findByPautaId
+                (pautaEncontrada.getId());
+
+        sessaoEncontrada.setVoto(sessaoToCreate.getVoto());
+        return SessaoMapperV1.sessaoToSessaoVotadaResponseV1(
+                sessaoRepository.save(sessaoEncontrada)
+        );
+    }
+
+    @Override
+    public SessaoTotalVotosResponseV1 totalDeVotosDaSessao(SessaoParaSaberTotalVotosRequestV1 sessaoRequestV1) {
+        Sessao sessaoToCreate = SessaoMapperV1.sessaoParaSaberTotalVotosRequestV1ToSessao(
+                sessaoRequestV1
+        );
+        Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
+                (sessaoToCreate.getPauta().getAssunto());
+        Sessao sessaoEncontrada = sessaoRepository.findByPautaId
+                (pautaEncontrada.getId());
+
+
+        return SessaoMapperV1.sessaoToSessaoTotalVotosResponseV1(
+                sessaoEncontrada
+        );
+    }
+
+
 }

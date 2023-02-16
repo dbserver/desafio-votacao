@@ -1,6 +1,5 @@
-package br.tec.db.desafio.business.entity;
+package br.tec.db.desafio.business.domain;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +12,7 @@ public class Associado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
-
+    @Column(unique = true)
+    private String cpf;
     private String nome;
 }

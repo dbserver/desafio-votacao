@@ -1,4 +1,4 @@
-package br.tec.db.desafio.business.entity;
+package br.tec.db.desafio.business.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -23,5 +23,4 @@ public class Pauta {
     private Sessao sessao;
     private String assunto;
 
-    private int totalVotos;
 }
