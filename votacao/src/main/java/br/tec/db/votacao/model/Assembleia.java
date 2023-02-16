@@ -2,6 +2,7 @@ package br.tec.db.votacao.model;
 
 import br.tec.db.votacao.enums.AssembleiaStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,8 +23,10 @@ public class Assembleia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private LocalDateTime inicio = LocalDateTime.now();
 
+    @NotBlank
     private LocalDateTime fim = LocalDateTime.now().plusHours(2);
 
     @Enumerated(EnumType.STRING)
