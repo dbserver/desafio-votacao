@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SessaoRepository extends JpaRepository<Sessao, Long> {
     @Query(value = "SELECT *\n" +
-            "FROM VOTACAO.SESSAO\n" +
+            "FROM votacao.sessao\n" +
             "WHERE pauta_id =:pautaId",
             nativeQuery = true)
     Sessao findByPautaId(@Param("pautaId") Long pautaId);
