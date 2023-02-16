@@ -14,3 +14,16 @@ services:
       - MYSQL_DATABASE=votacao
       - MYSQL_USER=votacao
       - MYSQL_PASSWORD=votacao
+
+  service:
+    build:
+      context: .
+      dockerfile: Dockerfile.jvm
+    depends_on:
+      - "db"
+    container_name: votacao-api
+    image: votacao-api
+    ports:
+      - 8080:8080
+    environment:
+      spring.datasource.jdbc.url: "jdbc:mysql://db:3306/votacao"
