@@ -23,7 +23,8 @@ services:
       - "db"
     container_name: votacao-api
     image: votacao-api
+    restart: always
     ports:
       - 8080:8080
     environment:
-      spring.datasource.url: "jdbc:mysql://db:3306/votacao"
+      spring.datasource.url: "jdbc:mysql://db:3306/votacao?createDatabaseIfNotExist=true"
