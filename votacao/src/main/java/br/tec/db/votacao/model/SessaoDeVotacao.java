@@ -2,7 +2,6 @@ package br.tec.db.votacao.model;
 
 import br.tec.db.votacao.enums.SessaoDeVotacaoStatusEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,10 +22,8 @@ public class SessaoDeVotacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private LocalDateTime inicio = LocalDateTime.now();
 
-    @NotBlank
     private LocalDateTime fim = LocalDateTime.now().plusMinutes(1);
 
     @Enumerated(EnumType.STRING)
