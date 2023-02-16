@@ -23,12 +23,17 @@ public class Associado {
 
     private String cpf;
 
+    @Enumerated(EnumType.STRING)
+    private AssociadoStatusEnum status;
+
     @OneToOne
+    @JoinTable(name = "voto_associado", joinColumns = @JoinColumn(name = "associado_id"),
+            inverseJoinColumns = @JoinColumn(name = "voto_id"))
     private Voto voto;
 
     @ManyToOne
+    @JoinTable(name = "assembleia_associados", joinColumns = @JoinColumn(name = "associado_id"),
+            inverseJoinColumns = @JoinColumn(name = "assembleia_id"))
     private Assembleia assembleia;
 
-    @Enumerated(EnumType.STRING)
-    private AssociadoStatusEnum status;
 }

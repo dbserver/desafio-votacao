@@ -19,12 +19,16 @@ public class Voto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Associado associado;
-
-    @ManyToOne
-    private SessaoDeVotacao sessaoDeVotacao;
-
     @Enumerated(EnumType.STRING)
     private VotoStatusEnum status;
+
+    @ManyToOne
+    @JoinColumn(name = "sessao_de_votacao_id")
+    private SessaoDeVotacao sessaoDeVotacao;
+
+    @OneToOne
+    @JoinTable(name = "voto_associado", joinColumns = @JoinColumn(name = "voto_id"),
+            inverseJoinColumns = @JoinColumn(name = "associado_id"))
+    private Associado associado;
+
 }

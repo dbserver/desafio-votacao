@@ -26,12 +26,17 @@ public class Assembleia {
 
     private LocalDateTime fim = LocalDateTime.now().plusHours(2);
 
+    @Enumerated(EnumType.STRING)
+    private AssembleiaStatusEnum status;
+
     @OneToMany
+    @JoinTable(name = "assembleia_associados", joinColumns = @JoinColumn(name = "assembleia_id"),
+            inverseJoinColumns = @JoinColumn(name = "associado_id"))
     private List<Associado> associados;
 
     @OneToMany
+    @JoinTable(name = "assembleia_pautas", joinColumns = @JoinColumn(name = "assembleia_id"),
+            inverseJoinColumns = @JoinColumn(name = "pauta_id"))
     private List<Pauta> pautas;
 
-    @Enumerated(EnumType.STRING)
-    private AssembleiaStatusEnum status;
 }

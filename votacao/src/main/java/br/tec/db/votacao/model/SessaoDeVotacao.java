@@ -26,12 +26,16 @@ public class SessaoDeVotacao {
 
     private LocalDateTime fim = LocalDateTime.now().plusMinutes(1);
 
-    @OneToMany
-    private List<Voto> votos;
-
-    @OneToOne
-    private Pauta pauta;
-
     @Enumerated(EnumType.STRING)
     private SessaoDeVotacaoStatusEnum status;
+
+    @OneToOne
+    @JoinColumn(name = "pauta_id")
+    private Pauta pauta;
+
+    @OneToMany
+    @JoinTable(name = "sessao_de_votacao_votos", joinColumns = @JoinColumn(name = "sessao_de_votacao_id"),
+            inverseJoinColumns = @JoinColumn(name = "voto_id"))
+    private List<Voto> votos;
+
 }
