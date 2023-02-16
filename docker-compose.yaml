@@ -3,12 +3,12 @@ volumes:
   database:
 services:
   db:
-    image: mysql:latest
-    container_name: votacao-mysql
+    image: mariadb:latest
+    container_name: votacao-mariadb
     ports:
       - 3306:3306
     volumes:
-      - database:/var/lib/mysql
+      - database:/var/lib/mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=votacao
       - MYSQL_DATABASE=votacao
@@ -27,4 +27,4 @@ services:
     ports:
       - 8080:8080
     environment:
-      spring.datasource.url: "jdbc:mysql://db:3306/votacao?createDatabaseIfNotExist=true"
+      spring.datasource.url: "jdbc:mariadb://db:3306/votacao?createDatabaseIfNotExist=true"
