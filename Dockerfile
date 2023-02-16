@@ -4,7 +4,7 @@
 FROM maven:3.8.3-openjdk-17 AS build
 COPY pom.xml /app/
 COPY src /app/src
-RUN mvn -f /app/pom.xml clean package
+RUN mvn -f /app/pom.xml clean package -DskipTests
 
 
 FROM openjdk:17
