@@ -18,7 +18,7 @@ services:
   service:
     build:
       context: .
-      dockerfile: Dockerfile.jvm
+      dockerfile: Dockerfile
     depends_on:
       - "db"
     container_name: votacao-api
