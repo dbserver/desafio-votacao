@@ -1,5 +1,7 @@
 package br.com.dbserver.votacao.v1.controller;
 
+import br.com.dbserver.votacao.clientMock.CpfClientMock;
+import br.com.dbserver.votacao.v1.client.CpfClientImpl;
 import br.com.dbserver.votacao.v1.dto.request.AssociadoRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssociadoResponse;
 import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -22,19 +25,24 @@ import static br.com.dbserver.votacao.SqlProvider.insertAssociado;
 import static br.com.dbserver.votacao.SqlProvider.resetarDB;
 import static br.com.dbserver.votacao.stubs.AssociadoStub.construirAssociadoRequest;
 import static br.com.dbserver.votacao.stubs.AssociadoStub.construirAssociadoResponse;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class AssociadoControllerTest {
+class AssociadoControllerTest extends CpfClientMock {
 
 	@Autowired
 	private MockMvc mockMvc;
 
+	@Autowired
 	private final ObjectMapper mapper = new ObjectMapper();
+
 	private String retornoComoJson;
 	private String envioComoJSON;
 	AssociadoRequest associadoRequest;
@@ -45,8 +53,8 @@ class AssociadoControllerTest {
 		envioComoJSON = mapper.writeValueAsString(associadoRequest);
 		AssociadoResponse associadoResponse = construirAssociadoResponse(StatusUsuarioEnum.PODE_VOTAR);
 		retornoComoJson = mapper.writeValueAsString(associadoResponse);
+		this.mockCpfClientValidarCpf();
 	}
-
 
 	@Test
 	@DisplayName("Teste POST/SUCESSO salvar um Associado")
