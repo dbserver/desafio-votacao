@@ -16,10 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
@@ -47,6 +44,14 @@ public class SessaoControllerV1 {
         return new ResponseEntity<>(sessaoResponseV1, HttpStatus.CREATED);
 }
 
+    @PostMapping("/votar")
+    @Operation(summary = "Votar em uma sessão")
+    @ApiResponses({
+            @ApiResponse(responseCode  = "200", description  = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Dados do payload inválidos."),
+            @ApiResponse(responseCode = "422", description = "Dado não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Ocorreu um erro inesperado no servidor. Por favor, tente novamente mais tarde.")
+    })
     public ResponseEntity<SessaoVotadaResponseV1> votarEmUmaSessao(
             @NotEmpty(message = "Dado de votação é obrigatório e deve ser preenchido")
             @RequestBody @Valid SessaoParaVotarRequestV1 sessaoRequestV1) {
@@ -54,6 +59,14 @@ public class SessaoControllerV1 {
         return new ResponseEntity<>(sessaoVotadaResponseV1, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    @Operation(summary = "Total de votos da sessão")
+    @ApiResponses({
+            @ApiResponse(responseCode  = "200", description  = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Dados do payload inválidos."),
+            @ApiResponse(responseCode = "422", description = "Dado não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Ocorreu um erro inesperado no servidor. Por favor, tente novamente mais tarde.")
+    })
     public ResponseEntity<SessaoTotalVotosResponseV1> totalDeVotosDaSessao(
             @NotEmpty(message = "Total de votos da votação é obrigatório e deve ser preenchido")
             @RequestBody @Valid SessaoParaSaberTotalVotosRequestV1 sessaoRequestV1) {
