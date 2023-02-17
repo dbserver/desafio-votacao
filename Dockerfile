@@ -9,4 +9,5 @@ RUN mvn -f /app/pom.xml clean package -DskipTests
 
 FROM openjdk:17
 COPY --from=build /app/target/desafio-0.0.1-SNAPSHOT.jar /app/desafio.jar
+EXPOSE 8080
 ENTRYPOINT ["java","-Dfile.encoding=UTF-8","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=docker", "-jar","/app/desafio.jar"]
