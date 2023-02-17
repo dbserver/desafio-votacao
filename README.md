@@ -1,3 +1,7 @@
+# Deploy
+Azure:
+https://desafio-deploy.azurewebsites.net/swagger-ui/index.html#/
+
 # Votação
 
 ## Objetivo
