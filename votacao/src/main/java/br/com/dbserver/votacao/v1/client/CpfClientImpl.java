@@ -3,17 +3,18 @@ package br.com.dbserver.votacao.v1.client;
 import br.com.dbserver.votacao.v1.exception.BadRequestException;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 @Log4j2
 @AllArgsConstructor
 @Service
-public class CpfclientImpl {
+public class CpfClientImpl {
 
 	private final CpfClient cpfClient;
 
-	public void validarCpf(String cpf) {
+	public boolean validarCpf(String cpf) {
 		log.info("Metodo: validarCpf - CPF: " + cpf);
 		try{
 			CpfResponse response = cpfClient.buscarCpf(cpf);
@@ -23,5 +24,6 @@ public class CpfclientImpl {
 		}catch (FeignException feignException){
 			throw new BadRequestException("CPF invalido!");
 		}
+		return true;
 	}
 }

@@ -2,7 +2,7 @@ package br.com.dbserver.votacao.v1.service;
 
 import br.com.dbserver.votacao.v1.client.CpfClient;
 import br.com.dbserver.votacao.v1.client.CpfResponse;
-import br.com.dbserver.votacao.v1.client.CpfclientImpl;
+import br.com.dbserver.votacao.v1.client.CpfClientImpl;
 import br.com.dbserver.votacao.v1.dto.request.AssociadoRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssociadoResponse;
 import br.com.dbserver.votacao.v1.entity.Associado;
@@ -32,7 +32,7 @@ class AssociadoServiceImplTest {
 	private AssociadoRepository associadoRepositoryMock;
 
 	@Mock
-	CpfclientImpl cpfclientImpl;
+	CpfClientImpl cpfclientImpl;
 
 	@Spy
 	CpfClient cpfClient;

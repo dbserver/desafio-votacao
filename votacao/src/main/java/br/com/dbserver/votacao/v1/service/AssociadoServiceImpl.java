@@ -1,7 +1,6 @@
 package br.com.dbserver.votacao.v1.service;
 
-import br.com.dbserver.votacao.v1.client.CpfClient;
-import br.com.dbserver.votacao.v1.client.CpfclientImpl;
+import br.com.dbserver.votacao.v1.client.CpfClientImpl;
 import br.com.dbserver.votacao.v1.dto.request.AssociadoRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssociadoResponse;
 import br.com.dbserver.votacao.v1.entity.Associado;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AssociadoServiceImpl implements AssociadoService {
 
-	private final CpfclientImpl cpfClient;
+	private final CpfClientImpl cpfClient;
 	private final AssociadoRepository associadoRepository;
 
 	@Override
