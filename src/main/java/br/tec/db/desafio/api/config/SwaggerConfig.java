@@ -13,7 +13,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(new Components())
-                .info(new Info().title("TESTE API de votação").description(
+                .info(new Info().title("TESTE 2 API de votação").description(
                         "Esta API permite criar pautas para votação"));
     }
 }
