@@ -1,0 +1,32 @@
+# docker compose -f docker-compose.vm.yaml up -d
+
+version: '3.7'
+volumes:
+  database:
+services:
+  db:
+    image: mariadb:latest
+    container_name: votacao-mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - database:/var/lib/mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=votacao
+      - MYSQL_DATABASE=votacao
+      - MYSQL_USER=votacao
+      - MYSQL_PASSWORD=votacao
+
+  service:
+    build:
+      context: .
+      dockerfile: Dockerfile-vm
+    depends_on:
+      - "db"
+    container_name: votacao-api
+    image: votacao-api
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      spring.datasource.url: "jdbc:mariadb://db:3306/votacao?createDatabaseIfNotExist=true"
