@@ -1,7 +1,6 @@
-package br.com.dbserver.votacao.clientMock;
+package br.com.dbserver.votacao.clientmock;
 
 import br.com.dbserver.votacao.v1.client.CpfClient;
-import br.com.dbserver.votacao.v1.client.CpfClientImpl;
 import br.com.dbserver.votacao.v1.client.CpfResponse;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
