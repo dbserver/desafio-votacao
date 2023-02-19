@@ -9,6 +9,7 @@ import br.com.dbserver.votacao.v1.entity.Assembleia;
 import br.com.dbserver.votacao.v1.entity.Pauta;
 import br.com.dbserver.votacao.v1.entity.Voto;
 import br.com.dbserver.votacao.v1.enums.VotoEnum;
+import br.com.dbserver.votacao.v1.exception.NotFoundException;
 import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.mapper.Resposta;
 import br.com.dbserver.votacao.v1.repository.PautaRepository;
@@ -134,5 +135,17 @@ class PautaServiceImplTest {
 		assertEquals(response.getLista().size(), 1, "Deve ter apenas 1 item na lista");
 		assertEquals(response.getLista().get(0), pautaResponse, "Deve ter a pauta esperada");
 		verify(pautaRepository, times(1)).findAll(any(Pageable.class));
+	}
+
+	@Test
+	@DisplayName("Deve dar Not Found Exception ao buscar id inexistente ")
+	void deveDarExceptionAoBuscarIdInexistente() {
+		when(pautaRepository.findById(1L)).thenReturn(Optional.empty());
+
+		NotFoundException notFoundException = Assertions.assertThrows(NotFoundException.class, () ->
+				pautaService.buscarPorId(1L));
+
+		assertEquals(notFoundException.getMessage(), "ID não encontrado!");
+		verify(pautaRepository, times(1)).findById(any(Long.class));
 	}
 }

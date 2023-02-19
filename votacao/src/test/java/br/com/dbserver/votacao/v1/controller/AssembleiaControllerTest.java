@@ -35,11 +35,11 @@ class AssembleiaControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/v1/assembleia")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("{\n" +
-								"  \"inicio\": \"2023-02-19T16:35:39.204Z\",\n" +
-								"  \"fim\": \"2023-03-19T16:35:39.204Z\"\n" +
+								"  \"inicio\": \"2030-02-19T16:35:39.204Z\",\n" +
+								"  \"fim\": \"2030-03-19T16:35:39.204Z\"\n" +
 								"}"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.inicio").value("2023-02-19T16:35:39.204"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.fim").value("2023-03-19T16:35:39.204"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.inicio").value("2030-02-19T16:35:39.204"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.fim").value("2030-03-19T16:35:39.204"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
 				.andExpect(status().isCreated());
 	}
