@@ -5,6 +5,7 @@ import br.com.dbserver.votacao.v1.dto.response.AssembleiaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaResultadoResponse;
+import br.com.dbserver.votacao.v1.mapper.Resposta;
 import br.com.dbserver.votacao.v1.service.PautaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,7 +77,7 @@ public class PautaController {
 
 			})
 	@GetMapping()
-	public ResponseEntity<PautaPaginadaResponse> buscarTodasPautas(@PageableDefault(sort = "id",
+	public ResponseEntity<Resposta<PautaResponse>> buscarTodasPautas(@PageableDefault(sort = "id",
 			direction = Sort.Direction.ASC,
 			page = 0,
 			size = 10) Pageable pageable) {

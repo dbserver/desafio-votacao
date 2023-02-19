@@ -3,6 +3,7 @@ package br.com.dbserver.votacao.v1.controller;
 import br.com.dbserver.votacao.v1.dto.request.AssembleiaRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssembleiaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.AssembleiaResponse;
+import br.com.dbserver.votacao.v1.mapper.Resposta;
 import br.com.dbserver.votacao.v1.service.AssembleiaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -57,7 +58,7 @@ public class AssembleiaController {
 
 			})
 	@GetMapping()
-	public ResponseEntity<AssembleiaPaginadaResponse> buscarTodasAssembleias(@PageableDefault(sort = "id",
+	public ResponseEntity<Resposta<AssembleiaResponse>> buscarTodasAssembleias(@PageableDefault(sort = "id",
 			direction = Sort.Direction.ASC,
 			page = 0,
 			size = 10) Pageable pageable) {

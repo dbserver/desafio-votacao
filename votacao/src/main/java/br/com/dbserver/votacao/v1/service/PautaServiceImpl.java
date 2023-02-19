@@ -1,15 +1,15 @@
 package br.com.dbserver.votacao.v1.service;
 
 import br.com.dbserver.votacao.v1.dto.request.PautaRequest;
-import br.com.dbserver.votacao.v1.dto.response.PautaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaResultadoResponse;
 import br.com.dbserver.votacao.v1.entity.Assembleia;
 import br.com.dbserver.votacao.v1.entity.Pauta;
 import br.com.dbserver.votacao.v1.enums.VotoEnum;
 import br.com.dbserver.votacao.v1.exception.NotFoundException;
+import br.com.dbserver.votacao.v1.mapper.MapperGererics;
 import br.com.dbserver.votacao.v1.mapper.MapperPauta;
-import br.com.dbserver.votacao.v1.mapper.MapperPautaPaginada;
+import br.com.dbserver.votacao.v1.mapper.Resposta;
 import br.com.dbserver.votacao.v1.repository.PautaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.function.Function;
 
 @Log4j2
 @AllArgsConstructor
@@ -57,9 +59,14 @@ public class PautaServiceImpl implements PautaService {
 	}
 
 	@Override
-	public PautaPaginadaResponse buscarTodas(Pageable pageable) {
+	public Resposta<PautaResponse> buscarTodas(Pageable pageable) {
 		Page<Pauta> pautaPage = pautaRepository.findAll(pageable);
-		PautaPaginadaResponse pautaResponses = MapperPautaPaginada.toPautaPaginada(pautaPage);
+
+		MapperGererics<Pauta, PautaResponse> mapper = new MapperGererics<>();
+
+		Resposta<PautaResponse> pautaResponses =
+				mapper.toPagina(pautaPage, MapperPauta.INSTANCE::pautaToResponse);
+
 		return pautaResponses;
 	}
 

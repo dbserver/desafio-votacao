@@ -1,13 +1,13 @@
 package br.com.dbserver.votacao.v1.service;
 
 import br.com.dbserver.votacao.v1.dto.request.AssembleiaRequest;
-import br.com.dbserver.votacao.v1.dto.response.AssembleiaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.AssembleiaResponse;
 import br.com.dbserver.votacao.v1.entity.Assembleia;
 import br.com.dbserver.votacao.v1.exception.NotFoundException;
 import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.mapper.MapperAssembleia;
-import br.com.dbserver.votacao.v1.mapper.MapperAssembleiaPaginada;
+import br.com.dbserver.votacao.v1.mapper.MapperGererics;
+import br.com.dbserver.votacao.v1.mapper.Resposta;
 import br.com.dbserver.votacao.v1.repository.AssembleiaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -39,10 +39,14 @@ public class AssembleiaServiceImpl implements AssembleiaService {
 	}
 
 	@Override
-	public AssembleiaPaginadaResponse buscarTodas(Pageable pageable) {
+	public Resposta<AssembleiaResponse> buscarTodas(Pageable pageable) {
 		log.info("Medodo: buscarTodas ");
-		Page<Assembleia> assembleias = assembleiaRepository.findAll(pageable);
-		AssembleiaPaginadaResponse response = MapperAssembleiaPaginada.toAssembleiaPaginada(assembleias);
+
+		Page<Assembleia> pageableAssembleia = assembleiaRepository.findAll(pageable);
+		MapperGererics<Assembleia, AssembleiaResponse> mapper = new MapperGererics<>();
+		Resposta<AssembleiaResponse> response =
+				mapper.toPagina(pageableAssembleia, MapperAssembleia.INSTANCE::assembleiaToResponse);
+
 		return response;
 	}
 
