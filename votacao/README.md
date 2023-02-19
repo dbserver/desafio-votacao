@@ -3,9 +3,10 @@
 </p>
 
 <p align="center">
-  [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-  <img src="https://img.shields.io/badge/Version-1.0.0-brightgreen.svg"/>
-  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"/>
+
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+<img src="https://img.shields.io/badge/Version-1.0.0-brightgreen.svg"/>
+<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"/>
 </p>
 
 ## Tabela de Conteúdo
