@@ -10,22 +10,26 @@ import java.util.ArrayList;
 
 public interface PautaStub {
 
+	LocalDateTime DATA_INICIO = LocalDateTime.now().plusHours(1);
+	LocalDateTime DATA_FIM = LocalDateTime.now().plusHours(4);
+
 	static Pauta construirPauta() {
 		return Pauta.builder()
 				.id(1L)
 				.descricao("Teste")
-				.inicio(LocalDateTime.now().plusHours(1))
-				.fim(LocalDateTime.now().plusHours(4))
+				.inicio(DATA_INICIO)
+				.fim(DATA_FIM)
 				.votos(new ArrayList<>())
 				.status(PautaStatusEnum.AGUARDANDO_RESULTADO)
 				.build();
 	}
+
 	static PautaRequest construirPautaRequest() {
 		return PautaRequest.builder()
 				.assembleiaId(1L)
 				.descricao("Teste")
-				.inicio(LocalDateTime.now().plusHours(1))
-				.fim(LocalDateTime.now().plusHours(4))
+				.inicio(DATA_INICIO)
+				.fim(DATA_FIM)
 				.build();
 	}
 
@@ -33,8 +37,8 @@ public interface PautaStub {
 		return PautaResponse.builder()
 				.id(1L)
 				.descricao("Teste")
-				.inicio(LocalDateTime.now().plusHours(1))
-				.fim(LocalDateTime.now().plusHours(4))
+				.inicio(DATA_INICIO)
+				.fim(DATA_FIM)
 				.votos(new ArrayList<>())
 				.status(PautaStatusEnum.AGUARDANDO_RESULTADO)
 				.build();

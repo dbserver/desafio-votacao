@@ -11,12 +11,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static br.com.dbserver.votacao.SqlProvider.insertAssembleia;
 import static br.com.dbserver.votacao.SqlProvider.resetarDB;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -32,15 +32,17 @@ class AssembleiaControllerTest {
 	@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
 	@DisplayName("POST/SUCESSO deve criar uma Assembleia")
 	public void testCriarAssembleia() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/v1/assembleia")
+		mockMvc.perform(post("/v1/assembleia")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\n" +
-								"  \"inicio\": \"2030-02-19T16:35:39.204Z\",\n" +
-								"  \"fim\": \"2030-03-19T16:35:39.204Z\"\n" +
-								"}"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.inicio").value("2030-02-19T16:35:39.204"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.fim").value("2030-03-19T16:35:39.204"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+						.content("""
+								{
+								  "inicio": "2030-02-19T16:35:39.204Z",
+								  "fim": "2030-03-19T16:35:39.204Z"
+								}
+								"""))
+				.andExpect(jsonPath("$.inicio").value("2030-02-19T16:35:39.204"))
+				.andExpect(jsonPath("$.fim").value("2030-03-19T16:35:39.204"))
+				.andExpect(jsonPath("$.id").value(1))
 				.andExpect(status().isCreated());
 	}
 
@@ -48,12 +50,14 @@ class AssembleiaControllerTest {
 	@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
 	@DisplayName("POST/Error nao pode criar uma Assembleia com datas divergentes")
 	public void testCriarAssembleiaError() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/v1/assembleia")
+		mockMvc.perform(post("/v1/assembleia")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\n" +
-								"  \"inicio\": \"2023-04-19T16:35:39.204Z\",\n" +
-								"  \"fim\": \"2023-03-19T16:35:39.204Z\"\n" +
-								"}"))
+						.content("""
+								   {
+								  "inicio": "2023-04-19T16:35:39.204Z",
+								  "fim": "2023-03-19T16:35:39.204Z"
+								}
+								"""))
 				.andExpect(status().isBadRequest());
 	}
 
@@ -62,22 +66,24 @@ class AssembleiaControllerTest {
 			@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = insertAssembleia),
 			@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
 	})
-	@DisplayName("GET/Sucesso deve buscar assembleias paginadas com sucesso")
+	@DisplayName("GET/Sucesso deve buscar assembleias paginadas")
 	public void testBuscarAssembleia() throws Exception {
 		mockMvc.perform(get("/v1/assembleia")
-						.content("{\n" +
-								"  \"page\": 0,\n" +
-								"  \"size\": 1,\n" +
-								"  \"sort\": [\n" +
-								"    \"id\"\n" +
-								"  ]\n" +
-								"}")
+						.content("""
+								{
+								  "page": 0,
+								  "size": 1,
+								  "sort": [
+								    "id"
+								  ]
+								}
+								""")
 						.accept(MediaType.APPLICATION_JSON_VALUE)
 						.contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.lista[0].id").value(1))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.totalPaginas").value(1))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.lista[0].fim").value("2023-03-19T13:35:39.204"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.lista[0].inicio").value("2023-02-19T13:35:39.204"))
+				.andExpect(jsonPath("$.lista[0].id").value(1))
+				.andExpect(jsonPath("$.totalPaginas").value(1))
+				.andExpect(jsonPath("$.lista[0].fim").value("2023-03-19T13:35:39.204"))
+				.andExpect(jsonPath("$.lista[0].inicio").value("2023-02-19T13:35:39.204"))
 				.andExpect(status().isOk());
 	}
 }

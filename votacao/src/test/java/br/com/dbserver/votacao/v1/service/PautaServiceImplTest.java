@@ -19,7 +19,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
+import static org.mockito.MockitoAnnotations.openMocks;
+@DisplayName("Pauta Service Impl")
 class PautaServiceImplTest {
 
 	@InjectMocks
@@ -51,7 +51,7 @@ class PautaServiceImplTest {
 
 	@BeforeEach
 	void inicializar() {
-		MockitoAnnotations.openMocks(this);
+		openMocks(this);
 		assembleia = AssembleiaStub.construirAssembleiaComId();
 		pautaMock = PautaStub.construirPauta();
 		pautaRequest = PautaStub.construirPautaRequest();

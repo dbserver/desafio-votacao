@@ -79,11 +79,11 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("GET/SUCESSO buscar um Associado")
 	@SqlGroup({
 			@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = insertAssociado),
 			@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
 	})
+	@DisplayName("GET/SUCESSO buscar um Associado")
 	void buscarAssociadoPorCpfOuCnpj() throws Exception {
 		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "90015955028")
 						.content(envioComoJSON)

@@ -45,3 +45,9 @@ VALUES (3, 1, 3, 'NAO');
 -- Inserindo Votos nas Pautas
 INSERT INTO pauta_votacao (pauta_id, votos_id)
 VALUES (1, 1), (1, 2), (1, 3);
+
+-- Inserindo novas sequencias nas tabelas, as 10 primeiras posições serão reservadas
+ALTER SEQUENCE assembleia_id_seq RESTART WITH 10;
+ALTER SEQUENCE voto_id_seq RESTART WITH 10;
+ALTER SEQUENCE associado_id_seq RESTART WITH 10;
+ALTER SEQUENCE pauta_id_seq RESTART WITH 10;

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @DisplayName("Assembleia Service Impl")
 class AssembleiaServiceImplTest {
@@ -44,7 +44,7 @@ class AssembleiaServiceImplTest {
 
 	@BeforeEach
 	void inicializar() {
-		MockitoAnnotations.openMocks(this);
+		openMocks(this);
 		assembleiaRequest = AssembleiaStub.construirAssembleiaRequest();
 		assembleiaMock = AssembleiaStub.construirAssembleiaComId();
 		assembleiaResponseEsperada = AssembleiaStub.construirAssembleiaResponse();
@@ -96,9 +96,9 @@ class AssembleiaServiceImplTest {
 
 		when(assembleiaRepository.findById(id)).thenReturn(Optional.empty());
 
-		NotFoundException notFoundException = Assertions.assertThrows(NotFoundException.class, () -> {
-			assembleiaService.buscarPorID(id);
-		});
+		NotFoundException notFoundException = Assertions.assertThrows(NotFoundException.class, () ->
+				assembleiaService.buscarPorID(id));
+
 		assertEquals(notFoundException.getMessage(), "Assembleia não encontrada!");
 	}
 
@@ -107,9 +107,9 @@ class AssembleiaServiceImplTest {
 	void criarComDataInvalida() {
 		assembleiaRequest.setFim(LocalDateTime.now().minusYears(1));
 
-		ValidationException validationException = Assertions.assertThrows(ValidationException.class, () -> {
-			assembleiaService.criar(assembleiaRequest);
-		});
+		ValidationException validationException = Assertions.assertThrows(ValidationException.class, () ->
+				assembleiaService.criar(assembleiaRequest));
+
 		assertEquals(validationException.getMessage(), "Data inicio não pode ser superior a data fim e inferior a data atual");
 	}
 }

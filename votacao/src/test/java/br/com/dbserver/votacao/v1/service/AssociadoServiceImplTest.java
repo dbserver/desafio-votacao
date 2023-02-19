@@ -13,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.util.Optional;
@@ -22,6 +21,7 @@ import static br.com.dbserver.votacao.stubs.AssociadoStub.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 @DisplayName("Associado Service Impl")
 class AssociadoServiceImplTest {
@@ -40,7 +40,7 @@ class AssociadoServiceImplTest {
 
 	@BeforeEach
 	void inicializar() {
-		MockitoAnnotations.openMocks(this);
+		openMocks(this);
 	}
 
 	private final AssociadoResponse associadoResponse =
