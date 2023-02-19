@@ -34,7 +34,7 @@ public class AssociadoServiceImpl implements AssociadoService {
 			return MapperAssociado.INSTANCE.associadoToResponse(assosiadoSalvo);
 		} catch (DataAccessException e) {
 			log.error("Documento: " + associadoDto.getDocumento() + " já foi cadastrado");
-			throw new BadRequestException("Documento: " + associadoDto.getDocumento() + " já foi cadastrado ou é inválido");
+			throw new BadRequestException("Documento: " + associadoDto.getDocumento() + " já foi cadastrado!");
 		}
 	}
 

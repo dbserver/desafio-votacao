@@ -5,7 +5,6 @@ import br.com.dbserver.votacao.v1.dto.response.VotoResponse;
 import br.com.dbserver.votacao.v1.entity.Associado;
 import br.com.dbserver.votacao.v1.entity.Pauta;
 import br.com.dbserver.votacao.v1.entity.Voto;
-import br.com.dbserver.votacao.v1.enums.PautaStatusEnum;
 import br.com.dbserver.votacao.v1.enums.StatusUsuarioEnum;
 import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.mapper.MapperVoto;
@@ -15,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @Log4j2
 @AllArgsConstructor
@@ -53,7 +53,7 @@ public class VotoServiceImpl implements VotoService {
 
 	private Associado validaAssociado(String documento) {
 		Associado associado = associadoService.buscarPorDocumento(documento);
-		if (associado.getStatus().equals(StatusUsuarioEnum.PODE_VOTAR)) {
+		if (associado.getStatus().getValor().equals(StatusUsuarioEnum.PODE_VOTAR.getValor())) {
 			return associado;
 		}
 		throw new ValidationException("Associado : " + documento + " - não pode votar!");
@@ -61,7 +61,7 @@ public class VotoServiceImpl implements VotoService {
 
 	private Pauta validaPauta(Long id) {
 		Pauta pauta = pautaService.buscarPorId(id);
-		if (pauta.getStatus().equals(PautaStatusEnum.AGUARDANDO_RESULTADO)) {
+		if (pauta.getFim().isAfter(LocalDateTime.now())) {
 			return pauta;
 		}
 		throw new ValidationException("Pauta de ID: " + id + " - já expirou o tempo!");

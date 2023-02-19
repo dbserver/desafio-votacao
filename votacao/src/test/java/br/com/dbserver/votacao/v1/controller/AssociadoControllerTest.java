@@ -9,14 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static br.com.dbserver.votacao.SqlProvider.insertAssociado;
@@ -28,9 +26,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+
 @SpringBootTest
 @AutoConfigureMockMvc
+@DisplayName("Associado Controller")
 class AssociadoControllerTest extends CpfClientMock {
 
 	@Autowired
@@ -65,7 +64,7 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("Teste POST/EROO salvar um Associado com documento invalido")
+	@DisplayName("POST/EROO salvar um Associado com documento invalido")
 	void salvarAssociadoError() throws Exception {
 		associadoRequest.setDocumento("12345");
 		envioComoJSON = mapper.writeValueAsString(associadoRequest);
@@ -78,11 +77,11 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("Teste GET/SUCESSO buscar um Associado")
 	@SqlGroup({
 			@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = insertAssociado),
 			@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
 	})
+	@DisplayName("GET/SUCESSO buscar um Associado")
 	void buscarAssociadoPorCpfOuCnpj() throws Exception {
 		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "90015955028")
 						.content(envioComoJSON)
@@ -93,7 +92,7 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("Teste GET/Error ao buscar associado inexistente")
+	@DisplayName("GET/Error ao buscar associado inexistente")
 	public void testeGetDocumentoInvalido() throws Exception {
 		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "90015955028")
 						.contentType(MediaType.APPLICATION_JSON_VALUE))

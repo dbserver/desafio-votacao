@@ -7,6 +7,7 @@ import br.com.dbserver.votacao.v1.entity.Assembleia;
 import br.com.dbserver.votacao.v1.entity.Pauta;
 import br.com.dbserver.votacao.v1.enums.VotoEnum;
 import br.com.dbserver.votacao.v1.exception.NotFoundException;
+import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.mapper.MapperGererics;
 import br.com.dbserver.votacao.v1.mapper.MapperPauta;
 import br.com.dbserver.votacao.v1.mapper.Resposta;
@@ -18,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.function.Function;
+import static java.time.LocalDateTime.now;
 
 @Log4j2
 @AllArgsConstructor
@@ -39,11 +40,16 @@ public class PautaServiceImpl implements PautaService {
 	public PautaResponse criarPauta(PautaRequest pautaRequest) {
 		log.info("Metodo: criarPauta - Assembeleia ID: " + pautaRequest.getAssembleiaId());
 
+		validarPautaRequest(pautaRequest);
+
 		Assembleia assembleia = assembleiaService.buscarPorID(pautaRequest.getAssembleiaId());
+
 		Pauta pauta = MapperPauta.INSTANCE.requestToPauta(pautaRequest);
 		Pauta pautaSalva = salvar(pauta);
 		assembleia.getPautas().add(pauta);
+
 		assembleiaService.salvar(assembleia);
+
 		return MapperPauta.INSTANCE.pautaToResponse(pautaSalva);
 	}
 
@@ -64,14 +70,17 @@ public class PautaServiceImpl implements PautaService {
 
 		MapperGererics<Pauta, PautaResponse> mapper = new MapperGererics<>();
 
-		Resposta<PautaResponse> pautaResponses =
-				mapper.toPagina(pautaPage, MapperPauta.INSTANCE::pautaToResponse);
-
-		return pautaResponses;
+		return mapper.toPagina(pautaPage, MapperPauta.INSTANCE::pautaToResponse);
 	}
 
 	protected Pauta salvar(Pauta pauta) {
 		log.info("Metodo: salvar - Descricao da Pauta: " + pauta.getDescricao());
 		return pautaRepository.save(pauta);
+	}
+
+	private void validarPautaRequest(PautaRequest pauta) {
+		if (pauta.getFim().isBefore(pauta.getInicio()) || pauta.getInicio().isBefore(now())) {
+			throw new ValidationException("Datas inválidas!");
+		}
 	}
 }
