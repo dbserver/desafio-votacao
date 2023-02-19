@@ -50,7 +50,7 @@ class AssociadoServiceImplTest {
 		cpfResponse.setSituacao("Regular");
 		when(associadoRepositoryMock.save(any(Associado.class))).thenReturn(associado);
 		when(cpfClient.buscarCpf(any(String.class))).thenReturn(cpfResponse);
-		assertEquals(associadoResponse.getDocumento(), associadoService.salvar(associadoRequest).getDocumento());
+		assertEquals(associadoResponse, associadoService.salvar(associadoRequest));
 	}
 
 	@Test

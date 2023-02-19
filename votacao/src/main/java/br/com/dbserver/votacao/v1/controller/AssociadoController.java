@@ -24,9 +24,9 @@ public class AssociadoController {
 
 	private final AssociadoService associadoService;
 
-	@Operation(operationId = "Cadastrar",
+	@Operation(operationId = "cadastrar",
 			summary = "Cadastra um novo Associado",
-			tags = {"Cadastrar"},
+			tags = {"associado"},
 			parameters = {@Parameter()},
 			responses = {
 					@ApiResponse(responseCode = "201",
@@ -41,9 +41,9 @@ public class AssociadoController {
 		return new ResponseEntity<>(associadoService.salvar(associadoRequest), HttpStatus.CREATED);
 	}
 
-	@Operation(operationId = "Buscar",
+	@Operation(operationId = "buscar_por_cpf",
 			summary = "Busca Associado pelo numero do CPF ou CNPJ",
-			tags = {"Busca por Documento"},
+			tags = {"associado"},
 			parameters = {@Parameter()},
 			responses = {
 					@ApiResponse(responseCode = "200",
@@ -53,7 +53,7 @@ public class AssociadoController {
 							description = "Documento enviado invalido")
 			})
 	@GetMapping("/{cpfOuCnpj}")
-	public ResponseEntity<AssociadoResponse> buscarAssociadoPorCpfOuCnpj(@PathVariable String cpfOuCnpj) {
+	public ResponseEntity<AssociadoResponse> buscarAssociadoPorCpfOuCnpj(@PathVariable("cpfOuCnpj") String cpfOuCnpj) {
 		log.info("Metodo: buscarAssociadoPorDocumento - documento: " + cpfOuCnpj);
 		return new ResponseEntity<>(associadoService.buscarPorCpfOuCnpj(cpfOuCnpj), HttpStatus.OK);
 	}

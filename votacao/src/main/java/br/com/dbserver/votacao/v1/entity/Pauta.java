@@ -1,42 +1,61 @@
 package br.com.dbserver.votacao.v1.entity;
 
 import br.com.dbserver.votacao.v1.enums.PautaStatusEnum;
+import br.com.dbserver.votacao.v1.enums.VotoEnum;
 import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+
+import static java.time.LocalDateTime.now;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Builder
 @Entity
+@Getter
 @Setter
 @Table(name = "pauta")
 public class Pauta {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private String descricao;
+	@Column(nullable = false)
+	private String descricao;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "pauta_votacao", joinColumns = {
-            @JoinColumn(name = "pauta_id", referencedColumnName = "id") }, inverseJoinColumns = {
-            @JoinColumn(name = "votos_id", referencedColumnName = "id") })
-    @Builder.Default
-    private List<Voto> votos = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "pauta_votacao", joinColumns = {
+			@JoinColumn(name = "pauta_id", referencedColumnName = "id")}, inverseJoinColumns = {
+			@JoinColumn(name = "votos_id", referencedColumnName = "id")})
+	private List<Voto> votos;
+	private LocalDateTime inicio;
+	private LocalDateTime fim;
 
-    @Builder.Default
-    private LocalDateTime inicio = LocalDateTime.now();
+	@Transient
+	@Enumerated(EnumType.STRING)
+	private PautaStatusEnum status;
 
-    @Builder.Default
-    private LocalDateTime fim = LocalDateTime.now().plusMinutes(1);
+	public PautaStatusEnum getStatus() {
+		atualizarStatus();
+		return status;
+	}
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    private PautaStatusEnum status = PautaStatusEnum.AGUARDANDO_RESULTADO;
+	private void atualizarStatus() {
+		if (fim.isBefore(now())) {
+			long votosSim = votos.stream().filter(voto -> voto.getValor().equals(VotoEnum.SIM)).count();
+			long votosNao = votos.stream().filter(voto -> voto.getValor().equals(VotoEnum.NAO)).count();
+			if (votosSim == votosNao) {
+				status = PautaStatusEnum.EMPATADA;
+			} else if (votosSim > votosNao) {
+				status = PautaStatusEnum.APROVADA;
+			} else {
+				status = PautaStatusEnum.REPROVADA;
+			}
+		} else {
+			status = PautaStatusEnum.AGUARDANDO_RESULTADO;
+		}
+	}
 }

@@ -5,5 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class ValidationExceptionDto extends ExceptionDto{
+public class MethodArgumentNotValidExceptionDto extends ExceptionDto {
+	private final String campo;
+	private final String mensagemCampo;
 }

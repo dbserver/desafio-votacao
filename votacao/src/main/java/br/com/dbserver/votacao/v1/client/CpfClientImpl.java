@@ -3,13 +3,15 @@ package br.com.dbserver.votacao.v1.client;
 import br.com.dbserver.votacao.v1.exception.BadRequestException;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
+
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Log4j2
 @AllArgsConstructor
-@Service
+@Repository
 public class CpfClientImpl {
 
 	private final CpfClient cpfClient;

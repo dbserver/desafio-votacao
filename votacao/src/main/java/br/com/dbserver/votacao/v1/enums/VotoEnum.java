@@ -3,8 +3,9 @@ package br.com.dbserver.votacao.v1.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum VotoEnum {
-    SIM("Sim"),
-    NAO("Não");
+    SIM("SIM"),
+    NAO("NAO"),
+    ABSTENCAO("ABSTENCAO");
 
     private final String valor;
 

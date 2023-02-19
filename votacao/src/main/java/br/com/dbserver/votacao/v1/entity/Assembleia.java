@@ -20,11 +20,8 @@ public class Assembleia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Builder.Default
-    private LocalDateTime inicio = LocalDateTime.now();
-
-    @Builder.Default
-    private LocalDateTime fim = LocalDateTime.now().plusHours(4);
+    private LocalDateTime inicio;
+    private LocalDateTime fim;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "assembleia_pauta", joinColumns = {

@@ -10,6 +10,7 @@ import br.com.dbserver.votacao.v1.mapper.MapperAssociado;
 import br.com.dbserver.votacao.v1.repository.AssociadoRepository;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,13 @@ public class AssociadoServiceImpl implements AssociadoService {
 	private final AssociadoRepository associadoRepository;
 
 	@Override
-	public AssociadoResponse salvar(AssociadoRequest associadoDto) throws BadRequestException {
+	public AssociadoResponse salvar(@NonNull AssociadoRequest associadoDto) throws BadRequestException {
 		log.info("Metodo: salvar - Documento: " + associadoDto.getDocumento());
 		cpfClient.validarCpf(associadoDto.getDocumento());
 		try {
 			Associado associado = MapperAssociado.INSTANCE.associadoRequesToAssociado(associadoDto);
-			associadoRepository.save(associado);
-			return MapperAssociado.INSTANCE.associadoToResponse(associado);
+			Associado assosiadoSalvo = associadoRepository.save(associado);
+			return MapperAssociado.INSTANCE.associadoToResponse(assosiadoSalvo);
 		} catch (DataAccessException e) {
 			log.error("Documento: " + associadoDto.getDocumento() + " já foi cadastrado");
 			throw new BadRequestException("Documento: " + associadoDto.getDocumento() + " já foi cadastrado ou é inválido");
@@ -44,7 +45,7 @@ public class AssociadoServiceImpl implements AssociadoService {
 		return MapperAssociado.INSTANCE.associadoToResponse(associado);
 	}
 
-	private Associado buscarPorDocumento(String documento) {
+	protected Associado buscarPorDocumento(String documento) {
 		log.info("Metodo: buscarPorDocumento - Documento: " + documento);
 		return associadoRepository.findByDocumento(documento).orElseThrow(
 				() -> new NotFoundException("Documento não encontrado")
