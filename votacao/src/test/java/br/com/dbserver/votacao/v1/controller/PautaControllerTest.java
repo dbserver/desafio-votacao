@@ -2,14 +2,12 @@ package br.com.dbserver.votacao.v1.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static br.com.dbserver.votacao.SqlProvider.*;
@@ -18,7 +16,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Pauta Controller")
@@ -108,7 +105,7 @@ class PautaControllerTest {
 				.andExpect(jsonPath("$.descricao").value("Nova Pauta"))
 				.andExpect(jsonPath("$.votoSim").value(0))
 				.andExpect(jsonPath("$.votoNao").value(0))
-				.andExpect(jsonPath("$.status").value("Empatada"))
+				.andExpect(jsonPath("$.status").value("Aguardando resultado"))
 				.andExpect(status().isOk());
 	}
 
