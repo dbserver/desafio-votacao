@@ -27,7 +27,7 @@ Esse projeto tem como objetivo implementar um sistema para gerenciar a realizaç
 O sistema permite:
 
 - Cadastrar e consultar associados
-- Cadastrar  e consultar assembleias
+- Cadastrar e consultar assembleias
 - Cadastrar  e consultar pautas
 - Registrar votos dos associados nas pautas durante as assembleias
 - Gerar relatórios com os resultados das votações
@@ -61,7 +61,7 @@ Antes de começar, você precisará ter o Docker instalado em sua máquina.<br>
 docker-compose up -d
 `````
 Isso irá subir os serviços de Banco de Dados e RabbitMQ em container.<br>
-OBS: gAdmin não é necessário, apenas caso não tenha acesso a nenhuma plataforma para o PostgreSQL.<br>
+OBS: PgAdmin não é necessário, apenas caso não tenha acesso a nenhuma plataforma para o PostgreSQL.<br>
 Os serviços ficaram disponiveis em:
 
 # [Swagger](http://localhost:8080/swagger-ui/index.html)
