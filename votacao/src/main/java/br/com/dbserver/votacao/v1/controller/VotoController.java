@@ -43,4 +43,6 @@ public class VotoController {
 				+ " - Associado: " + votoRequest.getDocumentoAssociado());
 		return new ResponseEntity<>(votoService.salvar(votoRequest), HttpStatus.CREATED);
 	}
+
+
 }

@@ -53,7 +53,7 @@ public class AssociadoController {
 							description = "Documento enviado invalido")
 			})
 	@GetMapping("/{cpfOuCnpj}")
-	public ResponseEntity<AssociadoResponse> buscarAssociadoPorCpfOuCnpj(@PathVariable String cpfOuCnpj) {
+	public ResponseEntity<AssociadoResponse> buscarAssociadoPorCpfOuCnpj(@PathVariable("cpfOuCnpj") String cpfOuCnpj) {
 		log.info("Metodo: buscarAssociadoPorDocumento - documento: " + cpfOuCnpj);
 		return new ResponseEntity<>(associadoService.buscarPorCpfOuCnpj(cpfOuCnpj), HttpStatus.OK);
 	}

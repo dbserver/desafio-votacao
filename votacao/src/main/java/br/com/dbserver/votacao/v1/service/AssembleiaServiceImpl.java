@@ -4,8 +4,8 @@ import br.com.dbserver.votacao.v1.dto.request.AssembleiaRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssembleiaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.AssembleiaResponse;
 import br.com.dbserver.votacao.v1.entity.Assembleia;
-import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.exception.NotFoundException;
+import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.mapper.MapperAssembleia;
 import br.com.dbserver.votacao.v1.mapper.MapperAssembleiaPaginada;
 import br.com.dbserver.votacao.v1.repository.AssembleiaRepository;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Log4j2
 @AllArgsConstructor
@@ -43,7 +42,7 @@ public class AssembleiaServiceImpl implements AssembleiaService {
 	public AssembleiaPaginadaResponse buscarTodas(Pageable pageable) {
 		log.info("Medodo: buscarTodas ");
 		Page<Assembleia> assembleias = assembleiaRepository.findAll(pageable);
-		AssembleiaPaginadaResponse response =MapperAssembleiaPaginada.toAssembleiaPaginada(assembleias);
+		AssembleiaPaginadaResponse response = MapperAssembleiaPaginada.toAssembleiaPaginada(assembleias);
 		return response;
 	}
 

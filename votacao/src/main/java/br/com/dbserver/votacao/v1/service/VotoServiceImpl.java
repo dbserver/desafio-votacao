@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-import static java.time.LocalDateTime.now;
-
 @Log4j2
 @AllArgsConstructor
 @Service
@@ -48,9 +46,9 @@ public class VotoServiceImpl implements VotoService {
 	}
 
 	private void validaSeAssociadoJaVotouNaPauta(long AssociadoId, long pautaId) {
-	if(votoRepository.existsByAssociadoIdAndPautaId(AssociadoId, pautaId)){
-		throw new ValidationException("Associado já votou nesta pauta!");
-	}
+		if (votoRepository.existsByAssociadoIdAndPautaId(AssociadoId, pautaId)) {
+			throw new ValidationException("Associado já votou nesta pauta!");
+		}
 	}
 
 	private Associado validaAssociado(String documento) {
@@ -58,7 +56,7 @@ public class VotoServiceImpl implements VotoService {
 		if (associado.getStatus().equals(StatusUsuarioEnum.PODE_VOTAR)) {
 			return associado;
 		}
-		throw new ValidationException("Associado : "+ documento +" - não pode votar!");
+		throw new ValidationException("Associado : " + documento + " - não pode votar!");
 	}
 
 	private Pauta validaPauta(Long id) {
@@ -66,6 +64,6 @@ public class VotoServiceImpl implements VotoService {
 		if (pauta.getStatus().equals(PautaStatusEnum.AGUARDANDO_RESULTADO)) {
 			return pauta;
 		}
-		throw new ValidationException("Pauta de ID: "+ id +" - já expirou o tempo!");
+		throw new ValidationException("Pauta de ID: " + id + " - já expirou o tempo!");
 	}
 }
