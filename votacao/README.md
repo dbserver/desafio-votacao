@@ -6,6 +6,8 @@ Tecnonoligas utilizadas:
 * Flyway
 * PgAdmin
 * Swagger
+* MapStruct
+* FeignClient
   
 # Entrar na pasta docker e executar o comando abaixo dentro das pastas rabbitmq e database
 `````

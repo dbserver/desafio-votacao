@@ -1,6 +1,7 @@
 package br.com.dbserver.votacao.v1.entity;
 
 import br.com.dbserver.votacao.v1.enums.VotoEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;

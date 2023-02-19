@@ -3,6 +3,7 @@ package br.com.dbserver.votacao.v1.client;
 import br.com.dbserver.votacao.v1.exception.BadRequestException;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
+
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

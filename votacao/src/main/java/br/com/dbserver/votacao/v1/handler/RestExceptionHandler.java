@@ -2,9 +2,11 @@ package br.com.dbserver.votacao.v1.handler;
 
 import br.com.dbserver.votacao.v1.exception.BadRequestException;
 import br.com.dbserver.votacao.v1.exception.NotFoundException;
-import br.com.dbserver.votacao.v1.exception.dto.ValidationExceptionDto;
+import br.com.dbserver.votacao.v1.exception.ValidationException;
 import br.com.dbserver.votacao.v1.exception.dto.BadRequestExceptionDto;
 import br.com.dbserver.votacao.v1.exception.dto.NotFoundExceptionDto;
+import br.com.dbserver.votacao.v1.exception.dto.MethodArgumentNotValidExceptionDto;
+import br.com.dbserver.votacao.v1.exception.dto.ValidationExceptionDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		String mensagemCampo = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
 
 		return new ResponseEntity<>(
-				ValidationExceptionDto.builder()
+				MethodArgumentNotValidExceptionDto.builder()
 						.dataHora(LocalDateTime.now())
 						.status(HttpStatus.BAD_REQUEST.value())
 						.titulo("Bad Request Exception, Campos Inválidos")
@@ -63,6 +65,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 						.dataHora(LocalDateTime.now())
 						.status(HttpStatus.BAD_REQUEST.value())
 						.titulo("Not Found Exception")
+						.detalhe(exception.getMessage())
+						.mensagem("Cheque a documentação da API")
+						.build(), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<ValidationExceptionDto> handlerDataValidationException(ValidationException exception) {
+		return new ResponseEntity<>(
+				ValidationExceptionDto.builder()
+						.dataHora(LocalDateTime.now())
+						.status(HttpStatus.BAD_REQUEST.value())
+						.titulo("Dados inválidos!")
 						.detalhe(exception.getMessage())
 						.mensagem("Cheque a documentação da API")
 						.build(), HttpStatus.BAD_REQUEST);
