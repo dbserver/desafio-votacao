@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@DisplayName("Associado Controller")
 class AssociadoControllerTest extends CpfClientMock {
 
 	@Autowired
@@ -65,7 +66,7 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("Teste POST/EROO salvar um Associado com documento invalido")
+	@DisplayName("POST/EROO salvar um Associado com documento invalido")
 	void salvarAssociadoError() throws Exception {
 		associadoRequest.setDocumento("12345");
 		envioComoJSON = mapper.writeValueAsString(associadoRequest);
@@ -78,7 +79,7 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("Teste GET/SUCESSO buscar um Associado")
+	@DisplayName("GET/SUCESSO buscar um Associado")
 	@SqlGroup({
 			@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = insertAssociado),
 			@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
@@ -93,7 +94,7 @@ class AssociadoControllerTest extends CpfClientMock {
 	}
 
 	@Test
-	@DisplayName("Teste GET/Error ao buscar associado inexistente")
+	@DisplayName("GET/Error ao buscar associado inexistente")
 	public void testeGetDocumentoInvalido() throws Exception {
 		mockMvc.perform(get("/v1/associado/{cpfOuCnpj}", "90015955028")
 						.contentType(MediaType.APPLICATION_JSON_VALUE))

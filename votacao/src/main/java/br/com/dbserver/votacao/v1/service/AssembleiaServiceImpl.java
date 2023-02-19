@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static java.time.LocalDateTime.now;
+
 @Log4j2
 @AllArgsConstructor
 @Service
@@ -41,28 +43,27 @@ public class AssembleiaServiceImpl implements AssembleiaService {
 	@Override
 	public Resposta<AssembleiaResponse> buscarTodas(Pageable pageable) {
 		log.info("Medodo: buscarTodas ");
-
 		Page<Assembleia> pageableAssembleia = assembleiaRepository.findAll(pageable);
 		MapperGererics<Assembleia, AssembleiaResponse> mapper = new MapperGererics<>();
-		Resposta<AssembleiaResponse> response =
-				mapper.toPagina(pageableAssembleia, MapperAssembleia.INSTANCE::assembleiaToResponse);
 
-		return response;
+		return mapper.toPagina(pageableAssembleia, MapperAssembleia.INSTANCE::assembleiaToResponse);
 	}
 
 	protected Assembleia buscarPorID(Long id) {
+		log.info("Medodo: buscarPorID ID: "+ id);
 		return assembleiaRepository.findById(id).orElseThrow(() ->
 				new NotFoundException("Assembleia não encontrada!"));
 	}
 
 	protected Assembleia salvar(Assembleia assembleia) {
-
 		return assembleiaRepository.save(assembleia);
 	}
 
 	private void validarData(LocalDateTime inicio, LocalDateTime fim) {
-		if (fim.isBefore(inicio))
-			throw new ValidationException("Data inicio não pode ser superior a data fim");
+		log.info("Medodo: validarData ");
+		if (fim.isBefore(inicio) || inicio.isBefore(now()))
+			throw new ValidationException(
+					"Data inicio não pode ser superior a data fim e inferior a data atual");
 	}
 }
 

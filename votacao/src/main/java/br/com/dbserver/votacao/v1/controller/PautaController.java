@@ -2,7 +2,6 @@ package br.com.dbserver.votacao.v1.controller;
 
 import br.com.dbserver.votacao.v1.dto.request.PautaRequest;
 import br.com.dbserver.votacao.v1.dto.response.AssembleiaPaginadaResponse;
-import br.com.dbserver.votacao.v1.dto.response.PautaPaginadaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaResponse;
 import br.com.dbserver.votacao.v1.dto.response.PautaResultadoResponse;
 import br.com.dbserver.votacao.v1.mapper.Resposta;
