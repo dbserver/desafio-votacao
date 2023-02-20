@@ -50,6 +50,8 @@ O sistema foi desenvolvido utilizando as seguintes tecnologias:
 - Testes de comunicação externa: FeignMock
 - Testes unitarios: JUnit
 - Testes de Integração: MockMvc
+- Qualidade: Sonar
+- Cobertura de Testes: JaCoCo
 
 ## Pré-Requisitos
 
@@ -80,6 +82,14 @@ senha: root
 user: admin
 senha: 123456
 `````
+
+# JaCoCo
+Caso queira ver a cobertura através do Jacoco basta rodar o comando:
+
+`````
+mvn clean package
+`````
+Será gerado um arquivo .HTML que pode ser visto no path: ./target/site/jacoco/index.html
 
 ## Modelo de Dados
 ![mapeamentoDB.png](img.png)
@@ -125,3 +135,5 @@ class Pauta_Votacao {
 ```
 
 # Considerações Finais
+
+- 
