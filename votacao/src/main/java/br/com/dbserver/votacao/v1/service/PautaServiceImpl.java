@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 import static java.time.LocalDateTime.now;
 
 @Log4j2
@@ -40,9 +42,10 @@ public class PautaServiceImpl implements PautaService {
 	public PautaResponse criarPauta(PautaRequest pautaRequest) {
 		log.info("Metodo: criarPauta - Assembeleia ID: " + pautaRequest.getAssembleiaId());
 
-		validarPautaRequest(pautaRequest);
+		validardata(pautaRequest.getInicio(), pautaRequest.getFim());
 
 		Assembleia assembleia = assembleiaService.buscarPorID(pautaRequest.getAssembleiaId());
+		validardata(assembleia.getInicio(), assembleia.getFim());
 
 		Pauta pauta = MapperPauta.INSTANCE.requestToPauta(pautaRequest);
 		Pauta pautaSalva = salvar(pauta);
@@ -78,8 +81,8 @@ public class PautaServiceImpl implements PautaService {
 		return pautaRepository.save(pauta);
 	}
 
-	private void validarPautaRequest(PautaRequest pauta) {
-		if (pauta.getFim().isBefore(pauta.getInicio()) || pauta.getInicio().isBefore(now())) {
+	private void validardata(LocalDateTime inicio, LocalDateTime fim) {
+		if (fim.isBefore(inicio) || inicio.isBefore(now())) {
 			throw new ValidationException("Datas inválidas!");
 		}
 	}

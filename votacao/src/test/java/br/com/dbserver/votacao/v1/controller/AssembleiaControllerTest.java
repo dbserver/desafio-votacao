@@ -1,10 +1,12 @@
 package br.com.dbserver.votacao.v1.controller;
 
+import br.com.dbserver.votacao.rabbitmq.config.RabbitMQConection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
@@ -24,6 +26,9 @@ class AssembleiaControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@MockBean
+	RabbitMQConection rabbitMQConection;
 
 	@Test
 	@Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = resetarDB)
@@ -79,8 +84,8 @@ class AssembleiaControllerTest {
 						.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(jsonPath("$.lista[0].id").value(1))
 				.andExpect(jsonPath("$.totalPaginas").value(1))
-				.andExpect(jsonPath("$.lista[0].fim").value("2023-03-19T13:35:39.204"))
-				.andExpect(jsonPath("$.lista[0].inicio").value("2023-02-19T13:35:39.204"))
+				.andExpect(jsonPath("$.lista[0].fim").value("2030-03-19T13:35:39.204"))
+				.andExpect(jsonPath("$.lista[0].inicio").value("2030-02-19T13:35:39.204"))
 				.andExpect(status().isOk());
 	}
 }
