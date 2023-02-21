@@ -7,14 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class VotoRequest {
+public class VotoRequest implements Serializable {
 
 	@NotNull(message = "Pauta ID não pode ser null")
 	private Long pautaId;

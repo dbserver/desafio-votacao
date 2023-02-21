@@ -11,6 +11,7 @@ import org.mapstruct.factory.Mappers;
 public interface MapperVoto {
 
 	MapperVoto INSTANCE = Mappers.getMapper(MapperVoto.class);
+
 	@Mapping(target = "id", source = "id")
 	VotoResponse votoToResponse(Voto voto);
 	@Mapping(target = "id", source = "id")
