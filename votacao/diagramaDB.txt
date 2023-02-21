@@ -1,0 +1,44 @@
+@startuml
+class Associado {
+  id: serial
+  nome: varchar(150)
+  documento: varchar(14)
+  status: varchar(40)
+}
+
+class Assembleia {
+  id: serial
+  inicio: timestamp with time zone
+  fim: timestamp with time zone
+}
+
+class Pauta {
+  id: serial
+  descricao: text
+  inicio: timestamp with time zone
+  fim: timestamp with time zone
+}
+
+class Voto {
+  id: serial
+  pauta_id: integer
+  associado_id: integer
+  valor: varchar(10)
+}
+
+class Assembleia_Pauta {
+  assembleia_id: bigint
+  pauta_id: bigint
+}
+
+class Pauta_Votacao {
+  pauta_id: bigint
+  votos_id: bigint
+}
+
+Associado "1" -- "*" Voto
+Assembleia "1" -- "*" Assembleia_Pauta
+Pauta "1" -- "*" Assembleia_Pauta
+Pauta "1" -- "*" Pauta_Votacao
+Voto "1" -- "*" Pauta_Votacao
+@enduml

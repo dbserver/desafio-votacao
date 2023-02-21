@@ -1,0 +1,2 @@
+INSERT INTO assembleia (id, inicio, fim)
+VALUES (1, '2030-02-19T16:35:39.204Z', '2030-03-19T16:35:39.204Z' );
