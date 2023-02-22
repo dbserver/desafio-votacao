@@ -17,12 +17,17 @@ public class AssembleiaController {
     private AssembleiaService assembleiaService;
 
     @PostMapping
-    public ResponseEntity<AssembleiaDTO> criar(@RequestBody AssembleiaDTO assembleiaDTO) {
-        return new ResponseEntity<>(assembleiaService.criar(assembleiaDTO), HttpStatus.CREATED);
+    public ResponseEntity<AssembleiaDTO> criarAssembleia(@RequestBody AssembleiaDTO assembleiaDTO) {
+        return new ResponseEntity<>(assembleiaService.criarAssembleia(assembleiaDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<AssembleiaDTO>> listar() {
-        return new ResponseEntity<>(assembleiaService.listar(), HttpStatus.OK);
+    public ResponseEntity<List<AssembleiaDTO>> buscarTodasAssembleias() {
+        return new ResponseEntity<>(assembleiaService.buscarTodasAssembleias(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AssembleiaDTO> buscarAssembleiaPorId(@PathVariable Long id) {
+        return new ResponseEntity<>(assembleiaService.buscarAssembleiaPorId(id), HttpStatus.OK);
     }
 }
