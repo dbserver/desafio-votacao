@@ -57,7 +57,7 @@ public class SessaoServiceImpl implements SessaoService {
                 (sessaoToCreate.getPauta().getAssunto());
         Sessao sessaoEncontrada = sessaoRepository.findByPautaId
                 (pautaEncontrada.getId());
-        if(sessaoEncontrada.getDuracao().isAfter(LocalDateTime.now())){
+        if(sessaoEncontrada.getDuracao().isBefore(LocalDateTime.now())){
             throw new BusinessException("Sessão expirada");
         }
 
