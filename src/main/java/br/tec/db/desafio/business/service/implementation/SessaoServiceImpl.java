@@ -11,10 +11,12 @@ import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.business.service.SessaoService;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.ValidacaoSessao;
+import br.tec.db.desafio.exception.BusinessException;
 import br.tec.db.desafio.repository.PautaRepository;
 import br.tec.db.desafio.repository.SessaoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -55,6 +57,9 @@ public class SessaoServiceImpl implements SessaoService {
                 (sessaoToCreate.getPauta().getAssunto());
         Sessao sessaoEncontrada = sessaoRepository.findByPautaId
                 (pautaEncontrada.getId());
+        if(sessaoEncontrada.getDuracao().isAfter(LocalDateTime.now())){
+            throw new BusinessException("Sessão expirada");
+        }
 
         sessaoEncontrada.setVoto(sessaoToCreate.getVoto());
         return SessaoMapperV1.sessaoToSessaoVotadaResponseV1(
