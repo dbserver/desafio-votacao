@@ -2,7 +2,9 @@ package br.tec.db.desafio.business.domain;
 
 import br.tec.db.desafio.business.domain.enums.Voto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Sessao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -56,7 +56,7 @@ public class SessaoControllerV1 {
             @NotEmpty(message = "Dado de votação é obrigatório e deve ser preenchido")
             @RequestBody @Valid SessaoParaVotarRequestV1 sessaoRequestV1) {
         SessaoVotadaResponseV1 sessaoVotadaResponseV1 = sessaoService.votarEmUmaSessao(sessaoRequestV1);
-        return new ResponseEntity<>(sessaoVotadaResponseV1, HttpStatus.CREATED);
+        return new ResponseEntity<>(sessaoVotadaResponseV1, HttpStatus.OK);
     }
 
     @GetMapping
@@ -71,6 +71,6 @@ public class SessaoControllerV1 {
             @NotEmpty(message = "Total de votos da votação é obrigatório e deve ser preenchido")
             @RequestBody @Valid SessaoParaSaberTotalVotosRequestV1 sessaoRequestV1) {
         SessaoTotalVotosResponseV1 sessaoTotalVotosResponseV1 = sessaoService.totalDeVotosDaSessao(sessaoRequestV1);
-        return new ResponseEntity<>(sessaoTotalVotosResponseV1, HttpStatus.CREATED);
+        return new ResponseEntity<>(sessaoTotalVotosResponseV1, HttpStatus.OK);
     }
 }
