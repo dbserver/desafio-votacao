@@ -10,6 +10,8 @@ import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.exception.BusinessException;
 
+import java.time.LocalDateTime;
+
 public class SessaoMapperV1 {
     private SessaoMapperV1(){}
 
@@ -20,7 +22,8 @@ public class SessaoMapperV1 {
         Sessao sessao =new Sessao();
 
         sessao.setPauta(new Pauta(source.getAssuntoPauta()));
-        sessao.setDuracao(source.getDuracaoSessao());
+
+        sessao.setDuracao(LocalDateTime.now().plusMinutes(source.getDuracaoSessaoEmMinuto()));
 
         return sessao;
 

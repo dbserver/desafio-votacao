@@ -7,7 +7,7 @@ public class PautaMapperV1 {
     private PautaMapperV1(){}
     public static PautaResponseV1 pautaToPautaResponseV1(Pauta source) {
         if (source == null) {
-            throw new BusinessException("Dados inexistentes");
+            throw new BusinessException("Dados de response inexistentes");
         }
         PautaResponseV1 pautaResponseV1 =new PautaResponseV1();
         pautaResponseV1.setAssunto(source.getAssunto());
@@ -17,7 +17,7 @@ public class PautaMapperV1 {
 
     public static Pauta pautaRequestV1ToPauta(PautaRequestV1 source) {
         if (source == null) {
-            throw new BusinessException("Dados inexistentes");
+            throw new BusinessException("Dados de request inexistentes");
         }
         Pauta pauta =new Pauta();
         pauta.setAssunto(source.getAssunto());
