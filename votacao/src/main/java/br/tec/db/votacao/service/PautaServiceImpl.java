@@ -21,7 +21,7 @@ public class PautaServiceImpl implements PautaService {
     @Autowired
     private AssembleiaRepository assembleiaRepository;
 
-    public PautaDTO criar(PautaDTO pautaDTO) {
+    public PautaDTO criarPauta(PautaDTO pautaDTO) {
         Assembleia assembleia = assembleiaRepository.findById(pautaDTO.idAssembleia()).orElseThrow();
         Pauta pauta = new Pauta();
         pauta.setTitulo(pautaDTO.titulo());
@@ -32,11 +32,16 @@ public class PautaServiceImpl implements PautaService {
         return new PautaDTO(pauta);
     }
 
-    public List<PautaDTO> listar() {
+    public PautaDTO buscarPautaPorId(Long id) {
+        Pauta pauta = pautaRepository.findById(id).orElseThrow();
+        return new PautaDTO(pauta);
+    }
+
+    public List<PautaDTO> buscarTodasAsPautas() {
         return pautaRepository.findAll().stream().map(PautaDTO::new).collect(Collectors.toList());
     }
 
-    public List<PautaDTO> listarPorAssembleia(Long id) {
+    public List<PautaDTO> buscarPautasPorAssembleia(Long id) {
         Assembleia assembleia = assembleiaRepository.findById(id).orElseThrow();
         return assembleia.getPautas().stream().map(PautaDTO::new).collect(Collectors.toList());
     }

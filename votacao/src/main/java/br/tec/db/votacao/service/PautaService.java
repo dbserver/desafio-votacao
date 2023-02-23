@@ -5,9 +5,11 @@ import br.tec.db.votacao.dto.PautaDTO;
 import java.util.List;
 
 public interface PautaService {
-    PautaDTO criar(PautaDTO pautaDTO);
+    PautaDTO criarPauta(PautaDTO pautaDTO);
 
-    List<PautaDTO> listar();
+    PautaDTO buscarPautaPorId(Long id);
 
-    List<PautaDTO> listarPorAssembleia(Long id);
+    List<PautaDTO> buscarTodasAsPautas();
+
+    List<PautaDTO> buscarPautasPorAssembleia(Long id);
 }
