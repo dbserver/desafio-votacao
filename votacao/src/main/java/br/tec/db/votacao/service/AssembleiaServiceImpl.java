@@ -21,6 +21,7 @@ public class AssembleiaServiceImpl implements AssembleiaService {
     public AssembleiaDTO criarAssembleia(AssembleiaDTO assembleiaDTO) {
         Assembleia assembleia = new Assembleia();
         assembleia.setStatus(AssembleiaStatusEnum.INICIADA);
+        assembleia.setFim(assembleia.getInicio().plusHours(2));
         return new AssembleiaDTO(assembleiaRepository.save(assembleia));
     }
 

@@ -18,16 +18,16 @@ public class AssembleiaController {
 
     @PostMapping
     public ResponseEntity<AssembleiaDTO> criarAssembleia(@RequestBody AssembleiaDTO assembleiaDTO) {
-        return new ResponseEntity<>(assembleiaService.criarAssembleia(assembleiaDTO), HttpStatus.CREATED);
+        return assembleiaDTO == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(assembleiaService.criarAssembleia(assembleiaDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<AssembleiaDTO>> buscarTodasAssembleias() {
-        return new ResponseEntity<>(assembleiaService.buscarTodasAssembleias(), HttpStatus.OK);
+        return assembleiaService.buscarTodasAssembleias().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(assembleiaService.buscarTodasAssembleias(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AssembleiaDTO> buscarAssembleiaPorId(@PathVariable Long id) {
-        return new ResponseEntity<>(assembleiaService.buscarAssembleiaPorId(id), HttpStatus.OK);
+        return assembleiaService.buscarAssembleiaPorId(id) == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(assembleiaService.buscarAssembleiaPorId(id), HttpStatus.OK);
     }
 }

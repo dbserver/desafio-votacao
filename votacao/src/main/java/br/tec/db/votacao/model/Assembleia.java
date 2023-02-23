@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "assembleia")
@@ -21,9 +22,8 @@ public class Assembleia {
 
     private LocalDateTime inicio = LocalDateTime.now();
 
-    private LocalDateTime fim = LocalDateTime.now().plusHours(2);
+    private LocalDateTime fim;
 
-    @Setter
     @Enumerated(EnumType.STRING)
     private AssembleiaStatusEnum status;
 

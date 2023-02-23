@@ -4,9 +4,9 @@ import br.tec.db.votacao.model.Assembleia;
 
 import java.time.LocalDateTime;
 
-public record AssembleiaDTO(LocalDateTime inicio, LocalDateTime fim) {
+public record AssembleiaDTO(LocalDateTime inicio) {
 
     public AssembleiaDTO(Assembleia assembleia) {
-        this(assembleia.getInicio(), assembleia.getFim());
+        this(assembleia.getInicio());
     }
 }
