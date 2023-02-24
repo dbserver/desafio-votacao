@@ -49,6 +49,11 @@ public class SessaoServiceImpl implements SessaoService {
         Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
                 (sessaoToCreate.getPauta().getAssunto());
 
+        Pauta verificaPautaNaSessao = pautaRepository.findPautaByAssunto(sessaoRequestV1.getAssuntoPauta());
+        if(verificaPautaNaSessao.getSessao()!=null){
+            throw new BusinessException("Já existe uma sessão com esta pauta");
+        }
+
         sessaoToCreate.setPauta(pautaEncontrada);
 
         return SessaoMapperV1.sessaoToSessaoCriadaResponseV1(

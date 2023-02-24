@@ -6,7 +6,7 @@ services:
     image: mariadb:latest
     container_name: votacao-mariadb
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - database:/var/lib/mariadb
     environment:
