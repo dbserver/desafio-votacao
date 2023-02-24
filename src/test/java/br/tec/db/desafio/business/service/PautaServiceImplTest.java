@@ -26,12 +26,13 @@ public class PautaServiceImplTest {
     PautaRepository pautaRepository;
     @Mock
     List<ValidacaoPauta> validacoesPauta;
+    private static final String ASSUNTO = "tema da pauta";
 
     @Test
     void devePersistirPautaComSucesso() {
         PautaServiceImpl pautaServiceImpl = new PautaServiceImpl(pautaRepository,validacoesPauta);
 
-        PautaRequestV1 shouldPautaRequestV1 = new PautaRequestV1("Tema da pauta");
+        PautaRequestV1 shouldPautaRequestV1 = new PautaRequestV1(ASSUNTO);
 
         Pauta shouldPautaRequestV1ToPauta=
                 PautaMapperV1.pautaRequestV1ToPauta(shouldPautaRequestV1);
@@ -39,7 +40,7 @@ public class PautaServiceImplTest {
         when(pautaRepository.save(any())
         ).thenReturn(shouldPautaRequestV1ToPauta);
 
-        PautaRequestV1 pautaRequestV1 = new PautaRequestV1("Tema da pauta");
+        PautaRequestV1 pautaRequestV1 = new PautaRequestV1(ASSUNTO);
         Pauta pautaRequestV1ToPauta =
                 PautaMapperV1.pautaRequestV1ToPauta(pautaRequestV1);
 

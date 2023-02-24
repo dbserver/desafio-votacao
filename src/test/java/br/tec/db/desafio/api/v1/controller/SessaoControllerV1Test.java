@@ -29,6 +29,10 @@ import static io.restassured.RestAssured.given;
 public class SessaoControllerV1Test {
     @MockBean
     SessaoService sessaoService;
+    private static final String CPF = "0123.0123.11.22-9";
+    private static final String ASSUNTO_PAUTA = "tema da pauta";
+    private static final Long DURACAO_SESSAO = 2L;
+    private static final String URI ="/api/v1/sessao";
 
     @LocalServerPort
     private int port;
@@ -42,11 +46,11 @@ public class SessaoControllerV1Test {
     void devePersistirSessaoComSucesso() throws JsonProcessingException {
         SessaoParaCriarRequestV1 sessaoParaCriarRequestV1 =
                 new SessaoParaCriarRequestV1(
-                        "tema da pauta",
-                        2L);
+                        ASSUNTO_PAUTA,
+                        DURACAO_SESSAO);
         SessaoCriadaResponseV1 sessaoCriadaResponseV1 =
                 new SessaoCriadaResponseV1(
-                        "tema da pauta"
+                        ASSUNTO_PAUTA
                 );
         String request = new ObjectMapper().writeValueAsString(sessaoParaCriarRequestV1);
 
@@ -57,7 +61,7 @@ public class SessaoControllerV1Test {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .post("/api/v1/sessao")
+                .post(URI)
                 .then()
                 .statusCode(201);
 
@@ -69,7 +73,8 @@ public class SessaoControllerV1Test {
         SessaoParaVotarRequestV1 sessaoParaVotarRequestV1 =
                 new SessaoParaVotarRequestV1(
                         Voto.SIM,
-                        "tema da pauta");
+                        CPF,
+                        ASSUNTO_PAUTA);
         SessaoVotadaResponseV1 sessaoVotadaResponseV1 =
                 new SessaoVotadaResponseV1(
                         Voto.SIM
@@ -83,7 +88,7 @@ public class SessaoControllerV1Test {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .post("/api/v1/sessao/votar")
+                .post(URI.concat("/votar"))
                 .then()
                 .statusCode(200);
 
@@ -94,7 +99,7 @@ public class SessaoControllerV1Test {
     void deveSaberTotalDeVotosDeUmaSessaoComSucesso() throws JsonProcessingException {
         SessaoParaSaberTotalVotosRequestV1 sessaoParaSaberTotalVotosRequestV1 =
                 new SessaoParaSaberTotalVotosRequestV1(
-                        "tema da pauta");
+                        ASSUNTO_PAUTA);
         SessaoTotalVotosResponseV1 sessaoTotalVotosResponseV1 =
                 new SessaoTotalVotosResponseV1(
                         20
@@ -108,7 +113,7 @@ public class SessaoControllerV1Test {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .get("/api/v1/sessao")
+                .get(URI)
                 .then()
                 .statusCode(200);
 

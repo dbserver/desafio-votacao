@@ -23,7 +23,8 @@ import static io.restassured.RestAssured.given;
 public class PautaControllerV1Test {
     @MockBean
     PautaService pautaService;
-
+    private static final String ASSUNTO = "tema da pauta";
+    private static final String URI ="/api/v1/pauta";
     @LocalServerPort
     private int port;
 
@@ -36,11 +37,11 @@ public class PautaControllerV1Test {
     void devePersistirPautaComSucesso() throws JsonProcessingException {
         PautaRequestV1 pautaRequestV1 =
                 new PautaRequestV1(
-                        "tema da pauta");
+                        ASSUNTO);
 
         PautaResponseV1 pautaResponseV1 =
                 new PautaResponseV1(
-                        "tema da pauta"
+                        ASSUNTO
                 );
         String request = new ObjectMapper().writeValueAsString(pautaRequestV1);
 
@@ -51,7 +52,7 @@ public class PautaControllerV1Test {
                 .when()
                 .contentType(ContentType.JSON)
                 .body(request)
-                .post("/api/v1/pauta")
+                .post(URI)
                 .then()
                 .statusCode(201);
 
