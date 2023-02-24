@@ -2,9 +2,7 @@ package br.tec.db.votacao.service;
 
 import br.tec.db.votacao.dto.AssociadoDTO;
 import br.tec.db.votacao.enums.AssociadoStatusEnum;
-import br.tec.db.votacao.model.Assembleia;
 import br.tec.db.votacao.model.Associado;
-import br.tec.db.votacao.repository.AssembleiaRepository;
 import br.tec.db.votacao.repository.AssociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +15,6 @@ public class AssociadoServiceImpl implements AssociadoService {
 
     @Autowired
     private AssociadoRepository associadoRepository;
-
-    @Autowired
-    private AssembleiaRepository assembleiaRepository;
 
     @Override
     public AssociadoDTO salvarAssociado(AssociadoDTO associadoDTO) {
@@ -42,9 +37,4 @@ public class AssociadoServiceImpl implements AssociadoService {
         return associadoRepository.findAll().stream().map(AssociadoDTO::new).collect(Collectors.toList());
     }
 
-    @Override
-    public List<AssociadoDTO> buscarAssociadosPorAssembleia(Long id) {
-        Assembleia assembleia = assembleiaRepository.findById(id).orElseThrow();
-        return assembleia.getAssociados().stream().map(AssociadoDTO::new).collect(Collectors.toList());
-    }
 }

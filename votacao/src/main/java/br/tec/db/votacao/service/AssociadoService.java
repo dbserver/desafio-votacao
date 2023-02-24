@@ -12,5 +12,4 @@ public interface AssociadoService {
 
     List<AssociadoDTO> buscarTodosOsAssociados();
 
-    List<AssociadoDTO> buscarAssociadosPorAssembleia(Long id);
 }

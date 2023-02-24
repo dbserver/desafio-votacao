@@ -31,8 +31,4 @@ public class AssociadoController {
         return associadoService.buscarTodosOsAssociados().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(associadoService.buscarTodosOsAssociados(), HttpStatus.OK);
     }
 
-    @GetMapping("/assembleia/{id}")
-    public ResponseEntity<List<AssociadoDTO>> buscarAssociadosPorAssembleia(@PathVariable Long id) {
-        return associadoService.buscarAssociadosPorAssembleia(id).isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(associadoService.buscarAssociadosPorAssembleia(id), HttpStatus.OK);
-    }
 }

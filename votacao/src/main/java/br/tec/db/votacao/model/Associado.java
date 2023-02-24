@@ -29,9 +29,4 @@ public class Associado {
     @Enumerated(EnumType.STRING)
     private AssociadoStatusEnum status;
 
-    @ManyToOne
-    @JoinTable(name = "assembleia_associados", joinColumns = @JoinColumn(name = "associado_id"),
-            inverseJoinColumns = @JoinColumn(name = "assembleia_id"))
-    private Assembleia assembleia;
-
 }

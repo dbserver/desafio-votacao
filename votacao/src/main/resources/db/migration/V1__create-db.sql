@@ -43,9 +43,7 @@ CREATE TABLE associado
     nome    varchar(100) NOT NULL,
     cpf     varchar(11)  NOT NULL,
     status  text         NOT NULL,
-    voto_id bigint       NOT NULL,
-    primary key (id),
-    FOREIGN KEY (voto_id) REFERENCES voto (id)
+    primary key (id)
 );
 
 CREATE TABLE assembleia_pautas
