@@ -4,13 +4,11 @@ import br.tec.db.votacao.enums.AssociadoStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "associado")
@@ -30,11 +28,6 @@ public class Associado {
 
     @Enumerated(EnumType.STRING)
     private AssociadoStatusEnum status;
-
-    @OneToOne
-    @JoinTable(name = "voto_associado", joinColumns = @JoinColumn(name = "associado_id"),
-            inverseJoinColumns = @JoinColumn(name = "voto_id"))
-    private Voto voto;
 
     @ManyToOne
     @JoinTable(name = "assembleia_associados", joinColumns = @JoinColumn(name = "associado_id"),
