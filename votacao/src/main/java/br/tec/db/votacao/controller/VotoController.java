@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/votos")
 public class VotoController {
@@ -15,17 +17,22 @@ public class VotoController {
     private VotoService votoService;
 
     @PostMapping
-    public ResponseEntity<VotoDTO> criarVoto(@RequestBody VotoDTO votoDTO) {
-        return votoDTO == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(votoService.criarVoto(votoDTO), HttpStatus.CREATED);
+    public ResponseEntity<VotoDTO> votar(@RequestBody VotoDTO votoDTO) {
+        return votoDTO == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(votoService.votar(votoDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/sessao/{id}/sim")
-    public ResponseEntity<Long> calcularVotosSimPorSessaoDeVotacao(@PathVariable Long id) {
-        return votoService.calcularVotosSimPorSessaoDeVotacao(id) == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(votoService.calcularVotosSimPorSessaoDeVotacao(id), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<VotoDTO> buscarVotoPorId(@PathVariable Long id) {
+        return id == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) : new ResponseEntity<>(votoService.buscarVotoPorId(id), HttpStatus.OK);
     }
 
-    @GetMapping("/sessao/{id}/nao")
-    public ResponseEntity<Long> calcularVotosNaoPorSessaoDeVotacao(@PathVariable Long id) {
-        return votoService.calcularVotosNaoPorSessaoDeVotacao(id) == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(votoService.calcularVotosNaoPorSessaoDeVotacao(id), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<VotoDTO>> buscarTodosOsVotos() {
+        return votoService.buscarTodosOsVotos().isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(votoService.buscarTodosOsVotos(), HttpStatus.OK);
+    }
+
+    @GetMapping("/sessao/{id}")
+    public ResponseEntity<List<VotoDTO>> buscarVotosPorSessaoDeVotacao(@PathVariable Long id) {
+        return votoService.buscarVotosPorSessaoDeVotacao(id).isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(votoService.buscarVotosPorSessaoDeVotacao(id), HttpStatus.OK);
     }
 }

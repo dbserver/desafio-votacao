@@ -2,10 +2,14 @@ package br.tec.db.votacao.service;
 
 import br.tec.db.votacao.dto.VotoDTO;
 
+import java.util.List;
+
 public interface VotoService {
-    VotoDTO criarVoto(VotoDTO votoDTO);
+    VotoDTO votar(VotoDTO votoDTO);
 
-    Long calcularVotosSimPorSessaoDeVotacao(Long id);
+    VotoDTO buscarVotoPorId(Long id);
 
-    Long calcularVotosNaoPorSessaoDeVotacao(Long id);
+    List<VotoDTO> buscarTodosOsVotos();
+
+    List<VotoDTO> buscarVotosPorSessaoDeVotacao(Long id);
 }

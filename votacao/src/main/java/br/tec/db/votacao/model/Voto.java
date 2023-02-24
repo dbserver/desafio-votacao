@@ -24,7 +24,7 @@ public class Voto {
     @JoinColumn(name = "sessao_de_votacao_id")
     private SessaoDeVotacao sessaoDeVotacao;
 
-    @OneToOne
+    @ManyToOne
     @JoinTable(name = "voto_associado", joinColumns = @JoinColumn(name = "voto_id"),
             inverseJoinColumns = @JoinColumn(name = "associado_id"))
     private Associado associado;

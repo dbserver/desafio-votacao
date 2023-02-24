@@ -2,6 +2,7 @@ package br.tec.db.votacao.controller;
 
 import br.tec.db.votacao.dto.PautaDTO;
 import br.tec.db.votacao.service.PautaService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,7 +43,8 @@ public class PautaControllerTest {
                 .andExpect(status().isCreated());
     }
 
-/*    @Test
+    @Disabled
+    @Test
     public void deveRetornarBadRequestAoCriarPautaEmAssembleiaInexistente() throws Exception {
         PautaDTO pautaDTO = new PautaDTO("pauta 1", 10L);
         when(pautaService.criarPauta(any(PautaDTO.class))).thenReturn(pautaDTO);
@@ -51,7 +53,7 @@ public class PautaControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nome\": \"pauta 1\", \"idSessao\": \"10\"}"))
                 .andExpect(status().isBadRequest());
-    }*/
+    }
 
     @Test
     public void deveRetornarBadRequestAoCriarPautaComDTONull() throws Exception {
