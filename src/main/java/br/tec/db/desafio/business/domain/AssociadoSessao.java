@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name="votacao_dev.associado_sessoes")
+@Table(name="associado_sessoes")
 public class AssociadoSessao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

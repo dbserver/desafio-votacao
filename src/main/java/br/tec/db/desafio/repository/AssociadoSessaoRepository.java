@@ -12,14 +12,13 @@ import java.util.List;
 @Repository
 public interface AssociadoSessaoRepository extends JpaRepository<AssociadoSessao, Long> {
 
-    @Query(value = "select associados_id from " +
-            "votacao_dev.associado_sessoes " +
-            "where associados_id= :associadoId and " +
-            "sessoes_id= :sessaoId", nativeQuery = true)
+
+    @Query(value = "SELECT A.associadoId FROM " +
+            "AssociadoSessao A " +
+            "WHERE A.associadoId IN :associadoId AND " +
+            "A.sessaoId IN :sessaoId")
     Long findByAssociadoIdAndSessaoId(
             @Param("associadoId") Long associadoId,
             @Param("sessaoId") Long sessaoId);
-
-
 
 }
