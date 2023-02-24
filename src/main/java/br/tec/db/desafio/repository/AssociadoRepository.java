@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface SessaoRepository extends JpaRepository<Sessao, Long> {
+import java.util.List;
 
-    Sessao findByPautaId(@Param("pautaId") Long pautaId);
+@Repository
+public interface AssociadoRepository extends JpaRepository<Associado, Long> {
+
+    Associado findAssociadoByCpf(@Param("cpf") String cpf);
 
 }

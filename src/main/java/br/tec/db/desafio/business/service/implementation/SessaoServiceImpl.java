@@ -7,11 +7,15 @@ import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaVotarRequestV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoTotalVotosResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
+import br.tec.db.desafio.business.domain.Associado;
+import br.tec.db.desafio.business.domain.AssociadoSessao;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.business.service.SessaoService;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.ValidacaoSessao;
 import br.tec.db.desafio.exception.BusinessException;
+import br.tec.db.desafio.repository.AssociadoRepository;
+import br.tec.db.desafio.repository.AssociadoSessaoRepository;
 import br.tec.db.desafio.repository.PautaRepository;
 import br.tec.db.desafio.repository.SessaoRepository;
 import org.springframework.stereotype.Service;
@@ -23,11 +27,15 @@ import java.util.List;
 public class SessaoServiceImpl implements SessaoService {
     private final SessaoRepository sessaoRepository;
     private final PautaRepository pautaRepository;
+    private final AssociadoRepository associadoRepository;
+    private final AssociadoSessaoRepository associadoSessaoRepository;
     private final List<ValidacaoSessao> validacoesSessao;
 
-    public SessaoServiceImpl(SessaoRepository sessaoRepository, PautaRepository pautaRepository, List<ValidacaoSessao> validacoesSessao) {
+    public SessaoServiceImpl(SessaoRepository sessaoRepository, PautaRepository pautaRepository, AssociadoRepository associadoRepository, AssociadoSessaoRepository associadoSessaoRepository, List<ValidacaoSessao> validacoesSessao) {
         this.sessaoRepository = sessaoRepository;
         this.pautaRepository = pautaRepository;
+        this.associadoRepository = associadoRepository;
+        this.associadoSessaoRepository = associadoSessaoRepository;
         this.validacoesSessao = validacoesSessao;
     }
 
@@ -53,14 +61,27 @@ public class SessaoServiceImpl implements SessaoService {
         Sessao sessaoToCreate = SessaoMapperV1.sessaoParaVotarRequestV1ToSessao(
                 sessaoRequestV1
         );
+
         Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
                 (sessaoToCreate.getPauta().getAssunto());
         Sessao sessaoEncontrada = sessaoRepository.findByPautaId
                 (pautaEncontrada.getId());
+        Associado associadoEncontrado = associadoRepository.findAssociadoByCpf(
+                sessaoRequestV1.getCpf());
+        Long associadoNaSessao = associadoSessaoRepository.findByAssociadoIdAndSessaoId(
+                associadoEncontrado.getId(),
+                sessaoEncontrada.getId());
+
+        if(associadoNaSessao != null){
+            throw new BusinessException("Associado já votou");
+        }
+
+
         if(sessaoEncontrada.getDuracao().isBefore(LocalDateTime.now())){
             throw new BusinessException("Sessão expirada");
         }
 
+        sessaoEncontrada.addAssociado(associadoEncontrado);
         sessaoEncontrada.setVoto(sessaoToCreate.getVoto());
         return SessaoMapperV1.sessaoToSessaoVotadaResponseV1(
                 sessaoRepository.save(sessaoEncontrada)

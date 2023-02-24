@@ -6,14 +6,19 @@ import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaVotarRequestV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoTotalVotosResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
+import br.tec.db.desafio.business.domain.Associado;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.exception.BusinessException;
+import br.tec.db.desafio.util.FormatUtil;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 public class SessaoMapperV1 {
     private SessaoMapperV1(){}
+    private static final FormatUtil formatUtil = new FormatUtil();
 
     public static Sessao sessaoParaCriarRequestV1ToSessao(SessaoParaCriarRequestV1 source) {
         if (source == null) {

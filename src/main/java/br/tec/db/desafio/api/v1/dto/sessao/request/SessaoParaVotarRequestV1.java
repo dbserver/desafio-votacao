@@ -12,5 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SessaoParaVotarRequestV1 {
     public Voto voto;
+    public String cpf;
     public String assuntoPauta;
 }
