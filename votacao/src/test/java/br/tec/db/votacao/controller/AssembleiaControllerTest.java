@@ -11,13 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -100,4 +100,15 @@ public class AssembleiaControllerTest {
         mockMvc.perform(get("/assembleias/abc"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void deveFinalizarAssembleia() throws Exception {
+        List<AssembleiaDTO> assembleias = new ArrayList<>();
+        assembleias.add(new AssembleiaDTO(LocalDateTime.now()));
+        when(assembleiaService.buscarTodasAssembleias()).thenReturn(assembleias);
+
+        mockMvc.perform(put("/assembleias/1"))
+                .andExpect(status().isOk());
+    }
+
 }
