@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "84b01116-b185-457c-acc9-a01d7ff38dc6",
+		"name": "desafio-votacao-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cadastro de Pauta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"desafio-votacao",
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

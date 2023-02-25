@@ -13,7 +13,7 @@ public class PautaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer idPauta;
     private String nome;
     private String descricao;
 

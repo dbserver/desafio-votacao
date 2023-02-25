@@ -14,7 +14,7 @@ public class SessaoEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Integer idSessao;
 
     private LocalDateTime inicio;
 
