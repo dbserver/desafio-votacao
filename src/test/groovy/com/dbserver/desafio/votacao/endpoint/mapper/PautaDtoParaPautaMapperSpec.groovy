@@ -9,7 +9,7 @@ import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemp
 import static fixtures.PautaDtoTemplate.PAUTA_DTO_OBRA
 import static fixtures.PautaTemplate.PAUTA_OBRA
 
-class PautaDtoParaPautaMapperSpec extends Specification {
+class  PautaDtoParaPautaMapperSpec extends Specification {
 
     PautaDTO pautaDTORequerida
     Pauta pautaMock

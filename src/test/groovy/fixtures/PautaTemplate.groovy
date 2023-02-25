@@ -14,11 +14,20 @@ import static fixtures.SessaoTemplate.SESSAO_VALIDA
 class PautaTemplate implements TemplateLoader {
 
     public static final String PAUTA_OBRA = "Pauta de obra"
+    public static final String PAUTA_OBRA_CADASTRADA = "Pauta de obra salva no banco de dados"
     public static final String PAUTA_OBRA_COM_SESSAO = "Pauta de obra com sessao valida"
+    public static final String PAUTA_VAZIO = "Pauta VAZIO"
 
     @Override
     void load() {
         Fixture.of(Pauta).addTemplate(PAUTA_OBRA, new Rule() {
+            {
+                add(nome, "Infiltração na caixa de agua")
+                add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial")
+            }
+        })
+
+        Fixture.of(Pauta).addTemplate(PAUTA_OBRA_CADASTRADA, new Rule() {
             {
                 add(nome, "Infiltração na caixa de agua")
                 add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial")
@@ -32,5 +41,7 @@ class PautaTemplate implements TemplateLoader {
                 add(sessao,one(Sessao,SESSAO_VALIDA))
             }
         })
+
+        Fixture.of(Pauta).addTemplate(PAUTA_VAZIO, new Rule() {})
     }
 }

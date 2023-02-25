@@ -13,10 +13,18 @@ import static fixtures.SessaoEntityTemplate.SESSAO_ENTITY_VALIDA
 
 class PautaEntityTemplate implements TemplateLoader {
 
+    public static final String PAUTA_ENTITY_OBRA = "Pauta Entity de obra"
     public static final String PAUTA_ENTITY_OBRA_COM_SESSAO = "Pauta Entity de obra com sessao"
 
     @Override
     void load() {
+        Fixture.of(PautaEntity).addTemplate(PAUTA_ENTITY_OBRA, new Rule() {
+            {
+                add(nome, "Infiltração na caixa de agua")
+                add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial")
+            }
+        })
+
         Fixture.of(PautaEntity).addTemplate(PAUTA_ENTITY_OBRA_COM_SESSAO, new Rule() {
             {
                 add(nome, "Infiltração na caixa de agua com sessao")

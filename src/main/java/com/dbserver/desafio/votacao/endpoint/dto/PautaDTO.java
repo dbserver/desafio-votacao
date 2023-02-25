@@ -1,9 +1,13 @@
 package com.dbserver.desafio.votacao.endpoint.dto;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @FieldNameConstants
 public class PautaDTO {
 
