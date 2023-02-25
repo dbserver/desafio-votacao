@@ -2,7 +2,7 @@ CREATE TABLE assembleia
 (
     id     bigint    not null auto_increment,
     inicio timestamp NOT NULL,
-    fim    timestamp NOT NULL,
+    fim    timestamp,
     status text      NOT NULL,
     primary key (id)
 );

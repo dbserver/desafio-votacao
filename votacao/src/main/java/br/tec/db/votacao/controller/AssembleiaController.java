@@ -30,4 +30,10 @@ public class AssembleiaController {
     public ResponseEntity<AssembleiaDTO> buscarAssembleiaPorId(@PathVariable Long id) {
         return assembleiaService.buscarAssembleiaPorId(id) == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(assembleiaService.buscarAssembleiaPorId(id), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AssembleiaDTO> finalizarAssembleia(@PathVariable Long id) {
+        assembleiaService.finalizarAssembleia(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
