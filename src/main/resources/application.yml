@@ -1,8 +1,11 @@
+server:
+  port : 8081
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: root
+    password: postgres
     url: jdbc:postgresql://localhost/postgres
     platform: postgres
     initialization-mode: always
