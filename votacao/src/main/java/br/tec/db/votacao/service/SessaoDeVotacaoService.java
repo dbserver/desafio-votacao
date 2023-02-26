@@ -14,4 +14,7 @@ public interface SessaoDeVotacaoService {
     SessaoDeVotacaoDTO buscarSessaoDeVotacaoPorPauta(Long id) throws RuntimeException;
 
     void encerrarSessaoDeVotacao(Long id) throws RuntimeException;
+
+    void calcularResultadoDaSessaoDeVotacao(Long id) throws RuntimeException;
+
 }

@@ -3,6 +3,7 @@ package br.tec.db.votacao.service;
 import br.tec.db.votacao.dto.SessaoDeVotacaoDTO;
 import br.tec.db.votacao.enums.PautaStatusEnum;
 import br.tec.db.votacao.enums.SessaoDeVotacaoStatusEnum;
+import br.tec.db.votacao.enums.VotoStatusEnum;
 import br.tec.db.votacao.model.Pauta;
 import br.tec.db.votacao.model.SessaoDeVotacao;
 import br.tec.db.votacao.repository.PautaRepository;
@@ -76,4 +77,18 @@ public class SessaoDeVotacaoServiceImpl implements SessaoDeVotacaoService {
             sessaoDeVotacaoRepository.save(sessaoDeVotacao);
         }
     }
+
+    @Override
+    public void calcularResultadoDaSessaoDeVotacao(Long id) throws RuntimeException {
+        SessaoDeVotacao sessaoDeVotacao = sessaoDeVotacaoRepository.findById(id).orElse(null);
+        if (sessaoDeVotacao == null) {
+            throw new RuntimeException("Sessão de votação não encontrada.");
+        } else {
+            long votosSim = sessaoDeVotacao.getVotos().stream().filter(voto -> voto.getStatus().equals(VotoStatusEnum.SIM)).count();
+            long votosNao = sessaoDeVotacao.getVotos().stream().filter(voto -> voto.getStatus().equals(VotoStatusEnum.NAO)).count();
+            sessaoDeVotacao.getPauta().setStatus(votosSim > votosNao ? PautaStatusEnum.APROVADA : PautaStatusEnum.REPROVADA);
+            pautaRepository.save(sessaoDeVotacao.getPauta());
+        }
+    }
+
 }

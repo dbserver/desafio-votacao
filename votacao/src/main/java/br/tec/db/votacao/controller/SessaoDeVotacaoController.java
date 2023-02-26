@@ -36,9 +36,15 @@ public class SessaoDeVotacaoController {
         return sessaoDeVotacaoService.buscarSessaoDeVotacaoPorPauta(id) == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(sessaoDeVotacaoService.buscarSessaoDeVotacaoPorPauta(id), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/encerrar/{id}")
     public ResponseEntity<SessaoDeVotacaoDTO> encerrarSessaoDeVotacao(@PathVariable Long id) {
         sessaoDeVotacaoService.encerrarSessaoDeVotacao(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/resultado/{id}")
+    public ResponseEntity<SessaoDeVotacaoDTO> calcularResultadoDaSessaoDeVotacao(@PathVariable Long id) {
+        sessaoDeVotacaoService.calcularResultadoDaSessaoDeVotacao(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

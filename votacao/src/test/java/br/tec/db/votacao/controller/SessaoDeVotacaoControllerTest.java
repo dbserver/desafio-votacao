@@ -137,7 +137,18 @@ public class SessaoDeVotacaoControllerTest {
         sessao.add(new SessaoDeVotacaoDTO(LocalDateTime.now(), 1L));
         when(sessaoDeVotacaoService.buscarTodasAsSessoesDeVotacao()).thenReturn(sessao);
 
-        mockMvc.perform(put("/sessao-de-votacao/1")
+        mockMvc.perform(put("/sessao-de-votacao/encerrar/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deveCalcularResultadoDaSessaoDeVotacao() throws Exception {
+        List<SessaoDeVotacaoDTO> sessao = new ArrayList<>();
+        sessao.add(new SessaoDeVotacaoDTO(LocalDateTime.now(), 1L));
+        when(sessaoDeVotacaoService.buscarTodasAsSessoesDeVotacao()).thenReturn(sessao);
+
+        mockMvc.perform(put("/sessao-de-votacao/resultado/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

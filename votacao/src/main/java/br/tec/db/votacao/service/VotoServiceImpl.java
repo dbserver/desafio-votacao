@@ -1,6 +1,7 @@
 package br.tec.db.votacao.service;
 
 import br.tec.db.votacao.dto.VotoDTO;
+import br.tec.db.votacao.enums.SessaoDeVotacaoStatusEnum;
 import br.tec.db.votacao.model.Associado;
 import br.tec.db.votacao.model.SessaoDeVotacao;
 import br.tec.db.votacao.model.Voto;
@@ -29,13 +30,19 @@ public class VotoServiceImpl implements VotoService {
     public VotoDTO votar(VotoDTO votoDTO) {
         SessaoDeVotacao sessaoDeVotacao = sessaoDeVotacaoRepository.findById(votoDTO.idSessaoDeVotacao()).orElseThrow();
         Associado associado = associadoRepository.findById(votoDTO.idAssociado()).orElseThrow();
-        Voto voto = new Voto();
-        voto.setAssociado(associado);
-        voto.setSessaoDeVotacao(sessaoDeVotacao);
-        voto.setStatus(votoDTO.voto());
-        sessaoDeVotacao.getVotos().add(voto);
-        votoRepository.save(voto);
-        return new VotoDTO(voto);
+        if (sessaoDeVotacao.getStatus().equals(SessaoDeVotacaoStatusEnum.ENCERRADA)) {
+            throw new RuntimeException("Sessão de votação encerrada");
+        } else if (sessaoDeVotacao.getVotos().stream().anyMatch(voto -> voto.getAssociado().getId().equals(associado.getId()))) {
+            throw new RuntimeException("Associado já votou nesta sessão");
+        } else {
+            Voto voto = new Voto();
+            voto.setAssociado(associado);
+            voto.setSessaoDeVotacao(sessaoDeVotacao);
+            voto.setStatus(votoDTO.voto());
+            sessaoDeVotacao.getVotos().add(voto);
+            votoRepository.save(voto);
+            return new VotoDTO(voto);
+        }
     }
 
     @Override
