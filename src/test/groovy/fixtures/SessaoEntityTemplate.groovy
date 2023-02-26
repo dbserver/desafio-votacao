@@ -20,7 +20,7 @@ class SessaoEntityTemplate implements TemplateLoader {
         Fixture.of(SessaoEntity).addTemplate(SESSAO_ENTITY_VALIDA, new Rule() {
             {
                 add(inicio, LocalDateTime.of(2023, Month.FEBRUARY,25,19,30,40))
-                add(duracao, 1)
+                add(duracao, 20)
             }
         })
     }

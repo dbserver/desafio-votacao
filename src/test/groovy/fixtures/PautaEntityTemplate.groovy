@@ -9,6 +9,7 @@ import com.dbserver.desafio.votacao.repository.entity.SessaoEntity
 import static com.dbserver.desafio.votacao.repository.entity.PautaEntity.Fields.sessao
 import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.descricao
 import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.nome
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.idPauta
 import static fixtures.SessaoEntityTemplate.SESSAO_ENTITY_VALIDA
 
 class PautaEntityTemplate implements TemplateLoader {
@@ -27,6 +28,7 @@ class PautaEntityTemplate implements TemplateLoader {
 
         Fixture.of(PautaEntity).addTemplate(PAUTA_ENTITY_OBRA_COM_SESSAO, new Rule() {
             {
+                add(idPauta, 19900)
                 add(nome, "Infiltração na caixa de agua com sessao")
                 add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial com sessao")
                 add(sessao, one(SessaoEntity,SESSAO_ENTITY_VALIDA))

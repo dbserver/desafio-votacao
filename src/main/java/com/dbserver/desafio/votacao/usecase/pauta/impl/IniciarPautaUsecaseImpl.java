@@ -4,13 +4,12 @@ import com.dbserver.desafio.votacao.repository.PautaRepository;
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity;
 import com.dbserver.desafio.votacao.repository.mapper.PautaEntityParaPautaMapper;
 import com.dbserver.desafio.votacao.usecase.domain.Pauta;
-import com.dbserver.desafio.votacao.usecase.domain.Sessao;
+import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase;
 import com.dbserver.desafio.votacao.usecase.pauta.IniciarPautaUsecase;
 import com.dbserver.desafio.votacao.usecase.sessao.IniciarSessaoUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -18,7 +17,10 @@ import java.util.Optional;
 public class IniciarPautaUsecaseImpl implements IniciarPautaUsecase {
 
     private final PautaRepository pautaRepository;
+
     private final IniciarSessaoUsecase iniciarSessaoUsecase;
+
+    private final SalvarPautaUsecase salvarPautaUsecase;
 
     @Override
     public Pauta execute(Integer idPauta, Integer duracao) {
@@ -33,6 +35,6 @@ public class IniciarPautaUsecaseImpl implements IniciarPautaUsecase {
 
         pauta.setSessao(iniciarSessaoUsecase.execute(duracao));
 
-        return pauta;
+        return salvarPautaUsecase.execute(pauta);
     }
 }

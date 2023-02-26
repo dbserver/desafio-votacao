@@ -14,10 +14,18 @@ import static com.dbserver.desafio.votacao.usecase.domain.Sessao.Fields.inicio
 class SessaoTemplate implements TemplateLoader {
 
     public static final String SESSAO_VALIDA = "Sessao valida"
+    public static final String SESSAO_DEFAULT_VALIDA = "Sessao default com valor de 1 minuto"
 
     @Override
     void load() {
         Fixture.of(Sessao).addTemplate(SESSAO_VALIDA, new Rule() {
+            {
+                add(inicio, LocalDateTime.of(2023, Month.FEBRUARY,25,19,30,40))
+                add(duracao, 20)
+            }
+        })
+
+        Fixture.of(Sessao).addTemplate(SESSAO_DEFAULT_VALIDA, new Rule() {
             {
                 add(inicio, LocalDateTime.of(2023, Month.FEBRUARY,25,19,30,40))
                 add(duracao, 1)

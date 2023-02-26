@@ -32,11 +32,7 @@ class PautaEntityParaPautaMapperSpec extends Specification {
         Pauta pautaResultado = PautaEntityParaPautaMapper.INSTANCE.map(pautaEntityRequerida)
 
         then: "o objeto pauta deve ser válido com todos os campos válidos"
-        pautaResultado
-        verifyAll(pautaResultado) {
-            nome == pautaMock.nome
-            descricao == pautaMock.descricao
-        }
+        pautaResultado == pautaMock
     }
 
     def "Deveria converter um objeto PautaEntity nulo em um objeto Pauta nulo"() {

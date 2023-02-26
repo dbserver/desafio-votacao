@@ -17,11 +17,9 @@ class PautaParaPautaEntityMapperSpec extends Specification {
     def setup() {
         loadTemplates("fixtures")
 
-        pautaEntityMock = Fixture.from(PautaEntity)
-                .gimme(PAUTA_ENTITY_OBRA_COM_SESSAO)
+        pautaEntityMock = Fixture.from(PautaEntity).gimme(PAUTA_ENTITY_OBRA_COM_SESSAO)
 
-        pautaRequerida = Fixture.from(Pauta)
-                .gimme(PAUTA_OBRA_COM_SESSAO)
+        pautaRequerida = Fixture.from(Pauta).gimme(PAUTA_OBRA_COM_SESSAO)
     }
 
     def "Deveria converter um objeto Pauta valido em um objeto PautaEntity"() {
@@ -32,11 +30,7 @@ class PautaParaPautaEntityMapperSpec extends Specification {
         PautaEntity pautaEntityResultado = PautaParaPautaEntityMapper.INSTANCE.map(pautaRequerida)
 
         then: "o objeto PautaEntity deve ser válido com todos os campos válidos"
-        pautaEntityResultado
-        verifyAll(pautaEntityResultado) {
-            nome == pautaEntityMock.nome
-            descricao == pautaEntityMock.descricao
-        }
+        pautaEntityResultado == pautaEntityMock
     }
 
     def "Deveria converter um objeto Pauta nulo em um objeto PautaEntity nulo"() {

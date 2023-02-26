@@ -5,12 +5,12 @@ import com.dbserver.desafio.votacao.repository.entity.PautaEntity;
 import com.dbserver.desafio.votacao.repository.mapper.PautaEntityParaPautaMapper;
 import com.dbserver.desafio.votacao.repository.mapper.PautaParaPautaEntityMapper;
 import com.dbserver.desafio.votacao.usecase.domain.Pauta;
-import com.dbserver.desafio.votacao.usecase.pauta.CadastrarPautaUsecase;
+import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
-public class CadastrarPautaUsecaseImpl implements CadastrarPautaUsecase {
+public class SalvarPautaUsecaseImpl implements SalvarPautaUsecase {
     private final PautaRepository pautaRepository;
     public Pauta execute(Pauta pauta) {
 

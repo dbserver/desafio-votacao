@@ -14,10 +14,12 @@ public class PautaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idPauta;
+
     private String nome;
+
     private String descricao;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idSessao")
     private SessaoEntity sessao;
 

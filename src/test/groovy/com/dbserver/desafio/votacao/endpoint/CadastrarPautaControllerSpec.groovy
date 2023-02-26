@@ -3,7 +3,7 @@ package com.dbserver.desafio.votacao.endpoint
 import br.com.six2six.fixturefactory.Fixture
 import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO
 import com.dbserver.desafio.votacao.usecase.domain.Pauta
-import com.dbserver.desafio.votacao.usecase.pauta.CadastrarPautaUsecase
+import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase
 import org.springframework.http.ResponseEntity
 import spock.lang.Specification
 
@@ -17,7 +17,7 @@ import static fixtures.PautaTemplate.PAUTA_VAZIO
 
 class CadastrarPautaControllerSpec extends Specification {
 
-    CadastrarPautaUsecase cadastrarPautaUsecase = Mock()
+    SalvarPautaUsecase salvarPautaUsecase = Mock()
 
     CadastrarPautaController cadastrarPautaController
 
@@ -31,7 +31,7 @@ class CadastrarPautaControllerSpec extends Specification {
     def setup() {
         loadTemplates("fixtures")
 
-        cadastrarPautaController = new CadastrarPautaController(cadastrarPautaUsecase)
+        cadastrarPautaController = new CadastrarPautaController(salvarPautaUsecase)
 
         pautaDTORequerida = Fixture.from(PautaDTO).gimme(PAUTA_DTO_OBRA)
         pautaDTOVazioRequerida = Fixture.from(PautaDTO).gimme(PAUTA_DTO_VAZIO)
@@ -45,8 +45,8 @@ class CadastrarPautaControllerSpec extends Specification {
         given: "Um objeto PautaDTO de entrada valido"
         pautaDTORequerida
 
-        and: "uma chamada válida ao método execute de cadastrarPautaUsecase"
-        1 * cadastrarPautaUsecase.execute(pautaRequerida) >> pautaRequerida
+        and: "uma chamada válida ao método execute de salvarPautaUsecase"
+        1 * salvarPautaUsecase.execute(pautaMock) >> pautaMock
 
         when: "o método cadastrarPauta do cadastrarPautaController for invocado"
         def pautaResultado = cadastrarPautaController.cadastrarPauta(pautaDTORequerida)
@@ -59,8 +59,8 @@ class CadastrarPautaControllerSpec extends Specification {
         given: "Um objeto PautaDTO de entrada nulo"
         pautaDTORequerida = null
 
-        and: "uma chamada com parametro nulo ao método execute de cadastrarPautaUsecase"
-        1 * cadastrarPautaUsecase.execute(null) >> null
+        and: "uma chamada com parametro nulo ao método execute de salvarPautaUsecase"
+        1 * salvarPautaUsecase.execute(null) >> null
 
         when: "o método cadastrarPauta do cadastrarPautaController for invocado"
         def pautaResultado = cadastrarPautaController.cadastrarPauta(pautaDTORequerida)
@@ -73,8 +73,8 @@ class CadastrarPautaControllerSpec extends Specification {
         given: "Um objeto PautaDTO de entrada vazio"
         pautaDTOVazioRequerida
 
-        and: "uma chamada com parametro vazio ao método execute de cadastrarPautaUsecase"
-        1 * cadastrarPautaUsecase.execute(pautaVazioRequerida) >> pautaVazioRequerida
+        and: "uma chamada com parametro vazio ao método execute de salvarPautaUsecase"
+        1 * salvarPautaUsecase.execute(pautaVazioRequerida) >> pautaVazioRequerida
 
         when: "o método cadastrarPauta do cadastrarPautaController for invocado"
         def pautaResultado = cadastrarPautaController.cadastrarPauta(pautaDTOVazioRequerida)
@@ -87,8 +87,8 @@ class CadastrarPautaControllerSpec extends Specification {
         given: "Um objeto PautaDTO de entrada valido"
         pautaDTORequerida
 
-        and: "uma chamada que gera exception ao método execute de cadastrarPautaUsecase"
-        1 * cadastrarPautaUsecase.execute(pautaRequerida) >> { throw new Exception() }
+        and: "uma chamada que gera exception ao método execute de salvarPautaUsecase"
+        1 * salvarPautaUsecase.execute(pautaMock) >> { throw new Exception() }
 
         when: "o método cadastrarPauta do cadastrarPautaController for invocado"
         cadastrarPautaController.cadastrarPauta(pautaDTORequerida)

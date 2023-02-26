@@ -1,6 +1,5 @@
 package com.dbserver.desafio.votacao.endpoint.mapper;
 
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.SessaoDTO;
 import com.dbserver.desafio.votacao.usecase.domain.Pauta;
@@ -20,5 +19,5 @@ public abstract class PautaParaPautaSessaoDtoMapper {
     public abstract PautaSessaoDTO map(Pauta pauta);
 
     @Mapping(source = "duracao", target = "duracaoEmMunitos")
-    public abstract SessaoDTO map(Sessao sessao);
+    public abstract SessaoDTO mapSessaoDTO(Sessao sessao);
 }

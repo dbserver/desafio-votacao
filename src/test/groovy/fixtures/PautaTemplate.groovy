@@ -6,6 +6,7 @@ import br.com.six2six.fixturefactory.loader.TemplateLoader
 import com.dbserver.desafio.votacao.usecase.domain.Pauta
 import com.dbserver.desafio.votacao.usecase.domain.Sessao
 
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.idPauta
 import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.nome
 import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.descricao
 import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.sessao
@@ -29,6 +30,7 @@ class PautaTemplate implements TemplateLoader {
 
         Fixture.of(Pauta).addTemplate(PAUTA_OBRA_CADASTRADA, new Rule() {
             {
+                add(idPauta, 19900)
                 add(nome, "Infiltração na caixa de agua")
                 add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial")
             }
@@ -36,9 +38,10 @@ class PautaTemplate implements TemplateLoader {
 
         Fixture.of(Pauta).addTemplate(PAUTA_OBRA_COM_SESSAO, new Rule() {
             {
+                add(idPauta, 19900)
                 add(nome, "Infiltração na caixa de agua com sessao")
                 add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial com sessao")
-                add(sessao,one(Sessao,SESSAO_VALIDA))
+                add(sessao,one(Sessao, SESSAO_VALIDA))
             }
         })
 

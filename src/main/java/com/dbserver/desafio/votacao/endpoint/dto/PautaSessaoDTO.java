@@ -1,6 +1,5 @@
 package com.dbserver.desafio.votacao.endpoint.dto;
 
-import com.dbserver.desafio.votacao.usecase.domain.Sessao;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +12,10 @@ import lombok.experimental.FieldNameConstants;
 public class PautaSessaoDTO {
 
     private Integer idPauta;
+
     private String nomePauta;
+
     private String descricaoPauta;
 
-    private Sessao sessao;
+    private SessaoDTO sessao;
 }

@@ -4,7 +4,7 @@ import br.com.six2six.fixturefactory.Fixture
 import com.dbserver.desafio.votacao.repository.PautaRepository
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity
 import com.dbserver.desafio.votacao.usecase.domain.Pauta
-import com.dbserver.desafio.votacao.usecase.pauta.CadastrarPautaUsecase
+import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase
 import spock.lang.Specification
 
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates
@@ -12,11 +12,11 @@ import static fixtures.PautaEntityTemplate.PAUTA_ENTITY_OBRA
 import static fixtures.PautaTemplate.PAUTA_OBRA
 import static fixtures.PautaTemplate.PAUTA_OBRA_CADASTRADA
 
-class CadastrarPautaUsecaseImplSpec extends Specification {
+class SalvarPautaUsecaseImplSpec extends Specification {
 
     PautaRepository pautaRepository = Mock()
 
-    CadastrarPautaUsecase cadastrarPautaUsecase
+    SalvarPautaUsecase cadastrarPautaUsecase
 
     Pauta pautaRequerida
     Pauta pautaMock
@@ -25,7 +25,7 @@ class CadastrarPautaUsecaseImplSpec extends Specification {
     def setup() {
         loadTemplates("fixtures")
 
-        cadastrarPautaUsecase = new CadastrarPautaUsecaseImpl(pautaRepository)
+        cadastrarPautaUsecase = new SalvarPautaUsecaseImpl(pautaRepository)
 
         pautaRequerida = Fixture.from(Pauta).gimme(PAUTA_OBRA)
         pautaMock = Fixture.from(Pauta).gimme(PAUTA_OBRA_CADASTRADA)
@@ -39,7 +39,7 @@ class CadastrarPautaUsecaseImplSpec extends Specification {
         and: "uma chamada válida ao método save de pautaRepository"
         1 * pautaRepository.save(pautaEntityRequerida) >> pautaEntityRequerida
 
-        when: "o método execute do CadastrarPautaUsecase for invocadoo"
+        when: "o método execute do SalvarPautaUsecase for invocadoo"
         Pauta pautaResultado = cadastrarPautaUsecase.execute(pautaRequerida)
 
         then: "o objeto pauta deve ser válido com todos os campos válidos"
@@ -57,7 +57,7 @@ class CadastrarPautaUsecaseImplSpec extends Specification {
         and: "uma chamada com parametro nulo ao método save de pautaRepository"
         1 * pautaRepository.save(null) >> null
 
-        when: "o método execute do CadastrarPautaUsecase for invocadoo"
+        when: "o método execute do SalvarPautaUsecase for invocadoo"
         Pauta pautaResultado = cadastrarPautaUsecase.execute(pautaRequerida)
 
         then: "o objeto pauta deve nulo"
@@ -71,7 +71,7 @@ class CadastrarPautaUsecaseImplSpec extends Specification {
         and: "uma chamada que gera exception ao método save de pautaRepository"
         1 * pautaRepository.save(pautaEntityRequerida) >> { throw new Exception() }
 
-        when: "o método execute do CadastrarPautaUsecase for invocado"
+        when: "o método execute do SalvarPautaUsecase for invocado"
         cadastrarPautaUsecase.execute(pautaRequerida)
 
         then: "o retorno do cadastro da pauta deve gerar uma exception"

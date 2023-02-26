@@ -1,11 +1,8 @@
 package com.dbserver.desafio.votacao.endpoint;
 
 import com.dbserver.desafio.votacao.endpoint.constant.EndpointURL;
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.PautaDuracaoDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO;
-import com.dbserver.desafio.votacao.endpoint.mapper.PautaDtoParaPautaMapper;
-import com.dbserver.desafio.votacao.endpoint.mapper.PautaParaPautaDtoMapper;
 import com.dbserver.desafio.votacao.endpoint.mapper.PautaParaPautaSessaoDtoMapper;
 import com.dbserver.desafio.votacao.usecase.domain.Pauta;
 import com.dbserver.desafio.votacao.usecase.pauta.IniciarPautaUsecase;
@@ -25,12 +22,12 @@ public class IniciarPautaController {
 
     private final IniciarPautaUsecase iniciarPautaUsecase;
 
-    @PostMapping(value = EndpointURL.CADASTRAR_PAUTA_URL)
+    @PostMapping(value = EndpointURL.INICIAR_PAUTA_URL)
     public ResponseEntity<PautaSessaoDTO> iniciarPauta(@RequestBody PautaDuracaoDTO pautaDuracaoDTO) {
 
         Pauta pautaIniciada = iniciarPautaUsecase.execute(
-                                                        pautaDuracaoDTO.getIdPauta(),
-                                                        pautaDuracaoDTO.getDuracaoSessao());
+                pautaDuracaoDTO.getIdPauta(),
+                pautaDuracaoDTO.getDuracaoSessao());
 
         PautaSessaoDTO pautaSessaoDTOResponse = PautaParaPautaSessaoDtoMapper.INSTANCE.map(pautaIniciada);
 
