@@ -35,4 +35,10 @@ public class SessaoDeVotacaoController {
     public ResponseEntity<SessaoDeVotacaoDTO> buscarSessaoDeVotacaoPorPauta(@PathVariable Long id) {
         return sessaoDeVotacaoService.buscarSessaoDeVotacaoPorPauta(id) == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(sessaoDeVotacaoService.buscarSessaoDeVotacaoPorPauta(id), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SessaoDeVotacaoDTO> encerrarSessaoDeVotacao(@PathVariable Long id) {
+        sessaoDeVotacaoService.encerrarSessaoDeVotacao(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

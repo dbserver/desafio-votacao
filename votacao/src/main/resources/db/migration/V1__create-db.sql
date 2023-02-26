@@ -21,7 +21,7 @@ CREATE TABLE sessao_de_votacao
 (
     id       bigint    not null auto_increment,
     inicio   timestamp NOT NULL,
-    fim      timestamp NOT NULL,
+    fim      timestamp,
     status   text      NOT NULL,
     pauta_id bigint    NOT NULL,
     primary key (id),

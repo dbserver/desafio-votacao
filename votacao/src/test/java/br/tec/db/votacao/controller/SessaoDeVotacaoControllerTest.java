@@ -1,7 +1,5 @@
 package br.tec.db.votacao.controller;
 
-//path to test file: src\test\java\br\tec\db\votacao\controller\SessaoDeVotacaoControllerTest.java based on PautaControllerTest.java
-
 import br.tec.db.votacao.dto.SessaoDeVotacaoDTO;
 import br.tec.db.votacao.service.SessaoDeVotacaoService;
 import org.junit.jupiter.api.Test;
@@ -19,8 +17,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -80,7 +77,6 @@ public class SessaoDeVotacaoControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    //buscarSessaoDeVotacaoPorId
     @Test
     public void deveBuscarSessaoDeVotacaoPorId() throws Exception {
         SessaoDeVotacaoDTO sessaoDeVotacaoDTO = new SessaoDeVotacaoDTO(LocalDateTime.now(), 3L);
@@ -133,6 +129,17 @@ public class SessaoDeVotacaoControllerTest {
         mockMvc.perform(get("/sessao-de-votacao/pauta/abc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deveFinalizarUmaSessaoDeVotacao() throws Exception {
+        List<SessaoDeVotacaoDTO> sessao = new ArrayList<>();
+        sessao.add(new SessaoDeVotacaoDTO(LocalDateTime.now(), 1L));
+        when(sessaoDeVotacaoService.buscarTodasAsSessoesDeVotacao()).thenReturn(sessao);
+
+        mockMvc.perform(put("/sessao-de-votacao/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
 

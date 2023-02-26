@@ -22,7 +22,7 @@ public class SessaoDeVotacao {
 
     private LocalDateTime inicio = LocalDateTime.now();
 
-    private LocalDateTime fim = LocalDateTime.now().plusMinutes(1);
+    private LocalDateTime fim;
 
     @Enumerated(EnumType.STRING)
     private SessaoDeVotacaoStatusEnum status;
