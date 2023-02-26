@@ -9,9 +9,8 @@ import lombok.experimental.FieldNameConstants;
 @Setter
 @EqualsAndHashCode
 @FieldNameConstants
-public class PautaDTO {
+public class PautaDuracaoDTO {
 
     private Integer idPauta;
-    private String nomePauta;
-    private String descricaoPauta;
+    private Integer duracaoSessao;
 }

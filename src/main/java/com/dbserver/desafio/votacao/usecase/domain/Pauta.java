@@ -10,6 +10,7 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants
 public class Pauta {
 
+    private Integer idPauta;
     private String nome;
     private String descricao;
     private Sessao sessao;
