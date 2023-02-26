@@ -47,11 +47,10 @@ public class PautaControllerTest {
     @Test
     public void deveRetornarBadRequestAoCriarPautaEmAssembleiaInexistente() throws Exception {
         PautaDTO pautaDTO = new PautaDTO("pauta 1", 10L);
-        when(pautaService.criarPauta(any(PautaDTO.class))).thenReturn(pautaDTO);
+        when(pautaService.criarPauta(any(PautaDTO.class))).thenThrow(new RuntimeException("Assembleia não encontrada"));
 
         mockMvc.perform(post("/pautas")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"nome\": \"pauta 1\", \"idSessao\": \"10\"}"))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
@@ -62,6 +61,16 @@ public class PautaControllerTest {
         mockMvc.perform(post("/pautas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(""))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void deveRetornarBadRequestAoCriarPautaEmAssembleiaEncerrada() throws Exception {
+        PautaDTO pautaDTO = new PautaDTO("pauta 1", 1L);
+        when(pautaService.criarPauta(any(PautaDTO.class))).thenThrow(new RuntimeException("Assembleia já encerrada"));
+
+        mockMvc.perform(post("/pautas")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 

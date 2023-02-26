@@ -5,11 +5,11 @@ import br.tec.db.votacao.dto.PautaDTO;
 import java.util.List;
 
 public interface PautaService {
-    PautaDTO criarPauta(PautaDTO pautaDTO);
+    PautaDTO criarPauta(PautaDTO pautaDTO) throws RuntimeException;
 
-    PautaDTO buscarPautaPorId(Long id);
+    PautaDTO buscarPautaPorId(Long id) throws RuntimeException;
 
-    List<PautaDTO> buscarTodasAsPautas();
+    List<PautaDTO> buscarTodasAsPautas() throws RuntimeException;
 
-    List<PautaDTO> buscarPautasPorAssembleia(Long id);
+    List<PautaDTO> buscarPautasPorAssembleia(Long id) throws RuntimeException;
 }
