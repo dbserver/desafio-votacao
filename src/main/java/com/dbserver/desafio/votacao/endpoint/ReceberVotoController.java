@@ -1,18 +1,11 @@
 package com.dbserver.desafio.votacao.endpoint;
 
 import com.dbserver.desafio.votacao.endpoint.constant.EndpointURL;
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDuracaoDTO;
-import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.VotoDTO;
-import com.dbserver.desafio.votacao.endpoint.mapper.PautaParaPautaSessaoDtoMapper;
 import com.dbserver.desafio.votacao.endpoint.mapper.VotoDtoParaVotoMapper;
 import com.dbserver.desafio.votacao.endpoint.mapper.VotoParaVotoDTOMapper;
-import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException;
-import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException;
 import com.dbserver.desafio.votacao.usecase.assembleia.ReceberVotoUseCase;
-import com.dbserver.desafio.votacao.usecase.domain.Pauta;
 import com.dbserver.desafio.votacao.usecase.domain.Voto;
-import com.dbserver.desafio.votacao.usecase.pauta.IniciarPautaUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +22,7 @@ public class ReceberVotoController {
     private final ReceberVotoUseCase receberVotoUseCase;
 
     @PostMapping(value = EndpointURL.RECEBER_VOTO_URL)
-    public ResponseEntity<VotoDTO> receberVoto(@RequestBody VotoDTO votoDTO) throws VotoJaRealizadoException, SessaoFinalizadaException {
+    public ResponseEntity<VotoDTO> receberVoto(@RequestBody VotoDTO votoDTO) {
 
         Voto voto = VotoDtoParaVotoMapper.INSTANCE.map(votoDTO);
 

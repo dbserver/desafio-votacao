@@ -1,5 +1,7 @@
 package com.dbserver.desafio.votacao.usecase.assembleia.impl;
 
+import com.dbserver.desafio.votacao.exception.PautaInexistenteException;
+import com.dbserver.desafio.votacao.exception.PautaSemSessaoException;
 import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException;
 import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException;
 import com.dbserver.desafio.votacao.repository.PautaRepository;
@@ -16,6 +18,7 @@ import com.dbserver.desafio.votacao.usecase.domain.Voto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,24 +27,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReceberVotoUseCaseImpl implements ReceberVotoUseCase {
 
+    private final Clock clock;
+
     private final PautaRepository pautaRepository;
+
     private final VotoRepository votoRepository;
 
     @Override
-    public Voto execute(Voto voto) throws SessaoFinalizadaException, VotoJaRealizadoException {
+    public Voto execute(Voto voto) {
 
         Optional<PautaEntity> pautaEntity = pautaRepository.findById(voto.getPauta().getIdPauta());
 
         if (pautaEntity.isEmpty()) {
-            return null;
+            throw new PautaInexistenteException();
         }
+
         Pauta pauta = PautaEntityParaPautaMapper.INSTANCE.map(pautaEntity.get());
 
         voto.setPauta(pauta);
         Sessao sessao = pauta.getSessao();
 
         if (sessao == null) {
-            return null; //TODO Verificar se cabe exception
+            throw new PautaSemSessaoException();
         }
 
         verificarSessaoFechada(sessao);
@@ -53,20 +60,21 @@ public class ReceberVotoUseCaseImpl implements ReceberVotoUseCase {
         return VotoEntityParaVotoMapper.INSTANCE.map(votoEntity);
     }
 
-    private void verificarSessaoFechada(Sessao sessao) throws SessaoFinalizadaException {
+    private void verificarSessaoFechada(Sessao sessao) {
 
-        LocalDateTime dataLimiteSessao = sessao.getInicio().plusMinutes(sessao.getDuracao());
+        LocalDateTime dataHoraMinutoLimiteSessao = sessao.getInicio().plusMinutes(sessao.getDuracao());
+        LocalDateTime dataHoraMinutoAtual = LocalDateTime.now(clock);
 
-        if (dataLimiteSessao.isAfter(LocalDateTime.now())) {
+        if (dataHoraMinutoAtual.isAfter(dataHoraMinutoLimiteSessao)) {
             throw new SessaoFinalizadaException();
         }
     }
 
-    private void verificarSeUsuarioJaVotou(Voto voto) throws VotoJaRealizadoException {
+    private void verificarSeUsuarioJaVotou(Voto voto) {
 
         List<VotoEntity> votoPorCpfLista = votoRepository.findByCpfAssociado(voto.getCpfAssociado());
 
-        if(!votoPorCpfLista.isEmpty()){
+        if (!votoPorCpfLista.isEmpty()) {
             throw new VotoJaRealizadoException();
         }
     }

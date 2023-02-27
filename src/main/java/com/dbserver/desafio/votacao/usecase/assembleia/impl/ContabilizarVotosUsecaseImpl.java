@@ -1,5 +1,7 @@
 package com.dbserver.desafio.votacao.usecase.assembleia.impl;
 
+import com.dbserver.desafio.votacao.exception.PautaInexistenteException;
+import com.dbserver.desafio.votacao.exception.PautaSemVotoException;
 import com.dbserver.desafio.votacao.repository.PautaRepository;
 import com.dbserver.desafio.votacao.repository.VotoRepository;
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity;
@@ -22,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ContabilizarVotosUsecaseImpl implements ContabilizarVotosUsecase {
 
-
     private final PautaRepository pautaRepository;
 
     private final VotoRepository votoRepository;
@@ -33,20 +34,25 @@ public class ContabilizarVotosUsecaseImpl implements ContabilizarVotosUsecase {
         Optional<PautaEntity> pautaEntity = pautaRepository.findById(idPauta);
 
         if (pautaEntity.isEmpty()) {
-            return null;
+            throw new PautaInexistenteException();
         }
 
         List<VotoEntity> votoEntityList = votoRepository.findByPauta(pautaEntity.get());
 
-        if(votoEntityList.isEmpty()){
-            return null; //TODO verificar possibilidade de exception
-        }
+        verificaPautaSemVotos(votoEntityList);
 
         List<Voto> votoList = VotoEntityParaVotoMapper.INSTANCE.mapList(votoEntityList);
 
         Pauta pauta = PautaEntityParaPautaMapper.INSTANCE.map(pautaEntity.get());
 
         return criarVotosPauta(pauta, votoList);
+    }
+
+    private static void verificaPautaSemVotos(List<VotoEntity> votoEntityList) {
+
+        if(votoEntityList.isEmpty()){
+            throw new PautaSemVotoException();
+        }
     }
 
     private static VotosPauta criarVotosPauta(Pauta pauta, List<Voto> votoList) {

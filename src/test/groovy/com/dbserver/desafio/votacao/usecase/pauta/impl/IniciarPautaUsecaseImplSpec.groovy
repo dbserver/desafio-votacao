@@ -2,6 +2,7 @@ package com.dbserver.desafio.votacao.usecase.pauta.impl
 
 import br.com.six2six.fixturefactory.Fixture
 import com.dbserver.desafio.votacao.endpoint.dto.PautaDuracaoDTO
+import com.dbserver.desafio.votacao.exception.PautaInexistenteException
 import com.dbserver.desafio.votacao.repository.PautaRepository
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity
 import com.dbserver.desafio.votacao.usecase.domain.Pauta
@@ -69,7 +70,7 @@ class IniciarPautaUsecaseImplSpec extends Specification {
         pautaResultado == pautaMock
     }
 
-    def "Deveria validar uma chamada com parametros nulos ao metodo execute da classe IniciarPautaUsecaseImpl"() {
+    def "Deveria validar uma chamada com parametros nulos ao metodo execute da classe IniciarPautaUsecaseImpl gera PautaInexistenteException"() {
         given: "Um objeto Pauta de entrada com atributos nulos"
         pautaDuracaoVazioDTORequerida
 
@@ -83,11 +84,11 @@ class IniciarPautaUsecaseImplSpec extends Specification {
         0 * salvarPautaUsecase.execute(pautaMock) >> pautaMock
 
         when: "o método execute do IniciarPautaUsecase for invocado"
-        Pauta pautaResultado = iniciarPautaUsecase.execute(pautaDuracaoVazioDTORequerida.idPauta,
+        iniciarPautaUsecase.execute(pautaDuracaoVazioDTORequerida.idPauta,
                 pautaDuracaoVazioDTORequerida.duracaoSessao)
 
-        then: "o objeto pauta deve ser válido com todos os campos válidos"
-        pautaResultado == null
+        then: "o objeto pauta deve gerar PautaInexistenteException"
+        thrown(PautaInexistenteException)
     }
 
     def "Deveria validar uma chamada que gera uma exception ao metodo execute da classe IniciarPautaUsecaseImpl"() {

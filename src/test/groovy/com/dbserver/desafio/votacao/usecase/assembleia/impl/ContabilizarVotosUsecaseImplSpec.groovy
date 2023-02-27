@@ -1,6 +1,8 @@
 package com.dbserver.desafio.votacao.usecase.assembleia.impl
 
 import br.com.six2six.fixturefactory.Fixture
+import com.dbserver.desafio.votacao.exception.PautaInexistenteException
+import com.dbserver.desafio.votacao.exception.PautaSemVotoException
 import com.dbserver.desafio.votacao.repository.PautaRepository
 import com.dbserver.desafio.votacao.repository.VotoRepository
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity
@@ -75,7 +77,7 @@ class ContabilizarVotosUsecaseImplSpec extends Specification {
         votosPautaResultado == votosPautaMock
     }
 
-    def "Deveria validar uma chamada com parametos nulos ao metodo execute da classe contabilizarVotosUsecase "() {
+    def "Deveria validar uma chamada com parametos nulos ao metodo execute da classe contabilizarVotosUsecase e gerar PautaInexistenteException "() {
         given: "Um objeto Voto de entrada com atributos nulos"
         votoVazioRequerido
 
@@ -83,13 +85,13 @@ class ContabilizarVotosUsecaseImplSpec extends Specification {
         1 * pautaRepository.findById(votoVazioRequerido.pauta.idPauta) >> Optional.empty()
 
         when: "o método execute do contabilizarVotosUsecase for invocado"
-        VotosPauta votosPautaResultado = contabilizarVotosUsecase.execute(votoVazioRequerido.pauta.idPauta)
+        contabilizarVotosUsecase.execute(votoVazioRequerido.pauta.idPauta)
 
         then: "o objeto votosPauta deve ser válido com todos os campos válidos"
-        votosPautaResultado == null
+        thrown(PautaInexistenteException)
     }
 
-    def "Deveria validar uma chamada sem votacao ao metodo execute da classe contabilizarVotosUsecase "() {
+    def "Deveria validar uma chamada sem votacao ao metodo execute da classe contabilizarVotosUsecase e gerar PautaSemVotoException "() {
         given: "Um objeto Voto de entrada valido"
         votoRequerido
 
@@ -100,10 +102,11 @@ class ContabilizarVotosUsecaseImplSpec extends Specification {
         1 * votoRepository.findByPauta(pautaEntityMock) >> Collections.emptyList()
 
         when: "o método execute do contabilizarVotosUsecase for invocado"
-        VotosPauta votosPautaResultado = contabilizarVotosUsecase.execute(votoRequerido.pauta.idPauta)
+        contabilizarVotosUsecase.execute(votoRequerido.pauta.idPauta)
 
-        then: "o objeto cotosPauta deve retornar nulo"
-        votosPautaResultado == null
+        then: "o objeto cotosPauta deve gerar PautaSemVotoException"
+        def e = thrown(PautaSemVotoException)
+        e.message == "Esta Pauta não contém votos!"
     }
 
     def "Deveria validar uma chamada que gera uma exception ao metodo execute da classe contabilizarVotosUsecase"() {

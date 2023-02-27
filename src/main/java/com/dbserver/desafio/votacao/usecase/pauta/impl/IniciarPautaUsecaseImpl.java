@@ -1,5 +1,6 @@
 package com.dbserver.desafio.votacao.usecase.pauta.impl;
 
+import com.dbserver.desafio.votacao.exception.PautaInexistenteException;
 import com.dbserver.desafio.votacao.repository.PautaRepository;
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity;
 import com.dbserver.desafio.votacao.repository.mapper.PautaEntityParaPautaMapper;
@@ -27,8 +28,8 @@ public class IniciarPautaUsecaseImpl implements IniciarPautaUsecase {
 
         Optional<PautaEntity> pautaEntity = pautaRepository.findById(idPauta);
 
-        if(pautaEntity.isEmpty()){
-            return null;
+        if (pautaEntity.isEmpty()) {
+            throw new PautaInexistenteException();
         }
 
         Pauta pauta = PautaEntityParaPautaMapper.INSTANCE.map(pautaEntity.get());
@@ -37,4 +38,5 @@ public class IniciarPautaUsecaseImpl implements IniciarPautaUsecase {
 
         return salvarPautaUsecase.execute(pauta);
     }
+
 }
