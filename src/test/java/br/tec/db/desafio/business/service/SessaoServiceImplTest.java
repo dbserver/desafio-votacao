@@ -3,9 +3,8 @@ package br.tec.db.desafio.business.service;
 import br.tec.db.desafio.api.v1.dto.sessao.SessaoMapperV1;
 import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaCriarRequestV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
-import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
-import br.tec.db.desafio.business.service.implementation.SessaoServiceImpl;
+import br.tec.db.desafio.business.service.implementation.SessaoService;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.ValidacaoSessao;
 import br.tec.db.desafio.repository.AssociadoRepository;
 import br.tec.db.desafio.repository.AssociadoSessaoRepository;
@@ -40,7 +39,7 @@ public class SessaoServiceImplTest {
 
     @Test
     void devePersistirSessaoComSucesso() {
-        SessaoServiceImpl sessaoServiceImpl = new SessaoServiceImpl(sessaoRepository,pautaRepository, associadoRepository,associadoSessaoRepository,validacoesSessao);
+        SessaoService sessaoServiceImpl = new SessaoService(sessaoRepository,pautaRepository, associadoRepository,associadoSessaoRepository,validacoesSessao);
 
         SessaoParaCriarRequestV1 shouldSessaoRequestV1 =
                 new SessaoParaCriarRequestV1(

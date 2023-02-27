@@ -2,10 +2,7 @@ package br.tec.db.desafio.api.v1.controller;
 
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoRequestV1;
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoResponseV1;
-import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
-import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
-import br.tec.db.desafio.business.service.AssociadoService;
-import br.tec.db.desafio.business.service.PautaService;
+import br.tec.db.desafio.business.service.IAssociadoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/associado")
 @Tag(name = "Associado")
 public class AssociadoControllerV1 {
-    private final AssociadoService associadoService;
+    private final IAssociadoService associadoService;
 
-    public AssociadoControllerV1(AssociadoService associadoService) {
+    public AssociadoControllerV1(IAssociadoService associadoService) {
         this.associadoService = associadoService;
     }
 

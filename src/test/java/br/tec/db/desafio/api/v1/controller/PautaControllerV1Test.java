@@ -2,7 +2,7 @@ package br.tec.db.desafio.api.v1.controller;
 
 import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
 import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
-import br.tec.db.desafio.business.service.PautaService;
+import br.tec.db.desafio.business.service.IPautaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
@@ -22,7 +22,7 @@ import static io.restassured.RestAssured.given;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PautaControllerV1Test {
     @MockBean
-    PautaService pautaService;
+    IPautaService pautaService;
     private static final String ASSUNTO = "tema da pauta";
     private static final String URI ="/api/v1/pauta";
     @LocalServerPort

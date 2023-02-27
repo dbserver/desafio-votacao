@@ -6,7 +6,7 @@ import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaVotarRequestV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoTotalVotosResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
-import br.tec.db.desafio.business.service.SessaoService;
+import br.tec.db.desafio.business.service.ISessaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/sessao")
 @Tag(name = "Sessao")
 public class SessaoControllerV1 {
-    private final SessaoService sessaoService;
+    private final ISessaoService sessaoService;
 
-    public SessaoControllerV1(SessaoService sessaoService) {
+    public SessaoControllerV1(ISessaoService sessaoService) {
         this.sessaoService = sessaoService;
     }
 

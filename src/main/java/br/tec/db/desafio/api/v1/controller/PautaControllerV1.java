@@ -2,7 +2,7 @@ package br.tec.db.desafio.api.v1.controller;
 
 import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
 import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
-import br.tec.db.desafio.business.service.PautaService;
+import br.tec.db.desafio.business.service.IPautaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/pauta")
 @Tag(name = "Pauta")
 public class PautaControllerV1 {
-    private final PautaService pautaService;
+    private final IPautaService pautaService;
 
-    public PautaControllerV1(PautaService pautaService) {
+    public PautaControllerV1(IPautaService pautaService) {
         this.pautaService = pautaService;
     }
 

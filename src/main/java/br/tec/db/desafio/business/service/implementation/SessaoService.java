@@ -8,10 +8,9 @@ import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoTotalVotosResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
 import br.tec.db.desafio.business.domain.Associado;
-import br.tec.db.desafio.business.domain.AssociadoSessao;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
-import br.tec.db.desafio.business.service.SessaoService;
+import br.tec.db.desafio.business.service.ISessaoService;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.ValidacaoSessao;
 import br.tec.db.desafio.exception.BusinessException;
 import br.tec.db.desafio.repository.AssociadoRepository;
@@ -24,14 +23,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class SessaoServiceImpl implements SessaoService {
+public class SessaoService implements ISessaoService {
     private final SessaoRepository sessaoRepository;
     private final PautaRepository pautaRepository;
     private final AssociadoRepository associadoRepository;
     private final AssociadoSessaoRepository associadoSessaoRepository;
     private final List<ValidacaoSessao> validacoesSessao;
 
-    public SessaoServiceImpl(SessaoRepository sessaoRepository, PautaRepository pautaRepository, AssociadoRepository associadoRepository, AssociadoSessaoRepository associadoSessaoRepository, List<ValidacaoSessao> validacoesSessao) {
+    public SessaoService(SessaoRepository sessaoRepository, PautaRepository pautaRepository, AssociadoRepository associadoRepository, AssociadoSessaoRepository associadoSessaoRepository, List<ValidacaoSessao> validacoesSessao) {
         this.sessaoRepository = sessaoRepository;
         this.pautaRepository = pautaRepository;
         this.associadoRepository = associadoRepository;

@@ -7,7 +7,7 @@ import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoTotalVotosResponseV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
 import br.tec.db.desafio.business.domain.enums.Voto;
-import br.tec.db.desafio.business.service.SessaoService;
+import br.tec.db.desafio.business.service.ISessaoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
@@ -28,7 +28,7 @@ import static io.restassured.RestAssured.given;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SessaoControllerV1Test {
     @MockBean
-    SessaoService sessaoService;
+    ISessaoService sessaoService;
     private static final String CPF = "0123.0123.11.22-9";
     private static final String ASSUNTO_PAUTA = "tema da pauta";
     private static final Long DURACAO_SESSAO = 2L;
