@@ -29,7 +29,6 @@ public class SessaoDeVotacaoServiceImpl implements SessaoDeVotacaoService {
         Pauta pauta = pautaRepository.findById(sessaoDeVotacaoDTO.idPauta()).orElseThrow();
         if (pauta.getStatus().equals(PautaStatusEnum.AGUARDANDO_VOTACAO)) {
             SessaoDeVotacao sessaoDeVotacao = new SessaoDeVotacao();
-            sessaoDeVotacao.setInicio(sessaoDeVotacaoDTO.inicio());
             sessaoDeVotacao.setPauta(pauta);
             sessaoDeVotacao.setStatus(SessaoDeVotacaoStatusEnum.INICIADA);
             pauta.setSessaoDeVotacao(sessaoDeVotacao);
