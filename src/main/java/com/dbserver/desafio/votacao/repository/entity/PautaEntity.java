@@ -12,7 +12,8 @@ import javax.persistence.*;
 public class PautaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sessao_id_generator")
+    @SequenceGenerator(name = "sessao_id_generator", sequenceName = "sessao_id_seq", allocationSize = 1)
     private Integer idPauta;
 
     private String nome;

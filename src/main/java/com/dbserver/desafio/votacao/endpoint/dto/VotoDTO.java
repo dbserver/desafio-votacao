@@ -1,7 +1,6 @@
-package com.dbserver.desafio.votacao.usecase.domain;
+package com.dbserver.desafio.votacao.endpoint.dto;
 
 import com.dbserver.desafio.votacao.usecase.enuns.VotoEnum;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +10,9 @@ import lombok.experimental.FieldNameConstants;
 @Setter
 @EqualsAndHashCode
 @FieldNameConstants
-public class Voto {
+public class VotoDTO {
 
     private String cpfAssociado;
-    private Pauta pauta;
+    private Integer idPauta;
     private VotoEnum voto;
 }

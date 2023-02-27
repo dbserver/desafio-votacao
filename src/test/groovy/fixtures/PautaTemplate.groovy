@@ -15,6 +15,7 @@ import static fixtures.SessaoTemplate.SESSAO_VALIDA
 class PautaTemplate implements TemplateLoader {
 
     public static final String PAUTA_OBRA = "Pauta de obra"
+    public static final String PAUTA_OBRA_COM_ID = "Pauta de obra com identificador"
     public static final String PAUTA_OBRA_CADASTRADA = "Pauta de obra salva no banco de dados"
     public static final String PAUTA_OBRA_COM_SESSAO = "Pauta de obra com sessao valida"
     public static final String PAUTA_VAZIO = "Pauta VAZIO"
@@ -25,6 +26,12 @@ class PautaTemplate implements TemplateLoader {
             {
                 add(nome, "Infiltração na caixa de agua")
                 add(descricao, "A caixa de agua esta com infltração e precisade uma obra emergencial")
+            }
+        })
+
+        Fixture.of(Pauta).addTemplate(PAUTA_OBRA_COM_ID, new Rule() {
+            {
+                add(idPauta, 19900)
             }
         })
 

@@ -23,8 +23,9 @@ class CadastrarPautaControllerSpec extends Specification {
 
     PautaDTO pautaDTORequerida
     PautaDTO pautaDTOVazioRequerida
-    Pauta pautaMock
     PautaDTO pautaDTOMock
+
+    Pauta pautaMock
     Pauta pautaRequerida
     Pauta pautaVazioRequerida
 

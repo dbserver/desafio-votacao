@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 public class SessaoEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pauta_id_generator")
+    @SequenceGenerator(name = "pauta_id_generator", sequenceName = "sessao_id_seq", allocationSize = 1)
     private Integer idSessao;
 
     private LocalDateTime inicio;
