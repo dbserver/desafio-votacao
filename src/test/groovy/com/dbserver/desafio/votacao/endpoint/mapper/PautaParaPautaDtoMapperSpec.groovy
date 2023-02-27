@@ -34,8 +34,8 @@ class PautaParaPautaDtoMapperSpec extends Specification {
         then: "o objeto PautaDTO deve ser válido com todos os campos válidos"
         pautaDTOResultado
         verifyAll(pautaDTOResultado) {
-            nomePauta == pautaDTOMock.nomePauta
-            descricaoPauta == pautaDTOMock.descricaoPauta
+            nome == pautaDTOMock.nome
+            descricao == pautaDTOMock.descricao
         }
     }
 

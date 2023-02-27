@@ -17,6 +17,7 @@ class VotoTemplate implements TemplateLoader {
     public static final String VOTO_PAUTA_COM_SESSAO = "Voto da Pauta de obra com sessao"
     public static final String VOTO_COM_ID_PAUTA = "Voto da Pauta com id da pauta"
     public static final String VOTO_PAUTA_VAZIO = "Voto da Pauta de obra Vazio"
+    public static final String VOTO_PAUTA_SEM_PAUTA = "Voto da Pauta de obra sem pauta"
 
     @Override
     void load() {
@@ -36,7 +37,6 @@ class VotoTemplate implements TemplateLoader {
             }
         })
 
-
         Fixture.of(Voto).addTemplate(VOTO_COM_ID_PAUTA, new Rule() {
             {
                 add(cpfAssociado, "999.999.999-99")
@@ -48,6 +48,13 @@ class VotoTemplate implements TemplateLoader {
         Fixture.of(Voto).addTemplate(VOTO_PAUTA_VAZIO, new Rule() {
             {
                 add(pauta, one(Pauta,PautaTemplate.PAUTA_VAZIO))
+            }
+        })
+
+        Fixture.of(Voto).addTemplate(VOTO_PAUTA_SEM_PAUTA, new Rule() {
+            {
+                add(cpfAssociado, "999.999.999-99")
+                add(voto,VotoEnum.SIM)
             }
         })
     }
