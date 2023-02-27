@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface AssociadoService {
 
-    AssociadoDTO salvarAssociado(AssociadoDTO associadoDTO);
+    AssociadoDTO salvarAssociado(AssociadoDTO associadoDTO) throws RuntimeException;
 
-    AssociadoDTO buscarAssociadoPorId(Long id);
+    AssociadoDTO buscarAssociadoPorId(Long id) throws RuntimeException;
 
-    List<AssociadoDTO> buscarTodosOsAssociados();
+    List<AssociadoDTO> buscarTodosOsAssociados() throws RuntimeException;
 
 }
