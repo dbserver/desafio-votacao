@@ -10,5 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SessaoTotalVotosResponseV1 {
-    private int totalVotos;
+    private int totalVotosSim;
+    private int totalVotosNao;
 }

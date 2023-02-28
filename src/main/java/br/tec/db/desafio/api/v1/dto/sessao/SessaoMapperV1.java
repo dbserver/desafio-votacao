@@ -84,7 +84,8 @@ public class SessaoMapperV1 {
             throw new BusinessException("Dados inexistentes");
         }
         SessaoTotalVotosResponseV1 sessaoTotalVotosResponseV1 =new SessaoTotalVotosResponseV1();
-        sessaoTotalVotosResponseV1.setTotalVotos(source.getTotalVotos());
+        sessaoTotalVotosResponseV1.setTotalVotosSim(source.getTotalVotosSim());
+        sessaoTotalVotosResponseV1.setTotalVotosNao(source.getTotalVotosNao());
 
         return sessaoTotalVotosResponseV1;
 

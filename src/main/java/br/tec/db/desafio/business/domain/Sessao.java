@@ -1,8 +1,8 @@
 package br.tec.db.desafio.business.domain;
 
+import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaVotarRequestV1;
 import br.tec.db.desafio.business.domain.enums.Voto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,5 +31,18 @@ public class Sessao {
         associado.getSessoes().add(this);
     }
     private LocalDateTime duracao;
-    private int totalVotos;
+    private int totalVotosSim;
+    private int totalVotosNao;
+
+    public void novoVoto(Sessao sessao, SessaoParaVotarRequestV1 sessaoParaVotarRequestV1){
+        if(sessaoParaVotarRequestV1.getVoto()==Voto.SIM){
+            sessao.setTotalVotosSim(sessao.getTotalVotosSim() + 1);
+        }
+        if(sessaoParaVotarRequestV1.getVoto()==Voto.NAO){
+            sessao.setTotalVotosNao(sessao.getTotalVotosNao() + 1);
+        }
+        sessao.setVoto(sessaoParaVotarRequestV1.getVoto());
+    }
+
+
 }

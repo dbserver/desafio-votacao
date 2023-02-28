@@ -10,6 +10,7 @@ import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
 import br.tec.db.desafio.business.domain.Associado;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
+import br.tec.db.desafio.business.domain.enums.Voto;
 import br.tec.db.desafio.business.service.ISessaoService;
 import br.tec.db.desafio.business.service.implementation.base.BaseSessao;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoCriarUmaNovaSessao;
@@ -74,8 +75,10 @@ public class SessaoService extends BaseSessao implements ISessaoService {
 
 
         sessaoEncontrada.addAssociado(associadoEncontrado);
-        sessaoEncontrada.setVoto(sessaoToCreate.getVoto());
-        sessaoEncontrada.setTotalVotos(sessaoEncontrada.getTotalVotos() + 1);
+        sessaoEncontrada.novoVoto(sessaoEncontrada,sessaoRequestV1);
+
+
+
         return SessaoMapperV1.sessaoToSessaoVotadaResponseV1(
                 sessaoRepository.save(sessaoEncontrada)
         );
