@@ -5,6 +5,7 @@ import com.dbserver.desafio.votacao.usecase.sessao.IniciarSessaoUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Service
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 public class IniciarSessaoUsecaseImpl implements IniciarSessaoUsecase {
 
     private static final Integer DURACAO_EM_MINUTO = 1;
+
+    private final Clock clock;
 
     public Sessao execute(Integer duracao) {
 
@@ -21,7 +24,7 @@ public class IniciarSessaoUsecaseImpl implements IniciarSessaoUsecase {
 
         return Sessao
                 .builder()
-                .inicio(LocalDateTime.now())
+                .inicio(LocalDateTime.now(clock))
                 .duracao(duracao)
                 .build();
     }

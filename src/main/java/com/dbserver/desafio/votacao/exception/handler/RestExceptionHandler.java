@@ -20,35 +20,35 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RestExceptionHandler {
 
     @ExceptionHandler(VotoJaRealizadoException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErroNotificacao> handleVotoJaRealizadoException(VotoJaRealizadoException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(SessaoFinalizadaException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErroNotificacao> handleSessaoFinalizadaException(SessaoFinalizadaException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(PautaSemSessaoException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErroNotificacao> handlePautaSemSessaoException(PautaSemSessaoException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(PautaInexistenteException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErroNotificacao> handlePautaInexistenteException(PautaInexistenteException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(PautaSemVotoException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErroNotificacao> handlePautaSemVotoException(PautaSemVotoException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());

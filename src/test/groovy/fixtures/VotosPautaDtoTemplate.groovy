@@ -32,6 +32,15 @@ class VotosPautaDtoTemplate implements TemplateLoader {
             }
         })
 
+
+        Fixture.of(VotosPautaDTO).addTemplate(VOTOS_PAUTA_DTO_PAUTA_COM_SESSAO, new Rule() {
+            {
+                add(pauta, one(PautaDTO,PautaDtoTemplate.PAUTA_DTO_OBRA_SOM_SESSAO))
+                add(totalVotosNao, 1)
+                add(totalVotosSim, 2)
+            }
+        })
+
         Fixture.of(VotosPautaDTO).addTemplate(VOTOS_PAUTA_DTO_PAUTA_VAZIO, new Rule() {})
     }
 }

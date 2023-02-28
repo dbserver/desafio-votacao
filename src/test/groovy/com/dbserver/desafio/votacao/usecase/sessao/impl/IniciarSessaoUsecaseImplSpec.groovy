@@ -5,12 +5,18 @@ import com.dbserver.desafio.votacao.usecase.domain.Sessao
 import com.dbserver.desafio.votacao.usecase.sessao.IniciarSessaoUsecase
 import spock.lang.Specification
 
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneOffset
+
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates
 import static fixtures.SessaoTemplate.SESSAO_VALIDA
 
 class IniciarSessaoUsecaseImplSpec extends Specification {
 
-    Integer DURACAO_EM_MINUTO = 1;
+    Integer DURACAOEMMINUTO = 1;
+
+    Clock clock = Clock.fixed(Instant.parse("2023-02-25T19:30:00Z"), ZoneOffset.UTC)
 
     IniciarSessaoUsecase iniciarSessaoUsecase
 
@@ -19,7 +25,7 @@ class IniciarSessaoUsecaseImplSpec extends Specification {
     def setup() {
         loadTemplates("fixtures")
 
-        iniciarSessaoUsecase = new IniciarSessaoUsecaseImpl()
+        iniciarSessaoUsecase = new IniciarSessaoUsecaseImpl(clock)
 
         sessaoMock = Fixture.from(Sessao).gimme(SESSAO_VALIDA)
     }
@@ -48,7 +54,7 @@ class IniciarSessaoUsecaseImplSpec extends Specification {
         then: "o objeto sessao deve ser válido com deuracao default"
         sessaoResultado
         verifyAll(sessaoResultado) {
-            sessaoResultado.duracao == DURACAO_EM_MINUTO
+            sessaoResultado.duracao == DURACAOEMMINUTO
         }
     }
 }
