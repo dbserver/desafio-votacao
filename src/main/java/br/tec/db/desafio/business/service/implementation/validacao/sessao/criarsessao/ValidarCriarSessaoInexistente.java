@@ -2,6 +2,8 @@ package br.tec.db.desafio.business.service.implementation.validacao.sessao.criar
 
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoCriarUmaNovaSessao;
 import br.tec.db.desafio.exception.BusinessException;
+import lombok.NoArgsConstructor;
+
 
 public class ValidarCriarSessaoInexistente extends AValidacaoCriarUmaNovaSessao {
 

@@ -28,7 +28,7 @@ public class SessaoService extends BaseSessao implements ISessaoService {
 
 
     public SessaoService(SessaoRepository sessaoRepository, PautaRepository pautaRepository, AssociadoRepository associadoRepository, AssociadoSessaoRepository associadoSessaoRepository, List<AValidacaoTotalDeVotosDaSessao> validacaoTotalDeVotosDaSessaoList, List<AValidacaoCriarUmaNovaSessao> validacaoCriarUmaNovaSessaoList, List<AValidacaoVotarEmUmaSessao> validacaoVotarEmUmaSessaoList) {
-        super(sessaoRepository, pautaRepository, associadoRepository, associadoSessaoRepository);
+        super(sessaoRepository, pautaRepository, associadoRepository, associadoSessaoRepository, validacaoTotalDeVotosDaSessaoList, validacaoCriarUmaNovaSessaoList, validacaoVotarEmUmaSessaoList);
     }
 
     @Override
