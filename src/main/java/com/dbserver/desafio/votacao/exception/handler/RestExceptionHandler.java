@@ -6,9 +6,11 @@ import com.dbserver.desafio.votacao.exception.PautaSemVotoException;
 import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException;
 import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -18,36 +20,48 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RestExceptionHandler {
 
     @ExceptionHandler(VotoJaRealizadoException.class)
-    @ResponseStatus(code = HttpStatus.GONE)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErroNotificacao> handleVotoJaRealizadoException(VotoJaRealizadoException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(SessaoFinalizadaException.class)
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErroNotificacao> handleSessaoFinalizadaException(SessaoFinalizadaException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(PautaSemSessaoException.class)
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErroNotificacao> handlePautaSemSessaoException(PautaSemSessaoException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(PautaInexistenteException.class)
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErroNotificacao> handlePautaInexistenteException(PautaInexistenteException e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(PautaSemVotoException.class)
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErroNotificacao> handlePautaSemVotoException(PautaSemVotoException e) {
+
+        return getErroNotificacaoResponseEntity(e.getMessage());
+    }
+
+    @ExceptionHandler(value = {Exception.class, ConversionNotSupportedException.class, HttpMessageNotWritableException.class})
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ErroNotificacao> handleInternalServerErrorException(Exception e) {
+
+        return getErroNotificacaoResponseEntity(e.getMessage());
+    }
+
+    public ResponseEntity<ErroNotificacao> handleDefaultException(Exception e) {
 
         return getErroNotificacaoResponseEntity(e.getMessage());
     }

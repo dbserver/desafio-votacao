@@ -7,7 +7,6 @@ import com.dbserver.desafio.votacao.endpoint.mapper.VotoParaVotoDTOMapper;
 import com.dbserver.desafio.votacao.usecase.assembleia.ReceberVotoUseCase;
 import com.dbserver.desafio.votacao.usecase.domain.Voto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,11 +27,8 @@ public class ReceberVotoController {
 
         Voto votoEfetuado = receberVotoUseCase.execute(voto);
 
-        VotoDTO votoDTOResponse = VotoParaVotoDTOMapper.INSTANCE.map(votoEfetuado);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(votoDTOResponse);
+        return ResponseEntity.ok(
+                VotoParaVotoDTOMapper.INSTANCE.map(votoEfetuado));
     }
 }
 

@@ -19,6 +19,7 @@
         <postgresql.version>42.5.4</postgresql.version>
         <spock-core.version>2.4-M1-groovy-4.0</spock-core.version>
         <fixture.version>3.1.0</fixture.version>
+        <jackson-databind.version>2.14.2</jackson-databind.version>
     </properties>
 
     <dependencies>
@@ -67,6 +68,24 @@
             <version>${fixture.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-spring</artifactId>
+            <version>2.0-M4-groovy-3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>applicationinsights-web</artifactId>
+            <version>2.6.4</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

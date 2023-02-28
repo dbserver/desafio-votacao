@@ -7,7 +7,6 @@ import com.dbserver.desafio.votacao.endpoint.mapper.PautaParaPautaDtoMapper;
 import com.dbserver.desafio.votacao.usecase.domain.Pauta;
 import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +30,6 @@ public class CadastrarPautaController {
 
         PautaDTO pautaDTOResponse = PautaParaPautaDtoMapper.INSTANCE.map(pautaCadastrada);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(pautaDTOResponse);
+        return ResponseEntity.ok(pautaDTOResponse);
     }
 }
