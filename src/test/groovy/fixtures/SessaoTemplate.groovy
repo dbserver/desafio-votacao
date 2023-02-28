@@ -3,13 +3,13 @@ package fixtures
 import br.com.six2six.fixturefactory.Fixture
 import br.com.six2six.fixturefactory.Rule
 import br.com.six2six.fixturefactory.loader.TemplateLoader
-import com.dbserver.desafio.votacao.usecase.domain.Sessao
+import com.dbserver.desafio.valida.cpf.usecase.domain.Sessao
 
 import java.time.LocalDateTime
 import java.time.Month
 
-import static com.dbserver.desafio.votacao.usecase.domain.Sessao.Fields.duracao
-import static com.dbserver.desafio.votacao.usecase.domain.Sessao.Fields.inicio
+import static com.dbserver.desafio.valida.cpf.usecase.domain.Sessao.Fields.duracao
+import static com.dbserver.desafio.valida.cpf.usecase.domain.Sessao.Fields.inicio
 
 class SessaoTemplate implements TemplateLoader {
 

@@ -32,6 +32,118 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Iniciar Sessão da Pauta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"desafio-votacao",
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Receber Voto para a Pauta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"desafio-votacao",
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resoltado do Votos por Pauta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"desafio-votacao",
+						"cadastrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validação de CPF",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"cpf\":\"999.999.999-99\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8082/desafio-valida-cpf/valida-cpf",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"desafio-valida-cpf",
+						"valida-cpf"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

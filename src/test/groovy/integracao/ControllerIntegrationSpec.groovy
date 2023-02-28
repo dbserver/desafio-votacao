@@ -1,22 +1,23 @@
 package integracao
 
 import br.com.six2six.fixturefactory.Fixture
-import com.dbserver.desafio.votacao.endpoint.CadastrarPautaController
-import com.dbserver.desafio.votacao.endpoint.ContabilizarVotosController
-import com.dbserver.desafio.votacao.endpoint.IniciarPautaController
-import com.dbserver.desafio.votacao.endpoint.ReceberVotoController
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDuracaoDTO
-import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO
-import com.dbserver.desafio.votacao.endpoint.dto.VotoDTO
-import com.dbserver.desafio.votacao.endpoint.dto.VotosPautaDTO
-import com.dbserver.desafio.votacao.usecase.assembleia.ContabilizarVotosUsecase
-import com.dbserver.desafio.votacao.usecase.assembleia.ReceberVotoUseCase
-import com.dbserver.desafio.votacao.usecase.domain.Pauta
-import com.dbserver.desafio.votacao.usecase.domain.Voto
-import com.dbserver.desafio.votacao.usecase.domain.VotosPauta
-import com.dbserver.desafio.votacao.usecase.pauta.IniciarPautaUsecase
-import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase
+import com.dbserver.desafio.valida.cpf.endpoint.CadastrarPautaController
+import com.dbserver.desafio.valida.cpf.endpoint.ContabilizarVotosController
+import com.dbserver.desafio.valida.cpf.endpoint.IniciarPautaController
+import com.dbserver.desafio.valida.cpf.endpoint.ReceberVotoController
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaDuracaoDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaIdDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaSessaoDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.VotoDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.VotosPautaDTO
+import com.dbserver.desafio.valida.cpf.usecase.assembleia.ContabilizarVotosUsecase
+import com.dbserver.desafio.valida.cpf.usecase.assembleia.ReceberVotoUseCase
+import com.dbserver.desafio.valida.cpf.usecase.domain.Pauta
+import com.dbserver.desafio.valida.cpf.usecase.domain.Voto
+import com.dbserver.desafio.valida.cpf.usecase.domain.VotosPauta
+import com.dbserver.desafio.valida.cpf.usecase.pauta.IniciarPautaUsecase
+import com.dbserver.desafio.valida.cpf.usecase.pauta.SalvarPautaUsecase
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.microsoft.applicationinsights.core.dependencies.google.gson.Gson
 import org.spockframework.spring.SpringBean
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.context.annotation.Import
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -43,6 +43,7 @@ import static fixtures.PautaDtoTemplate.PAUTA_DTO_OBRA_SALVA
 import static fixtures.PautaDuracaoDtoTemplate.PAUTA_DURACAO_DTO_OBRA
 import static fixtures.PautaSessaoDtoTemplate.PAUTA_SESSAO_DTO_OBRA_SALVA
 import static fixtures.PautaTemplate.PAUTA_OBRA
+import static fixtures.PautaIdDtoTemplate.PAUTA_ID_DTO_OBRA
 import static fixtures.PautaTemplate.PAUTA_OBRA_CADASTRADA
 import static fixtures.PautaTemplate.PAUTA_OBRA_COM_SESSAO
 import static fixtures.VotoDtoTemplate.VOTO_DTO_PAUTA
@@ -199,12 +200,12 @@ class ControllerIntegrationSpec extends Specification {
     def "Deveria validar o fluxo de uma request para contabilizar votos da pauta com código HTTP de retorno igual a 200 e uma resposta válida"() {
         given: "Dado que as chamadas para contabilizar votos da pauta retornem OK"
         String urlBase = "/contabilizar-votos"
-        Pauta pautaRequerida = Fixture.from(Pauta).gimme(PAUTA_OBRA)
+        PautaIdDTO pautaIdDTORequerida = Fixture.from(PautaIdDTO).gimme(PAUTA_ID_DTO_OBRA)
         VotosPauta votosPautaMock = Fixture.from(VotosPauta).gimme(VOTOS_PAUTA_PAUTA_COM_SESSAO)
-        def pautaContent = new Gson().toJson(pautaRequerida)
+        def pautaContent = new Gson().toJson(pautaIdDTORequerida)
 
         and: "chamado o execute do contabilizarVotosUsecase"
-        1 * contabilizarVotosUsecase.execute(pautaRequerida.idPauta) >> votosPautaMock
+        1 * contabilizarVotosUsecase.execute(pautaIdDTORequerida.idPauta) >> votosPautaMock
 
         when: "O cadastro da pauta for chamado"
         MvcResult mvcResult = mockMvc.perform(postMockMvc(urlBase)

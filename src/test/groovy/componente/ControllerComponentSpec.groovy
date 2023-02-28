@@ -1,20 +1,19 @@
 package componente
 
 import br.com.six2six.fixturefactory.Fixture
-import com.dbserver.desafio.votacao.endpoint.ReceberVotoController
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDuracaoDTO
-import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO
-import com.dbserver.desafio.votacao.endpoint.dto.VotoDTO
-import com.dbserver.desafio.votacao.endpoint.dto.VotosPautaDTO
-import com.dbserver.desafio.votacao.repository.PautaRepository
-import com.dbserver.desafio.votacao.repository.VotoRepository
-import com.dbserver.desafio.votacao.repository.entity.PautaEntity
-import com.dbserver.desafio.votacao.repository.entity.VotoEntity
-import com.dbserver.desafio.votacao.usecase.assembleia.ReceberVotoUseCase
-import com.dbserver.desafio.votacao.usecase.domain.Pauta
-import com.dbserver.desafio.votacao.usecase.domain.Voto
-import com.dbserver.desafio.votacao.usecase.domain.VotosPauta
+import com.dbserver.desafio.valida.cpf.endpoint.ReceberVotoController
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaDuracaoDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaIdDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaSessaoDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.VotoDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.VotosPautaDTO
+import com.dbserver.desafio.valida.cpf.repository.PautaRepository
+import com.dbserver.desafio.valida.cpf.repository.VotoRepository
+import com.dbserver.desafio.valida.cpf.repository.entity.PautaEntity
+import com.dbserver.desafio.valida.cpf.repository.entity.VotoEntity
+import com.dbserver.desafio.valida.cpf.usecase.assembleia.ReceberVotoUseCase
+import com.dbserver.desafio.valida.cpf.usecase.domain.Voto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.microsoft.applicationinsights.core.dependencies.google.gson.Gson
 import org.spockframework.spring.SpringBean
@@ -42,17 +41,14 @@ import static fixtures.PautaDuracaoDtoTemplate.PAUTA_DURACAO_DTO_OBRA
 import static fixtures.PautaEntityTemplate.PAUTA_ENTITY_OBRA_COM_SESSAO
 import static fixtures.PautaEntityTemplate.PAUTA_ENTITY_OBRA_COM_SESSAO_SEM_ID
 import static fixtures.PautaEntityTemplate.PAUTA_ENTITY_OBRA_SEM_SESSAO
+import static fixtures.PautaIdDtoTemplate.PAUTA_ID_DTO_OBRA
 import static fixtures.PautaSessaoDtoTemplate.PAUTA_SESSAO_DTO_OBRA_SALVA
-import static fixtures.PautaTemplate.PAUTA_OBRA
-import static fixtures.PautaTemplate.PAUTA_OBRA_CADASTRADA
 import static fixtures.VotoDtoTemplate.VOTO_DTO_PAUTA
 import static fixtures.VotoEntityTemplate.VOTO_ENTITY_PAUTA_NAO
 import static fixtures.VotoEntityTemplate.VOTO_ENTITY_PAUTA_SALVA
 import static fixtures.VotoEntityTemplate.VOTO_ENTITY_PAUTA_SIM
 import static fixtures.VotoTemplate.VOTO_COM_ID_PAUTA
-import static fixtures.VotoTemplate.VOTO_PAUTA_COM_SESSAO
 import static fixtures.VotosPautaDtoTemplate.VOTOS_PAUTA_DTO_PAUTA_COM_SESSAO
-import static fixtures.VotosPautaTemplate.VOTOS_PAUTA_PAUTA_COM_SESSAO
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post as postMockMvc
 
 @SpringBootTest(classes = [{ReceberVotoController.class},{ReceberVotoUseCase.class}])
@@ -198,15 +194,15 @@ class ControllerComponentSpec extends Specification {
     def "Deveria validar o fluxo de uma request para contabilizar votos da pauta com código HTTP de retorno igual a 200 e uma resposta válida"() {
         given: "Dado que as chamadas para contabilizar votos da pauta retornem OK"
         String urlBase = "/contabilizar-votos"
-        Pauta pautaRequerida = Fixture.from(Pauta).gimme(PAUTA_OBRA)
+        PautaIdDTO pautaIdDTORequerida = Fixture.from(PautaIdDTO).gimme(PAUTA_ID_DTO_OBRA)
         List<VotoEntity> votoEntityListMock = List.of(Fixture.from(VotoEntity).gimme(VOTO_ENTITY_PAUTA_SALVA),
                 Fixture.from(VotoEntity).gimme(VOTO_ENTITY_PAUTA_SIM),
                 Fixture.from(VotoEntity).gimme(VOTO_ENTITY_PAUTA_NAO))
         PautaEntity pautaEntityMock = Fixture.from(PautaEntity).gimme(PAUTA_ENTITY_OBRA_COM_SESSAO)
-        def pautaContent = new Gson().toJson(pautaRequerida)
+        def pautaContent = new Gson().toJson(pautaIdDTORequerida)
 
         and: "chamado o findById do pautaRepository"
-        1 * pautaRepository.findById(pautaRequerida.idPauta) >> Optional.of(pautaEntityMock)
+        1 * pautaRepository.findById(pautaIdDTORequerida.idPauta) >> Optional.of(pautaEntityMock)
 
         and: "chamado o findByPauta do votoRepository"
         1 * votoRepository.findByPauta(pautaEntityMock) >> votoEntityListMock

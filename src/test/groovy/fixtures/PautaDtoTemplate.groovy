@@ -3,11 +3,11 @@ package fixtures
 import br.com.six2six.fixturefactory.Fixture
 import br.com.six2six.fixturefactory.Rule
 import br.com.six2six.fixturefactory.loader.TemplateLoader
-import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO
+import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaDTO
 
-import static com.dbserver.desafio.votacao.endpoint.dto.PautaDTO.Fields.idPauta
-import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.descricao
-import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.nome
+import static com.dbserver.desafio.valida.cpf.endpoint.dto.PautaDTO.Fields.idPauta
+import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.descricao
+import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.nome
 
 class PautaDtoTemplate implements TemplateLoader {
 
