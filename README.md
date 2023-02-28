@@ -115,3 +115,13 @@ A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
 O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
 
 # desafio-votacao
+
+# Informações da API
+
+Swagger Doc:
+http://localhost:8081/desafio-votacao/swagger-ui/index.html
+
+Requisitos:
+- Banco de Dados: Postgres
+- Docker-compose
+- Java 11

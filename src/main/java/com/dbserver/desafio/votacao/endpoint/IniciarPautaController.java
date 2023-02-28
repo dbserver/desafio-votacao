@@ -4,6 +4,7 @@ import com.dbserver.desafio.votacao.endpoint.constant.EndpointURL;
 import com.dbserver.desafio.votacao.endpoint.dto.PautaDuracaoDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO;
 import com.dbserver.desafio.votacao.endpoint.mapper.PautaParaPautaSessaoDtoMapper;
+import com.dbserver.desafio.votacao.endpoint.swagger.IniciarPautaControllerSwagger;
 import com.dbserver.desafio.votacao.usecase.domain.Pauta;
 import com.dbserver.desafio.votacao.usecase.pauta.IniciarPautaUsecase;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class IniciarPautaController {
+public class IniciarPautaController implements IniciarPautaControllerSwagger {
 
     private final IniciarPautaUsecase iniciarPautaUsecase;
 

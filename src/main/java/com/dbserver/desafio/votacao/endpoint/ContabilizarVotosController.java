@@ -4,6 +4,7 @@ import com.dbserver.desafio.votacao.endpoint.constant.EndpointURL;
 import com.dbserver.desafio.votacao.endpoint.dto.PautaDTO;
 import com.dbserver.desafio.votacao.endpoint.dto.VotosPautaDTO;
 import com.dbserver.desafio.votacao.endpoint.mapper.VotosPautaParaVotosPautaDTOMapper;
+import com.dbserver.desafio.votacao.endpoint.swagger.ContabilizarVotosControllerSwagger;
 import com.dbserver.desafio.votacao.usecase.assembleia.ContabilizarVotosUsecase;
 import com.dbserver.desafio.votacao.usecase.domain.VotosPauta;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class ContabilizarVotosController {
+public class ContabilizarVotosController implements ContabilizarVotosControllerSwagger {
 
     private final ContabilizarVotosUsecase contabilizarVotosUsecase;
 
