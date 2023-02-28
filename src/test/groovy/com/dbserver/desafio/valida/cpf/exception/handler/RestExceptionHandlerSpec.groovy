@@ -90,7 +90,7 @@ class RestExceptionHandlerSpec extends Specification {
         exception.statusCode == HttpStatus.BAD_REQUEST
 
         and: "validar a mensagem"
-        exception.body.mensagem == "Verificar atributos obrigatórios do payload"
+        exception.body.mensagem == "Verificar campos obrigatórios do payload"
     }
 
     def "Deveria chamar o handle handleHttpMessageNotReadableException e validar o status code"() {
