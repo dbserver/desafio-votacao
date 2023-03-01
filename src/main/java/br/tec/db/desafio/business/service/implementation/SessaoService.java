@@ -10,12 +10,8 @@ import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoVotadaResponseV1;
 import br.tec.db.desafio.business.domain.Associado;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.domain.Sessao;
-import br.tec.db.desafio.business.domain.enums.Voto;
 import br.tec.db.desafio.business.service.ISessaoService;
 import br.tec.db.desafio.business.service.implementation.base.BaseSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoCriarUmaNovaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoVotarEmUmaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoTotalDeVotosDaSessao;
 import br.tec.db.desafio.repository.AssociadoRepository;
 import br.tec.db.desafio.repository.AssociadoSessaoRepository;
 import br.tec.db.desafio.repository.PautaRepository;
@@ -28,8 +24,8 @@ import java.util.List;
 public class SessaoService extends BaseSessao implements ISessaoService {
 
 
-    public SessaoService(SessaoRepository sessaoRepository, PautaRepository pautaRepository, AssociadoRepository associadoRepository, AssociadoSessaoRepository associadoSessaoRepository, List<AValidacaoTotalDeVotosDaSessao> validacaoTotalDeVotosDaSessaoList, List<AValidacaoCriarUmaNovaSessao> validacaoCriarUmaNovaSessaoList, List<AValidacaoVotarEmUmaSessao> validacaoVotarEmUmaSessaoList) {
-        super(sessaoRepository, pautaRepository, associadoRepository, associadoSessaoRepository, validacaoTotalDeVotosDaSessaoList, validacaoCriarUmaNovaSessaoList, validacaoVotarEmUmaSessaoList);
+    public SessaoService(SessaoRepository sessaoRepository, PautaRepository pautaRepository, AssociadoRepository associadoRepository, AssociadoSessaoRepository associadoSessaoRepository) {
+        super(sessaoRepository, pautaRepository, associadoRepository, associadoSessaoRepository);
     }
 
     @Override
@@ -41,11 +37,11 @@ public class SessaoService extends BaseSessao implements ISessaoService {
 
         Long idPauta = pautaRepository.findIdByAssunto
                 (sessaoToCreate.getPauta().getAssunto());
-        validaCriar(idPauta);
+        valida.validarSessaoInexistente(idPauta);
         Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
                 (sessaoToCreate.getPauta().getAssunto());
 
-        validaCriar(pautaEncontrada.getSessao());
+        valida.validarSessaoRepetida(pautaEncontrada.getSessao());
         sessaoToCreate.setPauta(pautaEncontrada);
 
         return SessaoMapperV1.sessaoToSessaoCriadaResponseV1(
@@ -58,9 +54,13 @@ public class SessaoService extends BaseSessao implements ISessaoService {
         Sessao sessaoToCreate = SessaoMapperV1.sessaoParaVotarRequestV1ToSessao(
                 sessaoRequestV1
         );
-
+        Long idPauta = pautaRepository.findIdByAssunto
+                (sessaoToCreate.getPauta().getAssunto());
+        valida.validarSessaoInexistente(idPauta);
         Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
                 (sessaoToCreate.getPauta().getAssunto());
+
+
         Sessao sessaoEncontrada = sessaoRepository.findByPautaId
                 (pautaEncontrada.getId());
         Associado associadoEncontrado = associadoRepository.findAssociadoByCpf(
@@ -70,8 +70,8 @@ public class SessaoService extends BaseSessao implements ISessaoService {
                 sessaoEncontrada.getId());
 
 
-        validaVotar(associadoNaSessao);
-        validaVotar(sessaoEncontrada.getDuracao());
+        valida.validarSessaoJaVotada(associadoNaSessao);
+        valida.validarSessaoExpirada(sessaoEncontrada.getDuracao());
 
 
         sessaoEncontrada.addAssociado(associadoEncontrado);
@@ -94,7 +94,7 @@ public class SessaoService extends BaseSessao implements ISessaoService {
 
         Long idPauta = pautaRepository.findIdByAssunto
                 (sessaoToCreate.getPauta().getAssunto());
-        validaTotal(idPauta);
+        valida.validarSessaoInexistente(idPauta);
 
         Pauta pautaEncontrada = pautaRepository.findPautaByAssunto
                 (sessaoRequestV1.getAssuntoPauta());

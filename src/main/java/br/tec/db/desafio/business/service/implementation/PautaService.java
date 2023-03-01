@@ -6,7 +6,6 @@ import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.service.IPautaService;
 import br.tec.db.desafio.business.service.implementation.base.BasePauta;
-import br.tec.db.desafio.business.service.implementation.validacao.pauta.AValidacaoCriarUmaNovaPauta;
 import br.tec.db.desafio.repository.PautaRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +15,8 @@ import java.util.List;
 public class PautaService extends BasePauta implements IPautaService {
 
 
-    public PautaService(PautaRepository pautaRepository, List<AValidacaoCriarUmaNovaPauta> validacaoCriarUmaNovaPautaList) {
-        super(pautaRepository, validacaoCriarUmaNovaPautaList);
+    public PautaService(PautaRepository pautaRepository) {
+        super(pautaRepository);
     }
 
     @Override
@@ -27,7 +26,7 @@ public class PautaService extends BasePauta implements IPautaService {
                 pautaRequestV1
         );
         Pauta verificaPauta = pautaRepository.findPautaByAssunto(pautaRequestV1.getAssunto());
-        valida(verificaPauta);
+        valida.validarJaExistente(verificaPauta);
 
         return PautaMapperV1.pautaToPautaResponseV1(
                 pautaRepository.save(pautaToCreate)

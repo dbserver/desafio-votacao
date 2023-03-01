@@ -5,7 +5,6 @@ import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
 import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
 import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.service.implementation.PautaService;
-import br.tec.db.desafio.business.service.implementation.validacao.pauta.AValidacaoCriarUmaNovaPauta;
 import br.tec.db.desafio.repository.PautaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,13 +21,11 @@ import static org.mockito.Mockito.when;
 public class PautaServiceTest {
     @Mock
     PautaRepository pautaRepository;
-    @Mock
-    List<AValidacaoCriarUmaNovaPauta> validacoesPauta;
     private static final String ASSUNTO = "tema da pauta";
 
     @Test
     void devePersistirPautaComSucesso() {
-        PautaService pautaServiceImpl = new PautaService(pautaRepository,validacoesPauta);
+        PautaService pautaServiceImpl = new PautaService(pautaRepository);
 
         PautaRequestV1 shouldPautaRequestV1 = new PautaRequestV1(ASSUNTO);
 

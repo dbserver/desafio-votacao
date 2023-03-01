@@ -1,49 +1,73 @@
 package br.tec.db.desafio.business.service.implementation.validacao;
 
+import br.tec.db.desafio.api.v1.dto.associado.AssociadoRequestV1;
+import br.tec.db.desafio.api.v1.dto.associado.client.AssociadoClientRequestV1;
+import br.tec.db.desafio.business.domain.Associado;
+import br.tec.db.desafio.business.domain.Pauta;
+import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.business.service.implementation.validacao.associado.*;
-import br.tec.db.desafio.business.service.implementation.validacao.pauta.AValidacaoCriarUmaNovaPauta;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.ValidarPautaComPoucoCaracter;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.ValidarPautaJaExistente;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.ValidarPautaVazia;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoCriarUmaNovaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoTotalDeVotosDaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoVotarEmUmaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao.ValidarCriarSessaoComPoucoCaracter;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao.ValidarCriarSessaoInexistente;
+import br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao.ValidarInexistentePorId;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao.ValidarSessaoRepetida;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao.ValidarSessaoVazia;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.totalvotos.ValidarTotalSessaoComPoucoCaracter;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.totalvotos.ValidarTotalSessaoInexistente;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.votar.ValidarSessaoExpirada;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.votar.ValidarSessaoJaVotada;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.votar.ValidarVotarSessaoComPoucoCaracter;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 public class FactoryValidacao {
 
-    public static List<AValidacaoTotalDeVotosDaSessao> createAValidacaoTotalDeVotosDaSessao(){
-        return Arrays.asList(new ValidarTotalSessaoInexistente(), new ValidarTotalSessaoComPoucoCaracter());
-    }
-    public static List<AValidacaoCriarUmaNovaSessao> createAValidacaoCriarUmaNovaSessao(){
-        return Arrays.asList(new ValidarCriarSessaoComPoucoCaracter(), new ValidarCriarSessaoInexistente(),new ValidarSessaoRepetida(),new ValidarSessaoVazia());
-    }
-    public static List<AValidacaoVotarEmUmaSessao> createAValidacaoVotarEmUmaSessao(){
-        return Arrays.asList(new ValidarSessaoExpirada(), new ValidarSessaoJaVotada(), new ValidarVotarSessaoComPoucoCaracter());
+
+    public void validarCpf(AssociadoRequestV1 cpf){
+        ValidarCpf validarCpf = new ValidarCpf();
+        validarCpf.validar(cpf);
     }
 
-    public static List<AValidacaoCriarUmaNovaPauta> createAValidacaoCriarUmaNovaPauta(){
-        return Arrays.asList(new ValidarPautaVazia(), new ValidarPautaComPoucoCaracter(), new ValidarPautaJaExistente());
+    public void validarCpf(AssociadoClientRequestV1 cpf){
+        ValidarCpf validarCpf = new ValidarCpf();
+        validarCpf.validar(cpf);
     }
 
-    public static List<AValidacaoCriarUmNovoAssociado> createAValidacaoCriarUmNovoAssociado(){
-        return Arrays.asList(new ValidarAssociadoCpf(), new ValidarAssociadoJaExistente());
+    public void validarNaoPodeSerNulo(Associado dado){
+        ValidarNaoPodeSerNulo validarNaoPodeSerNulo = new ValidarNaoPodeSerNulo();
+        validarNaoPodeSerNulo.validar(dado);
     }
 
-    public static List<AValidacaoFakeClientAssociado> createAValidacaoFakeClientAssociado(){
-        return Arrays.asList(new ValidarFakeAssociadoCpf());
+    public void validarComPoucoCaracter(String dado){
+        ValidarPautaComPoucoCaracter validarComPoucoCaracter = new ValidarPautaComPoucoCaracter();
+        validarComPoucoCaracter.validar(dado);
     }
+
+    public void validarJaExistente(Pauta dado){
+        ValidarPautaJaExistente validarJaExistente = new ValidarPautaJaExistente();
+        validarJaExistente.validar(dado);
+    }
+    public void validarVazio(String dado){
+        ValidarPautaVazia validarVazio = new ValidarPautaVazia();
+        validarVazio.validar(dado);
+    }
+
+    public void validarSessaoInexistente(Long id){
+        ValidarInexistentePorId validarSessaoInexistente = new ValidarInexistentePorId();
+        validarSessaoInexistente.validar(id);
+    }
+
+    public void validarSessaoRepetida(Sessao dado){
+        ValidarSessaoRepetida validarSessaoRepetida = new ValidarSessaoRepetida();
+        validarSessaoRepetida.validar(dado);
+    }
+
+    public void validarSessaoExpirada(LocalDateTime localDateTime){
+        ValidarSessaoExpirada validarSessaoExpirada = new ValidarSessaoExpirada();
+        validarSessaoExpirada.validar(localDateTime);
+    }
+
+    public void validarSessaoJaVotada(Long id){
+        ValidarSessaoJaVotada validarSessaoJaVotada = new ValidarSessaoJaVotada();
+        validarSessaoJaVotada.validar(id);
+    }
+
 }

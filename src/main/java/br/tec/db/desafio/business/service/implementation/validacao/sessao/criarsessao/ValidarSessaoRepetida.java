@@ -1,17 +1,16 @@
 package br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao;
 
 import br.tec.db.desafio.business.domain.Sessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoCriarUmaNovaSessao;
 import br.tec.db.desafio.exception.BusinessException;
 import lombok.NoArgsConstructor;
 
 
-public class ValidarSessaoRepetida extends AValidacaoCriarUmaNovaSessao {
+public class ValidarSessaoRepetida {
 
 
-    public void validarSessao(Sessao sessao) {
+    public void validar(Sessao dado) {
 
-        if(sessao!=null){
+        if(dado!=null){
             throw new BusinessException("Já existe uma sessao com este tema");
         }
 

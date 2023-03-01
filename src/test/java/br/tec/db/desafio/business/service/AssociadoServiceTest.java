@@ -3,17 +3,9 @@ package br.tec.db.desafio.business.service;
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoMapperV1;
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoRequestV1;
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoResponseV1;
-import br.tec.db.desafio.api.v1.dto.pauta.PautaMapperV1;
-import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
-import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
 import br.tec.db.desafio.business.domain.Associado;
-import br.tec.db.desafio.business.domain.Pauta;
 import br.tec.db.desafio.business.service.implementation.AssociadoService;
-import br.tec.db.desafio.business.service.implementation.PautaService;
-import br.tec.db.desafio.business.service.implementation.validacao.associado.AValidacaoCriarUmNovoAssociado;
-import br.tec.db.desafio.business.service.implementation.validacao.pauta.AValidacaoCriarUmaNovaPauta;
 import br.tec.db.desafio.repository.AssociadoRepository;
-import br.tec.db.desafio.repository.PautaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,14 +21,12 @@ import static org.mockito.Mockito.when;
 public class AssociadoServiceTest {
     @Mock
     AssociadoRepository associadoRepository;
-    @Mock
-    List<AValidacaoCriarUmNovoAssociado> aValidacaoCriarUmNovoAssociadoList;
     private static final String NOME = "guilherme";
     private static final String CPF = "12312366990";
 
     @Test
     void devePersistirPautaComSucesso() {
-        AssociadoService associadoService = new AssociadoService(associadoRepository, aValidacaoCriarUmNovoAssociadoList);
+        AssociadoService associadoService = new AssociadoService(associadoRepository);
 
         AssociadoRequestV1 shouldAssociadoRequestV1 = new AssociadoRequestV1(
                 CPF,

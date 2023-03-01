@@ -5,9 +5,6 @@ import br.tec.db.desafio.api.v1.dto.sessao.request.SessaoParaCriarRequestV1;
 import br.tec.db.desafio.api.v1.dto.sessao.response.SessaoCriadaResponseV1;
 import br.tec.db.desafio.business.domain.Sessao;
 import br.tec.db.desafio.business.service.implementation.SessaoService;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoCriarUmaNovaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoTotalDeVotosDaSessao;
-import br.tec.db.desafio.business.service.implementation.validacao.sessao.AValidacaoVotarEmUmaSessao;
 import br.tec.db.desafio.repository.AssociadoRepository;
 import br.tec.db.desafio.repository.AssociadoSessaoRepository;
 import br.tec.db.desafio.repository.PautaRepository;
@@ -33,20 +30,14 @@ public class SessaoServiceTest {
     AssociadoRepository associadoRepository;
     @Mock
     AssociadoSessaoRepository associadoSessaoRepository;
-    @Mock
-    List<AValidacaoCriarUmaNovaSessao> aValidacaoCriarUmaNovaSessaoList;
-    @Mock
-    List<AValidacaoTotalDeVotosDaSessao> aValidacaoTotalDeVotosDaSessaoList;
-    @Mock
-    List<AValidacaoVotarEmUmaSessao> aValidacaoVotarEmUmaSessaoList;
+
     private static final String ASSUNTO_PAUTA = "tema da pauta";
     private static final Long DURACAO_SESSAO = 2L;
 
 
     @Test
     void devePersistirSessaoComSucesso() {
-        SessaoService sessaoServiceImpl = new SessaoService(sessaoRepository,pautaRepository, associadoRepository,associadoSessaoRepository,
-                aValidacaoTotalDeVotosDaSessaoList,aValidacaoCriarUmaNovaSessaoList,aValidacaoVotarEmUmaSessaoList
+        SessaoService sessaoServiceImpl = new SessaoService(sessaoRepository,pautaRepository, associadoRepository,associadoSessaoRepository
         );
 
         SessaoParaCriarRequestV1 shouldSessaoRequestV1 =
