@@ -5,6 +5,8 @@ import com.dbserver.desafio.votacao.exception.PautaInexistenteException
 import com.dbserver.desafio.votacao.exception.PautaSemSessaoException
 import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException
 import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException
+import com.dbserver.desafio.votacao.gateway.ValidarCpfGateway
+import com.dbserver.desafio.votacao.gateway.client.ValidaCpfClient
 import com.dbserver.desafio.votacao.repository.PautaRepository
 import com.dbserver.desafio.votacao.repository.VotoRepository
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity
@@ -34,6 +36,8 @@ class ReceberVotoUseCaseImplSpec extends Specification {
 
     VotoRepository votoRepository = Mock()
 
+    ValidarCpfGateway validarCpfGateway = Mock()
+
     ReceberVotoUseCase receberVotoUseCase
 
     Voto votoRequerido
@@ -49,7 +53,7 @@ class ReceberVotoUseCaseImplSpec extends Specification {
     def setup() {
         loadTemplates("fixtures")
 
-        receberVotoUseCase = new ReceberVotoUseCaseImpl(clock, pautaRepository, votoRepository)
+        receberVotoUseCase = new ReceberVotoUseCaseImpl(clock, pautaRepository, votoRepository, validarCpfGateway)
 
         votoRequerido = Fixture.from(Voto).gimme(VOTO_PAUTA)
         votoVazioRequerido = Fixture.from(Voto).gimme(VOTO_PAUTA_VAZIO)
@@ -72,6 +76,9 @@ class ReceberVotoUseCaseImplSpec extends Specification {
 
         and: "uma chamada válida ao método findByCpfAssociado do votoRepository"
         1 * votoRepository.findByCpfAssociado(votoRequerido.cpfAssociado) >> Collections.emptyList()
+
+        and: "uma chamada válida ao método execute do validarCpfGateway"
+        1 * validarCpfGateway.execute(votoRequerido.cpfAssociado)
 
         and: "uma chamada válida ao método save do votoRepository"
         1 * votoRepository.save(votoEntityMock) >> votoEntitySalvaMock

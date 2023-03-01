@@ -4,6 +4,7 @@ import com.dbserver.desafio.votacao.exception.PautaInexistenteException;
 import com.dbserver.desafio.votacao.exception.PautaSemSessaoException;
 import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException;
 import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException;
+import com.dbserver.desafio.votacao.gateway.ValidarCpfGateway;
 import com.dbserver.desafio.votacao.repository.PautaRepository;
 import com.dbserver.desafio.votacao.repository.VotoRepository;
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity;
@@ -16,6 +17,7 @@ import com.dbserver.desafio.votacao.usecase.domain.Sessao;
 import com.dbserver.desafio.votacao.usecase.domain.Voto;
 import com.dbserver.desafio.votacao.usecase.assembleia.ReceberVotoUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReceberVotoUseCaseImpl implements ReceberVotoUseCase {
@@ -33,8 +36,12 @@ public class ReceberVotoUseCaseImpl implements ReceberVotoUseCase {
 
     private final VotoRepository votoRepository;
 
+    private final ValidarCpfGateway validarCpfGateway;
+
     @Override
     public Voto execute(Voto voto) {
+
+        log.info("[ReceberVotoUseCaseImpl] Chamada ao usecase de recepção de votos, IdPauta: " + voto.getPauta().getIdPauta());
 
         Optional<PautaEntity> pautaEntity = pautaRepository.findById(voto.getPauta().getIdPauta());
 
@@ -52,6 +59,8 @@ public class ReceberVotoUseCaseImpl implements ReceberVotoUseCase {
         }
 
         verificarSessaoFechada(sessao);
+
+        validarCpfGateway.execute(voto.getCpfAssociado());
 
         verificarSeUsuarioJaVotou(voto);
 

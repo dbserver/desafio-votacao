@@ -3,6 +3,18 @@ server:
   servlet:
     context-path: /desafio-votacao
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: BASIC
+  valida:
+    cpf:
+      name: validacpf
+      url: localhost:8090/desafio-valida-cpf/valida-cpf
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver

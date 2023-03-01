@@ -9,10 +9,12 @@ import com.dbserver.desafio.votacao.repository.mapper.PautaEntityParaPautaMapper
 import com.dbserver.desafio.votacao.usecase.pauta.SalvarPautaUsecase;
 import com.dbserver.desafio.votacao.usecase.pauta.IniciarPautaUsecase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class IniciarPautaUsecaseImpl implements IniciarPautaUsecase {
@@ -25,6 +27,8 @@ public class IniciarPautaUsecaseImpl implements IniciarPautaUsecase {
 
     @Override
     public Pauta execute(Integer idPauta, Integer duracao) {
+
+        log.info("[IniciarPautaUsecaseImpl] Chamada ao usecase para iniciar a Pauta, IdPauta: " + idPauta);
 
         Optional<PautaEntity> pautaEntity = pautaRepository.findById(idPauta);
 

@@ -11,6 +11,9 @@ import com.dbserver.desafio.votacao.endpoint.dto.PautaIdDTO
 import com.dbserver.desafio.votacao.endpoint.dto.PautaSessaoDTO
 import com.dbserver.desafio.votacao.endpoint.dto.VotoDTO
 import com.dbserver.desafio.votacao.endpoint.dto.VotosPautaDTO
+import com.dbserver.desafio.votacao.gateway.ValidarCpfGateway
+import com.dbserver.desafio.votacao.gateway.client.ValidaCpfClient
+import com.dbserver.desafio.votacao.gateway.dto.CpfStatusRespostaDTO
 import com.dbserver.desafio.votacao.repository.PautaRepository
 import com.dbserver.desafio.votacao.repository.VotoRepository
 import com.dbserver.desafio.votacao.repository.entity.PautaEntity
@@ -26,6 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
@@ -53,6 +57,7 @@ import static fixtures.VotoEntityTemplate.VOTO_ENTITY_PAUTA_NAO
 import static fixtures.VotoEntityTemplate.VOTO_ENTITY_PAUTA_SALVA
 import static fixtures.VotoEntityTemplate.VOTO_ENTITY_PAUTA_SIM
 import static fixtures.VotoTemplate.VOTO_COM_ID_PAUTA
+import static fixtures.CpfStatusRespostaDTOTemplate.CPF_STATUS_DTO
 import static fixtures.VotosPautaDtoTemplate.VOTOS_PAUTA_DTO_PAUTA_COM_SESSAO
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post as postMockMvc
 
@@ -62,7 +67,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ComponentScan(basePackages = [
         "com.dbserver.desafio.votacao.endpoint",
         "com.dbserver.desafio.votacao.usecase",
-        "com.dbserver.desafio.votacao.repository"])
+        "com.dbserver.desafio.votacao.repository",
+        "com.dbserver.desafio.votacao.gateway"])
 class ControllerComponentSpec extends Specification {
 
     @Autowired
@@ -76,6 +82,9 @@ class ControllerComponentSpec extends Specification {
 
     @SpringBean
     VotoRepository votoRepository = Mock()
+
+    @SpringBean
+    ValidaCpfClient validaCpfClient = Mock()
 
     def setup() {
         loadTemplates("fixtures")
@@ -164,6 +173,9 @@ class ControllerComponentSpec extends Specification {
         VotoEntity votoEntitySemIdRequerida = Fixture.from(VotoEntity).gimme(VOTO_ENTITY_PAUTA_SIM)
         VotoEntity votoEntityComIdMock = Fixture.from(VotoEntity).gimme(VOTO_ENTITY_PAUTA_SALVA)
         Voto votoRequerida = Fixture.from(Voto).gimme(VOTO_COM_ID_PAUTA)
+        ResponseEntity<CpfStatusRespostaDTO> cpfStatusDTOResponseEntity = ResponseEntity<CpfStatusRespostaDTO>
+                .ok(Fixture.from(CpfStatusRespostaDTO).gimme(CPF_STATUS_DTO))
+
         def votoDTOContent = "{\"cpfAssociado\":\"999.999.999-99\",\"idPauta\":19900,\"voto\":\"Sim\"}"
 
         and: "chamado o findById pautaRepository"
@@ -171,6 +183,9 @@ class ControllerComponentSpec extends Specification {
 
         and: "chamado o findByCpfAssociado votoRepository"
         1 * votoRepository.findByCpfAssociado(votoRequerida.getCpfAssociado()) >> Collections.emptyList()
+
+        and: "chamado o findByCpfAssociado votoRepository"
+        1 * validaCpfClient.validaClient(votoRequerida.getCpfAssociado()) >> cpfStatusDTOResponseEntity
 
         and: "chamado o save do votoRepository"
         1 * votoRepository.save(votoEntitySemIdRequerida) >> votoEntityComIdMock

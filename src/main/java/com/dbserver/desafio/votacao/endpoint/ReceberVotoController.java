@@ -8,6 +8,7 @@ import com.dbserver.desafio.votacao.endpoint.mapper.VotoDtoParaVotoMapper;
 import com.dbserver.desafio.votacao.endpoint.mapper.VotoParaVotoDTOMapper;
 import com.dbserver.desafio.votacao.usecase.assembleia.ReceberVotoUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,6 +27,8 @@ public class ReceberVotoController implements ReceberVotoControllerSwagger {
 
     @PostMapping(value = EndpointURL.RECEBER_VOTO_URL)
     public ResponseEntity<VotoDTO> receberVoto(@Valid @RequestBody VotoDTO votoDTO) {
+
+        log.info("[ReceberVotoController] Inicio da recepção do voto, IdPauta: " + votoDTO.getIdPauta());
 
         Voto voto = VotoDtoParaVotoMapper.INSTANCE.map(votoDTO);
 

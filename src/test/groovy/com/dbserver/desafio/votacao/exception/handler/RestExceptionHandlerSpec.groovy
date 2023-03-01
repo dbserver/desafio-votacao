@@ -5,7 +5,11 @@ import com.dbserver.desafio.votacao.exception.PautaSemSessaoException
 import com.dbserver.desafio.votacao.exception.PautaSemVotoException
 import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException
 import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException
+import feign.FeignException
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.ResponseStatus
 import spock.lang.Specification
 
 import static br.com.six2six.fixturefactory.loader.FixtureFactoryLoader.loadTemplates
@@ -103,6 +107,18 @@ class RestExceptionHandlerSpec extends Specification {
 
         and: "validar a mensagem"
         exception.body.mensagem == "Verificar os formatos corretos dos campos do payload"
+    }
+
+    def "Deveria chamar o handle FeignException e validar o status code"() {
+
+        when: "quando o handle restExceptionHandler for incovado"
+        def exception = restExceptionHandler.handleFeignException(null)
+
+        then: "validar o status code 404"
+        exception.statusCode == HttpStatus.BAD_REQUEST
+
+        and: "validar a mensagem"
+        exception.body.mensagem == "CPF Inválido"
     }
 
     def "Deveria chamar o handle Exception e validar o status code"() {
