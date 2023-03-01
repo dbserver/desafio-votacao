@@ -1,8 +1,6 @@
-package br.tec.db.desafio.business.service.implementation.base;
+package br.tec.db.desafio.business.service.implementation.validacao;
 
-import br.tec.db.desafio.business.service.implementation.validacao.associado.AValidacaoCriarUmNovoAssociado;
-import br.tec.db.desafio.business.service.implementation.validacao.associado.ValidarAssociadoCpf;
-import br.tec.db.desafio.business.service.implementation.validacao.associado.ValidarAssociadoJaExistente;
+import br.tec.db.desafio.business.service.implementation.validacao.associado.*;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.AValidacaoCriarUmaNovaPauta;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.ValidarPautaComPoucoCaracter;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.ValidarPautaJaExistente;
@@ -25,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
-public class FactoryBase {
+public class FactoryValidacao {
 
     public static List<AValidacaoTotalDeVotosDaSessao> createAValidacaoTotalDeVotosDaSessao(){
         return Arrays.asList(new ValidarTotalSessaoInexistente(), new ValidarTotalSessaoComPoucoCaracter());
@@ -43,5 +41,9 @@ public class FactoryBase {
 
     public static List<AValidacaoCriarUmNovoAssociado> createAValidacaoCriarUmNovoAssociado(){
         return Arrays.asList(new ValidarAssociadoCpf(), new ValidarAssociadoJaExistente());
+    }
+
+    public static List<AValidacaoFakeClientAssociado> createAValidacaoFakeClientAssociado(){
+        return Arrays.asList(new ValidarFakeAssociadoCpf());
     }
 }

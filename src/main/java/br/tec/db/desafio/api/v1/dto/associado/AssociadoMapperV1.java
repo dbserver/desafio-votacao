@@ -1,6 +1,8 @@
 package br.tec.db.desafio.api.v1.dto.associado;
 
+import br.tec.db.desafio.api.v1.dto.associado.client.AssociadoClientResponseV1;
 import br.tec.db.desafio.business.domain.Associado;
+import br.tec.db.desafio.business.domain.enums.StatusCpf;
 import br.tec.db.desafio.exception.BusinessException;
 
 public class AssociadoMapperV1 {
@@ -26,5 +28,15 @@ public class AssociadoMapperV1 {
 
         return associado;
 
+    }
+
+    public static AssociadoClientResponseV1 statusCpfToAssociadoClientResponseV1(StatusCpf source) {
+        if (source == null) {
+            throw new BusinessException("Dados de response inexistentes");
+        }
+        AssociadoClientResponseV1 associado =new AssociadoClientResponseV1();
+        associado.setStatusCpf(source);
+
+        return associado;
     }
 }

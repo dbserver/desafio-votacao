@@ -1,6 +1,7 @@
 package br.tec.db.desafio.business.service.implementation.base;
 
 import br.tec.db.desafio.business.domain.Sessao;
+import br.tec.db.desafio.business.service.implementation.validacao.FactoryValidacao;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.*;
 import br.tec.db.desafio.repository.AssociadoRepository;
 import br.tec.db.desafio.repository.AssociadoSessaoRepository;
@@ -31,9 +32,9 @@ public class BaseSessao {
         this.pautaRepository = pautaRepository;
         this.associadoRepository = associadoRepository;
         this.associadoSessaoRepository = associadoSessaoRepository;
-        this.validacaoTotalDeVotosDaSessaoList = FactoryBase.createAValidacaoTotalDeVotosDaSessao();
-        this.validacaoCriarUmaNovaSessaoList = FactoryBase.createAValidacaoCriarUmaNovaSessao();
-        this.validacaoVotarEmUmaSessaoList = FactoryBase.createAValidacaoVotarEmUmaSessao();
+        this.validacaoTotalDeVotosDaSessaoList = FactoryValidacao.createAValidacaoTotalDeVotosDaSessao();
+        this.validacaoCriarUmaNovaSessaoList = FactoryValidacao.createAValidacaoCriarUmaNovaSessao();
+        this.validacaoVotarEmUmaSessaoList = FactoryValidacao.createAValidacaoVotarEmUmaSessao();
     }
 
     protected void validaCriar(Object obj){

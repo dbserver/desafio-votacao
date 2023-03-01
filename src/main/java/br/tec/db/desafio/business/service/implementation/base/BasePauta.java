@@ -3,6 +3,7 @@ package br.tec.db.desafio.business.service.implementation.base;
 
 
 import br.tec.db.desafio.business.domain.Pauta;
+import br.tec.db.desafio.business.service.implementation.validacao.FactoryValidacao;
 import br.tec.db.desafio.business.service.implementation.validacao.pauta.AValidacaoCriarUmaNovaPauta;
 import br.tec.db.desafio.repository.PautaRepository;
 
@@ -15,7 +16,7 @@ public class BasePauta {
     public BasePauta(PautaRepository pautaRepository,
                         List<AValidacaoCriarUmaNovaPauta> validacaoCriarUmaNovaPautaList) {
         this.pautaRepository = pautaRepository;
-        this.validacaoCriarUmaNovaPautaList = FactoryBase.createAValidacaoCriarUmaNovaPauta();
+        this.validacaoCriarUmaNovaPautaList = FactoryValidacao.createAValidacaoCriarUmaNovaPauta();
     }
     protected void valida(Object obj){
         if (obj instanceof Pauta)

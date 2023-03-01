@@ -4,6 +4,7 @@ package br.tec.db.desafio.business.service.implementation.base;
 
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoRequestV1;
 import br.tec.db.desafio.business.domain.Associado;
+import br.tec.db.desafio.business.service.implementation.validacao.FactoryValidacao;
 import br.tec.db.desafio.business.service.implementation.validacao.associado.AValidacaoCriarUmNovoAssociado;
 import br.tec.db.desafio.repository.AssociadoRepository;
 
@@ -18,7 +19,7 @@ public class BaseAssociado {
                             List<AValidacaoCriarUmNovoAssociado> validacaoCriarUmNovoAssociadoList
                             ) {
         this.associadoRepository = associadoRepository;
-        this.validacaoCriarUmNovoAssociadoList = FactoryBase.createAValidacaoCriarUmNovoAssociado();
+        this.validacaoCriarUmNovoAssociadoList = FactoryValidacao.createAValidacaoCriarUmNovoAssociado();
 
     }
 
