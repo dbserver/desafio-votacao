@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "84b01116-b185-457c-acc9-a01d7ff38dc6",
+		"_postman_id": "19738bff-3a1b-4864-9d5f-7dd7af27a26d",
 		"name": "desafio-votacao-collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"raw": "{\r\n\"nome\":\"Obra de Emergencia\",\r\n\"descricao\":\"Obra de emergencia na caixa d´agua\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -40,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"raw": "{\r\n\"idPauta\":1,\r\n\"duracaoSessao\":3\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,14 +48,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"raw": "localhost:8081/desafio-votacao/iniciar-pauta",
 					"host": [
 						"localhost"
 					],
 					"port": "8081",
 					"path": [
 						"desafio-votacao",
-						"cadastrar"
+						"iniciar-pauta"
 					]
 				}
 			},
@@ -68,7 +68,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"raw": "{\r\n\"cpfAssociado\":\"999.999.999-91\",\r\n\"idPauta\":1,\r\n\"voto\":\"Não\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -76,14 +76,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"raw": "localhost:8081/desafio-votacao/receber-voto",
 					"host": [
 						"localhost"
 					],
 					"port": "8081",
 					"path": [
 						"desafio-votacao",
-						"cadastrar"
+						"receber-voto"
 					]
 				}
 			},
@@ -96,7 +96,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"nomePauta\":\"Obra de Emergencia\",\r\n\"descricaoPauta\":\"Obra de emergencia na caixa d´agua\"\r\n}",
+					"raw": "{\r\n\"idPauta\":1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -104,14 +104,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8081/desafio-votacao/cadastrar",
+					"raw": "localhost:8081/desafio-votacao/contabilizar-votos",
 					"host": [
 						"localhost"
 					],
 					"port": "8081",
 					"path": [
 						"desafio-votacao",
-						"cadastrar"
+						"contabilizar-votos"
 					]
 				}
 			},

@@ -114,14 +114,28 @@ A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
 
 O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
 
-# desafio-votacao
+# desafio-votacao 
 
-# Informações da API
-
-Swagger Doc:
-http://localhost:8081/desafio-votacao/swagger-ui/index.html
+# Orientações para Executar a API
 
 Requisitos:
-- Banco de Dados: Postgres
-- Docker-compose
+- Banco de Dados: Postgres 15.2
 - Java 11
+- Docker-compose(Opcional):
+
+Será nescessario o banco de dados Postegres com as tabelas e sequences presentes no script config/postgres/script_init_db.sql
+- POSTGRES_USER=postgres
+- POSTGRES_PASSWORD=postgres
+  ports:
+- 5432:5432
+
+Observação: Criei um arquivo docker-compose.yml com postegre e a criação das tabelas e sequences automatizada.
+
+Docker-Compose:
+- Comando: 
+docker-compose -f config/docker/docker-compose.yml up --build
+
+Documentação API Swagger:
+http://localhost:8081/desafio-votacao/swagger-ui/index.html
+
+
