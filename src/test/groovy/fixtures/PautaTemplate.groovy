@@ -3,13 +3,13 @@ package fixtures
 import br.com.six2six.fixturefactory.Fixture
 import br.com.six2six.fixturefactory.Rule
 import br.com.six2six.fixturefactory.loader.TemplateLoader
-import com.dbserver.desafio.valida.cpf.usecase.domain.Pauta
-import com.dbserver.desafio.valida.cpf.usecase.domain.Sessao
+import com.dbserver.desafio.votacao.usecase.domain.Pauta
+import com.dbserver.desafio.votacao.usecase.domain.Sessao
 
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.idPauta
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.nome
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.descricao
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.sessao
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.idPauta
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.nome
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.descricao
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.sessao
 import static fixtures.SessaoTemplate.SESSAO_VALIDA
 
 class PautaTemplate implements TemplateLoader {

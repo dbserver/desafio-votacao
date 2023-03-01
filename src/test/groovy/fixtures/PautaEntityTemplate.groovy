@@ -3,13 +3,13 @@ package fixtures
 import br.com.six2six.fixturefactory.Fixture
 import br.com.six2six.fixturefactory.Rule
 import br.com.six2six.fixturefactory.loader.TemplateLoader
-import com.dbserver.desafio.valida.cpf.repository.entity.PautaEntity
-import com.dbserver.desafio.valida.cpf.repository.entity.SessaoEntity
+import com.dbserver.desafio.votacao.repository.entity.PautaEntity
+import com.dbserver.desafio.votacao.repository.entity.SessaoEntity
 
-import static com.dbserver.desafio.valida.cpf.repository.entity.PautaEntity.Fields.sessao
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.descricao
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.nome
-import static com.dbserver.desafio.valida.cpf.usecase.domain.Pauta.Fields.idPauta
+import static com.dbserver.desafio.votacao.repository.entity.PautaEntity.Fields.sessao
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.descricao
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.nome
+import static com.dbserver.desafio.votacao.usecase.domain.Pauta.Fields.idPauta
 import static fixtures.SessaoEntityTemplate.SESSAO_ENTITY_VALIDA
 import static fixtures.SessaoEntityTemplate.SESSAO_ENTITY_VALIDA_SEM_ID
 

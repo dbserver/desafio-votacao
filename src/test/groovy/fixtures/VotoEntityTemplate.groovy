@@ -3,11 +3,11 @@ package fixtures
 import br.com.six2six.fixturefactory.Fixture
 import br.com.six2six.fixturefactory.Rule
 import br.com.six2six.fixturefactory.loader.TemplateLoader
-import com.dbserver.desafio.valida.cpf.repository.entity.PautaEntity
-import com.dbserver.desafio.valida.cpf.repository.entity.VotoEntity
-import com.dbserver.desafio.valida.cpf.usecase.enuns.VotoEnum
+import com.dbserver.desafio.votacao.repository.entity.PautaEntity
+import com.dbserver.desafio.votacao.repository.entity.VotoEntity
+import com.dbserver.desafio.votacao.usecase.enuns.VotoEnum
 
-import static com.dbserver.desafio.valida.cpf.repository.entity.VotoEntity.Fields.*
+import static com.dbserver.desafio.votacao.repository.entity.VotoEntity.Fields.*
 
 class VotoEntityTemplate implements TemplateLoader {
 

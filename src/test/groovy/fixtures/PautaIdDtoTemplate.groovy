@@ -3,9 +3,9 @@ package fixtures
 import br.com.six2six.fixturefactory.Fixture
 import br.com.six2six.fixturefactory.Rule
 import br.com.six2six.fixturefactory.loader.TemplateLoader
-import com.dbserver.desafio.valida.cpf.endpoint.dto.PautaIdDTO
+import com.dbserver.desafio.votacao.endpoint.dto.PautaIdDTO
 
-import static com.dbserver.desafio.valida.cpf.endpoint.dto.PautaIdDTO.Fields.idPauta
+import static com.dbserver.desafio.votacao.endpoint.dto.PautaIdDTO.Fields.idPauta
 
 class PautaIdDtoTemplate implements TemplateLoader {
 
