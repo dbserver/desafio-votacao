@@ -1,4 +1,7 @@
+#!/bin/bash
+set -e
 
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 CREATE TABLE IF NOT EXISTS sessao (
   id_sessao INT NOT NULL,
   inicio TIMESTAMP,
@@ -35,3 +38,4 @@ START 1;
 CREATE SEQUENCE voto_id_seq
 INCREMENT 1
 START 1;
+EOSQL
