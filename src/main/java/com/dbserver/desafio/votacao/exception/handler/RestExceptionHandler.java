@@ -5,6 +5,7 @@ import com.dbserver.desafio.votacao.exception.PautaSemSessaoException;
 import com.dbserver.desafio.votacao.exception.PautaSemVotoException;
 import com.dbserver.desafio.votacao.exception.SessaoFinalizadaException;
 import com.dbserver.desafio.votacao.exception.VotoJaRealizadoException;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,13 @@ public class RestExceptionHandler {
     public ResponseEntity<ErroNotificacao> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 
         return getErroNotificacaoResponseEntity("Verificar os formatos corretos dos campos do payload", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErroNotificacao> handleFeignException(FeignException e) {
+
+        return getErroNotificacaoResponseEntity("CPF Inválido", HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<ErroNotificacao> handleDefaultException(Exception e) {

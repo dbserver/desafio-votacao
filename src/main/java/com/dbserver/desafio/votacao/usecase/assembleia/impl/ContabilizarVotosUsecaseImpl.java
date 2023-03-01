@@ -14,12 +14,14 @@ import com.dbserver.desafio.votacao.usecase.domain.VotosPauta;
 import com.dbserver.desafio.votacao.usecase.enuns.VotoEnum;
 import com.dbserver.desafio.votacao.usecase.assembleia.ContabilizarVotosUsecase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ContabilizarVotosUsecaseImpl implements ContabilizarVotosUsecase {
@@ -30,6 +32,8 @@ public class ContabilizarVotosUsecaseImpl implements ContabilizarVotosUsecase {
 
     @Override
     public VotosPauta execute(Integer idPauta) {
+
+        log.info("[ContabilizarVotosUsecaseImpl] Chamada ao usecase de contabilização de votos, IdPauta: " + idPauta);
 
         Optional<PautaEntity> pautaEntity = pautaRepository.findById(idPauta);
 

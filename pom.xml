@@ -22,10 +22,11 @@
         <jackson-databind.version>2.14.2</jackson-databind.version>
         <spock-spring.version>2.0-M4-groovy-3.0</spock-spring.version>
         <applicationinsights-web.version>2.6.4</applicationinsights-web.version>
-        <h2.version>2.1.212</h2.version>
         <openapi-ui.version>1.6.14</openapi-ui.version>
         <spring-boot-validation.version>3.0.3</spring-boot-validation.version>
         <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <spring-cloud-openfeign.version>3.1.2</spring-cloud-openfeign.version>
+        <spring-started-openfeign.version>3.1.2</spring-started-openfeign.version>
     </properties>
 
     <dependencies>
@@ -92,11 +93,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${openapi-ui.version}</version>
@@ -110,6 +106,23 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>${javax.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+            <version>${spring-cloud-openfeign.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${spring-started-openfeign.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>1.58</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

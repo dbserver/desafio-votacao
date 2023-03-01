@@ -8,6 +8,7 @@ import com.dbserver.desafio.votacao.endpoint.mapper.PautaDtoParaPautaMapper;
 import com.dbserver.desafio.votacao.endpoint.mapper.PautaParaPautaDtoMapper;
 import com.dbserver.desafio.votacao.endpoint.swagger.CadastrarPautaControllerSwagger;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,6 +29,8 @@ public class CadastrarPautaController implements CadastrarPautaControllerSwagger
 
     @PostMapping(value = EndpointURL.CADASTRAR_PAUTA_URL)
     public ResponseEntity<PautaDTO> cadastrarPauta(@Valid @RequestBody PautaDTO pautaDTO) {
+
+        log.info("[CadastrarPautaController] Inicio do Cadastro de Pauta");
 
         Pauta pauta = PautaDtoParaPautaMapper.INSTANCE.map(pautaDTO);
 

@@ -8,6 +8,7 @@ import com.dbserver.desafio.votacao.endpoint.swagger.ContabilizarVotosController
 import com.dbserver.desafio.votacao.usecase.domain.VotosPauta;
 import com.dbserver.desafio.votacao.usecase.assembleia.ContabilizarVotosUsecase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,6 +29,8 @@ public class ContabilizarVotosController implements ContabilizarVotosControllerS
 
     @PostMapping(value = EndpointURL.CONTABILIZAR_VOTOS_URL)
     public ResponseEntity<VotosPautaDTO> contabilizarVotos(@Valid @RequestBody PautaIdDTO PautaIdDTO) {
+
+        log.info("[ContabilizarVotosController] Inicio da Contabilização dos Votos da Pauta, IdPauta: " + PautaIdDTO.getIdPauta());
 
         VotosPauta votosPautaResultado = contabilizarVotosUsecase.execute(PautaIdDTO.getIdPauta());
 
