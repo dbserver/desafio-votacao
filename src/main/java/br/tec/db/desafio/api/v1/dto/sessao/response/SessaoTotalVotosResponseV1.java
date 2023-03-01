@@ -12,4 +12,5 @@ import lombok.Setter;
 public class SessaoTotalVotosResponseV1 {
     private int totalVotosSim;
     private int totalVotosNao;
+    private Boolean sessaoEncerrada;
 }

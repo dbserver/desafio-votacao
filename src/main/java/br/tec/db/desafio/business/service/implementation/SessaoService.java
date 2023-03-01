@@ -101,7 +101,7 @@ public class SessaoService extends BaseSessao implements ISessaoService {
 
         Sessao sessaoEncontrada = sessaoRepository.findByPautaId
                 (pautaEncontrada.getId());
-
+        valida.validarSessaoResultado(sessaoEncontrada);
 
 
         return SessaoMapperV1.sessaoToSessaoTotalVotosResponseV1(

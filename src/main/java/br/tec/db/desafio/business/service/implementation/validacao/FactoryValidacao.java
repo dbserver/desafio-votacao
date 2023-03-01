@@ -13,6 +13,7 @@ import br.tec.db.desafio.business.service.implementation.validacao.sessao.criars
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.criarsessao.ValidarSessaoRepetida;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.votar.ValidarSessaoExpirada;
 import br.tec.db.desafio.business.service.implementation.validacao.sessao.votar.ValidarSessaoJaVotada;
+import br.tec.db.desafio.business.service.implementation.validacao.sessao.votar.ValidarSessaoResultado;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -70,4 +71,8 @@ public class FactoryValidacao {
         validarSessaoJaVotada.validar(id);
     }
 
+    public void validarSessaoResultado(Sessao sessao) {
+        ValidarSessaoResultado validarSessaoExpirada = new ValidarSessaoResultado();
+        validarSessaoExpirada.validar(sessao);
+    }
 }

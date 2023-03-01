@@ -86,7 +86,7 @@ public class SessaoMapperV1 {
         SessaoTotalVotosResponseV1 sessaoTotalVotosResponseV1 =new SessaoTotalVotosResponseV1();
         sessaoTotalVotosResponseV1.setTotalVotosSim(source.getTotalVotosSim());
         sessaoTotalVotosResponseV1.setTotalVotosNao(source.getTotalVotosNao());
-
+        sessaoTotalVotosResponseV1.setSessaoEncerrada(source.getSessaoEncerrada());
         return sessaoTotalVotosResponseV1;
 
     }

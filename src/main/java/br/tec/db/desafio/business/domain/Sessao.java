@@ -33,6 +33,7 @@ public class Sessao {
     private LocalDateTime duracao;
     private int totalVotosSim;
     private int totalVotosNao;
+    private Boolean sessaoEncerrada;
 
     public void novoVoto(Sessao sessao, SessaoParaVotarRequestV1 sessaoParaVotarRequestV1){
         if(sessaoParaVotarRequestV1.getVoto()==Voto.SIM){

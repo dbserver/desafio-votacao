@@ -103,7 +103,8 @@ public class SessaoControllerV1Test {
         SessaoTotalVotosResponseV1 sessaoTotalVotosResponseV1 =
                 new SessaoTotalVotosResponseV1(
                         30,
-                        20
+                        20,
+                        true
                 );
         String request = new ObjectMapper().writeValueAsString(sessaoParaSaberTotalVotosRequestV1);
 
