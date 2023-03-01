@@ -40,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"idPauta\":1,\r\n\"duracaoSessao\":3\r\n}",
+					"raw": "{\r\n\"idPauta\":1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -68,7 +68,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"cpfAssociado\":\"999.999.999-91\",\r\n\"idPauta\":1,\r\n\"voto\":\"Não\"\r\n}",
+					"raw": "{\r\n\"cpfAssociado\":\"999.999.999-93\",\r\n\"idPauta\":1,\r\n\"voto\":\"Não\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -120,26 +120,19 @@
 		{
 			"name": "Validação de CPF",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"cpf\":\"999.999.999-99\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "localhost:8082/desafio-valida-cpf/valida-cpf",
+					"raw": "http://localhost:8090/desafio-valida-cpf/valida-cpf/999.999.999-91",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8082",
+					"port": "8090",
 					"path": [
 						"desafio-valida-cpf",
-						"valida-cpf"
+						"valida-cpf",
+						"999.999.999-91"
 					]
 				}
 			},

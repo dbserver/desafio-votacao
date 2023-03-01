@@ -128,14 +128,32 @@ Será nescessario o banco de dados Postegres com as tabelas e sequences presente
 - POSTGRES_PASSWORD=postgres
   ports:
 - 5432:5432
-
-Observação: Criei um arquivo docker-compose.yml com postegre e a criação das tabelas e sequences automatizada.
+- Observação: Criei um arquivo docker-compose.yml com postegre e a criação das tabelas e sequences automatizada.
 
 Docker-Compose:
 - Comando: 
 docker-compose -f config/docker/docker-compose.yml up --build
 
+Git Repository: https://github.com/grego-rogerio/desafio-votacao.git
+
 Documentação API Swagger:
 http://localhost:8081/desafio-votacao/swagger-ui/index.html
 
+Collection Postman
 
+- Criei uma Collection Postman com as Chamadas dos Endpoints:
+- config/postman/desafio-votacao-collection.postman_collection.json
+
+Desafio Bônus:
+Criei uma nova api que será chamada pelo serviço desafio-votacao.
+Configuração encontra-se no application.yml
+
+feign:
+  valida:
+    cpf:
+      name: validacpf
+      url: localhost:8090/desafio-valida-cpf/valida-cpf
+
+Nome do Serviço: valida-cpf
+Git Repository: https://github.com/grego-rogerio/valida-cpf.git
+URL Exemplo: http://localhost:8090/desafio-valida-cpf/valida-cpf/999.999.999-99
