@@ -3,7 +3,6 @@ package db.desafiovotacao.controller;
 import db.desafiovotacao.model.Sessao;
 import db.desafiovotacao.service.SessaoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,7 @@ public class SessaoController {
 
     private final SessaoService sessaoService;
 
-    @Autowired
+    
     public SessaoController(SessaoService sessaoService){
         this.sessaoService = sessaoService;
     }

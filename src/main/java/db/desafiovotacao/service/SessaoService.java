@@ -4,7 +4,6 @@ package db.desafiovotacao.service;
 import db.desafiovotacao.model.Sessao;
 import db.desafiovotacao.repository.SessaoRepository;
 import db.desafiovotacao.service.interfaces.ISessaoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,8 +13,7 @@ import java.time.LocalDateTime;
 public class SessaoService implements ISessaoService {
 
     private final SessaoRepository sessaoRepository;
-
-    @Autowired
+    
     public SessaoService(SessaoRepository sessaoRepository){
         this.sessaoRepository = sessaoRepository;
     }
