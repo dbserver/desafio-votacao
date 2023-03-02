@@ -22,7 +22,7 @@ public class AssociadoController {
     }
 
     @PostMapping
-    private ResponseEntity<Associado> novoAssociado(@RequestBody @Valid Associado associadoRequest){
+    public ResponseEntity<Associado> novoAssociado(@RequestBody @Valid Associado associadoRequest){
 
         Associado associado = associadoService.criarAssociado(associadoRequest);
 

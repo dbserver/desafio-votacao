@@ -22,7 +22,7 @@ public class SessaoController {
     }
 
     @PostMapping
-    private ResponseEntity<Sessao> novaSessao(@RequestBody @Valid Sessao sessaoRequest){
+    public ResponseEntity<Sessao> novaSessao(@RequestBody @Valid Sessao sessaoRequest){
 
         Sessao sessao = sessaoService.criarSessao(sessaoRequest);
 

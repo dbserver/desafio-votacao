@@ -1,10 +1,9 @@
 package db.desafiovotacao.controller;
 
-import db.desafiovotacao.dto.PautaRequest;
-import db.desafiovotacao.dto.PautaResponse;
 import db.desafiovotacao.model.Pauta;
 import db.desafiovotacao.service.PautaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,14 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PautaController {
 
     private final PautaService pautaService;
-
-    @Autowired
+    
     public PautaController(PautaService pautaService){
         this.pautaService = pautaService;
     }
 
     @PostMapping
-    private ResponseEntity<Pauta> novaPauta(@RequestBody Pauta pautaRequest){
+    private ResponseEntity<Pauta> novaPauta(@RequestBody @Valid  Pauta pautaRequest){
 
         Pauta pauta = pautaService.criarPauta(pautaRequest);
 
