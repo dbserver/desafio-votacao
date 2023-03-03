@@ -1,9 +1,13 @@
 package br.tec.db.desafio.api.v1.controller;
 
+import br.tec.db.desafio.api.client.AssociadoStatusCpfClient;
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoRequestV1;
 import br.tec.db.desafio.api.v1.dto.associado.AssociadoResponseV1;
+import br.tec.db.desafio.api.v1.dto.associado.client.AssociadoClientRequestV1;
+import br.tec.db.desafio.api.v1.dto.associado.client.AssociadoClientResponseV1;
 import br.tec.db.desafio.api.v1.dto.pauta.PautaRequestV1;
 import br.tec.db.desafio.api.v1.dto.pauta.PautaResponseV1;
+import br.tec.db.desafio.business.domain.enums.StatusCpf;
 import br.tec.db.desafio.business.service.IAssociadoService;
 import br.tec.db.desafio.business.service.IPautaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,8 +30,11 @@ import static io.restassured.RestAssured.given;
 public class AssociadoControllerV1Test {
     @MockBean
     IAssociadoService associadoService;
+    @MockBean
+    AssociadoStatusCpfClient associadoStatusCpfClient;
     private static final String NOME = "guilherme";
     private static final String CPF = "12312366990";
+    private static final StatusCpf STATUS_CPF = StatusCpf.ABLE_TO_VOTE;
     private static final String URI ="/api/v1/associado";
     @LocalServerPort
     private int port;
@@ -38,7 +45,7 @@ public class AssociadoControllerV1Test {
     }
 
     @Test
-    void devePersistirPautaComSucesso() throws JsonProcessingException {
+    void devePersistirAssociadoComSucesso() throws JsonProcessingException {
         AssociadoRequestV1 associadoRequestV1 =
                 new AssociadoRequestV1(
                         NOME,
@@ -60,6 +67,31 @@ public class AssociadoControllerV1Test {
                 .post(URI)
                 .then()
                 .statusCode(201);
+
+
+    }
+
+    @Test
+    void deveConsultarCpfAssociadoComSucesso() throws JsonProcessingException {
+        AssociadoClientRequestV1 associadoRequestV1 =
+                new AssociadoClientRequestV1(
+                        CPF);
+
+        AssociadoClientResponseV1 associadoResponseV1 =
+                new AssociadoClientResponseV1(
+                        STATUS_CPF);
+        String request = new ObjectMapper().writeValueAsString(associadoRequestV1);
+
+        Mockito.when(associadoStatusCpfClient.getStatusCpfAssociado(associadoRequestV1))
+                .thenReturn(associadoResponseV1);
+
+        given()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .post(URI.concat("/statuscpf"))
+                .then()
+                .statusCode(200);
 
 
     }
