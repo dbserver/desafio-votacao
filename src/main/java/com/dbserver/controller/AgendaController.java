@@ -26,14 +26,14 @@ public class AgendaController {
     private VotingStatusService votingStatusService;
 
     @PostMapping
-    public ResponseEntity create(@Valid @RequestBody AgendaRequestDTO agendaRequestDTO) {
+    public ResponseEntity<AgendaDTO> create(@Valid @RequestBody AgendaRequestDTO agendaRequestDTO) {
         AgendaDTO agendaDTO = agendaService.create(agendaRequestDTO);
         return new ResponseEntity(agendaDTO, CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AgendaDTO> getById(@PathVariable String id) {
-        AgendaDTO agendaDTO = agendaService.getById(id);
+        AgendaDTO agendaDTO = agendaService.getAgendaDTOById(id);
         return new ResponseEntity<>(agendaDTO, OK);
     }
 

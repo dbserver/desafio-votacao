@@ -4,15 +4,9 @@ import com.dbserver.exception.BusinessException;
 import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.AgendaRequestDTO;
 import com.dbserver.model.dto.AgendaDTO;
-import com.dbserver.model.dto.AgendaVotingDTO;
-import com.dbserver.model.dto.VotingAgendaDTO;
 import com.dbserver.model.entity.Agenda;
-import com.dbserver.model.entity.Vote;
-import com.dbserver.model.entity.Voting;
-import com.dbserver.model.enums.VotingStatus;
 import com.dbserver.model.mapper.AgendaMapper;
 import com.dbserver.repository.AgendaRepository;
-import com.dbserver.repository.VotingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,20 +26,27 @@ public class AgendaService {
     private AgendaMapper agendaMapper;
 
     public AgendaDTO create(AgendaRequestDTO agendaRequestDTO) {
+        LOGGER.info("Starting agenda creation: {}", agendaRequestDTO);
         Agenda agenda = agendaMapper.toEntity(agendaRequestDTO);
-        return agendaMapper.toDTO(this.save(agenda));
+        AgendaDTO agendaDTO = agendaMapper.toDTO(this.save(agenda));
+        LOGGER.info("Agenda created: {}", agendaDTO);
+        return agendaDTO;
     }
 
-    public Agenda save(Agenda agenda) {
+    private Agenda save(Agenda agenda) {
         try {
             return agendaRepository.save(agenda);
         } catch (RuntimeException e) {
+            LOGGER.error("Error saving agenda: {}", agenda);
             throw new BusinessException();
         }
     }
 
-    public AgendaDTO getById(String id) {
-        return agendaMapper.toDTO(this.findById(id));
+    public AgendaDTO getAgendaDTOById(String id) {
+        LOGGER.info("Starting agenda search: {}", id);
+        AgendaDTO agendaDTO = agendaMapper.toDTO(this.findById(id));
+        LOGGER.info("Agenda found: {}", agendaDTO);
+        return agendaDTO;
     }
 
     public Agenda findById(String id) {
