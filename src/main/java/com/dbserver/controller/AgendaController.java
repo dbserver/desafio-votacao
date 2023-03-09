@@ -2,7 +2,7 @@ package com.dbserver.controller;
 
 import com.dbserver.model.dto.AgendaRequestDTO;
 import com.dbserver.model.dto.AgendaDTO;
-import com.dbserver.model.dto.AgendaVotingDTO;
+import com.dbserver.model.dto.AgendaVotingStatusDTO;
 import com.dbserver.service.AgendaService;
 import com.dbserver.service.VotingStatusService;
 import jakarta.validation.Valid;
@@ -44,9 +44,9 @@ public class AgendaController {
     }
 
     @GetMapping("/{id}/voting/status")
-    public ResponseEntity<AgendaVotingDTO> getAgendaVotingStatus(@PathVariable String id) {
-        AgendaVotingDTO agendaVotingDTO = votingStatusService.getAgendaVotingStatus(id);
-        return new ResponseEntity<>(agendaVotingDTO, OK);
+    public ResponseEntity<AgendaVotingStatusDTO> getAgendaVotingStatus(@PathVariable String id) {
+        AgendaVotingStatusDTO agendaVotingStatusDTO = votingStatusService.getAgendaVotingStatus(id);
+        return new ResponseEntity<>(agendaVotingStatusDTO, OK);
     }
 
 }

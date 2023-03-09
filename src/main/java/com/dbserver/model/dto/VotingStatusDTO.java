@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class VotingAgendaDTO {
+public class VotingStatusDTO {
 
     private String id;
     private VotingStatus votingStatus;
     private Long duration;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Integer votesAgaist;
+    private Integer votesAgainst;
     private Integer votesInFavor;
 
 }

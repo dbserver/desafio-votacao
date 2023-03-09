@@ -1,7 +1,7 @@
 package com.dbserver.service;
 
-import com.dbserver.model.dto.AgendaVotingDTO;
-import com.dbserver.model.dto.VotingAgendaDTO;
+import com.dbserver.model.dto.AgendaVotingStatusDTO;
+import com.dbserver.model.dto.VotingStatusDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Vote;
 import com.dbserver.model.entity.Voting;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @Service
 public class VotingStatusService {
+
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -24,46 +25,61 @@ public class VotingStatusService {
     @Autowired
     private VoteService voteService;
 
-    public AgendaVotingDTO getAgendaVotingStatus(String idAgenda) {
-        Agenda agenda =  agendaService.findById(idAgenda);
+    public AgendaVotingStatusDTO getAgendaVotingStatus(String idAgenda) {
+        LOGGER.info("Starting voting status build for agenda id: {}", idAgenda);
 
+        Agenda agenda = agendaService.findById(idAgenda);
         Voting voting = votingService.findByIdAgenda(agenda.getId());
         List<Vote> votes = voteService.findAllByIdVoting(voting.getId());
 
-        Integer votesAgaist = Math.toIntExact(votes.stream().filter(vote -> vote.getVote() == false).count());
-        Integer votesInFavor = Math.toIntExact(votes.stream().filter(vote -> vote.getVote() == true).count());
+        VotingStatusDTO votingStatusDTO = buildVotingStatusDTO(voting, votes);
+
+        AgendaVotingStatusDTO agendaVotingStatusDTO = AgendaVotingStatusDTO.builder()
+                .idAgenda(idAgenda)
+                .description(agenda.getDescription())
+                .title(agenda.getTitle())
+                .voting(votingStatusDTO)
+                .build();
+
+        LOGGER.info("Voting build completed: {}", agendaVotingStatusDTO);
+        return agendaVotingStatusDTO;
+    }
+
+
+    private VotingStatusDTO buildVotingStatusDTO(Voting voting, List<Vote> votes) {
+        Integer votesAgainst = getVotesAgainst(votes);
+        Integer votesInFavor = getVotesInFavor(votes);
 
         VotingStatus votingStatus;
 
         if (votingService.isOpen(voting)) {
             votingStatus = VotingStatus.OPEN;
         } else {
-            if (votesAgaist > votesInFavor) {
-                votingStatus = VotingStatus.DISAPPROVED;
-            } else if (votesInFavor > votesAgaist) {
-                votingStatus = VotingStatus.APPROVED;
-            }else{
-                votingStatus = VotingStatus.TIED;
-            }
+            votingStatus = getVotingStatusByVotes(votesAgainst, votesInFavor);
         }
 
-        VotingAgendaDTO votingAgendaDTO = VotingAgendaDTO.builder()
+        return VotingStatusDTO.builder()
                 .id(voting.getId())
                 .duration(voting.getDuration())
                 .votingStatus(votingStatus)
                 .startDate(voting.getStartDate())
                 .endDate(voting.getEndDate())
-                .votesAgaist(votesAgaist)
+                .votesAgainst(votesAgainst)
                 .votesInFavor(votesInFavor)
                 .build();
+    }
 
-        return AgendaVotingDTO.builder()
-                .idAgenda(idAgenda)
-                .description(agenda.getDescription())
-                .title(agenda.getTitle())
-                .voting(votingAgendaDTO)
-                .build();
+    private VotingStatus getVotingStatusByVotes(Integer votesAgainst, Integer votesInFavor) {
+        return votesAgainst > votesInFavor ? VotingStatus.DISAPPROVED :
+                votesInFavor > votesAgainst ? VotingStatus.APPROVED : VotingStatus.TIED;
+    }
 
+    private Integer getVotesInFavor(List<Vote> votes) {
+        return Math.toIntExact(votes.stream().filter(Vote::getVote).count());
+    }
+
+    private Integer getVotesAgainst(List<Vote> votes) {
+        return Math.toIntExact(votes.stream().filter(vote -> !vote.getVote()).count());
     }
 
 }

@@ -5,11 +5,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AgendaVotingDTO {
+public class AgendaVotingStatusDTO {
 
     private String idAgenda;
     private String title;
     private String description;
-    private VotingAgendaDTO voting;
+    private VotingStatusDTO voting;
 
 }
