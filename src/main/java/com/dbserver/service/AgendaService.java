@@ -56,13 +56,6 @@ public class AgendaService {
                 .collect(Collectors.toList());
     }
 
-    public AgendaDTO update(String id, AgendaRequestDTO agendaRequestDTO) {
-        Agenda agenda = this.findById(id);
-        agenda.setTitle(agendaRequestDTO.getTitle());
-        agenda.setDescription(agenda.getDescription());
-        return agendaMapper.toDTO(this.save(agenda));
-    }
-
     public void verifyIfexistsById(String id) {
         if (!agendaRepository.existsById(id)) {
             LOGGER.error("Agenda not found: {}", id);

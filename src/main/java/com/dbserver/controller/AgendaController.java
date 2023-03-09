@@ -33,15 +33,6 @@ public class AgendaController {
         return new ResponseEntity<>(agendaDTO, OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AgendaDTO> update(
-            @PathVariable String id,
-            @Valid @RequestBody AgendaRequestDTO agendaRequestDTO
-    ) {
-        AgendaDTO agendaDTO = agendaService.update(id, agendaRequestDTO);
-        return new ResponseEntity<>(agendaDTO, OK);
-    }
-
     @GetMapping
     public ResponseEntity<List<AgendaDTO>> getAll() {
         List<AgendaDTO> agendas = agendaService.getAll();

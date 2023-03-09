@@ -1,11 +1,10 @@
 package com.dbserver.service;
 
 import com.dbserver.exception.BusinessException;
-import com.dbserver.exception.EntityAlreadyExistsException;
+import com.dbserver.exception.ConflictException;
 import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.VotingCreateDTO;
 import com.dbserver.model.dto.VotingDTO;
-import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Voting;
 import com.dbserver.model.mapper.VotingMapper;
 import com.dbserver.repository.VotingRepository;
@@ -38,7 +37,7 @@ public class VotingService {
         try {
             return votingRepository.save(voting);
         } catch (DuplicateKeyException e) {
-            throw new EntityAlreadyExistsException("Voting already started");
+            throw new ConflictException("Voting already started");
         } catch (RuntimeException e) {
             throw new BusinessException();
         }
@@ -54,13 +53,6 @@ public class VotingService {
                     LOGGER.error("Voting not found: {}", id);
                     throw new EntityNotFoundException("Voting not found");
                 });
-    }
-
-    public void verifyIfexistsById(String id) {
-        if (!votingRepository.existsById(id)) {
-            LOGGER.error("Voting not found: {}", id);
-            throw new EntityNotFoundException("Voting not found");
-        }
     }
 
 }
