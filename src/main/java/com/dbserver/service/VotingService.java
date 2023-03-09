@@ -41,10 +41,10 @@ public class VotingService {
         try {
             return votingRepository.save(voting);
         } catch (DuplicateKeyException e) {
-            LOGGER.error("Error saving voting: {}", voting);
+            LOGGER.error("Error saving voting", e);
             throw new ConflictException("Voting already started");
         } catch (RuntimeException e) {
-            LOGGER.error("Error saving voting: {}", voting);
+            LOGGER.error("Error saving voting", e);
             throw new BusinessException();
         }
     }

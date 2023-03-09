@@ -33,11 +33,17 @@ public class VoteService {
     private VotingService votingService;
 
     public VoteDTO create(VoteCreatedDTO voteCreatedDTO) {
+        LOGGER.info("Starting vote creation: {}", voteCreatedDTO);
         Voting voting = votingService.findById(voteCreatedDTO.getIdVoting());
         if (votingService.isOpen(voting)) {
+
             Vote vote = voteMapper.toEntity(voteCreatedDTO);
-            return voteMapper.toDTO(this.save(vote));
+            VoteDTO voteDTO = voteMapper.toDTO(this.save(vote));
+            LOGGER.info("Vote created: {}", voteDTO);
+            return voteDTO;
+
         } else {
+            LOGGER.error("Voting has already ended");
             throw new ConflictException("Voting has already ended");
         }
     }
@@ -46,8 +52,10 @@ public class VoteService {
         try {
             return voteRepository.save(vote);
         } catch (DuplicateKeyException e) {
+            LOGGER.error("Error saving vote", e);
             throw new ConflictException("User has already voted");
         } catch (RuntimeException e) {
+            LOGGER.error("Error saving vote", e);
             throw new BusinessException();
         }
     }
