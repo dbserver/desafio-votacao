@@ -17,6 +17,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service
@@ -33,9 +34,7 @@ public class VoteService {
 
     public VoteDTO create(VoteCreatedDTO voteCreatedDTO) {
         Voting voting = votingService.findById(voteCreatedDTO.getIdVoting());
-        LocalDateTime endDate = voting.getEndDate();
-        LocalDateTime now = LocalDateTime.now();
-        if (now.isBefore(endDate)) {
+        if (votingService.isOpen(voting)) {
             Vote vote = voteMapper.toEntity(voteCreatedDTO);
             return voteMapper.toDTO(this.save(vote));
         } else {
@@ -53,12 +52,8 @@ public class VoteService {
         }
     }
 
-    public Vote findById(String id) {
-        return voteRepository.findById(id)
-                .orElseThrow(() -> {
-                    LOGGER.error("Vote not found: {}", id);
-                    throw new EntityNotFoundException("Vote not found");
-                });
+    public List<Vote> findAllByIdVoting(String idVoting) {
+        return voteRepository.findAllByIdVoting(idVoting);
     }
 
 }

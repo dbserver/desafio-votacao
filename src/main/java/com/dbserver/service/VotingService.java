@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class VotingService {
 
@@ -47,12 +49,26 @@ public class VotingService {
         return votingMapper.toDTO(this.findById(id));
     }
 
-    public Voting findById(String id) {
-        return votingRepository.findById(id)
+    public Voting findById(String idAgenda) {
+        return votingRepository.findById(idAgenda)
                 .orElseThrow(() -> {
-                    LOGGER.error("Voting not found: {}", id);
+                    LOGGER.error("Voting not found: {}", idAgenda);
                     throw new EntityNotFoundException("Voting not found");
                 });
+    }
+
+    public Voting findByIdAgenda(String idAgenda) {
+        return votingRepository.findByIdAgenda(idAgenda)
+                .orElseThrow(() -> {
+                    LOGGER.error("Voting not found: {}", idAgenda);
+                    throw new EntityNotFoundException("Voting not found");
+                });
+    }
+
+    public boolean isOpen(Voting voting){
+        LocalDateTime endDate = voting.getEndDate();
+        LocalDateTime now = LocalDateTime.now();
+        return now.isBefore(endDate);
     }
 
 }

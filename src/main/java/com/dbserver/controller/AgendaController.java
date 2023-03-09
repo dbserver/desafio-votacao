@@ -2,7 +2,9 @@ package com.dbserver.controller;
 
 import com.dbserver.model.dto.AgendaRequestDTO;
 import com.dbserver.model.dto.AgendaDTO;
+import com.dbserver.model.dto.AgendaVotingDTO;
 import com.dbserver.service.AgendaService;
+import com.dbserver.service.VotingStatusService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ public class AgendaController {
 
     @Autowired
     private AgendaService agendaService;
+    @Autowired
+    private VotingStatusService votingStatusService;
 
     @PostMapping
     public ResponseEntity create(@Valid @RequestBody AgendaRequestDTO agendaRequestDTO) {
@@ -40,8 +44,9 @@ public class AgendaController {
     }
 
     @GetMapping("/{id}/voting/status")
-    public ResponseEntity<AgendaDTO> getAgendaVotingStatus(@PathVariable String id) {
-        return new ResponseEntity<>(OK);
+    public ResponseEntity<AgendaVotingDTO> getAgendaVotingStatus(@PathVariable String id) {
+        AgendaVotingDTO agendaVotingDTO = votingStatusService.getAgendaVotingStatus(id);
+        return new ResponseEntity<>(agendaVotingDTO, OK);
     }
 
 }
