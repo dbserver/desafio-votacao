@@ -63,11 +63,4 @@ public class AgendaService {
                 .collect(Collectors.toList());
     }
 
-    public void verifyIfexistsById(String id) {
-        if (!agendaRepository.existsById(id)) {
-            LOGGER.error("Agenda not found: {}", id);
-            throw new EntityNotFoundException("Agenda not found");
-        }
-    }
-
 }

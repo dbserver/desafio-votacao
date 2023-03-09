@@ -25,28 +25,35 @@ public class VotingService {
     private VotingRepository votingRepository;
     @Autowired
     private VotingMapper votingMapper;
-
     @Autowired
     private AgendaService agendaService;
 
     public VotingDTO create(VotingCreateDTO votingCreateDTO) {
-        agendaService.verifyIfexistsById(votingCreateDTO.getIdAgenda());
+        LOGGER.info("Starting voting creation: {}", votingCreateDTO);
+        agendaService.findById(votingCreateDTO.getIdAgenda());
         Voting voting = votingMapper.toEntity(votingCreateDTO);
-        return votingMapper.toDTO(this.save(voting));
+        VotingDTO votingDTO = votingMapper.toDTO(this.save(voting));
+        LOGGER.info("Voting created: {}", voting);
+        return votingDTO;
     }
 
     private Voting save(Voting voting) {
         try {
             return votingRepository.save(voting);
         } catch (DuplicateKeyException e) {
+            LOGGER.error("Error saving voting: {}", voting);
             throw new ConflictException("Voting already started");
         } catch (RuntimeException e) {
+            LOGGER.error("Error saving voting: {}", voting);
             throw new BusinessException();
         }
     }
 
     public VotingDTO getById(String id) {
-        return votingMapper.toDTO(this.findById(id));
+        LOGGER.info("Starting voting search: {}", id);
+        VotingDTO votingDTO = votingMapper.toDTO(this.findById(id));
+        LOGGER.info("Voting found: {}", votingDTO);
+        return votingDTO;
     }
 
     public Voting findById(String idAgenda) {
@@ -65,7 +72,7 @@ public class VotingService {
                 });
     }
 
-    public boolean isOpen(Voting voting){
+    public boolean isOpen(Voting voting) {
         LocalDateTime endDate = voting.getEndDate();
         LocalDateTime now = LocalDateTime.now();
         return now.isBefore(endDate);
