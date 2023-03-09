@@ -33,7 +33,7 @@ public class AgendaController {
         return new ResponseEntity<>(agendaDTO, OK);
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<AgendaDTO> update(
             @PathVariable String id,
             @Valid @RequestBody AgendaRequestDTO agendaRequestDTO

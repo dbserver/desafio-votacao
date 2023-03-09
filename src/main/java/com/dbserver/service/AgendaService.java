@@ -63,4 +63,11 @@ public class AgendaService {
         return agendaMapper.toDTO(this.save(agenda));
     }
 
+    public void verifyIfexistsById(String id) {
+        if (!agendaRepository.existsById(id)) {
+            LOGGER.error("Agenda not found: {}", id);
+            throw new EntityNotFoundException("Agenda not found");
+        }
+    }
+
 }
