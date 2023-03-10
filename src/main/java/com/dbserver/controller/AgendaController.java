@@ -28,7 +28,7 @@ public class AgendaController {
     @PostMapping
     public ResponseEntity<AgendaDTO> create(@Valid @RequestBody AgendaRequestDTO agendaRequestDTO) {
         AgendaDTO agendaDTO = agendaService.create(agendaRequestDTO);
-        return new ResponseEntity(agendaDTO, CREATED);
+        return new ResponseEntity<>(agendaDTO, CREATED);
     }
 
     @GetMapping("/{id}")

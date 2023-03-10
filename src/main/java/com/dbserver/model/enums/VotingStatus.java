@@ -19,14 +19,10 @@ public enum VotingStatus {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public static Optional<VotingStatus> getById(String id) {
         Optional<VotingStatus> status = Optional.empty();
         for (VotingStatus sts : VotingStatus.values()) {
-            if (sts.getId().toLowerCase().equals(id.toLowerCase())) {
+            if (sts.getId().equals(id.toLowerCase())) {
                 status = Optional.of(sts);
             }
         }

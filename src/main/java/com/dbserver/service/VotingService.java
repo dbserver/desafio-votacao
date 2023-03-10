@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Service
 public class VotingService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private VotingRepository votingRepository;
@@ -29,11 +29,11 @@ public class VotingService {
     private AgendaService agendaService;
 
     public VotingDTO create(VotingCreateDTO votingCreateDTO) {
-        LOGGER.info("Starting voting creation: {}", votingCreateDTO);
+        logger.info("Starting voting creation: {}", votingCreateDTO);
         agendaService.findById(votingCreateDTO.getIdAgenda());
         Voting voting = votingMapper.toEntity(votingCreateDTO);
         VotingDTO votingDTO = votingMapper.toDTO(this.save(voting));
-        LOGGER.info("Voting created: {}", voting);
+        logger.info("Voting created: {}", voting);
         return votingDTO;
     }
 
@@ -41,25 +41,25 @@ public class VotingService {
         try {
             return votingRepository.save(voting);
         } catch (DuplicateKeyException e) {
-            LOGGER.error("Error saving voting", e);
+            logger.error("Error saving voting", e);
             throw new ConflictException("Voting already started");
         } catch (RuntimeException e) {
-            LOGGER.error("Error saving voting", e);
+            logger.error("Error saving voting", e);
             throw new BusinessException();
         }
     }
 
     public VotingDTO getById(String id) {
-        LOGGER.info("Starting voting search: {}", id);
+        logger.info("Starting voting search: {}", id);
         VotingDTO votingDTO = votingMapper.toDTO(this.findById(id));
-        LOGGER.info("Voting found: {}", votingDTO);
+        logger.info("Voting found: {}", votingDTO);
         return votingDTO;
     }
 
     public Voting findById(String id) {
         return votingRepository.findById(id)
                 .orElseThrow(() -> {
-                    LOGGER.error("Voting not found: {}", id);
+                    logger.error("Voting not found: {}", id);
                     throw new EntityNotFoundException("Voting not found: " + id);
                 });
     }
@@ -67,7 +67,7 @@ public class VotingService {
     public Voting findByIdAgenda(String idAgenda) {
         return votingRepository.findByIdAgenda(idAgenda)
                 .orElseThrow(() -> {
-                    LOGGER.error("Voting not found for id: {}", idAgenda);
+                    logger.error("Voting not found for id: {}", idAgenda);
                     throw new EntityNotFoundException("Voting not found for idAgenda: " + idAgenda);
                 });
     }
