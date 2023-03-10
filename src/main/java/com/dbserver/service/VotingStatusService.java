@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class VotingStatusService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AgendaService agendaService;
@@ -26,25 +26,27 @@ public class VotingStatusService {
     private VoteService voteService;
 
     public AgendaVotingStatusDTO getAgendaVotingStatus(String idAgenda) {
-        LOGGER.info("Starting voting status build for agenda id: {}", idAgenda);
+        logger.info("Starting voting status build for agenda id: {}", idAgenda);
 
         Agenda agenda = agendaService.findById(idAgenda);
         Voting voting = votingService.findByIdAgenda(agenda.getId());
         List<Vote> votes = voteService.findAllByIdAgenda(agenda.getId());
 
         VotingStatusDTO votingStatusDTO = buildVotingStatusDTO(voting, votes);
+        AgendaVotingStatusDTO agendaVotingStatusDTO = buildAgendaVotingStatusDTO(agenda, votingStatusDTO);
 
-        AgendaVotingStatusDTO agendaVotingStatusDTO = AgendaVotingStatusDTO.builder()
-                .idAgenda(idAgenda)
+        logger.info("Voting status build completed: {}", agendaVotingStatusDTO);
+        return agendaVotingStatusDTO;
+    }
+
+    private AgendaVotingStatusDTO buildAgendaVotingStatusDTO(Agenda agenda, VotingStatusDTO votingStatusDTO) {
+        return AgendaVotingStatusDTO.builder()
+                .idAgenda(agenda.getId())
                 .description(agenda.getDescription())
                 .title(agenda.getTitle())
                 .voting(votingStatusDTO)
                 .build();
-
-        LOGGER.info("Voting build completed: {}", agendaVotingStatusDTO);
-        return agendaVotingStatusDTO;
     }
-
 
     private VotingStatusDTO buildVotingStatusDTO(Voting voting, List<Vote> votes) {
         Integer votesAgainst = getVotesAgainst(votes);
@@ -70,8 +72,9 @@ public class VotingStatusService {
     }
 
     private VotingStatus getVotingStatusByVotes(Integer votesAgainst, Integer votesInFavor) {
-        return votesAgainst > votesInFavor ? VotingStatus.DISAPPROVED :
-                votesInFavor > votesAgainst ? VotingStatus.APPROVED : VotingStatus.TIED;
+        if (votesAgainst > votesInFavor) return VotingStatus.DISAPPROVED;
+        if (votesInFavor > votesAgainst) return VotingStatus.APPROVED;
+        else return VotingStatus.TIED;
     }
 
     private Integer getVotesInFavor(List<Vote> votes) {
