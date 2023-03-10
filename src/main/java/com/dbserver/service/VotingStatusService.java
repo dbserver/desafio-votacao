@@ -30,7 +30,7 @@ public class VotingStatusService {
 
         Agenda agenda = agendaService.findById(idAgenda);
         Voting voting = votingService.findByIdAgenda(agenda.getId());
-        List<Vote> votes = voteService.findAllByIdVoting(voting.getId());
+        List<Vote> votes = voteService.findAllByIdAgenda(agenda.getId());
 
         VotingStatusDTO votingStatusDTO = buildVotingStatusDTO(voting, votes);
 

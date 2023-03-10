@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @Document(collection = "vote")
-@CompoundIndex(name = "unique_index", def = "{'idVoting': 1, 'cpf': 1}", unique = true)
+@CompoundIndex(name = "unique_index", def = "{'idAgenda': 1, 'cpf': 1}", unique = true)
 public class Vote {
 
     private String id;
-    private String idVoting;
+    private String idAgenda;
     private String cpf;
     private Boolean vote;
     @CreatedDate

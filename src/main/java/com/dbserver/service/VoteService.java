@@ -2,10 +2,8 @@ package com.dbserver.service;
 
 import com.dbserver.exception.BusinessException;
 import com.dbserver.exception.ConflictException;
-import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
-import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Vote;
 import com.dbserver.model.entity.Voting;
 import com.dbserver.model.mapper.VoteMapper;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -34,7 +31,8 @@ public class VoteService {
 
     public VoteDTO create(VoteCreatedDTO voteCreatedDTO) {
         LOGGER.info("Starting vote creation: {}", voteCreatedDTO);
-        Voting voting = votingService.findById(voteCreatedDTO.getIdVoting());
+
+        Voting voting = votingService.findByIdAgenda(voteCreatedDTO.getIdAgenda());
         if (votingService.isOpen(voting)) {
 
             Vote vote = voteMapper.toEntity(voteCreatedDTO);
@@ -60,8 +58,8 @@ public class VoteService {
         }
     }
 
-    public List<Vote> findAllByIdVoting(String idVoting) {
-        return voteRepository.findAllByIdVoting(idVoting);
+    public List<Vote> findAllByIdAgenda(String idVoting) {
+        return voteRepository.findAllByIdAgenda(idVoting);
     }
 
 }

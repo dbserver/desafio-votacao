@@ -6,10 +6,12 @@ import lombok.Data;
 
 @Data
 public class VoteCreatedDTO {
+
     @NotBlank
-    private String idVoting;
+    private String idAgenda;
     @NotNull
     private Boolean vote;
     @NotBlank
     private String cpf;
+
 }

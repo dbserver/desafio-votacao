@@ -56,19 +56,19 @@ public class VotingService {
         return votingDTO;
     }
 
-    public Voting findById(String idAgenda) {
-        return votingRepository.findById(idAgenda)
+    public Voting findById(String id) {
+        return votingRepository.findById(id)
                 .orElseThrow(() -> {
-                    LOGGER.error("Voting not found: {}", idAgenda);
-                    throw new EntityNotFoundException("Voting not found");
+                    LOGGER.error("Voting not found: {}", id);
+                    throw new EntityNotFoundException("Voting not found: " + id);
                 });
     }
 
     public Voting findByIdAgenda(String idAgenda) {
         return votingRepository.findByIdAgenda(idAgenda)
                 .orElseThrow(() -> {
-                    LOGGER.error("Voting not found: {}", idAgenda);
-                    throw new EntityNotFoundException("Voting not found");
+                    LOGGER.error("Voting not found for id: {}", idAgenda);
+                    throw new EntityNotFoundException("Voting not found for idAgenda: " + idAgenda);
                 });
     }
 
