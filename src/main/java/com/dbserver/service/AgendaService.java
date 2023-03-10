@@ -3,7 +3,7 @@ package com.dbserver.service;
 import com.dbserver.exception.BusinessException;
 import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.AgendaDTO;
-import com.dbserver.model.dto.AgendaRequestDTO;
+import com.dbserver.model.dto.AgendaCreateDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.mapper.AgendaMapper;
 import com.dbserver.repository.AgendaRepository;
@@ -24,9 +24,9 @@ public class AgendaService {
     @Autowired
     private AgendaMapper agendaMapper;
 
-    public AgendaDTO create(AgendaRequestDTO agendaRequestDTO) {
-        logger.info("Starting agenda creation: {}", agendaRequestDTO);
-        Agenda agenda = agendaMapper.toEntity(agendaRequestDTO);
+    public AgendaDTO create(AgendaCreateDTO agendaCreateDTO) {
+        logger.info("Starting agenda creation: {}", agendaCreateDTO);
+        Agenda agenda = agendaMapper.toEntity(agendaCreateDTO);
         AgendaDTO agendaDTO = agendaMapper.toDTO(this.save(agenda));
         logger.info("Agenda created: {}", agendaDTO);
         return agendaDTO;

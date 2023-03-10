@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AgendaRequestDTO {
+public class AgendaCreateDTO {
 
     @NotBlank
     private String title;

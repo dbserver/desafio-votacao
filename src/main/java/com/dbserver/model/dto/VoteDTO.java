@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class VoteDTO {
 
     private String id;
-    private String idVoting;
+    private String idAgenda;
     private String cpf;
     private Boolean vote;
     private LocalDateTime createdDate;

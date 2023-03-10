@@ -1,6 +1,6 @@
 package com.dbserver.controller;
 
-import com.dbserver.model.dto.AgendaRequestDTO;
+import com.dbserver.model.dto.AgendaCreateDTO;
 import com.dbserver.model.dto.AgendaDTO;
 import com.dbserver.model.dto.AgendaVotingStatusDTO;
 import com.dbserver.service.AgendaService;
@@ -26,8 +26,8 @@ public class AgendaController {
     private VotingStatusService votingStatusService;
 
     @PostMapping
-    public ResponseEntity<AgendaDTO> create(@Valid @RequestBody AgendaRequestDTO agendaRequestDTO) {
-        AgendaDTO agendaDTO = agendaService.create(agendaRequestDTO);
+    public ResponseEntity<AgendaDTO> create(@Valid @RequestBody AgendaCreateDTO agendaCreateDTO) {
+        AgendaDTO agendaDTO = agendaService.create(agendaCreateDTO);
         return new ResponseEntity<>(agendaDTO, CREATED);
     }
 
