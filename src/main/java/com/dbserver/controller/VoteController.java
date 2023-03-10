@@ -22,7 +22,7 @@ public class VoteController {
     @PostMapping
     public ResponseEntity<VoteDTO> create(@Valid @RequestBody VoteCreatedDTO voteCreatedDTO) {
         VoteDTO vote = voteService.create(voteCreatedDTO);
-        return new ResponseEntity(vote, CREATED);
+        return new ResponseEntity<>(vote, CREATED);
     }
 
 

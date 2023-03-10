@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class VoteService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private VoteRepository voteRepository;
@@ -30,18 +30,18 @@ public class VoteService {
     private VotingService votingService;
 
     public VoteDTO create(VoteCreatedDTO voteCreatedDTO) {
-        LOGGER.info("Starting vote creation: {}", voteCreatedDTO);
+        logger.info("Starting vote creation: {}", voteCreatedDTO);
 
         Voting voting = votingService.findByIdAgenda(voteCreatedDTO.getIdAgenda());
         if (votingService.isOpen(voting)) {
 
             Vote vote = voteMapper.toEntity(voteCreatedDTO);
             VoteDTO voteDTO = voteMapper.toDTO(this.save(vote));
-            LOGGER.info("Vote created: {}", voteDTO);
+            logger.info("Vote created: {}", voteDTO);
             return voteDTO;
 
         } else {
-            LOGGER.error("Voting has already ended");
+            logger.error("Voting has already ended");
             throw new ConflictException("Voting has already ended");
         }
     }
@@ -50,10 +50,10 @@ public class VoteService {
         try {
             return voteRepository.save(vote);
         } catch (DuplicateKeyException e) {
-            LOGGER.error("Error saving vote", e);
+            logger.error("Error saving vote", e);
             throw new ConflictException("User has already voted");
         } catch (RuntimeException e) {
-            LOGGER.error("Error saving vote", e);
+            logger.error("Error saving vote", e);
             throw new BusinessException();
         }
     }
