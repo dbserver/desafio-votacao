@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @CrossOrigin
@@ -21,7 +22,7 @@ public class VotingController {
     @PostMapping
     public ResponseEntity<VotingDTO> create(@Valid @RequestBody VotingCreateDTO agendaOpenVotingDTO) {
         VotingDTO voting = votingService.create(agendaOpenVotingDTO);
-        return new ResponseEntity<>(voting, OK);
+        return new ResponseEntity<>(voting, CREATED);
     }
 
     @GetMapping("/{id}")
