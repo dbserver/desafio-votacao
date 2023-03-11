@@ -9,8 +9,7 @@ import lombok.Data;
 public class VotingCreateDTO {
 
     @NotNull
-    private String  idAgenda;
-    @NotNull
+    private String idAgenda;
     private Long duration;
 
 }

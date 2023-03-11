@@ -68,8 +68,8 @@ class VotingControllerTest {
     @Test
     void shouldThrowBadRequestExceptionWithoutRequiredFieldAndStatus400() {
         VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder()
-                .idAgenda("idAgenda")
-                .duration(null)
+                .idAgenda(null)
+                .duration(60000l)
                 .build();
         given(requestSpec)
                 .body(votingCreateDTO)

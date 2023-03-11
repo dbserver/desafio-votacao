@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @Component
 public class VotingMapper {
@@ -18,8 +19,10 @@ public class VotingMapper {
 
     public Voting toEntity(VotingCreateDTO votingCreateDTO) {
         Voting voting = objectMapper.convertValue(votingCreateDTO, Voting.class);
+        Long duration = Optional.ofNullable(voting.getDuration()).orElse(60000L);
+        voting.setDuration(duration);
         voting.setStartDate(LocalDateTime.now());
-        voting.setEndDate(LocalDateTime.now().plus(voting.getDuration(), ChronoUnit.MILLIS));
+        voting.setEndDate(LocalDateTime.now().plus(duration, ChronoUnit.MILLIS));
         return voting;
     }
 

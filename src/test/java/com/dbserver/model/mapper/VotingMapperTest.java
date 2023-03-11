@@ -20,11 +20,24 @@ class VotingMapperTest {
 
     @Test
     void shouldMapperCreateDTOToEntity() {
-        VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder().duration(6000L).idAgenda("idAgenda").build();
+        VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder().duration(1000L).idAgenda("idAgenda").build();
         Voting voting = votingMapper.toEntity(votingCreateDTO);
         Voting toCompare = Voting.builder()
                 .idAgenda(votingCreateDTO.getIdAgenda())
                 .duration(votingCreateDTO.getDuration())
+                .startDate(voting.getStartDate())
+                .endDate(voting.getEndDate())
+                .build();
+        assertThat(toCompare, equalTo(voting));
+    }
+
+    @Test
+    void shouldMapperCreateDTOToEntityWithDefaultTime() {
+        VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder().idAgenda("idAgenda").build();
+        Voting voting = votingMapper.toEntity(votingCreateDTO);
+        Voting toCompare = Voting.builder()
+                .idAgenda(votingCreateDTO.getIdAgenda())
+                .duration(60000L)
                 .startDate(voting.getStartDate())
                 .endDate(voting.getEndDate())
                 .build();
