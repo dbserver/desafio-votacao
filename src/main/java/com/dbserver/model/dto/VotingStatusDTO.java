@@ -15,6 +15,7 @@ public class VotingStatusDTO {
     private Long duration;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Integer totalVotes;
     private Integer votesAgainst;
     private Integer votesInFavor;
 

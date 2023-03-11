@@ -66,6 +66,7 @@ public class VotingStatusService {
                 .votingStatus(votingStatus)
                 .startDate(voting.getStartDate())
                 .endDate(voting.getEndDate())
+                .totalVotes(votes.size())
                 .votesAgainst(votesAgainst)
                 .votesInFavor(votesInFavor)
                 .build();

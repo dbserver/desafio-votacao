@@ -66,6 +66,7 @@ class VotingStatusServiceTest {
         assertThat(agendaVotingStatus.getVoting().getVotingStatus(), equalTo(VotingStatus.DISAPPROVED));
         assertThat(agendaVotingStatus.getVoting().getVotesInFavor(), equalTo(1));
         assertThat(agendaVotingStatus.getVoting().getVotesAgainst(), equalTo(3));
+        assertThat(agendaVotingStatus.getVoting().getTotalVotes(), equalTo(4));
     }
 
     @Test
@@ -89,6 +90,7 @@ class VotingStatusServiceTest {
         assertThat(agendaVotingStatus.getVoting().getVotingStatus(), equalTo(VotingStatus.APPROVED));
         assertThat(agendaVotingStatus.getVoting().getVotesInFavor(), equalTo(5));
         assertThat(agendaVotingStatus.getVoting().getVotesAgainst(), equalTo(3));
+        assertThat(agendaVotingStatus.getVoting().getTotalVotes(), equalTo(8));
     }
 
     @Test
@@ -110,6 +112,7 @@ class VotingStatusServiceTest {
         assertThat(agendaVotingStatus.getVoting().getVotingStatus(), equalTo(VotingStatus.TIED));
         assertThat(agendaVotingStatus.getVoting().getVotesInFavor(), equalTo(3));
         assertThat(agendaVotingStatus.getVoting().getVotesAgainst(), equalTo(3));
+        assertThat(agendaVotingStatus.getVoting().getTotalVotes(), equalTo(6));
     }
 
     private List<Vote> getVotesMock(String idAgenda) {
