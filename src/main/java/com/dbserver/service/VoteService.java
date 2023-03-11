@@ -50,7 +50,7 @@ public class VoteService {
         try {
             return voteRepository.save(vote);
         } catch (DuplicateKeyException e) {
-            logger.error("Error saving vote", e);
+            logger.error("Error saving vote, user has already voted");
             throw new ConflictException("User has already voted");
         } catch (RuntimeException e) {
             logger.error("Error saving vote", e);

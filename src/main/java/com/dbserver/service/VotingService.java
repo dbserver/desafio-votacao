@@ -41,7 +41,7 @@ public class VotingService {
         try {
             return votingRepository.save(voting);
         } catch (DuplicateKeyException e) {
-            logger.error("Error saving voting", e);
+            logger.error("Error saving voting. Voting already started");
             throw new ConflictException("Voting already started");
         } catch (RuntimeException e) {
             logger.error("Error saving voting", e);
