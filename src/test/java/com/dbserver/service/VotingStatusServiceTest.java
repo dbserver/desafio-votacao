@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class VotingStatusServiceTest {
+class VotingStatusServiceTest {
 
     @Mock
     private AgendaService agendaService;
@@ -34,7 +33,6 @@ public class VotingStatusServiceTest {
 
     @InjectMocks
     private VotingStatusService votingStatusService;
-
 
     @Test
     void shouldGetVotingStatusWithOpenVoting() {
@@ -124,15 +122,14 @@ public class VotingStatusServiceTest {
     }
 
     private Voting getVotingMock(String idAgenda) {
-        long duration = 6000000000l;
-        Voting voting = Voting.builder()
+        long duration = 6000000000L;
+        return Voting.builder()
                 .id("6404ff797f24ce45b0022c83")
                 .idAgenda(idAgenda)
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plus(duration, ChronoUnit.MILLIS))
                 .duration(duration)
                 .build();
-        return voting;
     }
 
     private Agenda getAgendaMock() {

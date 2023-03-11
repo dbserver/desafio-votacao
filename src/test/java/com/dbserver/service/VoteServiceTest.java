@@ -2,20 +2,16 @@ package com.dbserver.service;
 
 import com.dbserver.exception.BusinessException;
 import com.dbserver.exception.ConflictException;
-import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
-import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Vote;
 import com.dbserver.model.entity.Voting;
 import com.dbserver.model.mapper.VoteMapper;
 import com.dbserver.repository.VoteRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -44,24 +40,13 @@ class VoteServiceTest {
     @InjectMocks
     private VoteService voteService;
 
-    Vote vote;
-
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-        vote = Vote.builder()
-                .id("6404ff797f24ce45b0022c83")
-                .idAgenda("idAgenda01")
-                .vote(true)
-                .createdDate(LocalDateTime.now())
-                .build();
-    }
 
     @Test
     void shouldCreateVote() {
-        VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder().build();
-        VoteDTO voteDTO = VoteDTO.builder().build();
-        Voting voting = Voting.builder().idAgenda(vote.getIdAgenda()).build();
+        Vote vote = getVoteMock();
+        VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
+        VoteDTO voteDTO = getVoteDTOMock();
+        Voting voting = getVotingMock(vote);
         when(votingService.findByIdAgenda(any())).thenReturn(voting);
         when(votingService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
@@ -71,11 +56,12 @@ class VoteServiceTest {
         assertThat(saved, equalTo(voteDTO));
     }
 
+
     @Test
     void shouldThrowConflictException() {
-        VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder().build();
-        VoteDTO voteDTO = VoteDTO.builder().build();
-        Voting voting = Voting.builder().idAgenda(vote.getIdAgenda()).build();
+        Vote vote = getVoteMock();
+        VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
+        Voting voting = getVotingMock(vote);
         when(votingService.findByIdAgenda(any())).thenReturn(voting);
         when(votingService.isOpen(voting)).thenReturn(false);
         ConflictException throwable =
@@ -85,9 +71,9 @@ class VoteServiceTest {
 
     @Test
     void shouldThrowBusinessException() {
-        VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder().build();
-        VoteDTO voteDTO = VoteDTO.builder().build();
-        Voting voting = Voting.builder().idAgenda(vote.getIdAgenda()).build();
+        Vote vote = getVoteMock();
+        VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
+        Voting voting = getVotingMock(vote);
         when(votingService.findByIdAgenda(any())).thenReturn(voting);
         when(votingService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
@@ -99,9 +85,9 @@ class VoteServiceTest {
 
     @Test
     void shouldThrowConflictExceptionOnSave() {
-        VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder().build();
-        VoteDTO voteDTO = VoteDTO.builder().build();
-        Voting voting = Voting.builder().idAgenda(vote.getIdAgenda()).build();
+        Vote vote = getVoteMock();
+        VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
+        Voting voting = getVotingMock(vote);
         when(votingService.findByIdAgenda(any())).thenReturn(voting);
         when(votingService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
@@ -113,8 +99,30 @@ class VoteServiceTest {
 
     @Test
     void shouldFindAllVotesByIdAgenda() {
+        Vote vote = getVoteMock();
         when(voteRepository.findAllByIdAgenda(vote.getIdAgenda())).thenReturn(Arrays.asList(vote));
         List<Vote> votes = voteService.findAllByIdAgenda(vote.getIdAgenda());
         assertThat(votes.size(), equalTo(1));
+    }
+
+    private Vote getVoteMock() {
+        return Vote.builder()
+                .id("6404ff797f24ce45b0022c83")
+                .idAgenda("idAgenda01")
+                .vote(true)
+                .createdDate(LocalDateTime.now())
+                .build();
+    }
+
+    private VoteCreatedDTO getVoteCreatedDTOMock() {
+        return VoteCreatedDTO.builder().build();
+    }
+
+    private VoteDTO getVoteDTOMock() {
+        return VoteDTO.builder().build();
+    }
+
+    private Voting getVotingMock(Vote vote) {
+        return Voting.builder().idAgenda(vote.getIdAgenda()).build();
     }
 }

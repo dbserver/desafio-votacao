@@ -28,25 +28,21 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(locations = "classpath:test.properties")
-public class VotingControllerTest {
+class VotingControllerTest {
 
     @Autowired
     private AgendaRepository agendaRepository;
     @Autowired
     private VotingRepository votingRepository;
-    @Autowired
-    private VoteRepository voteRepository;
 
     @LocalServerPort
     private int port;
-
-    private String URL;
 
     private RequestSpecification requestSpec;
 
     @BeforeAll
     public void init() {
-        URL = "http://localhost:" + port + "/api/v1/voting";
+        String URL = "http://localhost:" + port + "/api/v1/voting";
         requestSpec = new RequestSpecBuilder()
                 .setBaseUri(URL)
                 .setContentType(ContentType.JSON)
@@ -54,7 +50,7 @@ public class VotingControllerTest {
     }
 
     @Test
-    public void shouldCreateVotingAndStatus201() {
+    void shouldCreateVotingAndStatus201() {
         Agenda agenda = agendaRepository.save(Agenda.builder().build());
         VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder()
                 .idAgenda(agenda.getId())
@@ -70,7 +66,7 @@ public class VotingControllerTest {
     }
 
     @Test
-    public void shouldThrowBadRequestExceptionWithoutRequiredFieldAndStatus400() {
+    void shouldThrowBadRequestExceptionWithoutRequiredFieldAndStatus400() {
         VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder()
                 .idAgenda("idAgenda")
                 .duration(null)
@@ -83,7 +79,7 @@ public class VotingControllerTest {
     }
 
     @Test
-    public void shouldThrowNotFoundExceptionWithNonExistentAgendaAndStatus404() {
+    void shouldThrowNotFoundExceptionWithNonExistentAgendaAndStatus404() {
         VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder()
                 .idAgenda("idAgenda")
                 .duration(6000l)
@@ -97,7 +93,7 @@ public class VotingControllerTest {
     }
 
     @Test
-    void shouldGetVotingById() {
+    void shouldGetVotingByIdAndStatus200() {
         Voting voting = votingRepository.save(Voting.builder().idAgenda(UUID.randomUUID().toString()).build());
         given(requestSpec)
                 .get("/" + voting.getId())
@@ -107,7 +103,7 @@ public class VotingControllerTest {
     }
 
     @Test
-    void shouldThrowNotFoundExceptionWithNonexistentVoting() {
+    void shouldThrowNotFoundExceptionWithNonexistentVotingAndStatus404() {
         given(requestSpec)
                 .get("/" + UUID.randomUUID())
                 .then()

@@ -8,12 +8,10 @@ import com.dbserver.model.dto.AgendaDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.mapper.AgendaMapper;
 import com.dbserver.repository.AgendaRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
@@ -38,24 +36,11 @@ class AgendaServiceTest {
     @InjectMocks
     private AgendaService agendaService;
 
-    private Agenda agenda;
-
-    @BeforeEach
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-        agenda = Agenda.builder()
-                .id("6404ff797f24ce45b0022c83")
-                .title("titulo")
-                .description("descrição")
-                .createdDate(LocalDateTime.now())
-                .build();
-    }
-
     @Test
     void shouldCreateAgenda() {
-        AgendaCreateDTO agendaCreateDTO = AgendaCreateDTO.builder().title("teste").description("teste").build();
-        Agenda agenda = Agenda.builder().title("teste").description("teste").build();
-        AgendaDTO agendaDTO = AgendaDTO.builder().title("teste").description("teste").build();
+        AgendaCreateDTO agendaCreateDTO = getAgendaCreateDTOMock();
+        Agenda agenda = getAgendaMock();
+        AgendaDTO agendaDTO = getAgendaDTOMock();
         when(agendaMapper.toEntity(agendaCreateDTO)).thenReturn(agenda);
         when(agendaMapper.toDTO(agenda)).thenReturn(agendaDTO);
         when(agendaRepository.save(agenda)).thenReturn(agenda);
@@ -65,18 +50,19 @@ class AgendaServiceTest {
 
     @Test
     void shouldThrowBusinessException() {
-        AgendaCreateDTO agendaCreateDTO = AgendaCreateDTO.builder().title("teste").description("teste").build();
-        Agenda agenda = Agenda.builder().title("teste").description("teste").build();
-        AgendaDTO agendaDTO = AgendaDTO.builder().title("teste").description("teste").build();
+        AgendaCreateDTO agendaCreateDTO = getAgendaCreateDTOMock();
+        Agenda agenda = getAgendaMock();
+        AgendaDTO agendaDTO = getAgendaDTOMock();
         when(agendaMapper.toEntity(agendaCreateDTO)).thenReturn(agenda);
         when(agendaRepository.save(agenda)).thenThrow(RuntimeException.class);
         BusinessException throwable = catchThrowableOfType(() -> agendaService.create(agendaCreateDTO), BusinessException.class);
         assertThat(throwable.getClass(), equalTo(BusinessException.class));
     }
 
+
     @Test
     void shouldGetAgendaById() {
-        AgendaDTO agendaDTO = AgendaDTO.builder().build();
+        Agenda agenda = getAgendaMock();
         when(agendaRepository.findById(agenda.getId())).thenReturn(Optional.of(agenda));
         Agenda foundAgenda = agendaService.findById(agenda.getId());
         assertThat(foundAgenda, equalTo(agenda));
@@ -84,7 +70,7 @@ class AgendaServiceTest {
 
     @Test
     void shouldThrowEntityNotFoundException() {
-        AgendaDTO agendaDTO = AgendaDTO.builder().build();
+        Agenda agenda = getAgendaMock();
         when(agendaRepository.findById(agenda.getId())).thenReturn(Optional.empty());
         EntityNotFoundException throwable =
                 catchThrowableOfType(() -> agendaService.findById(agenda.getId()), EntityNotFoundException.class);
@@ -95,7 +81,8 @@ class AgendaServiceTest {
 
     @Test
     void shouldGetAgendaDTOById() {
-        AgendaDTO agendaDTO = AgendaDTO.builder().build();
+        Agenda agenda = getAgendaMock();
+        AgendaDTO agendaDTO = getAgendaDTOMock();
         when(agendaRepository.findById(agenda.getId())).thenReturn(Optional.of(agenda));
         when(agendaMapper.toDTO(agenda)).thenReturn(agendaDTO);
         AgendaDTO foundAgenda = agendaService.getAgendaDTOById(agenda.getId());
@@ -104,10 +91,30 @@ class AgendaServiceTest {
 
     @Test
     void shouldGetAll() {
-        AgendaDTO agendaDTO = AgendaDTO.builder().build();
+        Agenda agenda = getAgendaMock();
+        AgendaDTO agendaDTO = getAgendaDTOMock();
         when(agendaRepository.findAll()).thenReturn(Arrays.asList(agenda));
         when(agendaMapper.toDTO(agenda)).thenReturn(agendaDTO);
         List<AgendaDTO> agendas = agendaService.getAll();
         assertThat(agendas.size(), equalTo(1));
     }
+
+
+    private AgendaCreateDTO getAgendaCreateDTOMock() {
+        return AgendaCreateDTO.builder().title("teste").description("teste").build();
+    }
+
+    private Agenda getAgendaMock() {
+        return Agenda.builder()
+                .id("6404ff797f24ce45b0022c83")
+                .title("titulo")
+                .description("descrição")
+                .createdDate(LocalDateTime.now())
+                .build();
+    }
+
+    private AgendaDTO getAgendaDTOMock() {
+        return AgendaDTO.builder().title("teste").description("teste").build();
+    }
+
 }

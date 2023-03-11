@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(locations = "classpath:test.properties")
-public class AgendaControllerTest {
+class AgendaControllerTest {
 
     @Autowired
     private AgendaRepository agendaRepository;
@@ -40,13 +40,11 @@ public class AgendaControllerTest {
     @LocalServerPort
     private int port;
 
-    private String URL;
-
     private RequestSpecification requestSpec;
 
     @BeforeAll
     public void init() {
-        URL = "http://localhost:" + port + "/api/v1/agenda";
+        String URL = "http://localhost:" + port + "/api/v1/agenda";
         requestSpec = new RequestSpecBuilder()
                 .setBaseUri(URL)
                 .setContentType(ContentType.JSON)
@@ -54,7 +52,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    public void shouldCreateAgendaAndStatus201() {
+    void shouldCreateAgendaAndStatus201() {
         AgendaCreateDTO agendaCreateDTO = AgendaCreateDTO.builder()
                 .title("teste")
                 .description("teste")
@@ -69,7 +67,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    public void shouldThrowBadRequestExceptionAndStatus400() {
+    void shouldThrowBadRequestExceptionWithoutRequiredFieldAndStatus400() {
         AgendaCreateDTO agendaCreateDTO = AgendaCreateDTO.builder()
                 .title("teste")
                 .description(null)
@@ -82,7 +80,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    public void shouldGetAgendaByIdAndStatus200() {
+    void shouldGetAgendaByIdAndStatus200() {
         Agenda agenda = agendaRepository.save(Agenda.builder().title("teste").description("teste").build());
         given(requestSpec)
                 .get("/" + agenda.getId())
@@ -93,7 +91,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    public void shouldThrowNotFoundExceptionAndStatus404() {
+    void shouldThrowNotFoundExceptionWithNonexistentAngedaAndStatus404() {
         given(requestSpec)
                 .get("/" + UUID.randomUUID())
                 .then()
@@ -109,7 +107,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    public void shouldGetAgendaVotingStatusAndStatusCode200() {
+    void shouldGetAgendaVotingStatusAndStatusCode200() {
         Agenda agenda = agendaRepository.save(Agenda.builder().title("teste").description("teste").build());
 
         Voting voting = votingRepository.save(
@@ -139,7 +137,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    public void shouldThrowNotFoundExceptionWithNonexistentAgenda() {
+    void shouldThrowNotFoundExceptionWithNonexistentAgendaAndStatus404() {
         given(requestSpec)
                 .get("/" + UUID.randomUUID() + "/voting/status")
                 .then()
@@ -149,7 +147,7 @@ public class AgendaControllerTest {
     }
 
     @Test
-    void shouldThrowNotFoundExceptionWithNonexistentVoting() {
+    void shouldThrowNotFoundExceptionWithNonexistentVotingAndStatus404() {
         Agenda agenda = agendaRepository.save(Agenda.builder().title("teste").description("teste").build());
         given(requestSpec)
                 .get("/" + agenda.getId() + "/voting/status")

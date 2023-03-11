@@ -4,7 +4,6 @@ import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VotingCreateDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.repository.AgendaRepository;
-import com.dbserver.repository.VoteRepository;
 import com.dbserver.service.VotingService;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -25,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(locations = "classpath:test.properties")
-public class VoteControllerTest {
+class VoteControllerTest {
 
     @Autowired
     private AgendaRepository agendaRepository;
@@ -35,13 +34,11 @@ public class VoteControllerTest {
     @LocalServerPort
     private int port;
 
-    private String URL;
-
     private RequestSpecification requestSpec;
 
     @BeforeAll
     public void init() {
-        URL = "http://localhost:" + port + "/api/v1/vote";
+        String URL = "http://localhost:" + port + "/api/v1/vote";
         requestSpec = new RequestSpecBuilder()
                 .setBaseUri(URL)
                 .setContentType(ContentType.JSON)
@@ -49,7 +46,7 @@ public class VoteControllerTest {
     }
 
     @Test
-    public void shouldCreateVoteAndStatus201() {
+    void shouldCreateVoteAndStatus201() {
         Agenda agenda = agendaRepository.save(Agenda.builder().build());
         votingService.create(VotingCreateDTO.builder().duration(60000l).idAgenda(agenda.getId()).build());
         VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
@@ -67,7 +64,7 @@ public class VoteControllerTest {
     }
 
     @Test
-    public void shouldThrowConflictExceptionWithEndedVotingAndStatus409() {
+    void shouldThrowConflictExceptionWithEndedVotingAndStatus409() {
         Agenda agenda = agendaRepository.save(Agenda.builder().build());
         votingService.create(VotingCreateDTO.builder().duration(6l).idAgenda(agenda.getId()).build());
         VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
@@ -84,7 +81,7 @@ public class VoteControllerTest {
     }
 
     @Test
-    public void shouldThrowNotFoundExceptionWithNonexistentAgendaAndStatus404() {
+    void shouldThrowNotFoundExceptionWithNonexistentAgendaAndStatus404() {
         VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
                 .vote(true)
                 .idAgenda(UUID.randomUUID().toString())
