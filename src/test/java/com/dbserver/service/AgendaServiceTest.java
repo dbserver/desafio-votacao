@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -75,7 +76,7 @@ class AgendaServiceTest {
         EntityNotFoundException throwable =
                 catchThrowableOfType(() -> agendaService.findById(agenda.getId()), EntityNotFoundException.class);
         assertThat(throwable.getClass(), equalTo(EntityNotFoundException.class));
-        assertThat(throwable.getReason(), equalTo("Agenda not found"));
+        assertThat(throwable.getReason(), containsString("Agenda not found"));
         assertThat(throwable.getStatusCode(), equalTo(NOT_FOUND));
     }
 

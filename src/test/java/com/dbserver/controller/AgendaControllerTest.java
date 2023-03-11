@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import static com.dbserver.model.enums.VotingStatus.APPROVED;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -96,7 +97,7 @@ class AgendaControllerTest {
                 .get("/" + UUID.randomUUID())
                 .then()
                 .statusCode(404)
-                .body("message", equalTo("Agenda not found"));
+                .body("message", containsString("Agenda not found"));
     }
 
     @Test
@@ -142,7 +143,7 @@ class AgendaControllerTest {
                 .get("/" + UUID.randomUUID() + "/voting/status")
                 .then()
                 .statusCode(404)
-                .body("message", equalTo("Agenda not found"));
+                .body("message", containsString("Agenda not found"));
 
     }
 

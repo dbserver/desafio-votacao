@@ -52,7 +52,7 @@ public class AgendaService {
         return agendaRepository.findById(id)
                 .orElseThrow(() -> {
                     logger.error("Agenda not found: {}", id);
-                    throw new EntityNotFoundException("Agenda not found");
+                    throw new EntityNotFoundException("Agenda not found for id: " + id);
                 });
     }
 

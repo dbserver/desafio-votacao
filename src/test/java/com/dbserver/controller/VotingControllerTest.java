@@ -89,7 +89,7 @@ class VotingControllerTest {
                 .post()
                 .then()
                 .statusCode(404)
-                .body("message", equalTo("Agenda not found"));
+                .body("message", containsString("Agenda not found"));
     }
 
     @Test
