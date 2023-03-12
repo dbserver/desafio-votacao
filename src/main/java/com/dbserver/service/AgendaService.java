@@ -36,7 +36,7 @@ public class AgendaService {
         try {
             return agendaRepository.save(agenda);
         } catch (RuntimeException e) {
-            logger.error("Error saving agenda: {}", agenda);
+            logger.error("Error saving agenda: ", e);
             throw new BusinessException();
         }
     }

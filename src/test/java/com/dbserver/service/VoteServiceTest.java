@@ -56,7 +56,6 @@ class VoteServiceTest {
         assertThat(saved, equalTo(voteDTO));
     }
 
-
     @Test
     void shouldThrowConflictException() {
         Vote vote = getVoteMock();
@@ -77,7 +76,7 @@ class VoteServiceTest {
         when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
         when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
-        when(voteRepository.save(vote)).thenThrow(BusinessException.class);
+        when(voteRepository.save(vote)).thenThrow(new BusinessException());
         BusinessException throwable =
                 catchThrowableOfType(() -> voteService.create(voteCreatedDTO), BusinessException.class);
         assertThat(throwable.getClass(), equalTo(BusinessException.class));
@@ -110,19 +109,32 @@ class VoteServiceTest {
                 .id("6404ff797f24ce45b0022c83")
                 .idAgenda("idAgenda01")
                 .vote(true)
+                .cpf("00011155566699")
                 .createdDate(LocalDateTime.now())
                 .build();
     }
 
     private VoteCreatedDTO getVoteCreatedDTOMock() {
-        return VoteCreatedDTO.builder().build();
+        Vote vote = getVoteMock();
+        return VoteCreatedDTO.builder()
+                .cpf(vote.getCpf())
+                .vote(vote.getVote())
+                .idAgenda(vote.getIdAgenda())
+                .build();
     }
 
     private VoteDTO getVoteDTOMock() {
-        return VoteDTO.builder().build();
+        Vote vote = getVoteMock();
+        return VoteDTO.builder()
+                .cpf(vote.getCpf())
+                .vote(vote.getVote())
+                .idAgenda(vote.getIdAgenda())
+                .createdDate(vote.getCreatedDate())
+                .build();
     }
 
     private VotingSession getVotingMock(Vote vote) {
         return VotingSession.builder().idAgenda(vote.getIdAgenda()).build();
     }
+
 }

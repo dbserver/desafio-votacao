@@ -55,7 +55,7 @@ class AgendaServiceTest {
         Agenda agenda = getAgendaMock();
         AgendaDTO agendaDTO = getAgendaDTOMock();
         when(agendaMapper.toEntity(agendaCreateDTO)).thenReturn(agenda);
-        when(agendaRepository.save(agenda)).thenThrow(RuntimeException.class);
+        when(agendaRepository.save(agenda)).thenThrow(new RuntimeException("Erro de teste"));
         BusinessException throwable = catchThrowableOfType(() -> agendaService.create(agendaCreateDTO), BusinessException.class);
         assertThat(throwable.getClass(), equalTo(BusinessException.class));
     }
@@ -102,20 +102,28 @@ class AgendaServiceTest {
 
 
     private AgendaCreateDTO getAgendaCreateDTOMock() {
-        return AgendaCreateDTO.builder().title("teste").description("teste").build();
+        return AgendaCreateDTO.builder()
+                .title("teste")
+                .description("teste")
+                .build();
     }
 
     private Agenda getAgendaMock() {
         return Agenda.builder()
                 .id("6404ff797f24ce45b0022c83")
-                .title("titulo")
-                .description("descrição")
+                .title("teste")
+                .description("teste")
                 .createdDate(LocalDateTime.now())
                 .build();
     }
 
     private AgendaDTO getAgendaDTOMock() {
-        return AgendaDTO.builder().title("teste").description("teste").build();
+        return AgendaDTO.builder()
+                .id(getAgendaMock().getId())
+                .createdDate(getAgendaMock().getCreatedDate())
+                .title("teste")
+                .description("teste")
+                .build();
     }
 
 }

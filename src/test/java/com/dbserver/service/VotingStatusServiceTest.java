@@ -38,8 +38,8 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithOpenVoting() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        VotingSession voting = getVotingMock(idAgenda);
-        List<Vote> votes = getVotesMock(idAgenda);
+        VotingSession voting = getVotingSessionMock();
+        List<Vote> votes = getVotesMock();
 
         when(agendaService.findById(idAgenda)).thenReturn(agenda);
         when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
@@ -54,8 +54,8 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithDisapprovadStatus() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        VotingSession voting = getVotingMock(idAgenda);
-        List<Vote> votes = getVotesMock(idAgenda);
+        VotingSession voting = getVotingSessionMock();
+        List<Vote> votes = getVotesMock();
 
         when(agendaService.findById(idAgenda)).thenReturn(agenda);
         when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
@@ -73,8 +73,8 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithApprovadStatus() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        VotingSession voting = getVotingMock(idAgenda);
-        List<Vote> votes = getVotesMock(idAgenda);
+        VotingSession voting = getVotingSessionMock();
+        List<Vote> votes = getVotesMock();
 
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
@@ -97,8 +97,8 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithTIEDStatus() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        VotingSession voting = getVotingMock(idAgenda);
-        List<Vote> votes = getVotesMock(idAgenda);
+        VotingSession voting = getVotingSessionMock();
+        List<Vote> votes = getVotesMock();
 
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
@@ -115,20 +115,22 @@ class VotingStatusServiceTest {
         assertThat(agendaVotingStatus.getVoting().getTotalVotes(), equalTo(6));
     }
 
-    private List<Vote> getVotesMock(String idAgenda) {
+    private List<Vote> getVotesMock() {
+        Agenda agenda = getAgendaMock();
         List<Vote> votes = new ArrayList<>();
-        votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
-        votes.add(Vote.builder().vote(false).cpf("111").idAgenda(idAgenda).build());
-        votes.add(Vote.builder().vote(false).cpf("222").idAgenda(idAgenda).build());
-        votes.add(Vote.builder().vote(false).cpf("333").idAgenda(idAgenda).build());
+        votes.add(Vote.builder().vote(true).cpf("000").idAgenda(agenda.getId()).build());
+        votes.add(Vote.builder().vote(false).cpf("111").idAgenda(agenda.getId()).build());
+        votes.add(Vote.builder().vote(false).cpf("222").idAgenda(agenda.getId()).build());
+        votes.add(Vote.builder().vote(false).cpf("333").idAgenda(agenda.getId()).build());
         return votes;
     }
 
-    private VotingSession getVotingMock(String idAgenda) {
+    private VotingSession getVotingSessionMock() {
+        Agenda agenda = getAgendaMock();
         long duration = 6000000000L;
         return VotingSession.builder()
-                .id("6404ff797f24ce45b0022c83")
-                .idAgenda(idAgenda)
+                .id("idVoting01")
+                .idAgenda(agenda.getId())
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plus(duration, ChronoUnit.MILLIS))
                 .duration(duration)
@@ -136,7 +138,12 @@ class VotingStatusServiceTest {
     }
 
     private Agenda getAgendaMock() {
-        return Agenda.builder().build();
+        return Agenda.builder()
+                .id("6404ff797f24ce45b0022c83")
+                .title("teste")
+                .description("teste")
+                .createdDate(LocalDateTime.now())
+                .build();
     }
 
 }

@@ -43,10 +43,10 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldCreateVoting() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         Agenda agenda = getAgendaMock();
-        VotingSessionCreateDTO votingSessionCreateDTO = getVotingCreateDTOMock();
-        VotingSessionDTO votingSessionDTO = getVotingDTOMock();
+        VotingSessionCreateDTO votingSessionCreateDTO = getVotingSessionCreateDTOMock();
+        VotingSessionDTO votingSessionDTO = getVotingSessionDTOMock();
         when(agendaService.findById(any())).thenReturn(agenda);
         when(votingSessionMapper.toEntity(votingSessionCreateDTO)).thenReturn(voting);
         when(votingSessionRepository.save(voting)).thenReturn(voting);
@@ -57,9 +57,9 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldThrowConflictException() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         Agenda agenda = getAgendaMock();
-        VotingSessionCreateDTO votingSessionCreateDTO = getVotingCreateDTOMock();
+        VotingSessionCreateDTO votingSessionCreateDTO = getVotingSessionCreateDTOMock();
         when(agendaService.findById(any())).thenReturn(agenda);
         when(votingSessionMapper.toEntity(votingSessionCreateDTO)).thenReturn(voting);
         when(votingSessionRepository.save(voting)).thenThrow(DuplicateKeyException.class);
@@ -71,12 +71,12 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldThrowBusinessException() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         Agenda agenda = getAgendaMock();
-        VotingSessionCreateDTO votingSessionCreateDTO = getVotingCreateDTOMock();
+        VotingSessionCreateDTO votingSessionCreateDTO = getVotingSessionCreateDTOMock();
         when(agendaService.findById(any())).thenReturn(agenda);
         when(votingSessionMapper.toEntity(votingSessionCreateDTO)).thenReturn(voting);
-        when(votingSessionRepository.save(voting)).thenThrow(RuntimeException.class);
+        when(votingSessionRepository.save(voting)).thenThrow(new RuntimeException("Erro de teste"));
         BusinessException throwable =
                 catchThrowableOfType(() -> votingSessionService.create(votingSessionCreateDTO), BusinessException.class);
         assertThat(throwable.getClass(), equalTo(BusinessException.class));
@@ -84,8 +84,8 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldGetVotingDTOById() {
-        VotingSession voting = getVotingMock();
-        VotingSessionDTO votingSessionDTO = getVotingDTOMock();
+        VotingSession voting = getVotingSessionMock();
+        VotingSessionDTO votingSessionDTO = getVotingSessionDTOMock();
         votingSessionDTO.setId(voting.getId());
         votingSessionDTO.setIdAgenda(voting.getIdAgenda());
         when(votingSessionRepository.findById(voting.getId())).thenReturn(Optional.of(voting));
@@ -96,7 +96,7 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldFindVotingById() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         when(votingSessionRepository.findById(voting.getId())).thenReturn(Optional.of(voting));
         VotingSession found = votingSessionService.findById(voting.getId());
         assertThat(found, equalTo(voting));
@@ -104,7 +104,7 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldThrowEntityNotFoundExceptionOnFindById() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         when(votingSessionRepository.findById(voting.getId())).thenReturn(Optional.empty());
         EntityNotFoundException throwable =
                 catchThrowableOfType(() -> votingSessionService.findById(voting.getId()), EntityNotFoundException.class);
@@ -114,7 +114,7 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldFindVotingByIdAgenda() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         when(votingSessionRepository.findByIdAgenda(voting.getIdAgenda())).thenReturn(Optional.of(voting));
         VotingSession found = votingSessionService.findByIdAgenda(voting.getIdAgenda());
         assertThat(found, equalTo(voting));
@@ -122,7 +122,7 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldThrowEntityNotFoundExceptionOnGetByIdAgenda() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         when(votingSessionRepository.findByIdAgenda(voting.getIdAgenda())).thenReturn(Optional.empty());
         EntityNotFoundException throwable =
                 catchThrowableOfType(() -> votingSessionService.findByIdAgenda(voting.getIdAgenda()), EntityNotFoundException.class);
@@ -132,20 +132,20 @@ class VotingSessionServiceTest {
 
     @Test
     void shouldReturnTrueForOpenVoting() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         boolean isOpen = votingSessionService.isOpen(voting);
         assertThat(isOpen, equalTo(true));
     }
 
     @Test
     void shouldReturnFalseForClosedVoting() {
-        VotingSession voting = getVotingMock();
+        VotingSession voting = getVotingSessionMock();
         voting.setEndDate(LocalDateTime.now());
         boolean isOpen = votingSessionService.isOpen(voting);
         assertThat(isOpen, equalTo(false));
     }
 
-    private VotingSession getVotingMock() {
+    private VotingSession getVotingSessionMock() {
         long duration = 60000l;
         return VotingSession.builder()
                 .id("6404ff797f24ce45b0022c83")
@@ -157,15 +157,30 @@ class VotingSessionServiceTest {
     }
 
     private Agenda getAgendaMock() {
-        return Agenda.builder().build();
+        return Agenda.builder()
+                .id("6404ff797f24ce45b0022c83")
+                .title("teste")
+                .description("teste")
+                .createdDate(LocalDateTime.now())
+                .build();
     }
 
-    private VotingSessionCreateDTO getVotingCreateDTOMock() {
-        return VotingSessionCreateDTO.builder().build();
+    private VotingSessionCreateDTO getVotingSessionCreateDTOMock() {
+        return VotingSessionCreateDTO.builder()
+                .idAgenda(getAgendaMock().getId())
+                .duration(6000l)
+                .build();
     }
 
-    private VotingSessionDTO getVotingDTOMock() {
-        return VotingSessionDTO.builder().build();
+    private VotingSessionDTO getVotingSessionDTOMock() {
+        VotingSession votingSession = getVotingSessionMock();
+        return VotingSessionDTO.builder()
+                .id(votingSession.getId())
+                .idAgenda(votingSession.getIdAgenda())
+                .startDate(votingSession.getStartDate())
+                .endDate(votingSession.getEndDate())
+                .duration(votingSession.getDuration())
+                .build();
     }
 
 }
