@@ -28,6 +28,8 @@ public class VoteService {
     private VoteMapper voteMapper;
     @Autowired
     private VotingSessionService votingSessionService;
+    @Autowired
+    private CpfValidatorService cpfValidatorService;
 
     public VoteDTO create(VoteCreatedDTO voteCreatedDTO) {
         logger.info("Starting vote creation: {}", voteCreatedDTO);
@@ -35,6 +37,7 @@ public class VoteService {
         VotingSession voting = votingSessionService.findByIdAgenda(voteCreatedDTO.getIdAgenda());
         if (votingSessionService.isOpen(voting)) {
 
+            cpfValidatorService.validate(voteCreatedDTO.getCpf());
             Vote vote = voteMapper.toEntity(voteCreatedDTO);
             VoteDTO voteDTO = voteMapper.toDTO(this.save(vote));
             logger.info("Vote created: {}", voteDTO);
