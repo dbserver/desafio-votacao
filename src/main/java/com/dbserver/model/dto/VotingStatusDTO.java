@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Builder
 public class VotingStatusDTO {
 
-    private String id;
     private VotingStatus votingStatus;
     private Long duration;
     private LocalDateTime startDate;

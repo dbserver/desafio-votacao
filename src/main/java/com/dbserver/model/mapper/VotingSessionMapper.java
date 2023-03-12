@@ -1,8 +1,8 @@
 package com.dbserver.model.mapper;
 
-import com.dbserver.model.dto.VotingCreateDTO;
-import com.dbserver.model.dto.VotingDTO;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.dto.VotingSessionCreateDTO;
+import com.dbserver.model.dto.VotingSessionDTO;
+import com.dbserver.model.entity.VotingSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,13 +12,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Component
-public class VotingMapper {
+public class VotingSessionMapper {
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    public Voting toEntity(VotingCreateDTO votingCreateDTO) {
-        Voting voting = objectMapper.convertValue(votingCreateDTO, Voting.class);
+    public VotingSession toEntity(VotingSessionCreateDTO votingSessionCreateDTO) {
+        VotingSession voting = objectMapper.convertValue(votingSessionCreateDTO, VotingSession.class);
         Long duration = Optional.ofNullable(voting.getDuration()).orElse(60000L);
         voting.setDuration(duration);
         voting.setStartDate(LocalDateTime.now());
@@ -26,8 +26,8 @@ public class VotingMapper {
         return voting;
     }
 
-    public VotingDTO toDTO(Voting voting) {
-        return objectMapper.convertValue(voting, VotingDTO.class);
+    public VotingSessionDTO toDTO(VotingSession voting) {
+        return objectMapper.convertValue(voting, VotingSessionDTO.class);
     }
 
 }

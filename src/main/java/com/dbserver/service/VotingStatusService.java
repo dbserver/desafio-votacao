@@ -4,7 +4,7 @@ import com.dbserver.model.dto.AgendaVotingStatusDTO;
 import com.dbserver.model.dto.VotingStatusDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Vote;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.entity.VotingSession;
 import com.dbserver.model.enums.VotingStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class VotingStatusService {
     @Autowired
     private AgendaService agendaService;
     @Autowired
-    private VotingService votingService;
+    private VotingSessionService votingSessionService;
     @Autowired
     private VoteService voteService;
 
@@ -29,7 +29,7 @@ public class VotingStatusService {
         logger.info("Starting voting status build for agenda id: {}", idAgenda);
 
         Agenda agenda = agendaService.findById(idAgenda);
-        Voting voting = votingService.findByIdAgenda(agenda.getId());
+        VotingSession voting = votingSessionService.findByIdAgenda(agenda.getId());
         List<Vote> votes = voteService.findAllByIdAgenda(agenda.getId());
 
         VotingStatusDTO votingStatusDTO = buildVotingStatusDTO(voting, votes);
@@ -48,20 +48,19 @@ public class VotingStatusService {
                 .build();
     }
 
-    private VotingStatusDTO buildVotingStatusDTO(Voting voting, List<Vote> votes) {
+    private VotingStatusDTO buildVotingStatusDTO(VotingSession voting, List<Vote> votes) {
         Integer votesAgainst = getVotesAgainst(votes);
         Integer votesInFavor = getVotesInFavor(votes);
 
         VotingStatus votingStatus;
 
-        if (votingService.isOpen(voting)) {
+        if (votingSessionService.isOpen(voting)) {
             votingStatus = VotingStatus.OPEN;
         } else {
             votingStatus = getVotingStatusByVotes(votesAgainst, votesInFavor);
         }
 
         return VotingStatusDTO.builder()
-                .id(voting.getId())
                 .duration(voting.getDuration())
                 .votingStatus(votingStatus)
                 .startDate(voting.getStartDate())

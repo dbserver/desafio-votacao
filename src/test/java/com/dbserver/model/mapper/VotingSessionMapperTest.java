@@ -1,8 +1,8 @@
 package com.dbserver.model.mapper;
 
-import com.dbserver.model.dto.VotingCreateDTO;
-import com.dbserver.model.dto.VotingDTO;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.dto.VotingSessionCreateDTO;
+import com.dbserver.model.dto.VotingSessionDTO;
+import com.dbserver.model.entity.VotingSession;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,18 +13,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest
-class VotingMapperTest {
+class VotingSessionMapperTest {
 
     @Autowired
-    private VotingMapper votingMapper;
+    private VotingSessionMapper votingSessionMapper;
 
     @Test
     void shouldMapperCreateDTOToEntity() {
-        VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder().duration(1000L).idAgenda("idAgenda").build();
-        Voting voting = votingMapper.toEntity(votingCreateDTO);
-        Voting toCompare = Voting.builder()
-                .idAgenda(votingCreateDTO.getIdAgenda())
-                .duration(votingCreateDTO.getDuration())
+        VotingSessionCreateDTO votingSessionCreateDTO = VotingSessionCreateDTO.builder().duration(1000L).idAgenda("idAgenda").build();
+        VotingSession voting = votingSessionMapper.toEntity(votingSessionCreateDTO);
+        VotingSession toCompare = VotingSession.builder()
+                .idAgenda(votingSessionCreateDTO.getIdAgenda())
+                .duration(votingSessionCreateDTO.getDuration())
                 .startDate(voting.getStartDate())
                 .endDate(voting.getEndDate())
                 .build();
@@ -33,10 +33,10 @@ class VotingMapperTest {
 
     @Test
     void shouldMapperCreateDTOToEntityWithDefaultTime() {
-        VotingCreateDTO votingCreateDTO = VotingCreateDTO.builder().idAgenda("idAgenda").build();
-        Voting voting = votingMapper.toEntity(votingCreateDTO);
-        Voting toCompare = Voting.builder()
-                .idAgenda(votingCreateDTO.getIdAgenda())
+        VotingSessionCreateDTO votingSessionCreateDTO = VotingSessionCreateDTO.builder().idAgenda("idAgenda").build();
+        VotingSession voting = votingSessionMapper.toEntity(votingSessionCreateDTO);
+        VotingSession toCompare = VotingSession.builder()
+                .idAgenda(votingSessionCreateDTO.getIdAgenda())
                 .duration(60000L)
                 .startDate(voting.getStartDate())
                 .endDate(voting.getEndDate())
@@ -47,22 +47,22 @@ class VotingMapperTest {
     @Test
     void shouldMapperEntityToDTO() {
         LocalDateTime date = LocalDateTime.now();
-        Voting voting = Voting.builder()
+        VotingSession voting = VotingSession.builder()
                 .id("01")
                 .duration(6000l)
                 .startDate(date)
                 .endDate(date)
                 .idAgenda("idAgenda")
                 .build();
-        VotingDTO votingDTO = votingMapper.toDTO(voting);
-        VotingDTO toCompare = VotingDTO.builder()
+        VotingSessionDTO votingSessionDTO = votingSessionMapper.toDTO(voting);
+        VotingSessionDTO toCompare = VotingSessionDTO.builder()
                 .id("01")
                 .duration(6000l)
                 .startDate(date)
                 .endDate(date)
                 .idAgenda("idAgenda")
                 .build();
-        assertThat(toCompare, equalTo(votingDTO));
+        assertThat(toCompare, equalTo(votingSessionDTO));
     }
 
 }

@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@Document(collection = "voting")
-public class Voting {
+@Document(collection = "voting-session")
+public class VotingSession {
 
     @Id
     private String id;

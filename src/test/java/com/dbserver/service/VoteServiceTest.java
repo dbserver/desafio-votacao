@@ -5,7 +5,7 @@ import com.dbserver.exception.ConflictException;
 import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
 import com.dbserver.model.entity.Vote;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.entity.VotingSession;
 import com.dbserver.model.mapper.VoteMapper;
 import com.dbserver.repository.VoteRepository;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class VoteServiceTest {
     private VoteMapper voteMapper;
 
     @Mock
-    private VotingService votingService;
+    private VotingSessionService votingSessionService;
 
     @InjectMocks
     private VoteService voteService;
@@ -46,9 +46,9 @@ class VoteServiceTest {
         Vote vote = getVoteMock();
         VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
         VoteDTO voteDTO = getVoteDTOMock();
-        Voting voting = getVotingMock(vote);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(true);
+        VotingSession voting = getVotingMock(vote);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
         when(voteRepository.save(vote)).thenReturn(vote);
         when(voteMapper.toDTO(vote)).thenReturn(voteDTO);
@@ -61,9 +61,9 @@ class VoteServiceTest {
     void shouldThrowConflictException() {
         Vote vote = getVoteMock();
         VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
-        Voting voting = getVotingMock(vote);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(false);
+        VotingSession voting = getVotingMock(vote);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(false);
         ConflictException throwable =
                 catchThrowableOfType(() -> voteService.create(voteCreatedDTO), ConflictException.class);
         assertThat(throwable.getClass(), equalTo(ConflictException.class));
@@ -73,9 +73,9 @@ class VoteServiceTest {
     void shouldThrowBusinessException() {
         Vote vote = getVoteMock();
         VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
-        Voting voting = getVotingMock(vote);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(true);
+        VotingSession voting = getVotingMock(vote);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
         when(voteRepository.save(vote)).thenThrow(BusinessException.class);
         BusinessException throwable =
@@ -87,9 +87,9 @@ class VoteServiceTest {
     void shouldThrowConflictExceptionOnSave() {
         Vote vote = getVoteMock();
         VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
-        Voting voting = getVotingMock(vote);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(true);
+        VotingSession voting = getVotingMock(vote);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
         when(voteRepository.save(vote)).thenThrow(DuplicateKeyException.class);
         ConflictException throwable =
@@ -122,7 +122,7 @@ class VoteServiceTest {
         return VoteDTO.builder().build();
     }
 
-    private Voting getVotingMock(Vote vote) {
-        return Voting.builder().idAgenda(vote.getIdAgenda()).build();
+    private VotingSession getVotingMock(Vote vote) {
+        return VotingSession.builder().idAgenda(vote.getIdAgenda()).build();
     }
 }

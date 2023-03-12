@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class VotingDTO {
+public class VotingSessionDTO {
 
     private String id;
     private String idAgenda;

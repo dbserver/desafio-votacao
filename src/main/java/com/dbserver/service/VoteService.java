@@ -5,7 +5,7 @@ import com.dbserver.exception.ConflictException;
 import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
 import com.dbserver.model.entity.Vote;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.entity.VotingSession;
 import com.dbserver.model.mapper.VoteMapper;
 import com.dbserver.repository.VoteRepository;
 import org.slf4j.Logger;
@@ -27,13 +27,13 @@ public class VoteService {
     @Autowired
     private VoteMapper voteMapper;
     @Autowired
-    private VotingService votingService;
+    private VotingSessionService votingSessionService;
 
     public VoteDTO create(VoteCreatedDTO voteCreatedDTO) {
         logger.info("Starting vote creation: {}", voteCreatedDTO);
 
-        Voting voting = votingService.findByIdAgenda(voteCreatedDTO.getIdAgenda());
-        if (votingService.isOpen(voting)) {
+        VotingSession voting = votingSessionService.findByIdAgenda(voteCreatedDTO.getIdAgenda());
+        if (votingSessionService.isOpen(voting)) {
 
             Vote vote = voteMapper.toEntity(voteCreatedDTO);
             VoteDTO voteDTO = voteMapper.toDTO(this.save(vote));

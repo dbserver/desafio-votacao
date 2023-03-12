@@ -3,7 +3,7 @@ package com.dbserver.service;
 import com.dbserver.model.dto.AgendaVotingStatusDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Vote;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.entity.VotingSession;
 import com.dbserver.model.enums.VotingStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ class VotingStatusServiceTest {
     @Mock
     private AgendaService agendaService;
     @Mock
-    private VotingService votingService;
+    private VotingSessionService votingSessionService;
     @Mock
     private VoteService voteService;
 
@@ -38,12 +38,12 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithOpenVoting() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        Voting voting = getVotingMock(idAgenda);
+        VotingSession voting = getVotingMock(idAgenda);
         List<Vote> votes = getVotesMock(idAgenda);
 
         when(agendaService.findById(idAgenda)).thenReturn(agenda);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(true);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteService.findAllByIdAgenda(any())).thenReturn(votes);
 
         AgendaVotingStatusDTO agendaVotingStatus = votingStatusService.getAgendaVotingStatus(idAgenda);
@@ -54,12 +54,12 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithDisapprovadStatus() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        Voting voting = getVotingMock(idAgenda);
+        VotingSession voting = getVotingMock(idAgenda);
         List<Vote> votes = getVotesMock(idAgenda);
 
         when(agendaService.findById(idAgenda)).thenReturn(agenda);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(false);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(false);
         when(voteService.findAllByIdAgenda(any())).thenReturn(votes);
 
         AgendaVotingStatusDTO agendaVotingStatus = votingStatusService.getAgendaVotingStatus(idAgenda);
@@ -73,7 +73,7 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithApprovadStatus() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        Voting voting = getVotingMock(idAgenda);
+        VotingSession voting = getVotingMock(idAgenda);
         List<Vote> votes = getVotesMock(idAgenda);
 
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
@@ -82,8 +82,8 @@ class VotingStatusServiceTest {
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
 
         when(agendaService.findById(idAgenda)).thenReturn(agenda);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(false);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(false);
         when(voteService.findAllByIdAgenda(any())).thenReturn(votes);
 
         AgendaVotingStatusDTO agendaVotingStatus = votingStatusService.getAgendaVotingStatus(idAgenda);
@@ -97,15 +97,15 @@ class VotingStatusServiceTest {
     void shouldGetVotingStatusWithTIEDStatus() {
         String idAgenda = "idAgenda01";
         Agenda agenda = getAgendaMock();
-        Voting voting = getVotingMock(idAgenda);
+        VotingSession voting = getVotingMock(idAgenda);
         List<Vote> votes = getVotesMock(idAgenda);
 
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
         votes.add(Vote.builder().vote(true).cpf("000").idAgenda(idAgenda).build());
 
         when(agendaService.findById(idAgenda)).thenReturn(agenda);
-        when(votingService.findByIdAgenda(any())).thenReturn(voting);
-        when(votingService.isOpen(voting)).thenReturn(false);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(false);
         when(voteService.findAllByIdAgenda(any())).thenReturn(votes);
 
         AgendaVotingStatusDTO agendaVotingStatus = votingStatusService.getAgendaVotingStatus(idAgenda);
@@ -124,9 +124,9 @@ class VotingStatusServiceTest {
         return votes;
     }
 
-    private Voting getVotingMock(String idAgenda) {
+    private VotingSession getVotingMock(String idAgenda) {
         long duration = 6000000000L;
-        return Voting.builder()
+        return VotingSession.builder()
                 .id("6404ff797f24ce45b0022c83")
                 .idAgenda(idAgenda)
                 .startDate(LocalDateTime.now())

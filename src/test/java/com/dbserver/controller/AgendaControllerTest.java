@@ -3,10 +3,10 @@ package com.dbserver.controller;
 import com.dbserver.model.dto.AgendaCreateDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.model.entity.Vote;
-import com.dbserver.model.entity.Voting;
+import com.dbserver.model.entity.VotingSession;
 import com.dbserver.repository.AgendaRepository;
 import com.dbserver.repository.VoteRepository;
-import com.dbserver.repository.VotingRepository;
+import com.dbserver.repository.VotingSessionRepository;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -34,7 +34,7 @@ class AgendaControllerTest {
     @Autowired
     private AgendaRepository agendaRepository;
     @Autowired
-    private VotingRepository votingRepository;
+    private VotingSessionRepository votingSessionRepository;
     @Autowired
     private VoteRepository voteRepository;
 
@@ -111,8 +111,8 @@ class AgendaControllerTest {
     void shouldGetAgendaVotingStatusAndStatusCode200() {
         Agenda agenda = agendaRepository.save(Agenda.builder().title("teste").description("teste").build());
 
-        Voting voting = votingRepository.save(
-                Voting.builder()
+        VotingSession voting = votingSessionRepository.save(
+                VotingSession.builder()
                         .idAgenda(agenda.getId())
                         .startDate(LocalDateTime.now())
                         .endDate(LocalDateTime.now())
@@ -130,7 +130,6 @@ class AgendaControllerTest {
                 .body("idAgenda", equalTo(agenda.getId()))
                 .body("title", equalTo(agenda.getTitle()))
                 .body("description", equalTo(agenda.getDescription()))
-                .body("voting.id", equalTo(voting.getId()))
                 .body("voting.votingStatus", equalTo(APPROVED.toString()))
                 .body("voting.votesAgainst", equalTo(0))
                 .body("voting.votesInFavor", equalTo(3));
@@ -154,7 +153,7 @@ class AgendaControllerTest {
                 .get("/" + agenda.getId() + "/voting/status")
                 .then()
                 .statusCode(404)
-                .body("message", equalTo("Voting not found for idAgenda: " + agenda.getId()));
+                .body("message", equalTo("Voting session not found for agenda: " + agenda.getId()));
     }
 
 }

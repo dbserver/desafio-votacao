@@ -1,10 +1,10 @@
 package com.dbserver.controller;
 
 import com.dbserver.model.dto.VoteCreatedDTO;
-import com.dbserver.model.dto.VotingCreateDTO;
+import com.dbserver.model.dto.VotingSessionCreateDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.repository.AgendaRepository;
-import com.dbserver.service.VotingService;
+import com.dbserver.service.VotingSessionService;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -29,7 +29,7 @@ class VoteControllerTest {
     @Autowired
     private AgendaRepository agendaRepository;
     @Autowired
-    private VotingService votingService;
+    private VotingSessionService votingSessionService;
 
     @LocalServerPort
     private int port;
@@ -48,7 +48,7 @@ class VoteControllerTest {
     @Test
     void shouldCreateVoteAndStatus201() {
         Agenda agenda = agendaRepository.save(Agenda.builder().build());
-        votingService.create(VotingCreateDTO.builder().duration(60000l).idAgenda(agenda.getId()).build());
+        votingSessionService.create(VotingSessionCreateDTO.builder().duration(60000l).idAgenda(agenda.getId()).build());
         VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
                 .vote(true)
                 .idAgenda(agenda.getId())
@@ -66,7 +66,7 @@ class VoteControllerTest {
     @Test
     void shouldThrowConflictExceptionWithEndedVotingAndStatus409() {
         Agenda agenda = agendaRepository.save(Agenda.builder().build());
-        votingService.create(VotingCreateDTO.builder().duration(6l).idAgenda(agenda.getId()).build());
+        votingSessionService.create(VotingSessionCreateDTO.builder().duration(6l).idAgenda(agenda.getId()).build());
         VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
                 .vote(true)
                 .idAgenda(agenda.getId())
@@ -92,7 +92,7 @@ class VoteControllerTest {
                 .post()
                 .then()
                 .statusCode(404)
-                .body("message", containsString("Voting not found for idAgenda"));
+                .body("message", containsString("Voting session not found for agenda"));
     }
 
 }
