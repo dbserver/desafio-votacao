@@ -2,6 +2,7 @@ package com.dbserver.service;
 
 import com.dbserver.exception.BusinessException;
 import com.dbserver.exception.ConflictException;
+import com.dbserver.exception.UnableToVoteException;
 import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
 import com.dbserver.model.entity.Vote;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -23,7 +25,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.catchThrowableOfType;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ExtendWith(MockitoExtension.class)
 class VoteServiceTest {
@@ -36,6 +39,9 @@ class VoteServiceTest {
 
     @Mock
     private VotingSessionService votingSessionService;
+
+    @Mock
+    private CpfValidatorService cpfValidatorService;
 
     @InjectMocks
     private VoteService voteService;
@@ -52,6 +58,7 @@ class VoteServiceTest {
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
         when(voteRepository.save(vote)).thenReturn(vote);
         when(voteMapper.toDTO(vote)).thenReturn(voteDTO);
+        doNothing().when(cpfValidatorService).validate(any());
         VoteDTO saved = voteService.create(voteCreatedDTO);
         assertThat(saved, equalTo(voteDTO));
     }
@@ -77,6 +84,7 @@ class VoteServiceTest {
         when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
         when(voteRepository.save(vote)).thenThrow(new BusinessException());
+        doNothing().when(cpfValidatorService).validate(any());
         BusinessException throwable =
                 catchThrowableOfType(() -> voteService.create(voteCreatedDTO), BusinessException.class);
         assertThat(throwable.getClass(), equalTo(BusinessException.class));
@@ -91,6 +99,7 @@ class VoteServiceTest {
         when(votingSessionService.isOpen(voting)).thenReturn(true);
         when(voteMapper.toEntity(voteCreatedDTO)).thenReturn(vote);
         when(voteRepository.save(vote)).thenThrow(DuplicateKeyException.class);
+        doNothing().when(cpfValidatorService).validate(any());
         ConflictException throwable =
                 catchThrowableOfType(() -> voteService.create(voteCreatedDTO), ConflictException.class);
         assertThat(throwable.getClass(), equalTo(ConflictException.class));
@@ -102,6 +111,19 @@ class VoteServiceTest {
         when(voteRepository.findAllByIdAgenda(vote.getIdAgenda())).thenReturn(Arrays.asList(vote));
         List<Vote> votes = voteService.findAllByIdAgenda(vote.getIdAgenda());
         assertThat(votes.size(), equalTo(1));
+    }
+
+    @Test
+    void shouldThrowNotFoundExceptionWithUNABLE_TO_VOTE() {
+        Vote vote = getVoteMock();
+        VoteCreatedDTO voteCreatedDTO = getVoteCreatedDTOMock();
+        VotingSession voting = getVotingMock(vote);
+        when(votingSessionService.findByIdAgenda(any())).thenReturn(voting);
+        when(votingSessionService.isOpen(voting)).thenReturn(true);
+        doThrow(new UnableToVoteException()).when(cpfValidatorService).validate(any());
+        UnableToVoteException throwable =
+                catchThrowableOfType(() -> voteService.create(voteCreatedDTO), UnableToVoteException.class);
+        assertThat(throwable.getClass(), equalTo(UnableToVoteException.class));
     }
 
     private Vote getVoteMock() {

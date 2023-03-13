@@ -4,6 +4,7 @@ import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VotingSessionCreateDTO;
 import com.dbserver.model.entity.Agenda;
 import com.dbserver.repository.AgendaRepository;
+import com.dbserver.service.CpfValidatorService;
 import com.dbserver.service.VotingSessionService;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -13,13 +14,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -30,6 +35,8 @@ class VoteControllerTest {
     private AgendaRepository agendaRepository;
     @Autowired
     private VotingSessionService votingSessionService;
+    @MockBean
+    private CpfValidatorService cpfValidatorService;
 
     @LocalServerPort
     private int port;
@@ -49,10 +56,14 @@ class VoteControllerTest {
     void shouldCreateVoteAndStatus201() {
         Agenda agenda = agendaRepository.save(Agenda.builder().build());
         votingSessionService.create(VotingSessionCreateDTO.builder().duration(60000l).idAgenda(agenda.getId()).build());
+        String cpf = "00523156065";
+
+        doNothing().when(cpfValidatorService).validate(cpf);
+
         VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
                 .vote(true)
                 .idAgenda(agenda.getId())
-                .cpf(UUID.randomUUID().toString())
+                .cpf(cpf)
                 .build();
         given(requestSpec)
                 .body(voteCreatedDTO)
@@ -93,6 +104,28 @@ class VoteControllerTest {
                 .then()
                 .statusCode(404)
                 .body("message", containsString("Voting session not found for agenda"));
+    }
+
+    @Test
+    void shouldThrowNotFoundExceptionWithUNABLE_TO_VOTEAndStatus404() {
+        Agenda agenda = agendaRepository.save(Agenda.builder().build());
+        votingSessionService.create(VotingSessionCreateDTO.builder().duration(60000l).idAgenda(agenda.getId()).build());
+        String cpf = "00523156065";
+
+        doThrow(new ResponseStatusException(NOT_FOUND, "UNABLE_TO_VOTE")).when(cpfValidatorService).validate(cpf);
+
+        VoteCreatedDTO voteCreatedDTO = VoteCreatedDTO.builder()
+                .vote(true)
+                .idAgenda(agenda.getId())
+                .cpf(cpf)
+                .build();
+
+        given(requestSpec)
+                .body(voteCreatedDTO)
+                .post()
+                .then()
+                .statusCode(404)
+                .body("message", containsString("UNABLE_TO_VOTE"));
     }
 
 }
