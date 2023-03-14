@@ -362,6 +362,8 @@
             "type": "string"
           },
           "duration": {
+            "default": 60000,
+            "description": "Duration of a voting session in milliseconds",
             "type": "integer",
             "format": "int64"
           }
