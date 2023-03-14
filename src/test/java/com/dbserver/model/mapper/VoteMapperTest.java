@@ -7,11 +7,13 @@ import com.dbserver.model.entity.Vote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 class VoteMapperTest {
 
     @Autowired
