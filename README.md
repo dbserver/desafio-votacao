@@ -132,10 +132,10 @@ lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos 
 
 ### Sobre o desenvolvimento
 
-O desafio foi desenvolvido com Spring boot 3.0.4, Gradle 7.6.1 e MongoDB como banco de dados. A escolha de tais
+O desafio foi desenvolvido com Spring boot, Gradle e MongoDB como banco de dados. A escolha de tais
 ferramentas se deu pela familiaridade com as tecnologias, visando assim um desenvolvimento mais rápido.
 Antes de fato codificar, foram feitas pesquisas e modelagens sobre como fazer api. O primeiro ponto foi a escolha de
-desenvolvedor todo o código em inglês, depois a modelagem dos dados.
+desenvolver todo o código em inglês, depois a modelagem dos dados.
 
 #### Tradução escolhida para as entidades do projeto
 
@@ -167,12 +167,13 @@ sudo docker-compose up
 ````
 
 Três containers (desafio-votacao, mongo_db e cpfvalidator) irão ser instanciados, o banco de dados irá criar um volume
-dentro do diretório ````desafio-votacao/docker```` assim os dados não irão se perder ao reiniciar a aplicação. E você
+dentro do diretório ````desafio-votacao/docker/mongo-data```` assim os dados não irão se perder ao reiniciar a aplicação. E você
 pode acessar a documentação da aplicação pela url: http://localhost:5000/swagger-ui/index.html
 
 Também é possivel rodar apenas as dependencias do projeto e rodar a aplicação em sua IDE de preferência, para isso rode
 o comando ````sudo docker-compose up```` dentro do diretório ````desafio-votacao/docker/dependencies````
 
+Collection postman: https://drive.google.com/file/d/1eF9EoUfWbLu1EjegfxKwYPdvKsjokHpb/view?usp=sharing
 ## API
 
 | Rota                                | Metodo | Descricao                                                                                                                                                                                                                                                                                                                                        |
