@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  desafio-votacao:
+    image: cassiorp/desafio-votacao:latest
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongo_db
+      - cpfvalidator
+    environment:
+      CPF_VALIDATOR: http://cpfvalidator:8000/api/v1
+      MONGO_URI: mongodb://root:password@mongo_db:27017/desafio-votacao?authSource=admin
+  mongo_db:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ../mongo-data:/data/db
+  cpfvalidator:
+    image: cassiorp/random-cpf-validator:latest
+    ports:
+      - "8000:8000"

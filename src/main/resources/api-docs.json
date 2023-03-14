@@ -1,0 +1,525 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API to control voting of agendas",
+    "description": "Api para votação",
+    "version": "V1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Agenda",
+      "description": "Controller to manage agendas"
+    },
+    {
+      "name": "Voting Session",
+      "description": "Controller to manage voting sessions"
+    },
+    {
+      "name": "Vote",
+      "description": "Controller to vote"
+    }
+  ],
+  "paths": {
+    "/api/v1/voting-session": {
+      "post": {
+        "tags": [
+          "Voting Session"
+        ],
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VotingSessionCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Voting session created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VotingSessionDTO"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Voting session already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agenda not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/vote": {
+      "post": {
+        "tags": [
+          "Vote"
+        ],
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteCreatedDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Vote created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VoteDTO"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Vote already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agenda": {
+      "post": {
+        "tags": [
+          "Agenda"
+        ],
+        "description": "Endpoint to create agenda",
+        "operationId": "create_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgendaCreateDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Agenda created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Endpoint to find all agendas",
+        "tags": [
+          "Agenda"
+        ],
+        "operationId": "getAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgendaDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/voting-session/{id}": {
+      "get": {
+        "tags": [
+          "Voting Session"
+        ],
+        "operationId": "getById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VotingSessionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agenda/{id}": {
+      "get": {
+        "description": "Endpoint to find agenda by unique id",
+        "tags": [
+          "Agenda"
+        ],
+        "operationId": "getById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/agenda/{id}/voting/status": {
+      "get": {
+        "description": "Endpoint to get the voting status of agenda",
+        "tags": [
+          "Agenda"
+        ],
+        "operationId": "getAgendaVotingStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgendaVotingStatusDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agenda or voting session not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiExceptionSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiExceptionSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "error": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "VotingSessionCreateDTO": {
+        "required": [
+          "idAgenda"
+        ],
+        "type": "object",
+        "properties": {
+          "idAgenda": {
+            "type": "string"
+          },
+          "duration": {
+            "default": 60000,
+            "description": "Duration of a voting session in milliseconds",
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "VotingSessionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "idAgenda": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "VoteCreatedDTO": {
+        "required": [
+          "cpf",
+          "idAgenda",
+          "vote"
+        ],
+        "type": "object",
+        "properties": {
+          "idAgenda": {
+            "type": "string"
+          },
+          "vote": {
+            "type": "boolean"
+          },
+          "cpf": {
+            "type": "string"
+          }
+        }
+      },
+      "VoteDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "idAgenda": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "vote": {
+            "type": "boolean"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AgendaCreateDTO": {
+        "required": [
+          "description",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "AgendaDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AgendaVotingStatusDTO": {
+        "type": "object",
+        "properties": {
+          "idAgenda": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "voting": {
+            "$ref": "#/components/schemas/VotingStatusDTO"
+          }
+        }
+      },
+      "VotingStatusDTO": {
+        "type": "object",
+        "properties": {
+          "votingStatus": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "APPROVED",
+              "DISAPPROVED",
+              "TIED"
+            ]
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalVotes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "votesAgainst": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "votesInFavor": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    }
+  }
+}
