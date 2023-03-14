@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  mongo_db:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ../mongo-data:/data/db
+  cpfvalidator:
+    image: cassiorp/random-cpf-validator:latest
+    ports:
+      - "8000:8000"

@@ -20,7 +20,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
-      - ./mongo-data:/data/db
+      - ../mongo-data:/data/db
   cpfvalidator:
     image: cassiorp/random-cpf-validator:latest
     ports:
