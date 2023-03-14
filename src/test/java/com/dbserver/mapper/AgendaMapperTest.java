@@ -1,5 +1,6 @@
-package com.dbserver.model.mapper;
+package com.dbserver.mapper;
 
+import com.dbserver.mapper.AgendaMapper;
 import com.dbserver.model.dto.AgendaDTO;
 import com.dbserver.model.dto.AgendaCreateDTO;
 import com.dbserver.model.entity.Agenda;

@@ -1,4 +1,4 @@
-package com.dbserver.model.mapper;
+package com.dbserver.mapper;
 
 import com.dbserver.exception.BusinessException;
 import com.dbserver.model.dto.VotingSessionCreateDTO;

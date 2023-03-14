@@ -22,7 +22,7 @@ public class CpfValidatorService {
     private CpfValidatorClient cpfValidatorClient;
 
     public void validate(String cpf) {
-        logger.error("Starting cpf validation: {}", cpf);
+        logger.info("Starting cpf validation: {}", cpf);
 
         ResponseEntity<ValidationDTO> validate = validateCpf(cpf);
         if (validate.getStatusCode().equals(NOT_FOUND)) {
@@ -30,7 +30,7 @@ public class CpfValidatorService {
             throw new UnableToVoteException();
         }
 
-        logger.error("Valid cpf: {}", cpf);
+        logger.info("Valid cpf: {}", cpf);
     }
 
     private ResponseEntity<ValidationDTO> validateCpf(String cpf) {

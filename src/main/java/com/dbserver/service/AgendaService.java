@@ -5,7 +5,7 @@ import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.AgendaDTO;
 import com.dbserver.model.dto.AgendaCreateDTO;
 import com.dbserver.model.entity.Agenda;
-import com.dbserver.model.mapper.AgendaMapper;
+import com.dbserver.mapper.AgendaMapper;
 import com.dbserver.repository.AgendaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

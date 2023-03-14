@@ -6,7 +6,7 @@ import com.dbserver.exception.EntityNotFoundException;
 import com.dbserver.model.dto.VotingSessionCreateDTO;
 import com.dbserver.model.dto.VotingSessionDTO;
 import com.dbserver.model.entity.VotingSession;
-import com.dbserver.model.mapper.VotingSessionMapper;
+import com.dbserver.mapper.VotingSessionMapper;
 import com.dbserver.repository.VotingSessionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

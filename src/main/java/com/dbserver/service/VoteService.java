@@ -6,7 +6,7 @@ import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
 import com.dbserver.model.entity.Vote;
 import com.dbserver.model.entity.VotingSession;
-import com.dbserver.model.mapper.VoteMapper;
+import com.dbserver.mapper.VoteMapper;
 import com.dbserver.repository.VoteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

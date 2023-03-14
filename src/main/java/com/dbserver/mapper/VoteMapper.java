@@ -1,9 +1,9 @@
-package com.dbserver.model.mapper;
+package com.dbserver.mapper;
 
 import com.dbserver.exception.BusinessException;
-import com.dbserver.model.dto.AgendaCreateDTO;
-import com.dbserver.model.dto.AgendaDTO;
-import com.dbserver.model.entity.Agenda;
+import com.dbserver.model.dto.VoteCreatedDTO;
+import com.dbserver.model.dto.VoteDTO;
+import com.dbserver.model.entity.Vote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,27 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AgendaMapper {
+public class VoteMapper {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    public Agenda toEntity(AgendaCreateDTO agendaCreateDTO) {
+    public Vote toEntity(VoteCreatedDTO voteCreatedDTO) {
         try {
-            return objectMapper.convertValue(agendaCreateDTO, Agenda.class);
+            return objectMapper.convertValue(voteCreatedDTO, Vote.class);
         } catch (RuntimeException e) {
-            logger.error("Error mapping agenda", e);
+            logger.error("Error mapping vote", e);
             throw new BusinessException();
         }
     }
 
-    public AgendaDTO toDTO(Agenda agenda) {
+    public VoteDTO toDTO(Vote vote) {
         try {
-            return objectMapper.convertValue(agenda, AgendaDTO.class);
+            return objectMapper.convertValue(vote, VoteDTO.class);
         } catch (RuntimeException e) {
-            logger.error("Error mapping agenda", e);
+            logger.error("Error mapping vote", e);
             throw new BusinessException();
         }
     }

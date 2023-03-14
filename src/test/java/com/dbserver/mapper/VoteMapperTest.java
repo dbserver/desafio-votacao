@@ -1,6 +1,7 @@
-package com.dbserver.model.mapper;
+package com.dbserver.mapper;
 
 
+import com.dbserver.mapper.VoteMapper;
 import com.dbserver.model.dto.VoteCreatedDTO;
 import com.dbserver.model.dto.VoteDTO;
 import com.dbserver.model.entity.Vote;
