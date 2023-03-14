@@ -1,4 +1,4 @@
-package com.dbserver.controller;
+package com.dbserver.api;
 
 
 import com.dbserver.model.dto.VoteCreatedDTO;
