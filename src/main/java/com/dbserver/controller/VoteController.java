@@ -25,5 +25,4 @@ public class VoteController {
         return new ResponseEntity<>(vote, CREATED);
     }
 
-
 }
