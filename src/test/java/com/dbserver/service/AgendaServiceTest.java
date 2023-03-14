@@ -86,7 +86,7 @@ class AgendaServiceTest {
         AgendaDTO agendaDTO = getAgendaDTOMock();
         when(agendaRepository.findById(agenda.getId())).thenReturn(Optional.of(agenda));
         when(agendaMapper.toDTO(agenda)).thenReturn(agendaDTO);
-        AgendaDTO foundAgenda = agendaService.getAgendaDTOById(agenda.getId());
+        AgendaDTO foundAgenda = agendaService.getAgendaById(agenda.getId());
         assertThat(foundAgenda, equalTo(agendaDTO));
     }
 

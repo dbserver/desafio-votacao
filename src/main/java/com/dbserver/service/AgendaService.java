@@ -41,7 +41,7 @@ public class AgendaService {
         }
     }
 
-    public AgendaDTO getAgendaDTOById(String id) {
+    public AgendaDTO getAgendaById(String id) {
         logger.info("Starting agenda search: {}", id);
         AgendaDTO agendaDTO = agendaMapper.toDTO(this.findById(id));
         logger.info("Agenda found: {}", agendaDTO);

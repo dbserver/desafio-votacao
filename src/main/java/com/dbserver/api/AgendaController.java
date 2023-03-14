@@ -33,7 +33,7 @@ public class AgendaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AgendaDTO> getById(@PathVariable String id) {
-        AgendaDTO agendaDTO = agendaService.getAgendaDTOById(id);
+        AgendaDTO agendaDTO = agendaService.getAgendaById(id);
         return new ResponseEntity<>(agendaDTO, OK);
     }
 
