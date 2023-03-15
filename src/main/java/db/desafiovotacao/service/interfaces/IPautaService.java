@@ -6,5 +6,6 @@ import java.util.UUID;
 
 public interface IPautaService {
     Pauta cadastrarPauta(Pauta pauta);
-    Pauta buscarPautaPorID(UUID uuidPauta);
+
+    Pauta buscarPautaPorID(Long id);
 }

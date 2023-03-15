@@ -23,7 +23,7 @@ public class Pauta {
     private String titulo;
     private String descricao;
 
-//    @Builder.Default -> data indo nula para o BD
+    //@Builder.Default -> data indo nula para o BD
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
     @Embedded

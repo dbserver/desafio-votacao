@@ -5,21 +5,20 @@ import db.desafiovotacao.repository.PautaRepository;
 import db.desafiovotacao.service.interfaces.IPautaService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Service
 public class PautaService implements IPautaService {
 
     private final PautaRepository pautaRepository;
-    private final VotoPautaService votoPautaService;
 
     private final SessaoService sessaoService;
 
     
-    public PautaService(PautaRepository pautaRepository, VotoPautaService votoPautaService, SessaoService sessaoService){
+    public PautaService(PautaRepository pautaRepository, SessaoService sessaoService){
         this.pautaRepository = pautaRepository;
-        this.votoPautaService = votoPautaService;
         this.sessaoService = sessaoService;
     }
 
@@ -34,23 +33,13 @@ public class PautaService implements IPautaService {
     }
 
     @Override
-    public Pauta buscarPautaPorID(UUID uuidPauta) {
-        Optional<Pauta> pauta = pautaRepository.findById(uuidPauta);
+    public Pauta buscarPautaPorID(Long id) {
+        Optional<Pauta> pauta = pautaRepository.findById(id);
         return pauta.orElseGet(pauta::get); // TODO tratar exception
     }
 
-    public ResultadoVotacao resultadoVotacao(UUID uuidPauta){
-
-        Optional<Pauta> pauta = pautaRepository.findById(uuidPauta);
-
-        if (pauta.isEmpty())
-            throw new RuntimeException("pauta nao existe");
-
-        Integer votosPositivos = votoPautaService.contagemVotosPositivos(pauta.get());
-
-        Integer votosNegativos = votoPautaService.contagemVotosNegativos(pauta.get());
-
-        return new ResultadoVotacao(uuidPauta, votosPositivos, votosNegativos);
+    public List<Pauta> listarPautas(){
+        return (List<Pauta>) pautaRepository.findAll();
     }
 
 }
