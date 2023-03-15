@@ -140,7 +140,7 @@ desenvolver todo o código em inglês, depois a modelagem dos dados.
 #### Tradução escolhida para as entidades do projeto
 
 - Pauta -> Agenda
-- Voto -> vote
+- Voto -> Vote
 - Sessão de votação -> Voting Session
 
 #### Modelagem de dados
