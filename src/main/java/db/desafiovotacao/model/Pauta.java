@@ -42,13 +42,4 @@ public class Pauta {
         this.descricao = pautaRequest.descricao();
         this.sessao = new Sessao(pautaRequest.sessaoRequest());
     }
-
-    public PautaResponse pautaResponse(){
-        return new PautaResponse(
-                this.id.toString(),
-                this.titulo,
-                this.sessao.getInicioSessao().toString(),
-                this.sessao.getFinalSessao().toString()
-        );
-    }
 }

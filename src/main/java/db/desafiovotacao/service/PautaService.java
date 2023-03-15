@@ -3,9 +3,10 @@ package db.desafiovotacao.service;
 import db.desafiovotacao.model.*;
 import db.desafiovotacao.repository.PautaRepository;
 import db.desafiovotacao.service.interfaces.IPautaService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -38,8 +39,8 @@ public class PautaService implements IPautaService {
         return pauta.orElseGet(pauta::get); // TODO tratar exception
     }
 
-    public List<Pauta> listarPautas(){
-        return (List<Pauta>) pautaRepository.findAll();
+    public Page<Pauta> listarPautas(Pageable pageable){
+        return pautaRepository.findAll(pageable);
     }
 
 }
