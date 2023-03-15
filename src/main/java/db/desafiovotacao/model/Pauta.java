@@ -1,43 +1,54 @@
 package db.desafiovotacao.model;
 
+import db.desafiovotacao.dto.PautaRequest;
+import db.desafiovotacao.dto.PautaResponse;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 
 @Entity
-@Table(name = Pauta.TABLE_NAME)
+@Table(name = "pautas")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
+@Builder
 public class Pauta {
-
-    public static final String TABLE_NAME = "pauta";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uuid_pauta", unique = true)
-    private UUID uuidPauta;
-
-    @Column(name = "titulo", nullable = false, length = 200)
-    @Size(min = 7, max = 200)
-    @NotBlank
+    private Long id;
     private String titulo;
-
-    @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "data_criacao")
+//    @Builder.Default -> data indo nula para o BD
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
-    public Pauta(String titulo, String descricao){
-        this.titulo = titulo;
-        this.descricao = descricao;
+    @Embedded
+    private Sessao sessao;
+
+    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL)
+    @Builder.Default
+    private Set<AssociadoPauta> associados = new HashSet<>();
+
+    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<VotoPauta> votos = new ArrayList<>();
+
+    public Pauta(PautaRequest pautaRequest){
+        this.titulo = pautaRequest.titulo();
+        this.descricao = pautaRequest.descricao();
+        this.sessao = new Sessao(pautaRequest.sessaoRequest());
+    }
+
+    public PautaResponse pautaResponse(){
+        return new PautaResponse(
+                this.id.toString(),
+                this.titulo,
+                this.sessao.getInicioSessao().toString(),
+                this.sessao.getFinalSessao().toString()
+        );
     }
 }
