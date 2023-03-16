@@ -1,8 +1,9 @@
 package db.desafiovotacao.service.interfaces;
 
-import db.desafiovotacao.model.Associado;
+import db.desafiovotacao.model.*;
 
 public interface IAssociadoService {
-    void validaCPF(Associado associado);
     Associado criarAssociado(Associado associado);
+    Associado buscarPorCPF(String CPF);
+
 }

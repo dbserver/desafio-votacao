@@ -1,7 +1,8 @@
 package db.desafiovotacao.controller;
 
+import db.desafiovotacao.dto.AssociadoRequest;
+import db.desafiovotacao.dto.AssociadoResponse;
 import db.desafiovotacao.model.Associado;
-import db.desafiovotacao.model.Pauta;
 import db.desafiovotacao.service.AssociadoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,13 +23,13 @@ public class AssociadoController {
     }
 
     @PostMapping
-    public ResponseEntity<Associado> novoAssociado(@RequestBody @Valid Associado associadoRequest){
+    public ResponseEntity<AssociadoResponse> cadastrarAssociado(@RequestBody @Valid AssociadoRequest associadoRequest){
 
-        Associado associado = associadoService.criarAssociado(associadoRequest);
+        Associado associado = associadoService.criarAssociado(new Associado(associadoRequest));
 
         if(associado == null)
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(associado, HttpStatus.CREATED);
+        return new ResponseEntity<>(new AssociadoResponse(associado), HttpStatus.CREATED);
     }
 }
