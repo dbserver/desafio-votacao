@@ -42,7 +42,22 @@ public class PautaService implements IPautaService {
 
     @Override
     public Page<Pauta> listarPautas(Pageable pageable){
-        return pautaRepository.findAll(pageable);
+        return pautaRepository.findAllByAtivoTrue(pageable);
+    }
+
+    @Override
+    public Pauta deletarPauta(Long id){
+
+        Optional<Pauta> optionalPauta = pautaRepository.findById(id);
+
+        if (optionalPauta.isEmpty())
+            return null;
+
+        Pauta pauta = optionalPauta.get();
+
+        pauta.setAtivo(false);
+
+        return pauta;
     }
 
 }

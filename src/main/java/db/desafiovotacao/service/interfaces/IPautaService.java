@@ -11,4 +11,6 @@ public interface IPautaService {
     Pauta buscarPautaPorID(Long id);
 
     Page<Pauta> listarPautas(Pageable pageable);
+
+    Pauta deletarPauta(Long id);
 }

@@ -5,6 +5,7 @@ import db.desafiovotacao.model.Pauta;
 public record PautaResponse(
 
         Long id,
+
         String titulo,
 
         String descricao,

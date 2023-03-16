@@ -19,7 +19,7 @@ import java.util.*;
 public class Pauta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private String descricao;
@@ -38,10 +38,13 @@ public class Pauta {
     @Builder.Default
     private List<VotoPauta> votos = new ArrayList<>();
 
+    private Boolean ativo;
+
     public Pauta(PautaRequest pautaRequest){
         this.titulo = pautaRequest.titulo();
         this.descricao = pautaRequest.descricao();
         this.sessao = new Sessao(pautaRequest.sessaoRequest());
+        this.ativo = true;
     }
 
     public void atualizar(PautaAtualizacaoRequest pautaAtualizacaoRequest) {
@@ -55,4 +58,5 @@ public class Pauta {
         if(pautaAtualizacaoRequest.sessaoRequest() != null)
             this.sessao.atualizar(pautaAtualizacaoRequest.sessaoRequest());
     }
+
 }
