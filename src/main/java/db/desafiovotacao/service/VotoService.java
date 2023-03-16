@@ -57,5 +57,14 @@ public class VotoService implements IVotoService {
         return dataHoraVoto.isAfter(inicioSessao) && dataHoraVoto.isBefore(finalSessao);
     }
 
+    public Resultado resultadoVotacao(Pauta pauta){
+
+        Integer totalVotos = votoPautaService.contagemVotos(pauta);
+
+        Integer votosPositivos = votoPautaService.contagemVotosPositivos(pauta);
+
+        return new Resultado(votosPositivos, totalVotos);
+    }
+
 
 }

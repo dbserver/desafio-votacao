@@ -1,5 +1,7 @@
 package db.desafiovotacao.controller;
 
+import db.desafiovotacao.dto.ResultadoRequest;
+import db.desafiovotacao.dto.ResultadoResponse;
 import db.desafiovotacao.dto.VotoPautaRequest;
 import db.desafiovotacao.dto.VotoPautaResponse;
 import db.desafiovotacao.model.*;
@@ -10,10 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/voto")
@@ -42,5 +41,19 @@ public class VotoController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(new VotoPautaResponse(pauta.getId(), votoPautaRequest.cpf()), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResultadoResponse> resultadoVotacao(@RequestBody @Valid ResultadoRequest resultadoRequest){
+
+        Pauta pauta = pautaService.buscarPautaPorID(resultadoRequest.idPauta());
+
+        Resultado resultado = votoService.resultadoVotacao(pauta);
+
+        if (resultado == null)
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(new ResultadoResponse(resultado), HttpStatus.OK);
+
     }
 }
