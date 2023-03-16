@@ -94,6 +94,4 @@ public class PautaController {
         return new ResponseEntity<>(new PautaResponse(pauta), HttpStatus.OK);
     }
 
-
-
 }
