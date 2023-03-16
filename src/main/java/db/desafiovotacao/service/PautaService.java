@@ -3,6 +3,7 @@ package db.desafiovotacao.service;
 import db.desafiovotacao.model.*;
 import db.desafiovotacao.repository.PautaRepository;
 import db.desafiovotacao.service.interfaces.IPautaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class PautaService implements IPautaService {
 
     private final SessaoService sessaoService;
 
-    
+    @Autowired
     public PautaService(PautaRepository pautaRepository, SessaoService sessaoService){
         this.pautaRepository = pautaRepository;
         this.sessaoService = sessaoService;
@@ -39,6 +40,7 @@ public class PautaService implements IPautaService {
         return pauta.orElseGet(pauta::get); // TODO tratar exception
     }
 
+    @Override
     public Page<Pauta> listarPautas(Pageable pageable){
         return pautaRepository.findAll(pageable);
     }

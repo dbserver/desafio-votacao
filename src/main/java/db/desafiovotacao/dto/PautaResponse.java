@@ -4,7 +4,7 @@ import db.desafiovotacao.model.Pauta;
 
 public record PautaResponse(
 
-        String id,
+        Long id,
         String titulo,
 
         String inicioSessao,
@@ -15,7 +15,7 @@ public record PautaResponse(
 
     public PautaResponse(Pauta pauta){
         this(
-                pauta.getId().toString(),
+                pauta.getId(),
                 pauta.getTitulo(),
                 pauta.getSessao().getInicioSessao().toString(),
                 pauta.getSessao().getFinalSessao().toString()

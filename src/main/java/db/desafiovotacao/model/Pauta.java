@@ -1,5 +1,6 @@
 package db.desafiovotacao.model;
 
+import db.desafiovotacao.dto.PautaAtualizacaoRequest;
 import db.desafiovotacao.dto.PautaRequest;
 import db.desafiovotacao.dto.PautaResponse;
 import jakarta.persistence.*;
@@ -41,5 +42,17 @@ public class Pauta {
         this.titulo = pautaRequest.titulo();
         this.descricao = pautaRequest.descricao();
         this.sessao = new Sessao(pautaRequest.sessaoRequest());
+    }
+
+    public void atualizar(PautaAtualizacaoRequest pautaAtualizacaoRequest) {
+
+        if (pautaAtualizacaoRequest.titulo() != null)
+            this.titulo = pautaAtualizacaoRequest.titulo();
+
+        if(pautaAtualizacaoRequest.descricao() != null)
+            this.descricao = pautaAtualizacaoRequest.descricao();
+
+        if(pautaAtualizacaoRequest.sessaoRequest() != null)
+            this.sessao.atualizar(pautaAtualizacaoRequest.sessaoRequest());
     }
 }
