@@ -5,7 +5,6 @@ import db.desafiovotacao.dto.ResultadoResponse;
 import db.desafiovotacao.dto.VotoPautaRequest;
 import db.desafiovotacao.dto.VotoPautaResponse;
 import db.desafiovotacao.model.*;
-import db.desafiovotacao.service.AssociadoPautaService;
 import db.desafiovotacao.service.PautaService;
 import db.desafiovotacao.service.VotoService;
 import jakarta.validation.Valid;
@@ -21,13 +20,11 @@ public class VotoController {
 
     private final VotoService votoService;
     private final PautaService pautaService;
+    
 
-    private final AssociadoPautaService associadoPautaService;
-
-    public VotoController(VotoService votoService, PautaService pautaService, AssociadoPautaService associadoPautaService){
+    public VotoController(VotoService votoService, PautaService pautaService){
         this.votoService = votoService;
-        this.pautaService = pautaService;
-        this.associadoPautaService = associadoPautaService;
+        this.pautaService = pautaService;        
     }
 
     @PostMapping

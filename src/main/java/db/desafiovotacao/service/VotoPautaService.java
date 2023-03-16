@@ -2,14 +2,11 @@ package db.desafiovotacao.service;
 
 import db.desafiovotacao.enums.EnumVoto;
 import db.desafiovotacao.model.*;
-import db.desafiovotacao.repository.AssociadoPautaRepository;
 import db.desafiovotacao.repository.VotoPautaRepository;
 import db.desafiovotacao.service.interfaces.IVotoPautaService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class VotoPautaService implements IVotoPautaService {
