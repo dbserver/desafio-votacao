@@ -1,7 +1,8 @@
 package db.desafiovotacao.service.interfaces;
 
-import db.desafiovotacao.model.Voto;
+import db.desafiovotacao.model.*;
 
 public interface IVotoService {
-    Voto criarVoto(Voto pauta);
+    VotoPauta cadastrarVoto(VotoPauta votoPauta, String cpf);
+
 }
