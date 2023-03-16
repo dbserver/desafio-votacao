@@ -10,13 +10,11 @@ import org.hibernate.validator.constraints.br.CPF;
 import java.util.UUID;
 
 @Entity
-@Table(name = Associado.TABLE_NAME)
+@Table(name = "associados")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Associado {
-
-    public static final String TABLE_NAME = "associados";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,7 +2,6 @@ package db.desafiovotacao.model;
 
 import db.desafiovotacao.dto.PautaAtualizacaoRequest;
 import db.desafiovotacao.dto.PautaRequest;
-import db.desafiovotacao.dto.PautaResponse;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -7,13 +7,11 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = AssociadoPauta.TABLE_NAME)
+@Table(name = "associados_pauta")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AssociadoPauta {
-
-    public static final String TABLE_NAME = "associados_pauta";
 
     @Id
     @Column(name = "uuid_associado_pauta")

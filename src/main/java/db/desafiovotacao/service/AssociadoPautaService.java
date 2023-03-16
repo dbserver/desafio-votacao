@@ -9,7 +9,6 @@ import db.desafiovotacao.service.interfaces.IAssociadoPautaService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AssociadoPautaService implements IAssociadoPautaService {
@@ -37,6 +36,16 @@ public class AssociadoPautaService implements IAssociadoPautaService {
             throw new RuntimeException("associado ja cadastrado na pauta"); // TODO exception
 
         return associadoPautaRepository.save(new AssociadoPauta(associado, pauta));
+    }
+
+    public AssociadoPauta buscarAssociadoPauta(Associado associado, Pauta pauta){
+
+        Optional<AssociadoPauta> associadoPauta = associadoPautaRepository.findByAssociadoAndPauta(associado, pauta);
+
+        if (associadoPauta.isEmpty())
+            throw new RuntimeException("associado nao esta na pauta"); // TODO exception
+
+        return associadoPauta.get();
     }
 
 }

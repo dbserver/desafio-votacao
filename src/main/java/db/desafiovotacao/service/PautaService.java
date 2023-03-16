@@ -36,8 +36,13 @@ public class PautaService implements IPautaService {
 
     @Override
     public Pauta buscarPautaPorID(Long id) {
+
         Optional<Pauta> pauta = pautaRepository.findById(id);
-        return pauta.orElseGet(pauta::get); // TODO tratar exception
+
+        if (pauta.isEmpty())
+            throw new RuntimeException("pauta inexistente"); // TODO exception
+
+        return pauta.get();
     }
 
     @Override
