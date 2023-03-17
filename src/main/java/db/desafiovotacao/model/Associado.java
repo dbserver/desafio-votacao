@@ -26,7 +26,4 @@ public class Associado {
     @NotBlank
     private String CPF;
 
-    public Associado(AssociadoRequest associadoRequest) {
-        this.CPF = associadoRequest.cpf();
-    }
 }

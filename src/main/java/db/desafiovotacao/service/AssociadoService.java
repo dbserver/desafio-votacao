@@ -3,6 +3,7 @@ package db.desafiovotacao.service;
 import db.desafiovotacao.model.Associado;
 import db.desafiovotacao.repository.AssociadoRepository;
 import db.desafiovotacao.service.interfaces.IAssociadoService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class AssociadoService implements IAssociadoService {
     }
 
     @Override
+    @Transactional
     public Associado criarAssociado(Associado associado) {
 
         Optional<Associado> optionalAssociado = associadoRepository.findByCPF(associado.getCPF());
