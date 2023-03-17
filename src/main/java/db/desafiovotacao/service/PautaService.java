@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -33,7 +34,15 @@ public class PautaService implements IPautaService {
 
         pauta.setSessao(sessaoService.validarSessao(sessao));
 
-        return pautaRepository.save(pauta);
+        return pautaRepository.save(
+                Pauta.builder()
+                        .titulo(pauta.getTitulo())
+                        .descricao(pauta.getDescricao())
+                        .dataCriacao(LocalDateTime.now())
+                        .sessao(pauta.getSessao())
+                        .ativo(true)
+                        .build()
+        );
     }
 
     @Override

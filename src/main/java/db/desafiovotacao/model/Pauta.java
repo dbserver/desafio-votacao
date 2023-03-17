@@ -18,10 +18,12 @@ public class Pauta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String titulo;
+
     private String descricao;
 
-    //@Builder.Default -> data indo nula para o BD
+    @Builder.Default
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
     @Embedded
@@ -35,5 +37,6 @@ public class Pauta {
     @Builder.Default
     private List<VotoPauta> votos = new ArrayList<>();
 
+    @Builder.Default
     private Boolean ativo = true;
 }
