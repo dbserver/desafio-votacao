@@ -3,6 +3,7 @@ package db.desafiovotacao.service;
 import db.desafiovotacao.model.*;
 import db.desafiovotacao.repository.PautaRepository;
 import db.desafiovotacao.service.interfaces.IPautaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ public class PautaService implements IPautaService {
         this.sessaoService = sessaoService;
     }
 
+    @Transactional
     @Override
     public Pauta cadastrarPauta(Pauta pauta) {
 
@@ -50,6 +52,7 @@ public class PautaService implements IPautaService {
         return pautaRepository.findAllByAtivoTrue(pageable);
     }
 
+    @Transactional
     @Override
     public Pauta deletarPauta(Long id){
 
@@ -63,6 +66,19 @@ public class PautaService implements IPautaService {
         pauta.setAtivo(false);
 
         return pauta;
+    }
+
+    @Transactional
+    @Override
+    public Pauta atualizarPauta(Pauta pauta) {
+
+        Pauta pautaAtualizada = buscarPautaPorID(pauta.getId());
+
+        pautaAtualizada.setTitulo(pauta.getTitulo());
+        pautaAtualizada.setDescricao(pauta.getDescricao());
+        pautaAtualizada.setSessao(pauta.getSessao());
+
+        return pautaAtualizada;
     }
 
 }

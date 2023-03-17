@@ -1,8 +1,9 @@
 package db.desafiovotacao.controller;
 
-import db.desafiovotacao.dto.PautaAtualizacaoRequest;
+import db.desafiovotacao.dto.PautaAtualizarRequest;
 import db.desafiovotacao.dto.PautaRequest;
 import db.desafiovotacao.dto.PautaResponse;
+import db.desafiovotacao.mappers.PautaMapper;
 import db.desafiovotacao.model.Pauta;
 
 import db.desafiovotacao.service.PautaService;
@@ -18,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/pautas")
+@RequestMapping("/pauta")
 public class PautaController {
 
     private final PautaService pautaService;
@@ -29,10 +30,9 @@ public class PautaController {
     }
 
     @PostMapping
-    @Transactional
     public ResponseEntity<PautaResponse> cadastrarPauta(@RequestBody @Valid PautaRequest pautaRequest){
 
-        Pauta pauta = pautaService.cadastrarPauta(new Pauta(pautaRequest));
+        Pauta pauta = pautaService.cadastrarPauta(PautaMapper.mapearPauta(pautaRequest));
 
         if(pauta == null)
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -56,17 +56,14 @@ public class PautaController {
 
 
     @PutMapping
-    @Transactional
-    public ResponseEntity<PautaResponse> atualizarPauta(@RequestBody @Valid PautaAtualizacaoRequest pautaAtualizacaoRequest){
+    public ResponseEntity<PautaResponse> atualizarPauta(@RequestBody @Valid PautaAtualizarRequest pautaAtualizarRequest){
 
-        Pauta pauta = pautaService.buscarPautaPorID(pautaAtualizacaoRequest.id());
+        Pauta pautaAtualizada = pautaService.atualizarPauta(PautaMapper.mapearPauta(pautaAtualizarRequest));
 
-        if (pauta == null)
+        if (pautaAtualizada == null)
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-        pauta.atualizar(pautaAtualizacaoRequest);
-
-        return new ResponseEntity<>(new PautaResponse(pauta), HttpStatus.OK);
+        return new ResponseEntity<>(new PautaResponse(pautaAtualizada), HttpStatus.OK);
     }
 
 

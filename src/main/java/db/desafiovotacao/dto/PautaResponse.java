@@ -1,6 +1,7 @@
 package db.desafiovotacao.dto;
 
 import db.desafiovotacao.model.Pauta;
+import java.time.format.DateTimeFormatter;
 
 public record PautaResponse(
 
@@ -21,8 +22,8 @@ public record PautaResponse(
                 pauta.getId(),
                 pauta.getTitulo(),
                 pauta.getDescricao(),
-                pauta.getSessao().getInicioSessao().toString(),
-                pauta.getSessao().getFinalSessao().toString()
+                pauta.getSessao().getInicioSessao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                pauta.getSessao().getFinalSessao().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         );
     }
 }
