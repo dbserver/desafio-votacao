@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 @Setter
 public class Voto {
 
-    @Column(name = "opcao_voto")
     @Enumerated(EnumType.STRING)
     private EnumVoto voto;
 

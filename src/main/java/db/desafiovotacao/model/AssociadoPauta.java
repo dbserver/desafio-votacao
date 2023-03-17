@@ -13,11 +13,9 @@ import java.util.UUID;
 public class AssociadoPauta {
 
     @Id
-    @Column(name = "uuid_associado_pauta")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID uuidAssociadoPauta;
+    private Long id;
 
-    @Column(name = "votou")
     private Boolean votou;
 
     @ManyToOne(fetch = FetchType.LAZY)

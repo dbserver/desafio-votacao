@@ -15,9 +15,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class VotoPauta {
     @Id
-    @Column(name = "uuid_voto_pauta", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID uuidVotoPauta;
+    private Long id;
 
     @Embedded
     private Voto voto;
