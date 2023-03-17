@@ -3,8 +3,6 @@ package db.desafiovotacao.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "associados_pauta")
 @Data

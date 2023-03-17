@@ -1,13 +1,10 @@
 package db.desafiovotacao.model;
 
-import db.desafiovotacao.dto.AssociadoRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "associados")

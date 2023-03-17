@@ -5,7 +5,6 @@ import db.desafiovotacao.dto.AssociadoResponse;
 import db.desafiovotacao.mappers.AssociadoMapper;
 import db.desafiovotacao.model.Associado;
 import db.desafiovotacao.service.AssociadoService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
