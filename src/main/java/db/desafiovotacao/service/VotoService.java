@@ -1,5 +1,7 @@
 package db.desafiovotacao.service;
 
+import db.desafiovotacao.exceptions.ConflictException;
+import db.desafiovotacao.exceptions.NotFoundException;
 import db.desafiovotacao.model.*;
 import db.desafiovotacao.service.interfaces.IVotoService;
 import org.springframework.stereotype.Service;
@@ -28,19 +30,19 @@ public class VotoService implements IVotoService {
     @Override
     public VotoPauta cadastrarVoto(VotoPauta votoPauta, String CPF) {
 
-        if (!validarDataHoraVoto(votoPauta))
-            throw new RuntimeException("voto fora do horario de votacao"); // TODO exception
-
         Associado associado = associadoService.buscarPorCPF(CPF);
         Pauta pauta = votoPauta.getPauta();
 
+        if (!validarDataHoraVoto(votoPauta))
+            throw new ConflictException("Fora do horário de votacao!");
+
+        if (!associadoPautaService.usuarioEstaCadastrado(associado, pauta))
+            throw new NotFoundException("Associado não esta cadastrado para votar nessa pauta!");
+
         AssociadoPauta associadoPauta = associadoPautaService.buscarAssociadoPauta(associado, pauta);
 
-        if (associadoPauta == null)
-            throw new RuntimeException("associado não cadastrado para votar nessa pauta"); // TODO exception
-
         if(associadoPauta.getVotou())
-            throw new RuntimeException("associado ja votou na pauta"); // TODO exception
+            throw new ConflictException("Associado já votou nesta pauta!");
 
         associadoPauta.setVotou(true);
 

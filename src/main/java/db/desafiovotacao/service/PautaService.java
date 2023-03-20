@@ -46,7 +46,7 @@ public class PautaService implements IPautaService {
 
         Optional<Pauta> pauta = pautaRepository.findById(id);
 
-        return pauta.orElseThrow(() -> new NotFoundException("A pauta de codigo {"+id+"} não existe!"));
+        return pauta.orElseThrow(() -> new NotFoundException("A pauta de codigo: "+id+" não existe!"));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class PautaService implements IPautaService {
         Optional<Pauta> optionalPauta = pautaRepository.findById(id);
 
         if (optionalPauta.isEmpty() || !optionalPauta.get().getAtivo())
-            throw new NotFoundException("A pauta de codigo {"+id+"} não existe!");
+            throw new NotFoundException("A pauta de codigo: "+id+" não existe!");
 
         Pauta pauta = optionalPauta.get();
 
@@ -84,7 +84,7 @@ public class PautaService implements IPautaService {
 
         pautaAtualizada.setTitulo(pauta.getTitulo());
         pautaAtualizada.setDescricao(pauta.getDescricao());
-        pautaAtualizada.setSessao(pauta.getSessao());
+        pautaAtualizada.setSessao(sessaoService.validarSessao(pauta.getSessao()));
 
         return pautaAtualizada;
     }

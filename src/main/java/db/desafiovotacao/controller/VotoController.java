@@ -35,9 +35,6 @@ public class VotoController {
 
         VotoPauta votoPauta = votoService.cadastrarVoto(VotoPautaMapper.mappearVotoPauta(votoPautaRequest, pauta), votoPautaRequest.cpf());
 
-        if(votoPauta == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
         return new ResponseEntity<>(new VotoPautaResponse(pauta.getId(), votoPautaRequest.cpf()), HttpStatus.CREATED);
     }
 
@@ -46,15 +43,8 @@ public class VotoController {
 
         Pauta pauta = pautaService.buscarPautaPorID(resultadoRequest.idPauta());
 
-        if (pauta == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
         Resultado resultado = votoService.resultadoVotacao(pauta);
 
-        if (resultado == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
         return new ResponseEntity<>(new ResultadoResponse(resultado), HttpStatus.OK);
-
     }
 }

@@ -33,9 +33,8 @@ public class AssociadoPautaService implements IAssociadoPautaService {
 
         Associado associado = associadoService.buscarPorCPF(associadoPautaRequest.cpf());
         Pauta pauta = pautaService.buscarPautaPorID(associadoPautaRequest.idPauta());
-        AssociadoPauta associadoPauta = buscarAssociadoPauta(associado, pauta);
 
-        if (associadoPauta != null)
+        if (usuarioEstaCadastrado(associado, pauta))
             throw new ConflictException("Associado já cadastrado na pauta!");
 
         return associadoPautaRepository.save(
@@ -51,10 +50,14 @@ public class AssociadoPautaService implements IAssociadoPautaService {
 
         Optional<AssociadoPauta> associadoPauta = associadoPautaRepository.findByAssociadoAndPauta(associado, pauta);
 
-        if (associadoPauta.isEmpty())
-            throw new NotFoundException("Associado não esta cadastrado na pauta!");
+        return associadoPauta.orElseThrow(()-> new NotFoundException("Associado não esta cadastrado na pauta!"));
+    }
 
-        return associadoPauta.get();
+    public Boolean usuarioEstaCadastrado(Associado associado, Pauta pauta){
+
+        Optional<AssociadoPauta> associadoPauta = associadoPautaRepository.findByAssociadoAndPauta(associado, pauta);
+
+        return associadoPauta.isPresent();
     }
 
 }
