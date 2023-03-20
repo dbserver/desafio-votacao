@@ -4,6 +4,7 @@ import db.desafiovotacao.dto.ResultadoRequest;
 import db.desafiovotacao.dto.ResultadoResponse;
 import db.desafiovotacao.dto.VotoPautaRequest;
 import db.desafiovotacao.dto.VotoPautaResponse;
+import db.desafiovotacao.mappers.VotoPautaMapper;
 import db.desafiovotacao.model.*;
 import db.desafiovotacao.service.PautaService;
 import db.desafiovotacao.service.VotoService;
@@ -32,7 +33,7 @@ public class VotoController {
 
         Pauta pauta = pautaService.buscarPautaPorID(votoPautaRequest.idPauta());
 
-        VotoPauta votoPauta = votoService.cadastrarVoto(new VotoPauta(votoPautaRequest, pauta), votoPautaRequest.cpf());
+        VotoPauta votoPauta = votoService.cadastrarVoto(VotoPautaMapper.mappearVotoPauta(votoPautaRequest, pauta), votoPautaRequest.cpf());
 
         if(votoPauta == null)
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
