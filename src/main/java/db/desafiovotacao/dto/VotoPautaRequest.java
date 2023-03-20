@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CPF;
 
 public record VotoPautaRequest(
-        @NotBlank @CPF String cpf,
-        @NotNull Long idPauta,
+        @NotBlank(message = "cpf não pode estar em branco")
+        @CPF(message = "cpf invalido")
+        String cpf,
+        @NotNull(message = "deve ser informada uma pauta")
+        Long idPauta,
         @NotNull @Valid VotoRequest voto
 ) {}

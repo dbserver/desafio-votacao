@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record VotoRequest(
-        @NotNull EnumVoto voto,
+        @NotNull(message = "voto não pode ser nulo")
+        EnumVoto voto,
 
-        @NotBlank String dataHoraVoto
+        @NotBlank(message = "data não pode estar em branco")
+        String dataHoraVoto
 ) {}

@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 
 public record SessaoRequest(
 
-        @NotBlank
+        @NotBlank(message = "deve ser informada uma data de inicio")
         String inicioSessao,
 
-        @NotBlank
+        @NotBlank(message = "deve ser informada uma data de fim")
         String finalSessao
 ){}
