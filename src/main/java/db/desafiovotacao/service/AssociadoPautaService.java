@@ -6,6 +6,7 @@ import db.desafiovotacao.model.AssociadoPauta;
 import db.desafiovotacao.model.Pauta;
 import db.desafiovotacao.repository.AssociadoPautaRepository;
 import db.desafiovotacao.service.interfaces.IAssociadoPautaService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,17 +26,23 @@ public class AssociadoPautaService implements IAssociadoPautaService {
     }
 
     @Override
+    @Transactional
     public AssociadoPauta cadastarAssociadoNaPauta(AssociadoPautaRequest associadoPautaRequest) {
 
         Associado associado = associadoService.buscarPorCPF(associadoPautaRequest.cpf());
         Pauta pauta = pautaService.buscarPautaPorID(associadoPautaRequest.idPauta());
+        AssociadoPauta associadoPauta = buscarAssociadoPauta(associado, pauta);
 
-        Optional<AssociadoPauta> associadoPauta = associadoPautaRepository.findByAssociadoAndPauta(associado, pauta);
-
-        if (associadoPauta.isPresent())
+        if (associadoPauta != null)
             throw new RuntimeException("associado ja cadastrado na pauta"); // TODO exception
 
-        return associadoPautaRepository.save(new AssociadoPauta(associado, pauta));
+        return associadoPautaRepository.save(
+                AssociadoPauta.builder()
+                        .associado(associado)
+                        .pauta(pauta)
+                        .votou(false)
+                        .build()
+        );
     }
 
     public AssociadoPauta buscarAssociadoPauta(Associado associado, Pauta pauta){

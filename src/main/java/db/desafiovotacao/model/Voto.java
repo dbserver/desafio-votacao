@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Voto {
