@@ -18,9 +18,5 @@ public class Associado {
     private Long id;
 
     @Column(name = "cpf", unique = true, nullable = false, length = 14)
-    @Size(min = 11, max = 14)
-    @CPF
-    @NotBlank
     private String CPF;
-
 }
