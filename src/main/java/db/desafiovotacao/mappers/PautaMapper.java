@@ -8,24 +8,20 @@ public class PautaMapper {
 
     public static Pauta mapearPauta(PautaRequest pautaRequest){
 
-        Pauta pauta = new Pauta();
-
-        pauta.setTitulo(pautaRequest.titulo());
-        pauta.setDescricao(pautaRequest.descricao());
-        pauta.setSessao(SessaoMapper.mapearSessao(pautaRequest.sessaoRequest()));
-
-        return pauta;
+        return Pauta.builder()
+                .titulo(pautaRequest.titulo())
+                .descricao(pautaRequest.descricao())
+                .sessao(SessaoMapper.mapearSessao(pautaRequest.sessaoRequest()))
+                .build();
     }
 
     public static Pauta mapearPauta(PautaAtualizarRequest pautaAtualizarRequest){
 
-        Pauta pauta = new Pauta();
-
-        pauta.setId(pautaAtualizarRequest.id());
-        pauta.setTitulo(pautaAtualizarRequest.titulo());
-        pauta.setDescricao(pautaAtualizarRequest.descricao());
-        pauta.setSessao(SessaoMapper.mapearSessao(pautaAtualizarRequest.sessaoRequest()));
-
-        return pauta;
+        return Pauta.builder()
+                .id(pautaAtualizarRequest.id())
+                .titulo(pautaAtualizarRequest.titulo())
+                .descricao(pautaAtualizarRequest.descricao())
+                .sessao(SessaoMapper.mapearSessao(pautaAtualizarRequest.sessaoRequest()))
+                .build();
     }
 }

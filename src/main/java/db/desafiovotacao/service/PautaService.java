@@ -30,16 +30,12 @@ public class PautaService implements IPautaService {
     @Override
     public Pauta cadastrarPauta(Pauta pauta) {
 
-        Sessao sessao = pauta.getSessao();
-
-        pauta.setSessao(sessaoService.validarSessao(sessao));
-
         return pautaRepository.save(
                 Pauta.builder()
                         .titulo(pauta.getTitulo())
                         .descricao(pauta.getDescricao())
                         .dataCriacao(LocalDateTime.now())
-                        .sessao(pauta.getSessao())
+                        .sessao(sessaoService.validarSessao(pauta.getSessao()))
                         .ativo(true)
                         .build()
         );
