@@ -8,8 +8,6 @@ public class VotoPautaMapper {
 
     public static VotoPauta mappearVotoPauta(VotoPautaRequest votoPautaRequest, Pauta pauta){
 
-        VotoPauta votoPauta = new VotoPauta();
-
         return VotoPauta.builder()
                 .voto(VotoMapper.mappearVoto(votoPautaRequest.voto()))
                 .pauta(pauta)

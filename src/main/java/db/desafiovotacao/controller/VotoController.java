@@ -46,10 +46,13 @@ public class VotoController {
 
         Pauta pauta = pautaService.buscarPautaPorID(resultadoRequest.idPauta());
 
+        if (pauta == null)
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
         Resultado resultado = votoService.resultadoVotacao(pauta);
 
         if (resultado == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(new ResultadoResponse(resultado), HttpStatus.OK);
 
