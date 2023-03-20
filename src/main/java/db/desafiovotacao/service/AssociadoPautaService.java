@@ -1,6 +1,8 @@
 package db.desafiovotacao.service;
 
 import db.desafiovotacao.dto.AssociadoPautaRequest;
+import db.desafiovotacao.exceptions.ConflictException;
+import db.desafiovotacao.exceptions.NotFoundException;
 import db.desafiovotacao.model.Associado;
 import db.desafiovotacao.model.AssociadoPauta;
 import db.desafiovotacao.model.Pauta;
@@ -34,7 +36,7 @@ public class AssociadoPautaService implements IAssociadoPautaService {
         AssociadoPauta associadoPauta = buscarAssociadoPauta(associado, pauta);
 
         if (associadoPauta != null)
-            throw new RuntimeException("associado ja cadastrado na pauta"); // TODO exception
+            throw new ConflictException("Associado já cadastrado na pauta!");
 
         return associadoPautaRepository.save(
                 AssociadoPauta.builder()
@@ -50,7 +52,7 @@ public class AssociadoPautaService implements IAssociadoPautaService {
         Optional<AssociadoPauta> associadoPauta = associadoPautaRepository.findByAssociadoAndPauta(associado, pauta);
 
         if (associadoPauta.isEmpty())
-            throw new RuntimeException("associado nao esta na pauta"); // TODO exception
+            throw new NotFoundException("Associado não esta cadastrado na pauta!");
 
         return associadoPauta.get();
     }

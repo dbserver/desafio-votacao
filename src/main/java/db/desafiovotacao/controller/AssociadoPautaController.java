@@ -29,9 +29,6 @@ public class AssociadoPautaController {
 
         AssociadoPauta associadoPauta = associadoPautaService.cadastarAssociadoNaPauta(associadoPautaRequest);
 
-        if (associadoPauta == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
         return new ResponseEntity<>(new AssociadoPautaResponse(associadoPauta), HttpStatus.CREATED);
     }
 

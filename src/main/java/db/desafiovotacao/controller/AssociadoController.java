@@ -27,9 +27,7 @@ public class AssociadoController {
 
         Associado associado = associadoService.criarAssociado(AssociadoMapper.mappearAssociado(associadoRequest));
 
-        if(associado == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
         return new ResponseEntity<>(new AssociadoResponse(associado), HttpStatus.CREATED);
     }
+
 }

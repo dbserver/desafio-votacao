@@ -47,9 +47,6 @@ public class PautaController {
 
         Page<Pauta> pautas = pautaService.listarPautas(pageable);
 
-        if (pautas == null)
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-
         Page<PautaResponse> pautasResponse = pautas.map(PautaResponse::new);
 
         return new ResponseEntity<>(pautasResponse, HttpStatus.OK);
@@ -61,9 +58,6 @@ public class PautaController {
 
         Pauta pautaAtualizada = pautaService.atualizarPauta(PautaMapper.mapearPauta(pautaAtualizarRequest));
 
-        if (pautaAtualizada == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
         return new ResponseEntity<>(new PautaResponse(pautaAtualizada), HttpStatus.OK);
     }
 
@@ -72,9 +66,6 @@ public class PautaController {
     public ResponseEntity<PautaResponse> buscarPauta(@PathVariable("id") Long id){
 
         Pauta pauta = pautaService.buscarPautaPorID(id);
-
-        if (pauta == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(new PautaResponse(pauta), HttpStatus.OK);
     }
@@ -85,9 +76,6 @@ public class PautaController {
     public ResponseEntity<PautaResponse> deletarPauta(@PathVariable("id") Long id){
 
         Pauta pauta = pautaService.deletarPauta(id);
-
-        if (pauta == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(new PautaResponse(pauta), HttpStatus.OK);
     }

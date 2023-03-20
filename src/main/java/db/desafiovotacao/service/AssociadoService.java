@@ -1,5 +1,7 @@
 package db.desafiovotacao.service;
 
+import db.desafiovotacao.exceptions.ConflictException;
+import db.desafiovotacao.exceptions.NotFoundException;
 import db.desafiovotacao.model.Associado;
 import db.desafiovotacao.repository.AssociadoRepository;
 import db.desafiovotacao.service.interfaces.IAssociadoService;
@@ -24,7 +26,7 @@ public class AssociadoService implements IAssociadoService {
         Optional<Associado> optionalAssociado = associadoRepository.findByCPF(associado.getCPF());
 
         if (optionalAssociado.isPresent())
-            throw new RuntimeException("Associado ja cadastrado"); // TODO exception
+            throw new ConflictException("Associado já cadastrado!");
 
         return associadoRepository.save(associado);
     }
@@ -34,11 +36,6 @@ public class AssociadoService implements IAssociadoService {
 
         Optional<Associado> associado = associadoRepository.findByCPF(cpf);
 
-        if (associado.isEmpty())
-            throw new RuntimeException("associado não cadastrado"); // TODO exception
-
-        return associado.get();
+        return associado.orElseThrow(() -> new NotFoundException("Associado não encontrado!"));
     }
-
-
 }

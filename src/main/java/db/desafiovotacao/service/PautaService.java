@@ -1,5 +1,7 @@
 package db.desafiovotacao.service;
 
+import db.desafiovotacao.exceptions.NoContentException;
+import db.desafiovotacao.exceptions.NotFoundException;
 import db.desafiovotacao.model.*;
 import db.desafiovotacao.repository.PautaRepository;
 import db.desafiovotacao.service.interfaces.IPautaService;
@@ -44,15 +46,18 @@ public class PautaService implements IPautaService {
 
         Optional<Pauta> pauta = pautaRepository.findById(id);
 
-        if (pauta.isEmpty())
-            throw new RuntimeException("pauta inexistente"); // TODO exception
-
-        return pauta.get();
+        return pauta.orElseThrow(() -> new NotFoundException("A pauta de codigo {"+id+"} não existe!"));
     }
 
     @Override
     public Page<Pauta> listarPautas(Pageable pageable){
-        return pautaRepository.findAllByAtivoTrue(pageable);
+
+        Page<Pauta> pautas = pautaRepository.findAllByAtivoTrue(pageable);
+
+        if (pautas.isEmpty())
+            throw new NoContentException("Não existem pautas cadastradas!");
+
+        return pautas;
     }
 
     @Transactional
@@ -61,8 +66,8 @@ public class PautaService implements IPautaService {
 
         Optional<Pauta> optionalPauta = pautaRepository.findById(id);
 
-        if (optionalPauta.isEmpty())
-            return null;
+        if (optionalPauta.isEmpty() || !optionalPauta.get().getAtivo())
+            throw new NotFoundException("A pauta de codigo {"+id+"} não existe!");
 
         Pauta pauta = optionalPauta.get();
 
