@@ -1,6 +1,5 @@
 package db.desafiovotacao.model;
 
-import db.desafiovotacao.dto.VotoPautaRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +22,4 @@ public class VotoPauta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Pauta pauta;
-
-    public VotoPauta(VotoPautaRequest votoPautaRequest, Pauta pauta){
-        this.voto = new Voto(votoPautaRequest.voto());
-        this.pauta = pauta;
-    }
 }
