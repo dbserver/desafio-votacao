@@ -23,9 +23,7 @@ public class AssociadoService implements IAssociadoService {
     @Transactional
     public Associado criarAssociado(Associado associado) {
 
-        Optional<Associado> optionalAssociado = associadoRepository.findByCPF(associado.getCPF());
-
-        if (optionalAssociado.isPresent())
+        if (associadoEstaCadastrado(associado))
             throw new ConflictException("Associado já cadastrado!");
 
         return associadoRepository.save(associado);
@@ -37,5 +35,9 @@ public class AssociadoService implements IAssociadoService {
         Optional<Associado> associado = associadoRepository.findByCPF(cpf);
 
         return associado.orElseThrow(() -> new NotFoundException("Associado não encontrado!"));
+    }
+
+    public Boolean associadoEstaCadastrado(Associado associado){
+        return associadoRepository.findByCPF(associado.getCPF()).isPresent();
     }
 }
