@@ -7,6 +7,7 @@ import lombok.*;
 @Table(name = "associados")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Data
 public class Associado {
 
