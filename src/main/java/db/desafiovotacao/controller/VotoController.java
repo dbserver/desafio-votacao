@@ -33,7 +33,7 @@ public class VotoController {
 
         Pauta pauta = pautaService.buscarPautaPorID(votoPautaRequest.idPauta());
 
-        VotoPauta votoPauta = votoService.cadastrarVoto(VotoPautaMapper.mappearVotoPauta(votoPautaRequest, pauta), votoPautaRequest.cpf());
+        votoService.cadastrarVoto(VotoPautaMapper.mappearVotoPauta(votoPautaRequest, pauta), votoPautaRequest.cpf());
 
         return new ResponseEntity<>(new VotoPautaResponse(pauta.getId(), votoPautaRequest.cpf()), HttpStatus.CREATED);
     }

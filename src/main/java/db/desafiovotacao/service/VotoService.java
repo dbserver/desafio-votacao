@@ -36,7 +36,7 @@ public class VotoService implements IVotoService {
         if (!validarDataHoraVoto(votoPauta))
             throw new ConflictException("Fora do horário de votacao!");
 
-        if (!associadoPautaService.usuarioEstaCadastrado(associado, pauta))
+        if (!associadoPautaService.associadoEstaCadastrado(associado, pauta))
             throw new NotFoundException("Associado não esta cadastrado para votar nessa pauta!");
 
         AssociadoPauta associadoPauta = associadoPautaService.buscarAssociadoPauta(associado, pauta);

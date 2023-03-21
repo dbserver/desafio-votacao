@@ -35,9 +35,6 @@ public class PautaController {
 
         Pauta pauta = pautaService.cadastrarPauta(PautaMapper.mapearPauta(pautaRequest));
 
-        if(pauta == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
         return new ResponseEntity<>(new PautaResponse(pauta), HttpStatus.CREATED);
     }
 
