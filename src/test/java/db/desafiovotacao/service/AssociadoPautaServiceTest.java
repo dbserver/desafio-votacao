@@ -8,7 +8,6 @@ import db.desafiovotacao.model.AssociadoPauta;
 import db.desafiovotacao.model.Pauta;
 import db.desafiovotacao.repository.AssociadoPautaRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
