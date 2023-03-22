@@ -26,7 +26,7 @@ class AssociadoServiceTest {
 
 
     @BeforeEach
-    void setUp() {
+    void init() {
         MockitoAnnotations.openMocks(this);
         associadoService = new AssociadoService(associadoRepository);
 
