@@ -52,12 +52,12 @@ public class PautaService implements IPautaService {
     @Override
     public Page<Pauta> listarPautas(Pageable pageable){
 
-        Page<Pauta> pautas = pautaRepository.findAllByAtivoTrue(pageable);
+        Optional<Page<Pauta>> pautas = pautaRepository.findAllByAtivoTrue(pageable);
 
         if (pautas.isEmpty())
             throw new NoContentException("Não existem pautas cadastradas!");
 
-        return pautas;
+        return pautas.get();
     }
 
     @Transactional

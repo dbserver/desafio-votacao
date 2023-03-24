@@ -1,5 +1,6 @@
 package db.desafiovotacao.dto;
 
+import db.desafiovotacao.model.Pauta;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,4 +17,12 @@ public record PautaAtualizarRequest(
         String descricao,
 
         @NotNull @Valid SessaoRequest sessaoRequest
-) {}
+) {
+        public PautaAtualizarRequest(Pauta pauta){
+                this(pauta.getId(),
+                        pauta.getTitulo(),
+                        pauta.getDescricao(),
+                        new SessaoRequest(pauta.getSessao())
+                );
+        }
+}

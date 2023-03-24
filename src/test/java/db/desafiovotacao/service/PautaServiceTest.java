@@ -1,5 +1,6 @@
 package db.desafiovotacao.service;
 
+import db.desafiovotacao.exceptions.NoContentException;
 import db.desafiovotacao.exceptions.NotFoundException;
 import db.desafiovotacao.model.Pauta;
 import db.desafiovotacao.model.Sessao;
@@ -9,31 +10,38 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PautaServiceTest {
 
-    PautaService pautaService;
+    private PautaService pautaService;
 
     @Mock
-    PautaRepository pautaRepository;
+    private PautaRepository pautaRepository;
 
     @Mock
-    SessaoService sessaoService;
+    private SessaoService sessaoService;
 
     @Mock
-    Pauta pauta;
+    private Pauta pauta;
 
     @Mock
-    Sessao sessao;
+    private Sessao sessao;
 
     @Mock
-    Pauta atualizar;
+    private Pauta atualizar;
+
+    @Mock
+    private Page<Pauta> pautas;
 
     @BeforeEach
     void init(){
@@ -63,6 +71,8 @@ class PautaServiceTest {
                 .titulo("Novo Titulo")
                 .descricao("Nova Descrição")
                 .build();
+
+
     }
 
 
@@ -115,11 +125,22 @@ class PautaServiceTest {
     @Test
     void deveRetornarUmaListaDePautasSucesso(){
 
+        Mockito.when(pautaRepository.findAllByAtivoTrue(Mockito.any())).thenReturn(Optional.of(pautas));
+
+        Page<Pauta> encontradas = pautaService.listarPautas(Mockito.mock(Pageable.class));
+
+        assertNotNull(encontradas);
+        assertEquals(pautas, encontradas);
     }
 
     @Test
     void deveRetornarUmaListaDePautasException(){
 
+        Mockito.when(pautaRepository.findAllByAtivoTrue(Mockito.any())).thenReturn(Optional.empty());
+
+        assertThrows(NoContentException.class,
+                () -> pautaService.listarPautas(Mockito.mock(Pageable.class))
+        );
     }
 
     @Test
