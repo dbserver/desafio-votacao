@@ -12,4 +12,5 @@ public record VotoPautaRequest(
         @NotNull(message = "deve ser informada uma pauta")
         Long idPauta,
         @NotNull @Valid VotoRequest voto
-) {}
+) {
+}
