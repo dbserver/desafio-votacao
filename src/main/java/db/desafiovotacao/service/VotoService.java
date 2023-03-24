@@ -11,14 +11,11 @@ import java.time.LocalDateTime;
 @Service
 public class VotoService implements IVotoService {
 
-
-
     private final VotoPautaService votoPautaService;
 
     private final AssociadoService associadoService;
+
     private final AssociadoPautaService associadoPautaService;
-
-
 
     public VotoService(VotoPautaService votoPautaService, AssociadoService associadoService,  AssociadoPautaService associadoPautaService){
 
@@ -49,7 +46,7 @@ public class VotoService implements IVotoService {
         return votoPautaService.cadastrarVotoPauta(votoPauta);
     }
 
-    private Boolean validarDataHoraVoto(VotoPauta votoPauta){
+    public Boolean validarDataHoraVoto(VotoPauta votoPauta){
 
         LocalDateTime inicioSessao = votoPauta.getPauta().getSessao().getInicioSessao();
         LocalDateTime finalSessao = votoPauta.getPauta().getSessao().getFinalSessao();
@@ -58,6 +55,7 @@ public class VotoService implements IVotoService {
 
         return dataHoraVoto.isAfter(inicioSessao) && dataHoraVoto.isBefore(finalSessao);
     }
+
 
     public Resultado resultadoVotacao(Pauta pauta){
 
