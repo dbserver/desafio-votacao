@@ -48,12 +48,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(
                 ExceptionDTO.builder()
                         .dataHora(LocalDateTime.now())
-                        .status(HttpStatus.CONFLICT.value())
+                        .status(HttpStatus.NO_CONTENT.value())
                         .titulo("No Content Exception")
                         .detalhe(exception.getMessage())
                         .mensagem("Cheque a documentação da API")
                         .build(),
-                HttpStatus.CONFLICT
+                HttpStatus.NO_CONTENT
         );
     }
 }
