@@ -46,7 +46,10 @@ public class PautaService implements IPautaService {
 
         Optional<Pauta> pauta = pautaRepository.findById(id);
 
-        return pauta.orElseThrow(() -> new NotFoundException("A pauta de codigo: "+id+" não existe!"));
+        if(pauta.isEmpty() || !pauta.get().getAtivo())
+            throw new NotFoundException("A pauta de codigo: "+id+" não existe!");
+
+        return pauta.get();
     }
 
     @Override
