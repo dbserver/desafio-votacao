@@ -1,4 +1,4 @@
-package db.desafiovotacao;
+package db.desafiovotacao.exceptions;
 
 import db.desafiovotacao.exceptions.ConflictException;
 import db.desafiovotacao.exceptions.NoContentException;
