@@ -2,6 +2,7 @@ package db.desafiovotacao.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import db.desafiovotacao.dto.ResultadoRequest;
+import db.desafiovotacao.dto.ResultadoResponse;
 import db.desafiovotacao.dto.VotoPautaRequest;
 import db.desafiovotacao.dto.VotoRequest;
 import db.desafiovotacao.enums.EnumVoto;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(VotoController.class)
+@WebMvcTest(VotoPautaController.class)
 class VotoControllerTest {
 
     @MockBean
@@ -214,7 +215,7 @@ class VotoControllerTest {
     @Test
     void resultadoVotacao() throws Exception{
 
-        Resultado resultado = new Resultado();
+        ResultadoResponse resultado = new ResultadoResponse(0,0);
 
         Mockito.when(pautaService.buscarPautaPorID(Mockito.any())).thenReturn(pauta);
         Mockito.when(votoService.resultadoVotacao(Mockito.any())).thenReturn(resultado);
