@@ -1,5 +1,6 @@
 package db.desafiovotacao.service;
 
+import db.desafiovotacao.dto.ResultadoResponse;
 import db.desafiovotacao.exceptions.ConflictException;
 import db.desafiovotacao.exceptions.NotFoundException;
 import db.desafiovotacao.model.*;
@@ -57,13 +58,14 @@ public class VotoService implements IVotoService {
     }
 
 
-    public Resultado resultadoVotacao(Pauta pauta){
+    public ResultadoResponse resultadoVotacao(Pauta pauta){
 
         Integer totalVotos = votoPautaService.contagemVotos(pauta);
 
         Integer votosPositivos = votoPautaService.contagemVotosPositivos(pauta);
+        Integer votosNegativos = totalVotos - votosPositivos;
 
-        return new Resultado(votosPositivos, totalVotos);
+        return new ResultadoResponse(votosPositivos, votosNegativos);
     }
 
 
