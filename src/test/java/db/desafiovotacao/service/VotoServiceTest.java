@@ -1,5 +1,6 @@
 package db.desafiovotacao.service;
 
+import db.desafiovotacao.dto.ResultadoResponse;
 import db.desafiovotacao.enums.EnumVoto;
 import db.desafiovotacao.exceptions.ConflictException;
 import db.desafiovotacao.exceptions.NotFoundException;
@@ -205,12 +206,12 @@ class VotoServiceTest {
 
         Mockito.when(votoPautaService.contagemVotosPositivos(pauta)).thenReturn(1);
 
-        Resultado resultado = votoService.resultadoVotacao(pauta);
+        ResultadoResponse resultado = votoService.resultadoVotacao(pauta);
 
         assertAll("resultado votacao",
                 () -> assertNotNull(resultado),
-                () -> assertEquals(1, resultado.getVotosPositivos()),
-                () -> assertEquals(0, resultado.getVotosNegativos())
+                () -> assertEquals(1, resultado.votosPositivos()),
+                () -> assertEquals(0, resultado.votosNegativos())
         );
 
     }
