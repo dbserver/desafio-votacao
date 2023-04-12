@@ -24,8 +24,6 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
-
-HELP.md
 gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
