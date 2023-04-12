@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/voto")
 @Validated
-public class VotoController {
+public class VotoPautaController {
 
     private final VotoService votoService;
     private final PautaService pautaService;
     
 
-    public VotoController(VotoService votoService, PautaService pautaService){
+    public VotoPautaController(VotoService votoService, PautaService pautaService){
         this.votoService = votoService;
         this.pautaService = pautaService;        
     }
@@ -43,8 +43,8 @@ public class VotoController {
 
         Pauta pauta = pautaService.buscarPautaPorID(resultadoRequest.idPauta());
 
-        Resultado resultado = votoService.resultadoVotacao(pauta);
+        ResultadoResponse resultado = votoService.resultadoVotacao(pauta);
 
-        return new ResponseEntity<>(new ResultadoResponse(resultado), HttpStatus.OK);
+        return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
 }
