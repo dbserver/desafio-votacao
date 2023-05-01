@@ -66,4 +66,4 @@ http://localhost:8080/v3/api-docs
 
 ### Modelo de Dados
 
-![](C:\Users\rayane.paiva\Git\desafio-votacao\src\main\resources\static\Modelo de Dados.png)
+![](https://github.com/systemagic-91/desafio-votacao/blob/main/src/main/resources/static/Modelo%20de%20Dados.png)
