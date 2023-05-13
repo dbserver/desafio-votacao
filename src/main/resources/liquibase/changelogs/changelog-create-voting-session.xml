@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+
+  <changeSet id="4" author="joao.victor">
+
+    <preConditions>
+      <not>
+        <tableExists tableName="VOTING_SESSION"/>
+      </not>
+    </preConditions>
+
+    <createTable tableName="VOTING_SESSION">
+      <column name="voting_session_id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="agenda_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="opening_date" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+      <column name="closing_date" type="timestamp">
+        <constraints nullable="true"/>
+      </column>
+      <column name="creation_date" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <addForeignKeyConstraint baseTableName="VOTING_SESSION" baseColumnNames="agenda_id"
+      constraintName="FK_VOTING_SESSION_AGENDA_ID"
+      referencedTableName="AGENDA"
+      referencedColumnNames="agenda_id"
+      onDelete="CASCADE"
+      onUpdate="CASCADE"
+    />
+
+  </changeSet>
+
+</databaseChangeLog>

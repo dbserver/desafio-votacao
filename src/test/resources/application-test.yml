@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:13-alpine:///testdb
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase/master.xml
+  liquibase-heart-beat-aware-lock:
+    change-log-lock-wait-time: PT2M
+    liquibase-heart-beat-aware-lock:
+      change-log-lock-poll-rate: PT1S
+  jpa:
+    show-sql: true
+    hibernate:
+      dll-auto: create-drop
+    properties:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQL81Dialect
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+voting:
+  session:
+    duration:
+      minutes: 1

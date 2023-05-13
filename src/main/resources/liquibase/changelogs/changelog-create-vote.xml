@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+
+  <changeSet id="3" author="joao.victor">
+
+    <preConditions>
+      <not>
+        <tableExists tableName="VOTE"/>
+      </not>
+    </preConditions>
+
+    <createTable tableName="VOTE">
+      <column name="vote_id" type="bigint" autoIncrement="true">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="associate_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="voting_session_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="vote" type="varchar(3)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="creation_date" type="timestamp">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <addForeignKeyConstraint baseTableName="VOTE" baseColumnNames="associate_id"
+      constraintName="FK_VOTE_ASSOCIATE_ID"
+      referencedTableName="ASSOCIATE"
+      referencedColumnNames="associate_id"
+      onDelete="CASCADE"
+      onUpdate="CASCADE"
+    />
+
+    <addForeignKeyConstraint baseTableName="VOTE" baseColumnNames="voting_session_id"
+      constraintName="FK_VOTE_VOTING_SESSION_ID"
+      referencedTableName="VOTING_SESSION"
+      referencedColumnNames="voting_session_id"
+      onDelete="CASCADE"
+      onUpdate="CASCADE"
+    />
+
+  </changeSet>
+
+</databaseChangeLog>
