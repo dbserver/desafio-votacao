@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.db.votacao.api.controller;
 
 import com.db.votacao.api.model.Associado;

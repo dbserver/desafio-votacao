@@ -18,5 +18,4 @@ public class AssociadoService implements IAssociadoService {
     public Associado criarAssociado(Associado associado) {
         return associadoRepository.save(associado);
     }
-
 }
