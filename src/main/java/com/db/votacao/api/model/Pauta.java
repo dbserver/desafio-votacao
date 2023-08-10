@@ -24,17 +24,17 @@ public class Pauta {
     private UUID idPauta;
 
     @Column(name = "titulo_pauta", nullable = false, length = 150)
-    private String dsTituloPauta;
+    private String descricaoTituloPauta;
 
     @Column(name = "descricao_pauta", nullable = false)
-    private String dsDescricaoPauta;
+    private String descricaoPauta;
 
     @Column(name = "data_inicio_pauta", nullable = false)
-    private LocalDateTime dtInicioPauta = LocalDateTime.now();
+    private LocalDateTime dataInicioPauta = LocalDateTime.now();
 
-    public Pauta(@NonNull String dsTituloPauta, @NonNull String dsDescricaoPauta){
-        this.dsTituloPauta = dsTituloPauta;
-        this.dsDescricaoPauta = dsDescricaoPauta;
+    public Pauta(@NonNull String dsTituloPauta, @NonNull String dsDescricaoPauta) {
+        this.descricaoTituloPauta = dsTituloPauta;
+        this.descricaoPauta = dsDescricaoPauta;
     }
 
 

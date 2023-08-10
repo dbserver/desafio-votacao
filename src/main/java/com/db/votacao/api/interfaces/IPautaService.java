@@ -1,2 +1,7 @@
-package com.db.votacao.api.interfaces;public interface IPautaService {
+package com.db.votacao.api.interfaces;
+
+import com.db.votacao.api.model.Pauta;
+
+public interface IPautaService {
+    Pauta criarPauta(Pauta pauta);
 }

@@ -16,16 +16,16 @@ public class PautaController {
     private final PautaService pautaService;
 
     @Autowired
-    public PautaController(PautaService pautaService){
+    public PautaController(PautaService pautaService) {
         this.pautaService = pautaService;
     }
 
     @PostMapping
-    private ResponseEntity<Pauta> criarPauta(Pauta pautaRequest){
+    public ResponseEntity<Pauta> criarPauta(Pauta pautaRequest) {
 
         Pauta pauta = pautaService.criarPauta(pautaRequest);
 
-        if(pauta == null){
+        if (pauta == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(pauta, HttpStatus.CREATED);
