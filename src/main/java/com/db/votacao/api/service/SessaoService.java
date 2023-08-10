@@ -21,12 +21,12 @@ public class SessaoService implements ISessaoService {
     @Override
     public Sessao criarSessao(Sessao sessao) {
 
-        LocalDateTime duracaoSessao = sessao.getInicioSessao().plusSeconds(1);
+        LocalDateTime duracaoSessao = sessao.getInicioSessao().plusMinutes(1);
         LocalDateTime inicioSessao = sessao.getInicioSessao();
         LocalDateTime finalSessao = sessao.getFinalSessao();
 
         if (sessao.getFinalSessao() == null || (finalSessao.isAfter(inicioSessao) && finalSessao.isBefore(duracaoSessao)))
-            sessao.setFinalSessao(sessao.getInicioSessao().plusSeconds(1));
+            sessao.setFinalSessao(sessao.getInicioSessao().plusMinutes(1));
 
         return sessaoRepository.save(sessao);
     }
