@@ -24,6 +24,14 @@ public class Voto {
     @Column(name = "id_voto", unique = true)
     private UUID idVoto;
 
+    @ManyToOne
+    @JoinColumn(name = "pauta_id")
+    private Pauta pauta;
+
+    @ManyToOne
+    @JoinColumn(name = "associado_id")
+    private Associado associado;
+
     @Column(name = "voto")
     @Enumerated(EnumType.STRING)
     private EnumOpcoesVoto voto;

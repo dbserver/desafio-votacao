@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +32,13 @@ public class Pauta {
 
     @Column(name = "data_inicio_pauta", nullable = false)
     private LocalDateTime dataInicioPauta = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "sessao_id")
+    private Sessao sessao;
+
+    @OneToMany(mappedBy = "pauta", cascade = CascadeType.ALL)
+    private List<Voto> votos;
 
     public Pauta(@NonNull String dsTituloPauta, @NonNull String dsDescricaoPauta) {
         this.descricaoTituloPauta = dsTituloPauta;

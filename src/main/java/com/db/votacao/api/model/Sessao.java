@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,4 +39,7 @@ public class Sessao {
     @Column(name = "final_sessao", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime finalSessao;
+
+    @OneToMany(mappedBy = "sessao", cascade = CascadeType.ALL)
+    private List<Pauta> pautas;
 }
