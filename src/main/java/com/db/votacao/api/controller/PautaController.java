@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/pauta")
 public class PautaController {
@@ -36,6 +38,18 @@ public class PautaController {
             return ResponseEntity.ok(pauta);
         } else {
             String mensagem = "Não foram encontradas pautas com o título: " + descricaoTituloPauta;
+            return ResponseEntity.notFound().header("mensagem", mensagem).build();
+        }
+    }
+
+    @GetMapping("/{idPauta}")
+    public ResponseEntity<Pauta> consultarPautaPorId(@PathVariable UUID idPauta) {
+        Pauta pauta = pautaService.consultarPautaPorId(idPauta);
+
+        if (pauta != null) {
+            return ResponseEntity.ok(pauta);
+        } else {
+            String mensagem = "Não foi encontrada pauta com o ID: " + idPauta;
             return ResponseEntity.notFound().header("mensagem", mensagem).build();
         }
     }

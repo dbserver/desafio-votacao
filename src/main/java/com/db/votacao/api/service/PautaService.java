@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PautaService implements IPautaService {
@@ -29,4 +30,8 @@ public class PautaService implements IPautaService {
         return pautaOptional.orElse(null);
     }
 
+    public Pauta consultarPautaPorId(UUID idPauta) {
+        Optional<Pauta> optionalPauta = pautaRepository.findById(idPauta);
+        return optionalPauta.orElse(null);
+    }
 }
