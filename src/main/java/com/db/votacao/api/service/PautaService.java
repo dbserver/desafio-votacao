@@ -6,6 +6,8 @@ import com.db.votacao.api.repository.PautaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PautaService implements IPautaService {
 
@@ -19,6 +21,12 @@ public class PautaService implements IPautaService {
     @Override
     public Pauta criarPauta(Pauta pauta) {
         return pautaRepository.save(pauta);
+    }
+
+    @Override
+    public Pauta consultarPautaPorNome(String descricaoTituloPauta) {
+        Optional<Pauta> pautaOptional = pautaRepository.findByDescricaoTituloPauta(descricaoTituloPauta);
+        return pautaOptional.orElse(null);
     }
 
 }

@@ -5,9 +5,7 @@ import com.db.votacao.api.service.PautaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pauta")
@@ -21,14 +19,24 @@ public class PautaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pauta> criarPauta(Pauta pautaRequest) {
-
+    public ResponseEntity<Pauta> criarPauta(@RequestBody Pauta pautaRequest) {
         Pauta pauta = pautaService.criarPauta(pautaRequest);
 
-        if (pauta == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        if (pauta != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(pauta);
+        } else {
+            return ResponseEntity.badRequest().build();
         }
-        return new ResponseEntity<>(pauta, HttpStatus.CREATED);
     }
+    @GetMapping("/pauta/{nomePauta}")
+    public ResponseEntity<Pauta> consultarPautaPorNome(@PathVariable String descricaoTituloPauta) {
+        Pauta pauta = pautaService.consultarPautaPorNome(descricaoTituloPauta);
 
+        if (pauta != null) {
+            return ResponseEntity.ok(pauta);
+        } else {
+            String mensagem = "Não foram encontradas pautas com o título: " + descricaoTituloPauta;
+            return ResponseEntity.notFound().header("mensagem", mensagem).build();
+        }
+    }
 }
