@@ -18,4 +18,10 @@ public class AssociadoService implements IAssociadoService {
     public Associado criarAssociado(Associado associado) {
         return associadoRepository.save(associado);
     }
+
+
+    public boolean isCpfAssociadoExiste(String cpf) {
+        return associadoRepository.verificarCpfExistente(cpf);
+    }
+
 }

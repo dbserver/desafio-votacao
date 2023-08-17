@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class Associado {
     private UUID idAssociado;
 
     @Column(name = "cpf", nullable = false, unique = true, length = 14)
+    @CPF(message = "CPF inválido")
     private String cpf;
 
 }
