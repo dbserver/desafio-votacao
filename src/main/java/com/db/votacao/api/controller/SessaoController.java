@@ -5,10 +5,11 @@ import com.db.votacao.api.service.SessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/sessao")
@@ -23,15 +24,34 @@ public class SessaoController {
 
     @PostMapping
     public ResponseEntity<Sessao> incluirSessao(@RequestBody Sessao sessaoRequest) {
-
         Sessao sessao = sessaoService.criarSessao(sessaoRequest);
 
-        if (sessao == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        if (sessao != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(sessao);
+        } else {
+            return ResponseEntity.badRequest().build();
         }
+    }
 
-        return new ResponseEntity<>(sessao, HttpStatus.CREATED);
+    @GetMapping("/{idSessao}")
+    public ResponseEntity<Sessao> consultarSessaoPorId(@PathVariable UUID idSessao) {
+        Sessao sessao = sessaoService.consultarSessaoPorId(idSessao);
 
+        if (sessao != null) {
+            return ResponseEntity.ok(sessao);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @GetMapping
+    public ResponseEntity<List<Sessao>> consultarSessoesPorFiltros(
+            @RequestParam(required = false) LocalDateTime dataCriacao,
+            @RequestParam(required = false) LocalDateTime inicioSessao,
+            @RequestParam(required = false) LocalDateTime finalSessao) {
+
+        List<Sessao> sessoes = sessaoService.consultarSessoesPorFiltros(dataCriacao, inicioSessao, finalSessao);
+        return ResponseEntity.ok(sessoes);
     }
 }
+
