@@ -2,6 +2,8 @@ package com.db.votacao.api.controller;
 
 import com.db.votacao.api.model.Pauta;
 import com.db.votacao.api.service.PautaService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ public class PautaController {
         this.pautaService = pautaService;
     }
 
+    @ApiOperation("Criar nova pauta")
     @PostMapping
     public ResponseEntity<Pauta> criarPauta(@RequestBody Pauta pautaRequest) {
         Pauta pauta = pautaService.criarPauta(pautaRequest);
@@ -30,20 +33,25 @@ public class PautaController {
             return ResponseEntity.badRequest().build();
         }
     }
-    @GetMapping("/pauta/{nomePauta}")
-    public ResponseEntity<Pauta> consultarPautaPorNome(@PathVariable String descricaoTituloPauta) {
-        Pauta pauta = pautaService.consultarPautaPorNome(descricaoTituloPauta);
+
+    @ApiOperation("Consultar pauta por nome")
+    @GetMapping("/consultarNome/{nomePauta}")
+    public ResponseEntity<Pauta> consultarPautaPorNome(
+            @ApiParam("Nome da pauta a ser consultada") @PathVariable String nomePauta) {
+        Pauta pauta = pautaService.consultarPautaPorNome(nomePauta);
 
         if (pauta != null) {
             return ResponseEntity.ok(pauta);
         } else {
-            String mensagem = "Não foram encontradas pautas com o título: " + descricaoTituloPauta;
+            String mensagem = "Não foram encontradas pautas com o título: " + nomePauta;
             return ResponseEntity.notFound().header("mensagem", mensagem).build();
         }
     }
 
-    @GetMapping("/{idPauta}")
-    public ResponseEntity<Pauta> consultarPautaPorId(@PathVariable UUID idPauta) {
+    @ApiOperation("Consultar pauta por ID")
+    @GetMapping("/consultarId/{idPauta}")
+    public ResponseEntity<Pauta> consultarPautaPorId(
+            @ApiParam("ID da pauta a ser consultada") @PathVariable UUID idPauta) {
         Pauta pauta = pautaService.consultarPautaPorId(idPauta);
 
         if (pauta != null) {

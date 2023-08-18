@@ -1,5 +1,6 @@
 package com.db.votacao.api.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,15 +23,19 @@ public class Pauta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_pauta", unique = true)
+    @ApiModelProperty(notes = "ID único da pauta")
     private UUID idPauta;
 
     @Column(name = "titulo_pauta", nullable = false, length = 150)
+    @ApiModelProperty(notes = "Título da pauta")
     private String descricaoTituloPauta;
 
     @Column(name = "descricao_pauta", nullable = false)
+    @ApiModelProperty(notes = "Descrição da pauta")
     private String descricaoPauta;
 
     @Column(name = "data_inicio_pauta", nullable = false)
+    @ApiModelProperty(notes = "Data de início da pauta")
     private LocalDateTime dataInicioPauta = LocalDateTime.now();
 
     @ManyToOne
@@ -44,6 +49,4 @@ public class Pauta {
         this.descricaoTituloPauta = dsTituloPauta;
         this.descricaoPauta = dsDescricaoPauta;
     }
-
-
 }

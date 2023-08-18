@@ -2,6 +2,9 @@ package com.db.votacao.api.controller;
 
 import com.db.votacao.api.model.Associado;
 import com.db.votacao.api.service.AssociadoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ public class AssociadoController {
         this.associadoService = associadoService;
     }
 
+    @ApiOperation("Criar novo associado")
     @PostMapping
     public ResponseEntity<Associado> criarAssociado(@RequestBody Associado associadoRequest) {
         Associado associado = associadoService.criarAssociado(associadoRequest);
@@ -26,7 +30,12 @@ public class AssociadoController {
     }
 
 
-    @GetMapping("associado/valida-cpf/{cpf}")
+    @ApiOperation("Verifica se um associado com o CPF fornecido existe no banco de dados")
+    @GetMapping("valida-cpf/{cpf}")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Able to vote"),
+            @ApiResponse(code = 404, message = "Unable to vote")
+    })
     public ResponseEntity<String> verificarCpf(@PathVariable @CPF String cpf) {
         boolean associadoExists = associadoService.isCpfAssociadoExiste(cpf);
 
