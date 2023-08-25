@@ -17,10 +17,6 @@ public class Voto {
     @EmbeddedId
     private VotoId id;
 
-    @OneToOne
-    @JoinColumn(name = "id_associado", updatable = false, insertable = false)
-    private Associado associado;
-
     @Enumerated(EnumType.STRING)
     private VotoStatus votoStatus;
 
