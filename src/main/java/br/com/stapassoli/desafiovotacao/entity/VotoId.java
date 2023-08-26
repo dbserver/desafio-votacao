@@ -16,6 +16,6 @@ import java.io.Serializable;
 public class VotoId implements Serializable {
 
     private Long idAssociado;
-    private String idSessao;
+    private Long idSessao;
 
 }

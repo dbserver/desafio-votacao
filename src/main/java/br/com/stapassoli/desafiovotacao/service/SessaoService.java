@@ -2,6 +2,7 @@ package br.com.stapassoli.desafiovotacao.service;
 
 import br.com.stapassoli.desafiovotacao.dto.SessaoDTO;
 import br.com.stapassoli.desafiovotacao.entity.Sessao;
+import br.com.stapassoli.desafiovotacao.repository.PautaRepository;
 import br.com.stapassoli.desafiovotacao.repository.SessaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class SessaoService {
 
     private final SessaoRepository sessaoRepository;
+    private final PautaRepository pautaRepository;
     private final ModelMapper modelMapper;
 
     public ResponseEntity<Sessao> cadastrarSessao(SessaoDTO sessaoDTO) {

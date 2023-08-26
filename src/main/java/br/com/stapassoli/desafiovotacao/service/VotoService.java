@@ -18,8 +18,9 @@ public class VotoService {
 
     private final VotoRepository votoRepository;
     private final SessaoRepository sessaoRepository;
+    private final ModelMapper modelMapper;
 
-    public ResponseEntity<Voto> cadastrarSessao(VotoDTO votoDTO) {
+    public ResponseEntity<VotoDTO> cadastrarVoto(VotoDTO votoDTO) {
 
         VotoId votoId = new VotoId();
         votoId.setIdSessao(votoDTO.getIdSessao());
@@ -30,12 +31,14 @@ public class VotoService {
         voto.setVotoStatus(votoDTO.getVotoStatus());
 
         Sessao sessao = this.sessaoRepository
-                .findById(votoDTO.getSessao())
+                .findById(votoDTO.getIdSessao())
                 .orElseThrow(() -> new EntityNotFoundException("Sessao nao encontrada"));
 
         voto.setSessao(sessao);
 
-        return ResponseEntity.ok(votoRepository.save(voto));
+        Voto votoSalvo = votoRepository.save(voto);
+
+        return ResponseEntity.ok(modelMapper.map(votoSalvo, VotoDTO.class));
     }
 
 }

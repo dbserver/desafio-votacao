@@ -18,13 +18,9 @@ public class VotoDTO {
     private Long idAssociado;
 
     @JsonProperty(value = "id_sessao")
-    private String idSessao;
+    private Long idSessao;
 
     @JsonProperty(value = "voto")
     private VotoStatus votoStatus;
-
-    @ManyToOne
-    @JsonProperty(value = "id_sessao")
-    private Long sessao;
 
 }

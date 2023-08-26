@@ -25,11 +25,13 @@ public class Sessao {
 
     private LocalDateTime inicio = LocalDateTime.now();
 
+    private LocalDateTime fim = LocalDateTime.now().plusMinutes(5L);
+
     @OneToOne
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
 
-    @OneToMany(mappedBy = "sessao")
+    @OneToMany(mappedBy = "sessao",fetch = FetchType.LAZY)
     private List<Voto> votos = new ArrayList<>();
 
     private Map<VotoStatus, Long> totalizarVotos() {
