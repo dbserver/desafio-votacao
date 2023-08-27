@@ -3,13 +3,11 @@ package com.db.votacao.api.service;
 import com.db.votacao.api.enums.EnumOpcoesVoto;
 import com.db.votacao.api.model.Voto;
 import com.db.votacao.api.repository.VotoRepository;
-import com.db.votacao.api.service.VotoService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 

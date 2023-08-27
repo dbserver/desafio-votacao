@@ -3,7 +3,6 @@ package com.db.votacao.api.controller;
 import com.db.votacao.api.enums.EnumOpcoesVoto;
 import com.db.votacao.api.model.Voto;
 import com.db.votacao.api.service.VotoService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ public class VotoController {
         this.votoService = votoService;
     }
 
-    @ApiOperation("Registrar um novo voto")
     @PostMapping
     public ResponseEntity<Voto> criarVoto(@RequestBody Voto votoRequest) {
         Voto voto = votoService.criarVoto(votoRequest);
@@ -35,7 +33,6 @@ public class VotoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(voto);
     }
 
-    @ApiOperation("Consultar totalizador de votos para uma pauta")
     @GetMapping("/totalizador/{pautaId}")
     public ResponseEntity<Map<EnumOpcoesVoto, Long>> consultarTotalizadorVotos(
             @PathVariable UUID pautaId) {
