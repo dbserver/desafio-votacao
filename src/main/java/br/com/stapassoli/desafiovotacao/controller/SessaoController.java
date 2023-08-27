@@ -2,6 +2,7 @@ package br.com.stapassoli.desafiovotacao.controller;
 
 import br.com.stapassoli.desafiovotacao.dto.SessaoDTO;
 import br.com.stapassoli.desafiovotacao.entity.Sessao;
+import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
 import br.com.stapassoli.desafiovotacao.service.SessaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,12 @@ public class SessaoController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Sessao> cadastrarSessao(@RequestBody SessaoDTO sessaoDTO) {
         return sessaoService.cadastrarSessao(sessaoDTO);
+    }
+
+    @GetMapping("/{pautaId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<VotoStatus> resultadoVotacao(@PathVariable Long pautaId) {
+        return sessaoService.resultadoVotacao(pautaId);
     }
 
 }

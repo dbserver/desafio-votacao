@@ -2,6 +2,7 @@ package br.com.stapassoli.desafiovotacao.entity;
 
 import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
 import jakarta.persistence.*;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,10 +29,10 @@ public class Sessao {
     private LocalDateTime fim = LocalDateTime.now().plusMinutes(5L);
 
     @OneToOne
-    @JoinColumn(name = "pauta_id")
+    @JoinColumn(name = "pauta_id", unique = true)
     private Pauta pauta;
 
-    @OneToMany(mappedBy = "sessao",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sessao", fetch = FetchType.LAZY)
     private List<Voto> votos = new ArrayList<>();
 
     private Map<VotoStatus, Long> totalizarVotos() {
@@ -40,11 +41,11 @@ public class Sessao {
         this.votos.forEach(voto -> {
 
             if (voto.getVotoStatus().equals(VotoStatus.SIM)) {
-                Long numerosVotosSim = urna.get(VotoStatus.SIM);
+                Long numerosVotosSim = Objects.nonNull(urna.get(VotoStatus.SIM)) ? urna.get(VotoStatus.SIM) : 0L;
                 urna.put(VotoStatus.SIM, numerosVotosSim + 1);
             } else {
-                Long numerosVotosSim = urna.get(VotoStatus.SIM);
-                urna.put(VotoStatus.NAO, numerosVotosSim + 1);
+                Long numerosVotosNao = Objects.nonNull(urna.get(VotoStatus.NAO)) ? urna.get(VotoStatus.NAO) : 0L;
+                urna.put(VotoStatus.NAO, numerosVotosNao + 1);
             }
 
         });
