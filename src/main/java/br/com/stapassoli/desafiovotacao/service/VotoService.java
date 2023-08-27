@@ -20,7 +20,20 @@ public class VotoService {
     private final SessaoRepository sessaoRepository;
     private final ModelMapper modelMapper;
 
-    public ResponseEntity<VotoDTO> cadastrarVoto(VotoDTO votoDTO) {
+    public void isVotoCadastrado (VotoDTO votoDTO) throws Exception {
+        VotoId votoId = new VotoId();
+        votoId.setIdSessao(votoDTO.getIdSessao());
+        votoId.setIdAssociado(votoDTO.getIdAssociado());
+
+        if(votoRepository.findById(votoId).isPresent()) {
+            throw new IllegalStateException("Voto já cadastrado");
+        }
+
+    }
+
+    public ResponseEntity<VotoDTO> cadastrarVoto(VotoDTO votoDTO) throws Exception  {
+
+        isVotoCadastrado(votoDTO);
 
         VotoId votoId = new VotoId();
         votoId.setIdSessao(votoDTO.getIdSessao());

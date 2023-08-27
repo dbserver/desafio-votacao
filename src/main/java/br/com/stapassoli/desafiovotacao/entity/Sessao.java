@@ -1,6 +1,8 @@
 package br.com.stapassoli.desafiovotacao.entity;
 
+import br.com.stapassoli.desafiovotacao.dto.VotoDTO;
 import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -24,9 +26,8 @@ public class Sessao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime inicio = LocalDateTime.now();
-
-    private LocalDateTime fim = LocalDateTime.now().plusMinutes(5L);
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
+    private LocalDateTime limite;
 
     @OneToOne
     @JoinColumn(name = "pauta_id", unique = true)
@@ -57,5 +58,11 @@ public class Sessao {
         Map<VotoStatus, Long> votosTotalizados = this.totalizarVotos();
         return votosTotalizados.get(VotoStatus.SIM).compareTo(votosTotalizados.get(VotoStatus.NAO)) >= 1 ? VotoStatus.SIM : VotoStatus.NAO;
     }
+
+    public boolean isDentroLimiteTempo (VotoDTO votoDTO) {
+
+        return false;
+    }
+
 
 }

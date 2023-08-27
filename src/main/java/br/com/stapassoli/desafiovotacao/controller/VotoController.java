@@ -18,8 +18,12 @@ public class VotoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<VotoDTO> cadastrarSessao(@RequestBody VotoDTO votoDTO) {
-        return votoService.cadastrarVoto(votoDTO);
+    public ResponseEntity<?> cadastrarSessao(@RequestBody VotoDTO votoDTO) {
+        try {
+            return votoService.cadastrarVoto(votoDTO);
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
     }
 
 }
