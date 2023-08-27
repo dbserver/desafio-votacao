@@ -1,7 +1,8 @@
 package br.com.stapassoli.desafiovotacao.entity;
 
-import br.com.stapassoli.desafiovotacao.dto.VotoDTO;
 import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
+import br.com.stapassoli.desafiovotacao.exceptions.PautaException;
+import br.com.stapassoli.desafiovotacao.exceptions.SessaoException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.util.Objects;
@@ -59,9 +60,13 @@ public class Sessao {
         return votosTotalizados.get(VotoStatus.SIM).compareTo(votosTotalizados.get(VotoStatus.NAO)) >= 1 ? VotoStatus.SIM : VotoStatus.NAO;
     }
 
-    public boolean isDentroLimiteTempo (VotoDTO votoDTO) {
+    public void isDentroLimiteTempo() throws PautaException {
 
-        return false;
+        boolean excedeu = LocalDateTime.now().compareTo(this.getLimite()) >= 1;
+
+        if (excedeu) {
+            throw new SessaoException("Tempo excedido");
+        }
     }
 
 

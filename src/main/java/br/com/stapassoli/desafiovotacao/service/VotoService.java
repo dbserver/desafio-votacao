@@ -4,6 +4,8 @@ import br.com.stapassoli.desafiovotacao.dto.VotoDTO;
 import br.com.stapassoli.desafiovotacao.entity.Sessao;
 import br.com.stapassoli.desafiovotacao.entity.Voto;
 import br.com.stapassoli.desafiovotacao.entity.VotoId;
+import br.com.stapassoli.desafiovotacao.exceptions.SessaoException;
+import br.com.stapassoli.desafiovotacao.exceptions.VotoException;
 import br.com.stapassoli.desafiovotacao.repository.SessaoRepository;
 import br.com.stapassoli.desafiovotacao.repository.VotoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,20 +22,27 @@ public class VotoService {
     private final SessaoRepository sessaoRepository;
     private final ModelMapper modelMapper;
 
-    public void isVotoCadastrado (VotoDTO votoDTO) throws Exception {
+    public void isVotoCadastrado (VotoDTO votoDTO) throws VotoException {
+
         VotoId votoId = new VotoId();
         votoId.setIdSessao(votoDTO.getIdSessao());
         votoId.setIdAssociado(votoDTO.getIdAssociado());
 
         if(votoRepository.findById(votoId).isPresent()) {
-            throw new IllegalStateException("Voto já cadastrado");
+            throw new VotoException("Voto já cadastrado");
         }
 
     }
 
-    public ResponseEntity<VotoDTO> cadastrarVoto(VotoDTO votoDTO) throws Exception  {
+    public ResponseEntity<VotoDTO> cadastrarVoto(VotoDTO votoDTO)  {
 
         isVotoCadastrado(votoDTO);
+
+        Sessao sessao = this.sessaoRepository
+            .findById(votoDTO.getIdSessao())
+            .orElseThrow(() -> new SessaoException("Sessao nao encontrada"));
+
+        sessao.isDentroLimiteTempo();
 
         VotoId votoId = new VotoId();
         votoId.setIdSessao(votoDTO.getIdSessao());
@@ -42,10 +51,6 @@ public class VotoService {
         Voto voto = new Voto();
         voto.setId(votoId);
         voto.setVotoStatus(votoDTO.getVotoStatus());
-
-        Sessao sessao = this.sessaoRepository
-                .findById(votoDTO.getIdSessao())
-                .orElseThrow(() -> new EntityNotFoundException("Sessao nao encontrada"));
 
         voto.setSessao(sessao);
 

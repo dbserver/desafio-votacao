@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class SessaoDTO {
 
     @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
-    private LocalDateTime limite = LocalDateTime.now().plusMinutes(10L);
+    private LocalDateTime limite = LocalDateTime.now().plusMinutes(1L);
 
     @JsonProperty(value = "id_pauta")
     private Long idPauta;

@@ -3,6 +3,7 @@ package br.com.stapassoli.desafiovotacao.service;
 import br.com.stapassoli.desafiovotacao.dto.SessaoDTO;
 import br.com.stapassoli.desafiovotacao.entity.Sessao;
 import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
+import br.com.stapassoli.desafiovotacao.exceptions.PautaException;
 import br.com.stapassoli.desafiovotacao.repository.SessaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,10 @@ public class SessaoService {
         return ResponseEntity.ok(sessaoRepository.save(sessao));
     }
 
-    public ResponseEntity<VotoStatus> resultadoVotacao (Long idPauta) {
+    public ResponseEntity<VotoStatus> resultadoVotacao(Long idPauta) throws Exception {
 
         Sessao sessao = this.sessaoRepository.findByPauta_Id(idPauta).orElseThrow(() -> {
-            throw new EntityNotFoundException("Pauta nao encontrada");
+            throw new PautaException("Pauta nao encontrada");
         });
 
         return ResponseEntity.ok(sessao.obterVencedor());
