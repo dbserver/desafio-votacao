@@ -19,10 +19,10 @@ public class PautaController {
     private static final PautaMapper PAUTA_MAPPER = PautaMapper.INSTANCE;
 
     @PostMapping
-    ResponseEntity<PautaDto> criarPauta(@Valid @RequestBody PautaDto pautaDto) {
+    ResponseEntity<Void> criarPauta(@Valid @RequestBody PautaDto pautaDto) {
         pautaService.criarPauta(PAUTA_MAPPER.pautDtoParaPauta(pautaDto));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(pautaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{id}")
