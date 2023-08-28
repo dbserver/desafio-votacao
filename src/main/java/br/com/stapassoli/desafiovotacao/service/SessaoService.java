@@ -4,11 +4,13 @@ import br.com.stapassoli.desafiovotacao.dto.SessaoDTO;
 import br.com.stapassoli.desafiovotacao.entity.Sessao;
 import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
 import br.com.stapassoli.desafiovotacao.exceptions.PautaException;
+import br.com.stapassoli.desafiovotacao.exceptions.SessaoException;
 import br.com.stapassoli.desafiovotacao.repository.SessaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +22,11 @@ public class SessaoService {
 
     public ResponseEntity<Sessao> cadastrarSessao(SessaoDTO sessaoDTO) {
         Sessao sessao = modelMapper.map(sessaoDTO, Sessao.class);
-        return ResponseEntity.ok(sessaoRepository.save(sessao));
+        try {
+            return ResponseEntity.ok(sessaoRepository.save(sessao));
+        }catch (JpaObjectRetrievalFailureException exception) {
+            throw new SessaoException("Pauta Inexistente");
+        }
     }
 
     public ResponseEntity<VotoStatus> resultadoVotacao(Long idPauta) throws Exception {
