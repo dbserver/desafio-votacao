@@ -1,7 +1,6 @@
 package com.db.desafio.util.factory;
 
 
-import com.db.desafio.dto.PautaDto;
 import com.db.desafio.entity.Pauta;
 
 import java.util.List;
