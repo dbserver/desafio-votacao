@@ -1,6 +1,6 @@
 # Para subir applicacao
 * projeto estará rodando em http://localhost:9000 
-* deve ter um postgres instalado local ou com docker e apontar para a porta 5434
+* deve ter um postgres instalado local ou com docker e apontar para a porta 5434 , usuario e senha postgres e database com nome postgres
 
 # Desafio Votacao
 
