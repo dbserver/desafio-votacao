@@ -67,7 +67,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
     @Test
-    @DisplayName("Deve retornar status 404 quando tenatr deletar um associado inexistente")
+    @DisplayName("Deve retornar status 404 quando tentar deletar um associado inexistente")
     void deveRetornar404QuandoAssociadoInexistente() throws Exception {
         doThrow(AssociadoException.class).when(associadoService).deletarAssociado(ID);
 

@@ -16,7 +16,7 @@ public class PautaFactory {
         return new Pauta(1L,"titulo_1","descrição_1");
     }
     public static Pauta pautaSemIdFactory(){
-        return new Pauta(1L,"titulo_1","descrição_1");
+        return new Pauta("titulo_1","descrição_1");
     }
 
 
