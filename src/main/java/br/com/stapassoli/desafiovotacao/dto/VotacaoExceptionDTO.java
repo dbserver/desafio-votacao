@@ -1,0 +1,16 @@
+package br.com.stapassoli.desafiovotacao.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+public class VotacaoExceptionDTO {
+
+    private String mensagemErro;
+
+}
