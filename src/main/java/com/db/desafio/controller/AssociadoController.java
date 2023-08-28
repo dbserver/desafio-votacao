@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/associado")
+@RequestMapping(value = "/v1/associados")
 public class AssociadoController {
     @Autowired
     private AssociadoService associadoService;

@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -28,7 +26,6 @@ public class Pauta {
     @NotBlank
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
-    private String resultado;
 
 
     public Pauta(Long id, String titulo, String descricao) {
@@ -54,4 +51,6 @@ public class Pauta {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
