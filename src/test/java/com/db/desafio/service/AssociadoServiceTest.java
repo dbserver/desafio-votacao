@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 
-import static com.db.desafio.util.AssociadoFactory.ListaDeAssociadosFactory;
-import static com.db.desafio.util.AssociadoFactory.associadoFactory;
+import static com.db.desafio.util.factory.AssociadoFactory.ListaDeAssociadosFactory;
+import static com.db.desafio.util.factory.AssociadoFactory.associadoFactory;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
