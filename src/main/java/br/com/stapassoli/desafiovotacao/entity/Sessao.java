@@ -39,25 +39,32 @@ public class Sessao {
 
     private Map<VotoStatus, Long> totalizarVotos() {
         var urna = new HashMap<VotoStatus, Long>();
+        urna.put(VotoStatus.SIM, 0L);
+        urna.put(VotoStatus.NAO, 0L);
 
         this.votos.forEach(voto -> {
 
             if (voto.getVotoStatus().equals(VotoStatus.SIM)) {
-                Long numerosVotosSim = Objects.nonNull(urna.get(VotoStatus.SIM)) ? urna.get(VotoStatus.SIM) : 0L;
-                urna.put(VotoStatus.SIM, numerosVotosSim + 1);
+                urna.put(VotoStatus.SIM, urna.get(VotoStatus.SIM) + 1);
             } else {
-                Long numerosVotosNao = Objects.nonNull(urna.get(VotoStatus.NAO)) ? urna.get(VotoStatus.NAO) : 0L;
-                urna.put(VotoStatus.NAO, numerosVotosNao + 1);
+                urna.put(VotoStatus.NAO, urna.get(VotoStatus.NAO) + 1);
             }
-
         });
 
         return urna;
     }
 
+    public Long obterVotos(VotoStatus votoStatus) {
+        return this.totalizarVotos().get(votoStatus);
+    }
+
     public VotoStatus obterVencedor() {
         Map<VotoStatus, Long> votosTotalizados = this.totalizarVotos();
         return votosTotalizados.get(VotoStatus.SIM).compareTo(votosTotalizados.get(VotoStatus.NAO)) >= 1 ? VotoStatus.SIM : VotoStatus.NAO;
+    }
+
+    public Map<VotoStatus, Long> obterQuantidadeVotos() {
+        return this.totalizarVotos();
     }
 
     public void isDentroLimiteTempo() throws PautaException {

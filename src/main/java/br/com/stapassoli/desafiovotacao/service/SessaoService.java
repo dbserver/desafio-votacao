@@ -1,6 +1,7 @@
 package br.com.stapassoli.desafiovotacao.service;
 
 import br.com.stapassoli.desafiovotacao.dto.SessaoDTO;
+import br.com.stapassoli.desafiovotacao.dto.VencedorDTO;
 import br.com.stapassoli.desafiovotacao.entity.Sessao;
 import br.com.stapassoli.desafiovotacao.enums.VotoStatus;
 import br.com.stapassoli.desafiovotacao.exceptions.PautaException;
@@ -29,13 +30,13 @@ public class SessaoService {
         }
     }
 
-    public ResponseEntity<VotoStatus> resultadoVotacao(Long idPauta) throws Exception {
+    public ResponseEntity<VencedorDTO> resultadoVotacao(Long idPauta) throws Exception {
 
         Sessao sessao = this.sessaoRepository.findByPauta_Id(idPauta).orElseThrow(() -> {
             throw new PautaException("Pauta nao encontrada");
         });
 
-        return ResponseEntity.ok(sessao.obterVencedor());
+        return ResponseEntity.ok(new VencedorDTO(sessao));
     }
 
 }
