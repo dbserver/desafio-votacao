@@ -1,6 +1,7 @@
 package com.db.desafio.controller;
 
 import com.db.desafio.dto.PautaDto;
+import com.db.desafio.dto.PautaResultadoDto;
 import com.db.desafio.mapper.PautaMapper;
 import com.db.desafio.service.PautaService;
 import jakarta.validation.Valid;
@@ -39,6 +40,11 @@ public class PautaController {
     @GetMapping("/{id}")
     ResponseEntity<PautaDto> obterPautaPorId(@PathVariable Long id) {
         return ResponseEntity.ok(PAUTA_MAPPER.pautaParaPautaDto(pautaService.obterPautaPorId(id)));
+    }
+
+    @GetMapping("/{id}/resultado")
+    ResponseEntity<PautaResultadoDto> obterResultadoPautaPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(pautaService.obterResultadoPauta(id));
     }
 
 }

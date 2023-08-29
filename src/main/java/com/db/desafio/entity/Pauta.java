@@ -1,5 +1,7 @@
 package com.db.desafio.entity;
 
+import com.db.desafio.enumerate.VotoEnum;
+import com.db.desafio.exception.PautaException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -54,6 +56,16 @@ public class Pauta {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public String obterResultado(){
+        if (votos == null){
+            throw new PautaException("Pauta não votada");
+        }
+        return this.obterVotosPorTipo(VotoEnum.SIM) >= obterVotosPorTipo(VotoEnum.NAO)? "Aprovado" : "Rejeitado";
+    }
+    private Long obterVotosPorTipo(VotoEnum votoEnum) {
+        return this.votos.stream().filter(v -> v.getVotoEnum().equals(votoEnum)).count();
     }
 
 
