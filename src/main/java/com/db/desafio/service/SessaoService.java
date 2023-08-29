@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -23,6 +24,13 @@ public class SessaoService {
     public void abrirSessao(Long pautaId) {
         var sessao = new Sessao(pautaService.obterPautaPorId(pautaId));
          sessaoRepository.save(sessao);
+    }
+    public Sessao obterSessao(Long id){
+        return sessaoRepository.findById(id)
+                .orElseThrow(() -> new SessaoException("Sessao inexistente"));
+    }
+    public List<Sessao> obterSessoes() {
+        return sessaoRepository.findAll();
     }
 
     public Sessao retonarSesaoAberta(Long id){
