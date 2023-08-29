@@ -1,11 +1,8 @@
 package com.db.desafio.controller;
 
 
-import com.db.desafio.exception.AssociadoException;
 import com.db.desafio.exception.SessaoException;
 import com.db.desafio.service.SessaoService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-
-import static com.db.desafio.util.factory.AssociadoFactory.associadoSemIdFactory;
-import static com.db.desafio.util.factory.SessaoFactory.*;
+import static com.db.desafio.util.factory.SessaoFactory.ListaDeSessoesFactory;
+import static com.db.desafio.util.factory.SessaoFactory.sessaoSemIdFactory;
 import static com.db.desafio.util.provider.UrlProvider.*;
-import static com.db.desafio.util.provider.UrlProvider.URI_ASSOCIADO_ID;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
