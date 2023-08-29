@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "v1/sessoes")
+@RequestMapping(value = "/v1/sessoes")
 public class SessaoController {
     @Autowired
     private SessaoService sessaoService;

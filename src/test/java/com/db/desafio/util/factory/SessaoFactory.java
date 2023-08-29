@@ -1,9 +1,11 @@
 package com.db.desafio.util.factory;
 
 
+
 import com.db.desafio.entity.Sessao;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
 
@@ -17,6 +19,15 @@ public class SessaoFactory {
     public static Sessao sessaoFactory(){
         return new Sessao(1L,pautaFactory(),INICIO, ENCERRAMENTO);
 
+    }
+    public static Sessao sessaoSemIdFactory(){
+        return new Sessao(pautaFactory(),INICIO, ENCERRAMENTO);
+
+    }
+
+    public static List<Sessao> ListaDeSessoesFactory(){
+        return List.of(new Sessao(1L,pautaFactory(),INICIO,ENCERRAMENTO)
+                ,new Sessao(2L,pautaFactory(),INICIO,ENCERRAMENTO));
     }
 
 

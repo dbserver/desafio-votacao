@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "v1/pautas")
+@RequestMapping(value = "/v1/pautas")
 public class PautaController {
     @Autowired
     private PautaService pautaService;

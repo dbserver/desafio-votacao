@@ -38,7 +38,11 @@ public class Sessao {
         this.finalSessao = finalSessao;
     }
 
-
+    public Sessao(Pauta pauta, LocalDateTime inicioSessao, LocalDateTime finalSessao) {
+        this.pauta = pauta;
+        this.inicioSessao = inicioSessao;
+        this.finalSessao = finalSessao;
+    }
 }
 
 
