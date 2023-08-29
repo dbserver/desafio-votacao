@@ -1,11 +1,7 @@
 package com.db.desafio.service;
 
-import com.db.desafio.entity.Associado;
-import com.db.desafio.entity.Pauta;
 import com.db.desafio.entity.Sessao;
-import com.db.desafio.exception.AssociadoException;
 import com.db.desafio.exception.SessaoException;
-import com.db.desafio.repository.PautaRepository;
 import com.db.desafio.repository.SessaoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,11 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.desafio.util.factory.AssociadoFactory.ListaDeAssociadosFactory;
-import static com.db.desafio.util.factory.AssociadoFactory.associadoFactory;
-import static com.db.desafio.util.factory.PautaFactory.ListaDePautasFactory;
 import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
-import static com.db.desafio.util.factory.SessaoFactory.*;
+import static com.db.desafio.util.factory.SessaoFactory.ListaDeSessoesFactory;
+import static com.db.desafio.util.factory.SessaoFactory.sessaoFactory;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;

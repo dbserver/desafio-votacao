@@ -25,11 +25,11 @@ public class Voto {
     @NotNull
     private VotoEnum votoEnum;
     @ManyToOne
-    @NotBlank
+    @NotNull
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
     @ManyToOne
-    @NotBlank
+    @NotNull
     @JoinColumn(name = "associado_id")
     private Associado associado;
 
