@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.Objects;
 
@@ -22,7 +23,8 @@ public class Associado {
     @Column(name = "nome")
     private String nome;
     @NotBlank
-    @Column(name = "cpf")
+    @Column(name = "cpf",length = 14)
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     public Associado(String nome, String cpf) {

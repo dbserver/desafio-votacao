@@ -18,3 +18,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+#Excluindo Trace
+server:
+  error:
+    include-stacktrace: never
