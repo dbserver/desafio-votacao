@@ -24,6 +24,14 @@ public class Sessao {
     @Column(name = "finalsessao")
     private LocalDateTime finalSessao = inicioSessao.plusMinutes(1);
 
+    public Sessao(Pauta pauta) {
+        this.pauta = pauta;
+    }
 
-
+    public Sessao(Long id, Pauta pauta, LocalDateTime inicioSessao, LocalDateTime finalSessao) {
+        this.id = id;
+        this.pauta = pauta;
+        this.inicioSessao = inicioSessao;
+        this.finalSessao = finalSessao;
+    }
 }

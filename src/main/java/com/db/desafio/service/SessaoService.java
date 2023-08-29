@@ -20,8 +20,7 @@ public class SessaoService {
     private static final LocalDateTime ENCERRA_SESSAO = LocalDateTime.now();
 
     public void abrirSessao(Long pautaId) {
-        Sessao sessao = new Sessao();
-        sessao.setPauta(pautaService.obterPautaPorId(pautaId));
+        var sessao = new Sessao(pautaService.obterPautaPorId(pautaId));
          sessaoRepository.save(sessao);
     }
 
