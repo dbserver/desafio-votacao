@@ -23,7 +23,7 @@ public class VotoService {
         Sessao sessao = sessaoService.retonarSesaoAberta(sessaoId);
         Voto voto = new Voto(votoDto.getVotoEnum()
                 ,pautaService.obterPautaPorId(sessao.getPauta().getId())
-                ,associadoService.obterAssociadoPorCpf(votoDto.getAssociadoDto().getCpf()));
+                ,associadoService.obterAssociadoPorCpf(votoDto.getCpf()));
         isVotou(sessaoId, voto.getAssociado().getId());
         votoRepository.save(voto);
     }
