@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static com.db.desafio.util.factory.PautaFactory.ListaDePautasFactory;
 import static com.db.desafio.util.factory.PautaFactory.pautaSemIdFactory;
+import static com.db.desafio.util.factory.PautaResultadoDtoFactory.pautaResultadoDtoFactory;
 import static com.db.desafio.util.provider.UrlProvider.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -115,5 +116,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                         .content(jsonBody))
                 .andExpect(status().isOk());
         verify(pautaService,times(1)).obterPautas();
+    }
+    @Test
+    @DisplayName("Deve retornar status 200 ao busca resultado de uma pauta por id")
+    void deveRetornar200QuandoBuscarResultadoDaPautaComSucesso() throws Exception {
+        String jsonBody = new Gson().toJson(pautaResultadoDtoFactory());
+
+        when(pautaService.obterResultadoPauta(ID)).thenReturn(pautaResultadoDtoFactory());
+
+        mockMvc.perform(get(URI_RESULTADO)
+                        .contentType(APPLICATION_JSON)
+                        .content(jsonBody))
+                .andExpect(status().isOk());
+        verify(pautaService,times(1)).obterResultadoPauta(ID);
     }
 }

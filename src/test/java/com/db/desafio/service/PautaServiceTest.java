@@ -1,5 +1,6 @@
 package com.db.desafio.service;
 
+import com.db.desafio.dto.PautaResultadoDto;
 import com.db.desafio.entity.Pauta;
 import com.db.desafio.exception.PautaException;
 import com.db.desafio.repository.PautaRepository;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 import static com.db.desafio.util.factory.PautaFactory.ListaDePautasFactory;
 import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
+import static com.db.desafio.util.factory.PautaResultadoDtoFactory.pautaResultadoDtoFactory;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -104,4 +106,18 @@ class PautaServiceTest {
         assertThrows(PautaException.class, () ->
                 pautaService.deletarPauta(PAUTA_ID));
     }
+
+    @Test
+    @DisplayName("Deve obter um  pauta passando um id")
+    void deveobterPautaPId() {
+        PautaResultadoDto resultadoEsperado = pautaResultadoDtoFactory();
+        when(pautaRepository.findById(PAUTA_ID)).thenReturn(Optional.of(pautaFactory()));
+
+        PautaResultadoDto resultadoAtual = pautaService.obterResultadoPauta(PAUTA_ID);
+
+        assertThat(resultadoAtual.getTitulo()).isEqualTo(resultadoEsperado.getTitulo());
+        assertThat(resultadoAtual.getResultado()).isEqualTo(resultadoEsperado.getResultado());
+        verify(pautaRepository).findById(PAUTA_ID);
+    }
+
 }

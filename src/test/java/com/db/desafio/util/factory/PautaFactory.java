@@ -17,6 +17,9 @@ public class PautaFactory {
     public static Pauta pautaSemIdFactory(){
         return new Pauta("titulo_1","descrição_1");
     }
+    public static Pauta pautaVotosVaziaFactory(){
+        return new Pauta("titulo_1","descrição_1");
+    }
 
 
 }
