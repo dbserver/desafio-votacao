@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 
 @AllArgsConstructor
@@ -17,18 +18,20 @@ public class SessaoService {
     private SessaoRepository sessaoRepository;
     private PautaService pautaService;
 
-    private static final LocalDateTime ENCERRA_SESSAO = LocalDateTime.now();
+    private static final LocalDateTime ENCERRA_SESSAO = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
 
     public void abrirSessao(Long pautaId) {
         var sessao = new Sessao(pautaService.obterPautaPorId(pautaId));
          sessaoRepository.save(sessao);
     }
 
-    public void isAberta(Long id){
+    public Sessao retonarSesaoAberta(Long id){
         Sessao sessao = sessaoRepository.findById(id).
                 orElseThrow(() -> new SessaoException("Sessao inexistente"));
+
         if (ENCERRA_SESSAO.isAfter(sessao.getFinalSessao())){
          throw new SessaoException("Sessão já está encerrada");
         }
+        return sessao;
     }
 }

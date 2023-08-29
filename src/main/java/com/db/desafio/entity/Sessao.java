@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @NoArgsConstructor
 @Getter
@@ -22,7 +23,7 @@ public class Sessao {
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
     @Column(name = "inicioSessao")
-    private LocalDateTime inicioSessao = LocalDateTime.now();
+    private LocalDateTime inicioSessao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
     @Column(name = "finalsessao")
     private LocalDateTime finalSessao = inicioSessao.plusMinutes(1);
 
@@ -36,4 +37,8 @@ public class Sessao {
         this.inicioSessao = inicioSessao;
         this.finalSessao = finalSessao;
     }
+
+
 }
+
+
