@@ -3,20 +3,19 @@ package com.db.desafio.dto;
 
 import com.db.desafio.enumerate.VotoEnum;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class VotoDto {
 
     @NotBlank
     private String cpf;
-    @NotBlank
+    @NotNull
     private VotoEnum votoEnum;
 
 

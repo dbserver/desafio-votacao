@@ -4,14 +4,17 @@ package com.db.desafio.entity;
 import com.db.desafio.enumerate.VotoEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "tb_voto")
 public class Voto {
     @Id
@@ -19,7 +22,7 @@ public class Voto {
     @Column(name = "id")
     private Long id;
     @Enumerated(EnumType.STRING)
-    @NotBlank
+    @NotNull
     private VotoEnum votoEnum;
     @ManyToOne
     @NotBlank

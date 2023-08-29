@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @DisplayName("Deve retornar status 201 quando uma nova sessao for aberta")
     void deveRetornar201QuandoSessaoForAbertaComSucesso() throws Exception {
         doNothing().when(sessaoService).abrirSessao(ID);
-
         mockMvc.perform(post(URI_SESSAO)
                         .param("pautaId","1"))
                 .andExpect(status().isCreated());
