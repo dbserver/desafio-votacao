@@ -13,9 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
+import static com.db.desafio.util.factory.AssociadoFactory.associadoFactory;
 import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
-import static com.db.desafio.util.factory.SessaoFactory.ListaDeSessoesFactory;
-import static com.db.desafio.util.factory.SessaoFactory.sessaoFactory;
+import static com.db.desafio.util.factory.SessaoFactory.*;
+import static com.db.desafio.util.factory.VotoFactory.votoDtoFactory;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -26,6 +27,8 @@ public class SessaoVotacaoServiceTest {
     private SessaoVotacaoService sessaoVotacaoService;
     @Mock
     private SessaoVotacaoRepository sessaoVotacaoRepository;
+    @Mock
+    private AssociadoService associadoService;
     @Mock
     private PautaService pautaService;
     private static final Long ID = 1L;
@@ -76,5 +79,26 @@ public class SessaoVotacaoServiceTest {
 
         assertThrows(SessaoVotacaoException.class, () ->
                 sessaoVotacaoService.obterSessao(ID));
+    }
+
+    @Test
+    @DisplayName("Deve Salvar um novo voto na sessao")
+    void deveSalvarVotoNaSessao(){
+
+        when(sessaoVotacaoRepository.findById(ID)).thenReturn(Optional.of(sessaoFactory4()));
+        when(associadoService.obterAssociadoPorCpf(any())).thenReturn(associadoFactory());
+
+       sessaoVotacaoService.votarSessao(ID,votoDtoFactory());
+
+        verify(sessaoVotacaoRepository, times(1)).findById(ID);
+        verify(associadoService, times(1)).obterAssociadoPorCpf(any());
+    }
+    @Test
+    @DisplayName("Deve retor uma exceção quando sessao estiver encerrada")
+    void NaoDeveSalvarQaundoaSessaoJaencErrada()  {
+        when(sessaoVotacaoRepository.findById(ID)).thenReturn(Optional.of(sessaoFactory3()));
+
+        assertThrows(SessaoVotacaoException.class, () ->
+                sessaoVotacaoService.votarSessao(ID,votoDtoFactory()));
     }
 }

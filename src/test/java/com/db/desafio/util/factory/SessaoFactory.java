@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
+import static com.db.desafio.util.factory.VotoFactory.ListaDeVotosEnumFactory;
+import static com.db.desafio.util.factory.VotoFactory.ListaDeVotosFactory;
 
 
 public class SessaoFactory {
@@ -29,6 +31,19 @@ public class SessaoFactory {
         return List.of(new SessaoVotacao(1L,pautaFactory(),INICIO,ENCERRAMENTO)
                 ,new SessaoVotacao(2L,pautaFactory(),INICIO,ENCERRAMENTO));
     }
+    public static SessaoVotacao sessaoFactory2(){
+        return new SessaoVotacao(1L,INICIO, ENCERRAMENTO,ListaDeVotosEnumFactory());
+
+    }
+    public static SessaoVotacao sessaoFactory3(){
+        return new SessaoVotacao(1L,pautaFactory(),INICIO, ENCERRAMENTO,ListaDeVotosEnumFactory());
+
+    }
+    public static SessaoVotacao sessaoFactory4(){
+        return new SessaoVotacao(1L,pautaFactory(),INICIO, LocalDateTime.now().plusMinutes(1),ListaDeVotosFactory());
+
+    }
+
 
 
 

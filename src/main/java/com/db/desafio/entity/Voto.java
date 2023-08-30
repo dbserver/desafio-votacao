@@ -7,11 +7,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "tb_voto")
 public class Voto {
     @Id
@@ -22,16 +24,20 @@ public class Voto {
     @NotNull
     private VotoEnum votoEnum;
     @ManyToOne
-    @NotNull
-    @JoinColumn(name = "id_sessaoVotacao")
+    @JoinColumn(name = "id_sessao_votacao")
     private SessaoVotacao sessaoVotacao;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_associado")
     private Associado associado;
 
+
     public Voto(VotoEnum votoEnum, Associado associado) {
         this.votoEnum = votoEnum;
         this.associado = associado;
+    }
+
+    public Voto(VotoEnum votoEnum) {
+        this.votoEnum = votoEnum;
     }
 }

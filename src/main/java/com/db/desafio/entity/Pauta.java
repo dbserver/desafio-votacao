@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "tb_pauta")
 public class Pauta {
     @Id
@@ -26,7 +28,7 @@ public class Pauta {
     @NotBlank
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
-    @OneToOne
+    @OneToOne(mappedBy = "pauta")
     private SessaoVotacao sessaoVotacao;
 
 
@@ -61,4 +63,10 @@ public class Pauta {
         return this.sessaoVotacao.getVotos().stream().filter(v -> v.getVotoEnum().equals(votoEnum)).count();
     }
 
+    public Pauta(Long id, String titulo, String descricao, SessaoVotacao sessaoVotacao) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.sessaoVotacao = sessaoVotacao;
+    }
 }

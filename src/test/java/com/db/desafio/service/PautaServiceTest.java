@@ -15,8 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.desafio.util.factory.PautaFactory.ListaDePautasFactory;
-import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
+import static com.db.desafio.util.factory.PautaFactory.*;
 import static com.db.desafio.util.factory.PautaResultadoDtoFactory.pautaResultadoDtoFactory;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -108,10 +107,10 @@ class PautaServiceTest {
     }
 
     @Test
-    @DisplayName("Deve obter um  pauta passando um id")
-    void deveobterPautaPId() {
+    @DisplayName("Deve obter o resultado de uma  pauta passando um id")
+    void deveobterResultadoPautaPoId() {
         PautaResultadoDto resultadoEsperado = pautaResultadoDtoFactory();
-        when(pautaRepository.findById(PAUTA_ID)).thenReturn(Optional.of(pautaFactory()));
+        when(pautaRepository.findById(PAUTA_ID)).thenReturn(Optional.of(pautaFactory2()));
 
         PautaResultadoDto resultadoAtual = pautaService.obterResultadoPauta(PAUTA_ID);
 

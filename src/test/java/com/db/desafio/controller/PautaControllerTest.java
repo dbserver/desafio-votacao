@@ -11,8 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.db.desafio.util.factory.PautaFactory.ListaDePautasFactory;
-import static com.db.desafio.util.factory.PautaFactory.pautaSemIdFactory;
+import static com.db.desafio.util.factory.PautaFactory.*;
 import static com.db.desafio.util.factory.PautaResultadoDtoFactory.pautaResultadoDtoFactory;
 import static com.db.desafio.util.provider.UrlProvider.*;
 import static org.mockito.Mockito.*;
@@ -32,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 201 quando uma nova pauta for criado")
     void deveRetornar201QuandoPautaCriadoComSucesso() throws Exception {
-        String jsonBody = new Gson().toJson(pautaSemIdFactory());
+        String jsonBody = new Gson().toJson(pautaDtoFactory());
 
         doNothing().when(pautaService).criarPauta(pautaSemIdFactory());
 
@@ -46,7 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 404 quando tentar criar uma  pauta já existente")
     void deveRetornar404QuandoPautaExistir() throws Exception {
-        String jsonBody = new Gson().toJson(pautaSemIdFactory());
+        String jsonBody = new Gson().toJson(pautaDtoFactory());
 
         doThrow(PautaException.class).when(pautaService).criarPauta(pautaSemIdFactory());
 
@@ -81,7 +80,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 200 ao busca pauta por id")
     void deveRetornar200QuandoBuscarPautaComSucesso() throws Exception {
-        String jsonBody = new Gson().toJson(pautaSemIdFactory());
+        String jsonBody = new Gson().toJson(pautaDtoFactory());
 
         when(pautaService.obterPautaPorId(ID)).thenReturn(pautaSemIdFactory());
 
@@ -107,7 +106,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 200 ao busca uma lista de pautas")
     void deveRetornar200QuandoBuscarListaDePautasComSucesso() throws Exception {
-        String jsonBody = new Gson().toJson(ListaDePautasFactory());
+        String jsonBody = new Gson().toJson(ListaDePautasDtoFactory());
 
         when(pautaService.obterPautas()).thenReturn(ListaDePautasFactory());
 

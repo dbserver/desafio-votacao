@@ -41,7 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @DisplayName("Deve retornar status 200 ao busca uma lista de sessoes")
     void deveRetornar200QuandoBuscarListaDesessoesComSucesso() throws Exception {
         when(sessaoVotacaoService.obterSessoes()).thenReturn(ListaDeSessoesFactory());
-
         mockMvc.perform(get(URI_SESSAO)
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());

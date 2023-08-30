@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import static com.db.desafio.util.factory.AssociadoFactory.ListaDeAssociadosFactory;
-import static com.db.desafio.util.factory.AssociadoFactory.associadoSemIdFactory;
+
+import static com.db.desafio.util.factory.AssociadoFactory.*;
 import static com.db.desafio.util.provider.UrlProvider.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 201 quando um novo associado for criado")
     void deveRetornar201QuandoAssociadoCriadoComSucesso() throws Exception {
-        String jsonBody = new Gson().toJson(associadoSemIdFactory());
+        String jsonBody = new Gson().toJson(associadoDtoFactory());
 
         doNothing().when(associadoService).criarAssociado(associadoSemIdFactory());
 
@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 404 quando criar um  associado já existente")
     void deveRetornar404QuandoAssociadoExistir() throws Exception {
-        String jsonBody = new Gson().toJson(associadoSemIdFactory());
+        String jsonBody = new Gson().toJson(associadoDtoFactory());
 
         doThrow(AssociadoException.class).when(associadoService).criarAssociado(associadoSemIdFactory());
 
@@ -79,9 +79,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 200 ao busca associado por id")
     void deveRetornar200QuandoBuscarAssociadoComSucesso() throws Exception {
-        String jsonBody = new Gson().toJson(associadoSemIdFactory());
+        String jsonBody = new Gson().toJson(associadoDtoFactory());
 
-        when(associadoService.obterAssociadoPorId(ID)).thenReturn(associadoSemIdFactory());
+        when(associadoService.obterAssociadoPorId(ID)).thenReturn(associadoFactory());
 
         mockMvc.perform(get(URI_ASSOCIADO_ID)
                         .contentType(APPLICATION_JSON)
@@ -105,7 +105,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 200 ao busca uma lista de associados")
     void deveRetornar200QuandoBuscarListaDeAssociadoComSucesso() throws Exception {
-        String jsonBody = new Gson().toJson(ListaDeAssociadosFactory());
+        String jsonBody = new Gson().toJson(ListaDeAssociadosDtoFactory());
 
         when(associadoService.obterAssociados()).thenReturn(ListaDeAssociadosFactory());
 

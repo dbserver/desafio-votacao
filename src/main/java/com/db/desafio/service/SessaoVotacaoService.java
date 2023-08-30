@@ -54,7 +54,7 @@ public class SessaoVotacaoService {
         verificarVotoExistente(sessaoVotacao, votoDto.getCpf());
         var voto = new Voto(votoDto.getVotoEnum(),
                 associadoService.obterAssociadoPorCpf(votoDto.getCpf()));
-        sessaoVotacao.getVotos().add(voto);
+        sessaoVotacao.adicionaVoto(voto);
         sessaoVotacaoRepository.save(sessaoVotacao);
     }
 
