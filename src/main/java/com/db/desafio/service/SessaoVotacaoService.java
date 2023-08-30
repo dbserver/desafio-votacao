@@ -37,7 +37,7 @@ public class SessaoVotacaoService {
     }
 
 
-    public SessaoVotacao retonarSesaoAberta(Long id) {
+    public SessaoVotacao retornarSessaoAberta(Long id) {
         LocalDateTime encerrarSessao = LocalDateTime.now();
         SessaoVotacao sessaoVotacao = sessaoVotacaoRepository.findById(id).
                 orElseThrow(() -> new SessaoVotacaoException("Sessao inexistente"));
@@ -50,7 +50,7 @@ public class SessaoVotacaoService {
 
 
     public void votarSessao(Long sessaoId, VotoDto votoDto) {
-        SessaoVotacao sessaoVotacao = retonarSesaoAberta(sessaoId);
+        SessaoVotacao sessaoVotacao = retornarSessaoAberta(sessaoId);
         verificarVotoExistente(sessaoVotacao, votoDto.getCpf());
         var voto = new Voto(votoDto.getVotoEnum(),
                 associadoService.obterAssociadoPorCpf(votoDto.getCpf()));
