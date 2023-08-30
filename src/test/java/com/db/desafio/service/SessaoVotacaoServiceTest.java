@@ -1,8 +1,8 @@
 package com.db.desafio.service;
 
-import com.db.desafio.entity.Sessao;
-import com.db.desafio.exception.SessaoException;
-import com.db.desafio.repository.SessaoRepository;
+import com.db.desafio.entity.SessaoVotacao;
+import com.db.desafio.exception.SessaoVotacaoException;
+import com.db.desafio.repository.SessaoVotacaoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class SessaoServiceTest {
+public class SessaoVotacaoServiceTest {
     @InjectMocks
-    private SessaoService sessaoService;
+    private SessaoVotacaoService sessaoVotacaoService;
     @Mock
-    private SessaoRepository sessaoRepository;
+    private SessaoVotacaoRepository sessaoVotacaoRepository;
     @Mock
     private PautaService pautaService;
     private static final Long ID = 1L;
@@ -35,46 +35,46 @@ public class SessaoServiceTest {
     @DisplayName("Deve Abrir uma nova sessao")
     void deveAbrirNovaSessao() {
         when(pautaService.obterPautaPorId(ID)).thenReturn(pautaFactory());
-        when(sessaoRepository.save(any())).thenReturn(sessaoFactory());
+        when(sessaoVotacaoRepository.save(any())).thenReturn(sessaoFactory());
 
-        sessaoService.abrirSessao(ID);
+        sessaoVotacaoService.abrirSessao(ID);
 
-        verify(sessaoRepository, times(1)).save(any());
+        verify(sessaoVotacaoRepository, times(1)).save(any());
         verify(pautaService, times(1)).obterPautaPorId(ID);
     }
 
     @Test
     @DisplayName("Deve retornar uma lista de sessoes")
     void deveRetornarListaDeSessoes() {
-        List<Sessao> resultadoEsperado = ListaDeSessoesFactory();
-        when(sessaoRepository.findAll()).thenReturn(ListaDeSessoesFactory());
+        List<SessaoVotacao> resultadoEsperado = ListaDeSessoesFactory();
+        when(sessaoVotacaoRepository.findAll()).thenReturn(ListaDeSessoesFactory());
 
-        List<Sessao> resultadoAtual = sessaoService.obterSessoes();
+        List<SessaoVotacao> resultadoAtual = sessaoVotacaoService.obterSessoes();
 
         assertThat(resultadoAtual).usingRecursiveComparison().isEqualTo(resultadoEsperado);
-        verify(sessaoRepository).findAll();
+        verify(sessaoVotacaoRepository).findAll();
     }
 
     @Test
     @DisplayName("Deve obter uma sessao passando um id")
     void deveobterSessaoPorId() {
-        Sessao resultadoEsperado = sessaoFactory();
-        when(sessaoRepository.findById(ID)).thenReturn(Optional.of(sessaoFactory()));
+        SessaoVotacao resultadoEsperado = sessaoFactory();
+        when(sessaoVotacaoRepository.findById(ID)).thenReturn(Optional.of(sessaoFactory()));
 
-        Sessao resultadoAtual = sessaoService.obterSessao(ID);
+        SessaoVotacao resultadoAtual = sessaoVotacaoService.obterSessao(ID);
 
         assertThat(resultadoAtual.getPauta().getTitulo()).isEqualTo(resultadoEsperado.getPauta().getTitulo());
         assertThat(resultadoAtual.getPauta()).isEqualTo(resultadoEsperado.getPauta());
         assertThat(resultadoAtual.getInicioSessao()).isEqualTo(resultadoEsperado.getInicioSessao());
-        verify(sessaoRepository).findById(ID);
+        verify(sessaoVotacaoRepository).findById(ID);
     }
 
     @Test
     @DisplayName("Deve retornar uma exception quando sessao não existir")
     void deveRetornarExceptionQuandoSessaoInexistente() {
-        when(sessaoRepository.findById(ID)).thenReturn(Optional.empty());
+        when(sessaoVotacaoRepository.findById(ID)).thenReturn(Optional.empty());
 
-        assertThrows(SessaoException.class, () ->
-                sessaoService.obterSessao(ID));
+        assertThrows(SessaoVotacaoException.class, () ->
+                sessaoVotacaoService.obterSessao(ID));
     }
 }

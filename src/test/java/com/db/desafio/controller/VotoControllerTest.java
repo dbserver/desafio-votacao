@@ -1,7 +1,6 @@
 package com.db.desafio.controller;
 
 
-import com.db.desafio.service.VotoService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

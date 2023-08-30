@@ -1,7 +1,5 @@
 package com.db.desafio.service;
 
-import com.db.desafio.exception.VotoException;
-import com.db.desafio.repository.VotoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +24,7 @@ public class VotoServiceTest {
     private VotoRepository votoRepository;
 
    @Mock
-    private SessaoService sessaoService;
+    private SessaoVotacaoService sessaoVotacaoService;
    @Mock
    private AssociadoService associadoService;
     public static final Long ID = 1L;
@@ -37,13 +35,13 @@ public class VotoServiceTest {
     @DisplayName("Deve Salvar um novo voto")
     void deveSalvarVoto()  {
         when(pautaService.obterPautaPorId(ID)).thenReturn(pautaFactory());
-        when(sessaoService.retonarSesaoAberta(ID)).thenReturn(sessaoFactory());
+        when(sessaoVotacaoService.retonarSesaoAberta(ID)).thenReturn(sessaoFactory());
         when(associadoService.obterAssociadoPorCpf(any())).thenReturn(associadoFactory());
         when(votoRepository.existsByPautaIdAndAssociadoId(ID,ID)).thenReturn(false);
 
        votoService.salvarVoto(ID,votoDtoFactory());
 
-        verify(sessaoService, times(1)).retonarSesaoAberta(ID);
+        verify(sessaoVotacaoService, times(1)).retonarSesaoAberta(ID);
         verify(pautaService, times(1)).obterPautaPorId(ID);
         verify(votoRepository, times(1)).existsByPautaIdAndAssociadoId(ID,ID);
         verify(associadoService, times(1)).obterAssociadoPorCpf(any());
@@ -52,7 +50,7 @@ public class VotoServiceTest {
     @DisplayName("Deve retor uma exceção quando associado ja votou")
     void NaoDeveSalvarQaundoassociadoVotou()  {
         when(pautaService.obterPautaPorId(ID)).thenReturn(pautaFactory());
-        when(sessaoService.retonarSesaoAberta(ID)).thenReturn(sessaoFactory());
+        when(sessaoVotacaoService.retonarSesaoAberta(ID)).thenReturn(sessaoFactory());
         when(associadoService.obterAssociadoPorCpf(any())).thenReturn(associadoFactory());
         when(votoRepository.existsByPautaIdAndAssociadoId(ID,ID)).thenReturn(true);
 

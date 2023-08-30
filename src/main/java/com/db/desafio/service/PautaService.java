@@ -2,7 +2,6 @@ package com.db.desafio.service;
 
 import com.db.desafio.dto.PautaResultadoDto;
 import com.db.desafio.entity.Pauta;
-import com.db.desafio.enumerate.VotoEnum;
 import com.db.desafio.exception.PautaException;
 import com.db.desafio.repository.PautaRepository;
 import lombok.AllArgsConstructor;
@@ -38,7 +37,7 @@ public class PautaService {
     }
     public PautaResultadoDto obterResultadoPauta(Long pautaId) {
         Pauta pauta = obterPautaPorId(pautaId);
-        if (pauta.getSessao().getVotos().isEmpty()){
+        if (pauta.getSessaoVotacao().getVotos().isEmpty()){
              throw new PautaException("Pauta ainda não foi votada");
         }
         return new PautaResultadoDto(pauta.getTitulo(), pauta.obterResultado());

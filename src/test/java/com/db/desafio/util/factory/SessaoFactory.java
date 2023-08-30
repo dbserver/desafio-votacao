@@ -2,7 +2,7 @@ package com.db.desafio.util.factory;
 
 
 
-import com.db.desafio.entity.Sessao;
+import com.db.desafio.entity.SessaoVotacao;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,18 +16,18 @@ public class SessaoFactory {
 
 
 
-    public static Sessao sessaoFactory(){
-        return new Sessao(1L,pautaFactory(),INICIO, ENCERRAMENTO);
+    public static SessaoVotacao sessaoFactory(){
+        return new SessaoVotacao(1L,pautaFactory(),INICIO, ENCERRAMENTO);
 
     }
-    public static Sessao sessaoSemIdFactory(){
-        return new Sessao(pautaFactory(),INICIO, ENCERRAMENTO);
+    public static SessaoVotacao sessaoSemIdFactory(){
+        return new SessaoVotacao(pautaFactory(),INICIO, ENCERRAMENTO);
 
     }
 
-    public static List<Sessao> ListaDeSessoesFactory(){
-        return List.of(new Sessao(1L,pautaFactory(),INICIO,ENCERRAMENTO)
-                ,new Sessao(2L,pautaFactory(),INICIO,ENCERRAMENTO));
+    public static List<SessaoVotacao> ListaDeSessoesFactory(){
+        return List.of(new SessaoVotacao(1L,pautaFactory(),INICIO,ENCERRAMENTO)
+                ,new SessaoVotacao(2L,pautaFactory(),INICIO,ENCERRAMENTO));
     }
 
 

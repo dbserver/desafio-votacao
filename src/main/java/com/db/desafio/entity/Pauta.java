@@ -9,9 +9,6 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-import static java.util.Arrays.stream;
-
-
 @NoArgsConstructor
 @Getter
 @Setter
@@ -30,7 +27,7 @@ public class Pauta {
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
     @OneToOne
-    private Sessao sessao;
+    private SessaoVotacao sessaoVotacao;
 
 
     public Pauta(Long id, String titulo, String descricao) {
@@ -61,7 +58,7 @@ public class Pauta {
         return this.obterVotosPorTipo(VotoEnum.SIM) >= obterVotosPorTipo(VotoEnum.NAO)? "Aprovado" : "Rejeitado";
     }
     private Long obterVotosPorTipo(VotoEnum votoEnum) {
-        return this.sessao.getVotos().stream().filter(v -> v.getVotoEnum().equals(votoEnum)).count();
+        return this.sessaoVotacao.getVotos().stream().filter(v -> v.getVotoEnum().equals(votoEnum)).count();
     }
 
 }

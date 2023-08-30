@@ -1,8 +1,8 @@
 package com.db.desafio.controller;
 
 
-import com.db.desafio.exception.SessaoException;
-import com.db.desafio.service.SessaoService;
+import com.db.desafio.exception.SessaoVotacaoException;
+import com.db.desafio.service.SessaoVotacaoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SessaoController.class)
- class SessaoControllerTest {
+@WebMvcTest(SessaoVotacaoController.class)
+ class SessaoVotacaoControllerTest {
 
     @MockBean
-    private SessaoService sessaoService;
+    private SessaoVotacaoService sessaoVotacaoService;
     @Autowired
     private MockMvc mockMvc;
 
@@ -31,43 +31,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @DisplayName("Deve retornar status 201 quando uma nova sessao for aberta")
     void deveRetornar201QuandoSessaoForAbertaComSucesso() throws Exception {
-        doNothing().when(sessaoService).abrirSessao(ID);
+        doNothing().when(sessaoVotacaoService).abrirSessao(ID);
         mockMvc.perform(post(URI_SESSAO)
                         .param("pautaId","1"))
                 .andExpect(status().isCreated());
-        verify(sessaoService, times(1)).abrirSessao(ID);
+        verify(sessaoVotacaoService, times(1)).abrirSessao(ID);
     }
     @Test
     @DisplayName("Deve retornar status 200 ao busca uma lista de sessoes")
     void deveRetornar200QuandoBuscarListaDesessoesComSucesso() throws Exception {
-        when(sessaoService.obterSessoes()).thenReturn(ListaDeSessoesFactory());
+        when(sessaoVotacaoService.obterSessoes()).thenReturn(ListaDeSessoesFactory());
 
         mockMvc.perform(get(URI_SESSAO)
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());
-        verify(sessaoService,times(1)).obterSessoes();
+        verify(sessaoVotacaoService,times(1)).obterSessoes();
     }
     @Test
     @DisplayName("Deve retornar status 200 ao busca sessao por id")
     void deveRetornar200QuandoBuscarSessaoComSucesso() throws Exception {
 
-        when(sessaoService.obterSessao(ID)).thenReturn(sessaoSemIdFactory());
+        when(sessaoVotacaoService.obterSessao(ID)).thenReturn(sessaoSemIdFactory());
 
         mockMvc.perform(get(URI_SESSAO_ID)
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());
-        verify(sessaoService,times(1)).obterSessao(ID);
+        verify(sessaoVotacaoService,times(1)).obterSessao(ID);
     }
 
     @Test
     @DisplayName("Deve retornar status 404 quando Buscar um sessao inexistente")
     void deveRetornar404QuandoSessaoInexiste() throws Exception {
 
-        when(sessaoService.obterSessao(ID)).thenThrow(SessaoException.class);
+        when(sessaoVotacaoService.obterSessao(ID)).thenThrow(SessaoVotacaoException.class);
 
         mockMvc.perform(get(URI_SESSAO_ID))
                 .andExpect(status().isNotFound());
-        verify(sessaoService,times(1)).obterSessao(ID);
+        verify(sessaoVotacaoService,times(1)).obterSessao(ID);
     }
 
 

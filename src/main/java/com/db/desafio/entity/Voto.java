@@ -3,18 +3,15 @@ package com.db.desafio.entity;
 
 import com.db.desafio.enumerate.VotoEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@ToString
 @Table(name = "tb_voto")
 public class Voto {
     @Id
@@ -26,8 +23,8 @@ public class Voto {
     private VotoEnum votoEnum;
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "id_sessao")
-    private Sessao sessao;
+    @JoinColumn(name = "id_sessaoVotacao")
+    private SessaoVotacao sessaoVotacao;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "id_associado")

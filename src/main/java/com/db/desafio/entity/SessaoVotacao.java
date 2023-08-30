@@ -4,20 +4,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@ToString
-@Table(name = "tb_sessao")
-public class Sessao {
+@Table(name = "tb_sessaoVotacao")
+public class SessaoVotacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,23 +21,23 @@ public class Sessao {
     private Pauta pauta;
     @Column(name = "inicioSessao")
     private LocalDateTime inicioSessao = LocalDateTime.now();
-    @Column(name = "finalsessao")
+    @Column(name = "finalSessao")
     private LocalDateTime finalSessao = inicioSessao.plusMinutes(1);
-    @OneToMany(mappedBy = "sessao", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "sessaoVotacao", cascade = {CascadeType.ALL})
     private List<Voto> votos ;
 
-    public Sessao(Pauta pauta) {
+    public SessaoVotacao(Pauta pauta) {
         this.pauta = pauta;
     }
 
-    public Sessao(Long id, Pauta pauta, LocalDateTime inicioSessao, LocalDateTime finalSessao) {
+    public SessaoVotacao(Long id, Pauta pauta, LocalDateTime inicioSessao, LocalDateTime finalSessao) {
         this.id = id;
         this.pauta = pauta;
         this.inicioSessao = inicioSessao;
         this.finalSessao = finalSessao;
     }
 
-    public Sessao(Pauta pauta, LocalDateTime inicioSessao, LocalDateTime finalSessao) {
+    public SessaoVotacao(Pauta pauta, LocalDateTime inicioSessao, LocalDateTime finalSessao) {
         this.pauta = pauta;
         this.inicioSessao = inicioSessao;
         this.finalSessao = finalSessao;
