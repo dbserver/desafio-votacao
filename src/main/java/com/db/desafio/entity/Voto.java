@@ -26,16 +26,15 @@ public class Voto {
     private VotoEnum votoEnum;
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "pauta_id")
-    private Pauta pauta;
+    @JoinColumn(name = "id_sessao")
+    private Sessao sessao;
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "associado_id")
+    @JoinColumn(name = "id_associado")
     private Associado associado;
 
-    public Voto(VotoEnum votoEnum, Pauta pauta, Associado associado) {
+    public Voto(VotoEnum votoEnum, Associado associado) {
         this.votoEnum = votoEnum;
-        this.pauta = pauta;
         this.associado = associado;
     }
 }

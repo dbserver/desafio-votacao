@@ -8,6 +8,8 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -20,12 +22,13 @@ public class Sessao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "pauta_id")
     private Pauta pauta;
     @Column(name = "inicioSessao")
-    private LocalDateTime inicioSessao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+    private LocalDateTime inicioSessao = LocalDateTime.now();
     @Column(name = "finalsessao")
     private LocalDateTime finalSessao = inicioSessao.plusMinutes(1);
+    @OneToMany(mappedBy = "sessao", cascade = {CascadeType.ALL})
+    private List<Voto> votos ;
 
     public Sessao(Pauta pauta) {
         this.pauta = pauta;

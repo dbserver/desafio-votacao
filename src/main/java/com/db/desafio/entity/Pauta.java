@@ -1,16 +1,15 @@
 package com.db.desafio.entity;
 
 import com.db.desafio.enumerate.VotoEnum;
-import com.db.desafio.exception.PautaException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+
+import static java.util.Arrays.stream;
 
 
 @NoArgsConstructor
@@ -30,8 +29,8 @@ public class Pauta {
     @NotBlank
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
-    @OneToMany(mappedBy = "pauta")
-    private List<Voto> votos = new ArrayList<>();
+    @OneToOne
+    private Sessao sessao;
 
 
     public Pauta(Long id, String titulo, String descricao) {
@@ -59,14 +58,10 @@ public class Pauta {
     }
 
     public String obterResultado(){
-        if (votos == null){
-            throw new PautaException("Pauta não votada");
-        }
         return this.obterVotosPorTipo(VotoEnum.SIM) >= obterVotosPorTipo(VotoEnum.NAO)? "Aprovado" : "Rejeitado";
     }
     private Long obterVotosPorTipo(VotoEnum votoEnum) {
-        return this.votos.stream().filter(v -> v.getVotoEnum().equals(votoEnum)).count();
+        return this.sessao.getVotos().stream().filter(v -> v.getVotoEnum().equals(votoEnum)).count();
     }
-
 
 }

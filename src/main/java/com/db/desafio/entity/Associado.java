@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -26,6 +27,8 @@ public class Associado {
     @Column(name = "cpf",length = 14)
     @CPF(message = "CPF inválido")
     private String cpf;
+    @OneToMany(mappedBy = "associado", cascade = {CascadeType.ALL})
+    private List<Voto> votos ;
 
     public Associado(String nome, String cpf) {
         this.nome = nome;
