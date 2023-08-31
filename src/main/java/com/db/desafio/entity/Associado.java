@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +25,7 @@ public class Associado {
     private String nome;
     @NotBlank
     @Column(name = "cpf",length = 14)
+    @CPF
     private String cpf;
     @OneToMany(mappedBy = "associado", cascade = {CascadeType.ALL})
     private List<Voto> votos ;

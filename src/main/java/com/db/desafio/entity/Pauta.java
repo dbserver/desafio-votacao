@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.Objects;
 
@@ -14,7 +13,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@ToString
 @Table(name = "tb_pauta")
 public class Pauta {
     @Id

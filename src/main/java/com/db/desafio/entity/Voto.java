@@ -7,13 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@ToString
 @Table(name = "tb_voto")
 public class Voto {
     @Id
