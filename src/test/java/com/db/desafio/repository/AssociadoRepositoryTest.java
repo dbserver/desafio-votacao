@@ -23,7 +23,7 @@ class AssociadoRepositoryTest {
     private AssociadoRepository associadoRepository;
 
     @Test
-    void validaQueryBuscaPautaPorTitulo(){
+    void validaQueryBuscaAssociadoaPorCpF(){
         Associado resultadoEsperado = new Associado("Joao","123.456.789-01");
 
         Optional<Associado> resultadoAtual = associadoRepository.findByCpf("123.456.789-01");
