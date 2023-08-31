@@ -39,6 +39,13 @@ Execute o seguinte comando para iniciar o contêiner PostgreSQL:
 
 Seu banco de dados PostgreSQL agora deve estar em execução em um contêiner Docker.
 
+## Documentação
+
+Api documentada com o Swagger.
+
+Para ver acesse:
+http://localhost:8080/swagger-ui.html#/
+
 
 
 
