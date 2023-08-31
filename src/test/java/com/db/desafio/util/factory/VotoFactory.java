@@ -2,7 +2,6 @@ package com.db.desafio.util.factory;
 
 
 import com.db.desafio.dto.VotoDto;
-import com.db.desafio.entity.Associado;
 import com.db.desafio.entity.Voto;
 import com.db.desafio.enumerate.VotoEnum;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 import static com.db.desafio.util.factory.AssociadoFactory.associadoFactory;
 import static com.db.desafio.util.factory.AssociadoFactory.associadoFactory2;
-import static com.db.desafio.util.factory.PautaFactory.pautaFactory;
 
 
 public class VotoFactory {

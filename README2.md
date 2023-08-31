@@ -33,9 +33,9 @@ src/main/resources/application.yml.
 ### Uso
 
 #### Usando Docker Compose para PostgreSQL
-Execute o seguinte comando para iniciar o contêiner PostgreSQL:
+Execute o seguinte comando para criar e  iniciar o contêiner PostgreSQL:
 
-`docker-compose up -d`
+`docker run --name desafio-votacao -p 5432:5432  -e POSTGRES_PASSWORD=1234 -d postgres`
 
 Seu banco de dados PostgreSQL agora deve estar em execução em um contêiner Docker.
 
