@@ -8,6 +8,10 @@ spring:
     hibernate:
       format_sql: true
       ddl-auto: update
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 server:
   error:
     include-stacktrace: never
+
