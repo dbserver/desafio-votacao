@@ -8,9 +8,13 @@ spring:
     hibernate:
       format_sql: true
       ddl-auto: update
-  mvc:
-    pathmatch:
-      matching-strategy: ant-path-matcher
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+
 server:
   error:
     include-stacktrace: never
