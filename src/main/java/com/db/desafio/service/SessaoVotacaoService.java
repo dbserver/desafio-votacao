@@ -29,7 +29,7 @@ public class SessaoVotacaoService {
 
     public SessaoVotacao obterSessao(Long id) {
         return sessaoVotacaoRepository.findById(id)
-                .orElseThrow(() -> new SessaoVotacaoException("Sessao inexistente"));
+                .orElseThrow(() -> new SessaoVotacaoException("Sessão de Votação inexistente"));
     }
 
     public List<SessaoVotacao> obterSessoes() {
@@ -40,10 +40,10 @@ public class SessaoVotacaoService {
     public SessaoVotacao retornarSessaoAberta(Long id) {
         LocalDateTime encerrarSessao = LocalDateTime.now();
         SessaoVotacao sessaoVotacao = sessaoVotacaoRepository.findById(id).
-                orElseThrow(() -> new SessaoVotacaoException("Sessao inexistente"));
+                orElseThrow(() -> new SessaoVotacaoException("Sessão de Votação"));
 
         if (encerrarSessao.isAfter(sessaoVotacao.getFinalSessao())) {
-            throw new SessaoVotacaoException("Sessão já está encerrada");
+            throw new SessaoVotacaoException("Sessão de Votação já está encerrada");
         }
         return sessaoVotacao;
     }
