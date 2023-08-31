@@ -8,10 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.List;
 import java.util.Optional;
-
-import static com.db.desafio.util.factory.PautaFactory.pautaSemIdFactory;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -28,6 +25,7 @@ class PautaRepositoryTest {
         Optional<Pauta> resultadoAtual = pautaRepository.findByTitulo("Pauta1");
 
         Assertions.assertEquals(resultadoEsperado.getDescricao(),resultadoAtual.get().getDescricao());
+        Assertions.assertEquals(resultadoEsperado.getTitulo(),resultadoAtual.get().getTitulo());
 
     }
 }

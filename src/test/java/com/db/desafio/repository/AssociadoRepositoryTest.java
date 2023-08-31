@@ -1,7 +1,6 @@
 package com.db.desafio.repository;
 
 import com.db.desafio.entity.Associado;
-import com.db.desafio.entity.Pauta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +29,7 @@ class AssociadoRepositoryTest {
         Optional<Associado> resultadoAtual = associadoRepository.findByCpf("123.456.789-01");
 
        Assertions.assertEquals(resultadoEsperado.getCpf(),resultadoAtual.get().getCpf());
+       Assertions.assertEquals(resultadoEsperado.getNome(),resultadoAtual.get().getNome());
 
 
     }
