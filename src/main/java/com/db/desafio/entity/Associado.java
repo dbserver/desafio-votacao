@@ -25,7 +25,7 @@ public class Associado {
     private String nome;
     @NotBlank
     @Column(name = "cpf",length = 14)
-    @CPF
+    @CPF(message = "CPF invalido")
     private String cpf;
     @OneToMany(mappedBy = "associado", cascade = {CascadeType.ALL})
     private List<Voto> votos ;
