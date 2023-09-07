@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: update
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+
+server:
+  error:
+    include-stacktrace: never
+
