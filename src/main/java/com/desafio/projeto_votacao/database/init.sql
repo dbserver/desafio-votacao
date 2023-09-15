@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS "ASSOCIADO" (
+    "id" SERIAL PRIMARY KEY,
+    "nome" INTEGER,
+    "cpf" INTEGER,
+    "id_voto" INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "PAUTA" (
+    "id" INTEGER NOT NULL,
+    "titulo" TEXT NOT NULL,
+    "descricao" TEXT NOT NULL,
+    "id_sessao" INTEGER NOT NULL,
+    PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "SESSAO" (
+    "id" SERIAL PRIMARY KEY,
+    "tempoSessao" NUMERIC NOT NULL,
+    "votos" INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS "VOTO" (
+    "id" SERIAL PRIMARY KEY,
+    "tp_voto" TEXT,
+    "id_sessao" INTEGER NOT NULL,
+    "id_associado" INTEGER NOT NULL
+);
+
+ALTER TABLE IF EXISTS "ASSOCIADO"
+ADD CONSTRAINT IF NOT EXISTS "fk_associado_voto"
+FOREIGN KEY ("id_voto") REFERENCES "VOTO" ("id");
+
+ALTER TABLE IF EXISTS "PAUTA"
+ADD CONSTRAINT IF NOT EXISTS "fk_pauta_sessao"
+FOREIGN KEY ("id_sessao") REFERENCES "SESSAO" ("id");
+
+ALTER TABLE IF EXISTS "VOTO"
+ADD CONSTRAINT IF NOT EXISTS "fk_voto_sessao"
+FOREIGN KEY ("id_sessao") REFERENCES "SESSAO" ("id");
+
+ALTER TABLE IF EXISTS "VOTO"
+ADD CONSTRAINT IF NOT EXISTS "fk_voto_associado"
+FOREIGN KEY ("id_associado") REFERENCES "ASSOCIADO" ("id");
