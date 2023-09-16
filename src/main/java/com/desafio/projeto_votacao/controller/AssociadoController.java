@@ -2,7 +2,7 @@ package com.desafio.projeto_votacao.controller;
 
 import com.desafio.projeto_votacao.dto.AssociadoDto;
 import com.desafio.projeto_votacao.dto.AssociadoRequestDto;
-import com.desafio.projeto_votacao.service.impl.AssociadoServiceImpl;
+import com.desafio.projeto_votacao.service.AssociadoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +18,7 @@ import java.util.List;
 @Tag(name = "Associados", description = "API para gerenciar associados")
 public class AssociadoController {
 
-    private final AssociadoServiceImpl associadoService;
+    private final AssociadoService associadoService;
 
     @PostMapping("/cadastrar")
     @Operation(summary = "Cadastrar Associado", description = "Endpoint para cadastrar um novo associado.")
