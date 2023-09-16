@@ -8,16 +8,15 @@ import com.desafio.projeto_votacao.entity.Sessao;
 import com.desafio.projeto_votacao.enums.VotoEnum;
 import com.desafio.projeto_votacao.exceptions.CustomException;
 import com.desafio.projeto_votacao.repository.PautaRepository;
+import com.desafio.projeto_votacao.repository.SessaoRepository;
 import com.desafio.projeto_votacao.service.PautaService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,6 +26,7 @@ import java.util.TimerTask;
 public class PautaServiceImpl implements PautaService {
 
     private final PautaRepository pautaRepository;
+    private final SessaoRepository sessaoRepository;
     private final AssociadoServiceImpl associadoService;
     private final SessaoServiceImpl sessaoService;
     private final VotoServiceImpl votoService;
@@ -43,6 +43,10 @@ public class PautaServiceImpl implements PautaService {
             throw new CustomException(HttpStatus.NOT_FOUND, "Não há associados cadastrados.");
         }
 
+        if (sessaoRepository.existsByStatusIsTrue()){
+            throw new CustomException(HttpStatus.CONFLICT, "Já existe uma pauta com a sessão aberta.");
+        }
+
         Pauta pauta = Pauta.builder()
                 .titulo(titulo)
                 .descricao(descricao)
@@ -52,7 +56,7 @@ public class PautaServiceImpl implements PautaService {
 
         tempoSessao = (tempoSessao == 0 || tempoSessao > 60) ? tempoSessao : TEMPO_SESSAO_DEFAULT;
 
-        Sessao sessaoEntity = new Sessao();
+        Sessao sessaoEntity = sessaoService.abrirSessaoVotacao(tempoSessao, pauta);
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
