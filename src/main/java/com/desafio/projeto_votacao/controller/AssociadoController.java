@@ -1,6 +1,7 @@
 package com.desafio.projeto_votacao.controller;
 
 import com.desafio.projeto_votacao.dto.AssociadoDto;
+import com.desafio.projeto_votacao.dto.AssociadoRequestDto;
 import com.desafio.projeto_votacao.service.impl.AssociadoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,9 +29,8 @@ public class AssociadoController {
     @ApiResponse(responseCode = "500", description = "Erro interno.")
 
     public ResponseEntity<String> cadastrarAssociado(
-            @RequestParam(required = false) String nome,
-            @RequestParam(required = false) String cpf) {
-        associadoService.cadastrarAssociado(nome, cpf);
+           @RequestBody AssociadoRequestDto associadoRequestDto) {
+        associadoService.cadastrarAssociado(associadoRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Associado cadastrado com sucesso.");
     }
 

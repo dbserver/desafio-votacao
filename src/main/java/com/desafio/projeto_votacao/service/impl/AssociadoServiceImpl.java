@@ -1,6 +1,7 @@
 package com.desafio.projeto_votacao.service.impl;
 
 import com.desafio.projeto_votacao.dto.AssociadoDto;
+import com.desafio.projeto_votacao.dto.AssociadoRequestDto;
 import com.desafio.projeto_votacao.entity.Associado;
 import com.desafio.projeto_votacao.exceptions.CustomException;
 import com.desafio.projeto_votacao.repository.AssociadoRepository;
@@ -25,25 +26,26 @@ public class AssociadoServiceImpl implements AssociadoService {
     private final ModelMapper modelMapper;
 
     @Override
-    public AssociadoDto cadastrarAssociado(String nome, String cpf) {
+    public AssociadoDto cadastrarAssociado(AssociadoRequestDto request) {
 
-        if (validationAssociado.nomeVazioOuNulo(nome) || validationAssociado.cpfVazioOuNulo(cpf))
+        if (validationAssociado.nomeVazioOuNulo(request.getNome())
+                || validationAssociado.cpfVazioOuNulo(request.getCpf()))
             throw new CustomException(HttpStatus.BAD_REQUEST, "Nome ou Cpf não podem ser vazios.");
 
-        if (!cpf.isEmpty())
-            validationAssociado.removerMascaraCPF(cpf);
+        if (!request.getCpf().isEmpty())
+            validationAssociado.removerMascaraCPF(request.getCpf());
 
-        if (validationAssociado.existeAssociadoComCPF(cpf)) {
+        if (validationAssociado.existeAssociadoComCPF(request.getCpf())) {
             throw new CustomException(HttpStatus.CONFLICT, "Já existe um associado com esse cpf.");
         }
 
-        if (!CpfValidator.isValid(cpf)) {
+        if (!CpfValidator.isValid(request.getCpf())) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "Cpf não é válido.");
         }
 
         Associado associado = Associado.builder()
-                .nome(nome)
-                .cpf(cpf)
+                .nome(request.getNome())
+                .cpf(request.getCpf())
                 .build();
 
 
