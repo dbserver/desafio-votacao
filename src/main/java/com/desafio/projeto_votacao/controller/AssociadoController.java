@@ -6,6 +6,7 @@ import com.desafio.projeto_votacao.service.AssociadoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,13 @@ public class AssociadoController {
     @Operation(summary = "Cadastrar Associado", description = "Endpoint para cadastrar um novo associado.")
     @ApiResponse(responseCode = "201", description = "Associado cadastrado com sucesso.")
     @ApiResponse(responseCode = "400", description = "Nome ou Cpf não podem ser vazios.")
+    @ApiResponse(responseCode = "400", description = "Nome não é válido.")
     @ApiResponse(responseCode = "400", description = "Cpf não é válido.")
     @ApiResponse(responseCode = "409", description = "Já existe um associado com esse cpf.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
 
     public ResponseEntity<String> cadastrarAssociado(
-           @RequestBody AssociadoRequestDto associadoRequestDto) {
+            @RequestBody @Valid AssociadoRequestDto associadoRequestDto) {
         associadoService.cadastrarAssociado(associadoRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Associado cadastrado com sucesso.");
     }

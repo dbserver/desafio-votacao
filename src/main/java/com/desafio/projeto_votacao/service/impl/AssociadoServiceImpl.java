@@ -7,12 +7,10 @@ import com.desafio.projeto_votacao.exceptions.CustomException;
 import com.desafio.projeto_votacao.repository.AssociadoRepository;
 import com.desafio.projeto_votacao.service.AssociadoService;
 import com.desafio.projeto_votacao.utils.AssociadoValidator;
-import com.desafio.projeto_votacao.utils.CpfValidator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,19 +26,10 @@ public class AssociadoServiceImpl implements AssociadoService {
     @Override
     public AssociadoDto cadastrarAssociado(AssociadoRequestDto request) {
 
-        if (validationAssociado.nomeVazioOuNulo(request.getNome())
-                || validationAssociado.cpfVazioOuNulo(request.getCpf()))
-            throw new CustomException(HttpStatus.BAD_REQUEST, "Nome ou Cpf não podem ser vazios.");
-
-        if (!request.getCpf().isEmpty())
-            validationAssociado.removerMascaraCPF(request.getCpf());
+        validationAssociado.removerMascaraCPF(request.getCpf());
 
         if (validationAssociado.existeAssociadoComCPF(request.getCpf())) {
             throw new CustomException(HttpStatus.CONFLICT, "Já existe um associado com esse cpf.");
-        }
-
-        if (!CpfValidator.isValid(request.getCpf())) {
-            throw new CustomException(HttpStatus.BAD_REQUEST, "Cpf não é válido.");
         }
 
         Associado associado = Associado.builder()
