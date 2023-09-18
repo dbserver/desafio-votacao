@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class ProjetoVotacaoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjetoVotacaoApplication.class, args);
+		SpringApplication.run(ProjetoVotacaoApplication.class);
 	}
 	@Bean
 	public ModelMapper modelMapper() {

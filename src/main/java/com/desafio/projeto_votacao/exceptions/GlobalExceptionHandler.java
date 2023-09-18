@@ -1,6 +1,5 @@
 package com.desafio.projeto_votacao.exceptions;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,9 +22,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = new ArrayList<>();
-        ex.getBindingResult().getFieldErrors().forEach(fieldError -> {
+        for (org.springframework.validation.FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
             fieldErrors.add(new FieldError(fieldError.getField(), fieldError.getDefaultMessage()));
-        });
+        }
         ValidationErrorResponse errorResponse = new ValidationErrorResponse(HttpStatus.BAD_REQUEST.value(),
                 "Erro de validação", fieldErrors);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

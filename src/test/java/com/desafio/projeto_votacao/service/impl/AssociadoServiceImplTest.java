@@ -37,36 +37,11 @@ class AssociadoServiceImplTest {
 
     private final static String nome = "João";
     private final static String cpf = "01303935090";
-
-
-    /*@Test
-    @DisplayName("Teste o método cadastrarAssociado - Nome inválido")
-    void testCadastrarAssociadoWithInvalidName(){
-
-        Assertions.assertThrows(CustomException.class, () -> associadoService.cadastrarAssociado(AssociadoRequestDto
-                .builder()
-                .nome("dsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsas" +
-                        "dsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsads" +
-                        "dasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasds" +
-                        "adsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsad" +
-                        "adsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsad")
-                .cpf(cpf)
-                .build()));
-    }*/
-
-    /*@Test
-    @DisplayName("Teste o método cadastrarAssociado - Nome vazio")
-    void testCadastrarAssociadoWithEmptyName() {
-
-        boolean teste =  Strings.isEmpty("");
-
-        Assertions.assertThrows(CustomException.class, () -> associadoService.cadastrarAssociado(AssociadoRequestDto
-                .builder()
-                .nome("")
-                .cpf(cpf)
-                .build()));
-    }*/
-
+    private final static AssociadoRequestDto request = AssociadoRequestDto
+            .builder()
+            .nome(nome)
+            .cpf(cpf)
+            .build();
     @Test
     @DisplayName("Teste do método cadastrarAssociado - CPF válido e inexistente")
     void testCadastrarAssociadoWithValidCPFAndNotExisting() {
@@ -104,51 +79,13 @@ class AssociadoServiceImplTest {
         assertEquals(cpf, result.getCpf());
     }
 
-    /*@Test
-    @DisplayName("Teste do método cadastrarAssociado - Nome inválido")
-    void testCadastrarAssociadoWithInvalidNome() {
-
-        String nomeInvalido = "dsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsaadd" +
-                "dsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsad" +
-                "sadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsads" +
-                "adsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsa" +
-                "adsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsadsadsadsdasdsa";
-
-        //when(validationAssociado.nomeVazioOuNulo(nomeInvalido)).thenReturn(false);
-        //when(validationAssociado.cpfVazioOuNulo(cpf)).thenReturn(false);
-
-        assertThrows(CustomException.class, () -> associadoService.cadastrarAssociado(AssociadoRequestDto
-                .builder()
-                .nome(nomeInvalido)
-                .cpf(cpf)
-                .build()));
-    }*/
-
-    /*@Test
-    @DisplayName("Teste do método cadastrarAssociado - CPF inválido")
-    void testCadastrarAssociadoWithInvalidCPF() {
-
-        //when(validationAssociado.nomeVazioOuNulo(nome)).thenReturn(false);
-        //when(validationAssociado.cpfVazioOuNulo("00000000001")).thenReturn(false);
-
-        assertThrows(CustomException.class, () -> associadoService.cadastrarAssociado(AssociadoRequestDto
-                .builder()
-                .nome(nome)
-                .cpf("00000000001")
-                .build()));
-    }*/
-
     @Test
     @DisplayName("Teste do método cadastrarAssociado - CPF já existente")
     void testCadastrarAssociadoWithExistingCPF() {
 
         when(validationAssociado.removerMascaraCPF(cpf)).thenReturn(cpf);
         when(validationAssociado.existeAssociadoComCPF(cpf)).thenReturn(true);
-        assertThrows(CustomException.class, () -> associadoService.cadastrarAssociado(AssociadoRequestDto
-                .builder()
-                .nome(nome)
-                .cpf(cpf)
-                .build()));
+        assertThrows(CustomException.class, () -> associadoService.cadastrarAssociado(request));
     }
 
     @Test
@@ -194,11 +131,7 @@ class AssociadoServiceImplTest {
         when(associadoRepository.save(any(Associado.class))).thenThrow(new RuntimeException("Erro interno"));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            associadoService.cadastrarAssociado(AssociadoRequestDto
-                    .builder()
-                    .nome(nome)
-                    .cpf(cpf)
-                    .build());
+            associadoService.cadastrarAssociado(request);
         });
 
         String expectedMessage = "Erro interno";
