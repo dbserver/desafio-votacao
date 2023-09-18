@@ -1,0 +1,15 @@
+# Ignorar arquivos e diretórios específicos
+arquivo.txt
+diretorio/
+
+# Ignorar todos os arquivos com uma extensão específica
+*.log
+
+# Ignorar todos os arquivos dentro de um diretório
+logs/*
+
+# Ignorar todos os arquivos dentro de um diretório, incluindo subdiretórios
+logs/**
+
+# Ignorar arquivos com um padrão específico
+**/arquivo*.txt
