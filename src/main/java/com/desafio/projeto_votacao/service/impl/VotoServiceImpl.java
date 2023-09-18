@@ -1,6 +1,7 @@
 package com.desafio.projeto_votacao.service.impl;
 
 import com.desafio.projeto_votacao.dto.VotoDto;
+import com.desafio.projeto_votacao.dto.VotoRequestDto;
 import com.desafio.projeto_votacao.entity.Associado;
 import com.desafio.projeto_votacao.entity.Pauta;
 import com.desafio.projeto_votacao.entity.Sessao;
@@ -12,7 +13,6 @@ import com.desafio.projeto_votacao.repository.SessaoRepository;
 import com.desafio.projeto_votacao.repository.VotoRepository;
 import com.desafio.projeto_votacao.service.VotoService;
 import com.desafio.projeto_votacao.utils.AssociadoValidator;
-import com.desafio.projeto_votacao.utils.CpfValidator;
 import com.desafio.projeto_votacao.utils.VotoValidator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,11 +32,9 @@ public class VotoServiceImpl implements VotoService {
     private final VotoValidator votoValidator;
     private final AssociadoValidator associadoValidator;
     @Override
-    public void registrarVoto(VotoEnum votoEnum, String cpfAssociado) {
+    public void registrarVoto(VotoEnum votoEnum, VotoRequestDto request) {
 
-        if (associadoValidator.cpfVazioOuNulo(cpfAssociado)) throw new CustomException(HttpStatus.BAD_REQUEST, "CPF não pode ser vazio ou nulo.");
-
-        if (!CpfValidator.isValid(cpfAssociado)) throw new CustomException(HttpStatus.BAD_REQUEST, "CPF inválido.");
+        String cpfAssociado = request.getCpfAssociado();
 
         cpfAssociado = associadoValidator.removerMascaraCPF(cpfAssociado);
 

@@ -1,17 +1,18 @@
 package com.desafio.projeto_votacao.controller;
 
+import com.desafio.projeto_votacao.dto.VotoRequestDto;
 import com.desafio.projeto_votacao.enums.VotoEnum;
 import com.desafio.projeto_votacao.service.VotoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,8 +33,8 @@ public class VotoController {
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     public ResponseEntity<String> votar(
             @RequestParam VotoEnum voto,
-            @RequestParam String cpfAssociado) {
-        votoService.registrarVoto(voto, cpfAssociado);
+            @RequestBody @Valid VotoRequestDto votoRequestDto) {
+        votoService.registrarVoto(voto, votoRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Voto registrado com sucesso.");
     }
 }
