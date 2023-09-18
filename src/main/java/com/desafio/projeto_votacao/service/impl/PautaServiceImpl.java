@@ -1,6 +1,7 @@
 package com.desafio.projeto_votacao.service.impl;
 
 import com.desafio.projeto_votacao.dto.PautaDto;
+import com.desafio.projeto_votacao.dto.PautaRequestDto;
 import com.desafio.projeto_votacao.dto.ResultadoVotacaoDto;
 import com.desafio.projeto_votacao.dto.VotoDto;
 import com.desafio.projeto_votacao.entity.Pauta;
@@ -37,7 +38,7 @@ public class PautaServiceImpl implements PautaService {
     private final WebClient webClient;
 
     @Override
-    public void cadastrarPauta(String titulo, String descricao, Integer tempoSessao) {
+    public void cadastrarPauta(PautaRequestDto request) {
 
         if (!associadoService.verificarAssociadosCadastrados()) {
             throw new CustomException(HttpStatus.NOT_FOUND, "Não há associados cadastrados.");
@@ -48,11 +49,13 @@ public class PautaServiceImpl implements PautaService {
         }
 
         Pauta pauta = Pauta.builder()
-                .titulo(titulo)
-                .descricao(descricao)
+                .titulo(request.getTitulo())
+                .descricao(request.getDescricao())
                 .build();
 
         pautaRepository.save(pauta);
+
+        Integer tempoSessao = request.getTempoSessao();
 
         tempoSessao = (tempoSessao == 0 || tempoSessao > 60) ? tempoSessao : TEMPO_SESSAO_DEFAULT;
 

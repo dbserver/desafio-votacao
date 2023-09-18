@@ -1,12 +1,14 @@
 package com.desafio.projeto_votacao.controller;
 
 import com.desafio.projeto_votacao.dto.PautaDto;
+import com.desafio.projeto_votacao.dto.PautaRequestDto;
 import com.desafio.projeto_votacao.dto.ResultadoVotacaoDto;
 import com.desafio.projeto_votacao.service.PautaService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -32,12 +35,9 @@ public class PautaController {
     @ApiResponse(responseCode = "409", description = "Já existe uma pauta com a sessão aberta.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     public ResponseEntity<String> cadastrarPauta(
-            @NotBlank(message = "O título é obrigatório.")
-            @RequestParam String titulo,
-            @NotBlank(message = "A descrição é obrigatória.")
-            @RequestParam String descricao,
-            @RequestParam(required = false, defaultValue = "1") Integer tempoSessao) {
-        pautaService.cadastrarPauta(titulo, descricao, tempoSessao);
+            @RequestBody @Valid PautaRequestDto  pautaRequestDto)
+    {
+        pautaService.cadastrarPauta(pautaRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Pauta cadastrada com sucesso.");
     }
 
