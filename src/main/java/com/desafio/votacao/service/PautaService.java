@@ -1,29 +1,20 @@
 package com.desafio.votacao.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.desafio.votacao.repository.PautaRepository;
+import com.desafio.votacao.dto.PautaDTO;
 
 @Service
-public class PautaService {
-
-	private PautaRepository pautaRepository;
-
-	@Autowired
-	public PautaService(PautaRepository pautaRepository) {
-		this.pautaRepository = pautaRepository;
-	}
+public interface PautaService {
+	
+	public void salvar(PautaDTO dto);
 
 	/**
-	 * Método utilizado para desativar Pautas de votações vencidas através de uma lista de Long.
-	 * @param pautaId Lista id de Pauta do tipo Long
+	 * Método utilizado para Registrar a quantidade de Votos em uma Pauta e desativar uma Pauta após fechamento de votação.
+	 * @param votosSim quantidade de votos sim na Pauta  registro do tipo Long
+	 * @param votosNao quantidade de votos não na Pauta  registro do tipo Long
+	 * @param pautaId  id de Pauta do tipo Long
 	 */
-	public void desativarPautas(List<Long> pautaId) {
-		this.pautaRepository.inativarPautaVotacaoVencida(pautaId);
-	}
-	
+	public void salvarVotos(Long votosSim, Long votosNao, Long pautaId); 
 	
 }

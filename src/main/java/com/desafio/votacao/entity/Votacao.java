@@ -3,6 +3,8 @@ package com.desafio.votacao.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,18 +27,19 @@ public class Votacao {
 	private Pauta pauta;
 
 	@OneToMany
-	private List<Associado> associado;
+	private List<Voto> votos;
 	
 	@Basic(optional = false)
-	@Column(name = "dth_criacao", nullable = false)	
-	private LocalDateTime dthCriacao = LocalDateTime.now();
+	@Column(name = "dth_criacao", nullable = false, columnDefinition="Coluna que representa a Data e Hora do Inicio da Votação.")	
+	@CreationTimestamp
+	private LocalDateTime dthCriacao;
 	
 	@Basic(optional = false)
-	@Column(name = "dth_fim", nullable = false)	
+	@Column(name = "dth_fim", nullable = false, columnDefinition="Coluna que representa a Data e Hora Final da Votação.")	
 	private LocalDateTime dthFim = calcularDataFim();
 
 	@Basic(optional = false)
-	@Column(name = "ativo", nullable = false)
+	@Column(name = "ativo", nullable = false, columnDefinition="Coluna que representa o Status da Votação 0 = 'Inativa' e 1 = 'Ativa'.")
 	private boolean ativo = true;
 	
 	private LocalDateTime calcularDataFim() { 
