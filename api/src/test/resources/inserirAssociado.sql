@@ -1,0 +1,1 @@
+INSERT INTO associados (nome, cpf) values ('Carla Silva','44271476072');
