@@ -30,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
