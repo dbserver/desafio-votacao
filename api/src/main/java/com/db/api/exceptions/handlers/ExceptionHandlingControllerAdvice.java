@@ -1,5 +1,6 @@
 package com.db.api.exceptions.handlers;
 
+import com.db.api.exceptions.AssociadoJaCadastradoException;
 import com.db.api.exceptions.BadRequestException;
 import com.db.api.exceptions.ParametrosInvalidosException;
 import com.db.api.exceptions.RegistroNaoEncontradoException;
@@ -38,6 +39,11 @@ public class ExceptionHandlingControllerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         ErrorResponse errorResponse = new ErrorResponse("Corpo da requisição inválido", Collections.singletonList(ex.getMessage()));
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(AssociadoJaCadastradoException.class)
+    public ResponseEntity<ErrorResponse> handleAssociadoJaCadastradoException(AssociadoJaCadastradoException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("CPF já cadastrado", Collections.singletonList(ex.getMessage()));
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(RuntimeException.class)
