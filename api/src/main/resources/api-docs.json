@@ -1,0 +1,99 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API - Votação de Pautas",
+    "description": "A API de Votação é uma plataforma que permite a realização de votações em pautas específicas. Ela oferece uma interface para criar novas pautas, registrar votos e consultar os resultados das votações. Essa API foi desenvolvida para facilitar a administração de processos de votação em diversos contextos, desde assembleias até decisões internas de uma organização",
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "pautas",
+      "description": "Gerenciar pautas da aplicação"
+    }
+  ],
+  "paths": {
+    "/pautas/cadastrar": {
+      "post": {
+        "tags": [
+          "pautas"
+        ],
+        "summary": "Cadastrar uma nova pauta",
+        "description": "Endpoint para cadastrar uma nova pauta na aplicação. Recebe um objeto JSON no corpo da requisição com os campos titulo (obrigatório) e descricao (opcional). Retorna 201 se a pauta for cadastrada com sucesso ou 422 se os dados da requisição forem inválidos.",
+        "requestBody": {
+          "description": "Cadastrar uma nova pauta na aplicação",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PautaDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Pauta cadastrada com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PautaDto"
+                },
+                "examples": {
+                  "PautaDto": {
+                    "value": "{\n    \"titulo\": \"titulo teste\",\n    \"descricao\": \"descricao teste\"\n}"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PautaDto"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Dados da requisição inválidos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "ErrorResponse": {
+                    "value": "{\n    \"mensagem\": \"Erro de validação\",\n    \"detalhes\": [\n        \"Por favor, informe o titulo da pauta.\"\n    ]\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PautaDto": {
+        "required": [
+          "titulo"
+        ],
+        "type": "object",
+        "properties": {
+          "titulo": {
+            "type": "string",
+            "example": "Titulo de pauta que deseja cadastrar"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Descrição da pauta que deseja cadastrar"
+          }
+        }
+      }
+    }
+  }
+}

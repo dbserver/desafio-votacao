@@ -146,3 +146,4 @@ gradle-app.setting
 .idea/sonarlint/issuestore/index.pb
 .idea/sonarlint/securityhotspotstore/index.pb
 api/src/main/resources/application-dev.properties
+*.pb
