@@ -2,9 +2,7 @@ package com.desafio.votacao.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.desafio.votacao.dto.VotoDTO;
+import com.desafio.votacao.dto.response.VotoDTO;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -12,31 +10,44 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Table(name="voto", uniqueConstraints={@UniqueConstraint(columnNames = {"associado_id" , "pauta_id"})})
+@NoArgsConstructor
 public class Voto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	/**
+	 * Coluna que representa a Data e hora do voto.
+	 */
 	@Basic(optional = false)
-	@Column(name = "dth_criacao", nullable = false, columnDefinition="Coluna que representa a Data e hora do voto.")
-	@CreationTimestamp
-	private LocalDateTime dthCriacao;
+	@Column(name = "dth_criacao", nullable = false)
+	private LocalDateTime dthCriacao = LocalDateTime.now();
 
+	/**
+	 * Coluna que representa o voto com os valores de 0 = 'Não' e 1 = 'Sim'.
+	 */
 	@Basic(optional = false)
-	@Column(name = "voto", nullable = false, columnDefinition="Coluna que representa o voto com os valores de 0 = 'Não' e 1 = 'Sim'.")
+	@Column(name = "voto", nullable = false)
 	private boolean voto;
 
-	@ManyToOne
+	@ManyToOne()
+    @JoinColumn(name = "pauta_id", nullable = false, referencedColumnName = "id", unique = false)
 	private Pauta pauta;
 
-	@OneToOne
+	@OneToOne()
+    @JoinColumn(name = "associado_id", nullable = false, referencedColumnName = "id", unique = false)
 	private Associado associado;
 	
 	public Voto(VotoDTO dto) {
@@ -47,5 +58,14 @@ public class Voto {
 		this.associado = new Associado(dto.getAssociado());
 	}
 
+	public Voto(Long id, LocalDateTime dthCriacao, boolean voto, Pauta pauta, Associado associado) {
+		this.id = id;
+		this.dthCriacao = dthCriacao;
+		this.voto = voto;
+		this.pauta = pauta;
+		this.associado = associado;
+	}
+
+	
 	
 }

@@ -1,4 +1,4 @@
-package com.desafio.votacao.dto;
+package com.desafio.votacao.dto.response;
 
 import java.time.LocalDateTime;
 
@@ -25,4 +25,13 @@ public class VotoDTO {
 		this.pauta = new PautaDTO(entity.getPauta());
 		this.associado = new AssociadoDTO(entity.getAssociado());
 	}
+
+	public VotoDTO(Long id, LocalDateTime dthCriacao, boolean voto, PautaDTO pauta, AssociadoDTO associado) {
+		this.id = id;
+		this.dthCriacao = dthCriacao;
+		this.voto = voto;
+		this.pauta = pauta;
+		this.associado = associado;
+	}
+	
 }

@@ -1,4 +1,4 @@
-package com.desafio.votacao.dto;
+package com.desafio.votacao.dto.response;
 
 import java.time.LocalDateTime;
 
@@ -32,6 +32,17 @@ public class PautaDTO {
 		this.ativo = entity.isAtivo();
 		this.dthCriacao = entity.getDthCriacao();	
 		this.status = entity.getStatus();
+	}
+
+	public PautaDTO(Long id, String descricao, boolean ativo, LocalDateTime dthCriacao, Long qtdVotosNao,
+			Long qtdVotosSim, PautaStatusEnum status) {
+		this.id = id;
+		this.descricao = descricao;
+		this.ativo = ativo;
+		this.dthCriacao = dthCriacao;
+		this.qtdVotosNao = qtdVotosNao;
+		this.qtdVotosSim = qtdVotosSim;
+		this.status = status;
 	}
 	
 }

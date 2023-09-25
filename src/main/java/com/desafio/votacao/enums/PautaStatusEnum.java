@@ -4,5 +4,6 @@ public enum PautaStatusEnum {
 	 AGUARDANDO_RESULTADO,
 	    APROVADA,
 	    REPROVADA,
-	    EMPATADA;
+	    EMPATADA,
+	    AGUARDANDO_APURACAO;
 }

@@ -7,5 +7,7 @@ import com.desafio.votacao.entity.Associado;
 
 @Repository
 public interface AssociadoRepository extends JpaRepository<Associado, Long>{
+	
+	Associado findFirstByCpf(String cpf);
 
 }

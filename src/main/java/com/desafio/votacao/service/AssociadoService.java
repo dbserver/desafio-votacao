@@ -1,12 +1,14 @@
 package com.desafio.votacao.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
-import com.desafio.votacao.dto.AssociadoDTO;
+import com.desafio.votacao.dto.response.AssociadoDTO;
+import com.desafio.votacao.entity.Associado;
 
-@Service
 public interface AssociadoService {
 
-	public void salvar(AssociadoDTO dto);
+	public ResponseEntity<AssociadoDTO> salvar(AssociadoDTO dto);
+
+	public Associado buscarPorCPF(String cpf);
 	
 }

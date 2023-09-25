@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.desafio.votacao.entity.Pauta;
+import com.desafio.votacao.enums.PautaStatusEnum;
 
 import jakarta.transaction.Transactional;
 
@@ -19,4 +20,6 @@ public interface PautaRepository extends JpaRepository<Pauta, Long>{
 	@Transactional
 	@Query("UPDATE Pauta SET ativo = false WHERE id in(:id)")
 	void inativarPautaVotacaoVencida(@Param("id") List<Long> id);
+	
+	List<Pauta> findByStatus(PautaStatusEnum status);
 }
