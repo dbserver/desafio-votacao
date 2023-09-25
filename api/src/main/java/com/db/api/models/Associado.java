@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "associados")
@@ -24,6 +25,7 @@ public class Associado {
     private String cpf;
     @Enumerated(EnumType.STRING)
     @Column(name = "status_cpf")
+    @Builder.Default
     private StatusCPF statusCPF = StatusCPF.ABLE_TO_VOTE;
 
     public Associado(String nome, String cpf) {
