@@ -1,0 +1,1 @@
+INSERT INTO pautas (titulo) values ('Novas funcionalidades');
