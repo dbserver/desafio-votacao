@@ -6,7 +6,7 @@ import com.desafiovotacao.repository.PautaRepository;
 import com.desafiovotacao.service.interfaces.ISalvarPautaService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SalvarPautaService implements ISalvarPautaService {

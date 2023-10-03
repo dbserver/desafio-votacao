@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PautaRepository extends JpaRepository<Pauta, Long> {
+public interface PautaRepository extends JpaRepository<Pauta, String> {
 
     Page<Pauta> findAll(Pageable pageable);
 

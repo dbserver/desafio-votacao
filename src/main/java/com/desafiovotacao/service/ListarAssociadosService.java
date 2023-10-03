@@ -1,15 +1,12 @@
 package com.desafiovotacao.service;
 
-import com.desafiovotacao.domain.Associado;
 import com.desafiovotacao.dto.AssociadoDTO;
 import com.desafiovotacao.repository.AssociadoRepository;
 import com.desafiovotacao.service.interfaces.IListarAssociadosService;
-import com.desafiovotacao.service.interfaces.ISalvarAssociadoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ListarAssociadosService implements IListarAssociadosService {
@@ -21,7 +18,7 @@ public class ListarAssociadosService implements IListarAssociadosService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<AssociadoDTO> listar(Pageable page) {
         return this.associadoRepository.findAll(page).map(AssociadoDTO::fromEntity);
     }

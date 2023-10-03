@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ListarPautasService implements IListarPautaService {
@@ -20,7 +20,7 @@ public class ListarPautasService implements IListarPautaService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<PautaDTO> listar(Pageable page) {
         return this.pautaRepository.findAll(page).map(PautaDTO::fromEntity);
     }
