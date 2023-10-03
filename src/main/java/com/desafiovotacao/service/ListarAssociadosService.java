@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-public class ListarAssociados implements IListarAssociadosService {
+public class ListarAssociadosService implements IListarAssociadosService {
 
     private final AssociadoRepository associadoRepository;
 
-    public ListarAssociados(AssociadoRepository associadoRepository) {
+    public ListarAssociadosService(AssociadoRepository associadoRepository) {
         this.associadoRepository = associadoRepository;
     }
 
