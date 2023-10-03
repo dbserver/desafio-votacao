@@ -6,6 +6,7 @@ import com.desafiovotacao.service.interfaces.ISalvarPautaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,7 +31,7 @@ public class PautaController {
     }
 
     @PostMapping
-    public ResponseEntity<PautaDTO> salvar(@RequestBody PautaDTO pauta) {
+    public ResponseEntity<PautaDTO> salvar(@Validated @RequestBody PautaDTO pauta) {
         PautaDTO pautaDTO = this.salvarPautaService.salvar(pauta);
         return ResponseEntity.ok(pautaDTO);
     }

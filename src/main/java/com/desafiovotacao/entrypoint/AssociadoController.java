@@ -6,6 +6,7 @@ import com.desafiovotacao.service.interfaces.ISalvarAssociadoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class AssociadoController {
     }
 
     @PostMapping
-    public ResponseEntity<AssociadoDTO> salvar(@RequestBody AssociadoDTO associadoDTO) {
+    public ResponseEntity<AssociadoDTO> salvar(@Validated @RequestBody AssociadoDTO associadoDTO) {
         AssociadoDTO associadoSalvo = this.salvarAssociadoService.salvar(associadoDTO);
         return ResponseEntity.ok(associadoSalvo);
     }

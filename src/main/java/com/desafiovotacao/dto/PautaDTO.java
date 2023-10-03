@@ -1,6 +1,7 @@
 package com.desafiovotacao.dto;
 
 import com.desafiovotacao.domain.Pauta;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ public class PautaDTO {
 
     private String id;
 
+    @NotNull
     private String descricao;
 
     public Pauta toEntity() {

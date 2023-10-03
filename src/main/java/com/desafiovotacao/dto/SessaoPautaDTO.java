@@ -1,7 +1,7 @@
 package com.desafiovotacao.dto;
 
-import com.desafiovotacao.domain.Pauta;
 import com.desafiovotacao.domain.SessaoPauta;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +13,13 @@ public class SessaoPautaDTO {
 
     private String id;
 
+    @NotNull
     private LocalDateTime dataInicio;
 
+    @NotNull
     private LocalDateTime dataFim;
 
+    @NotNull
     private String pautaId;
 
     public SessaoPauta toEntity() {

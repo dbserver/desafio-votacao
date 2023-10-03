@@ -1,6 +1,7 @@
 package com.desafiovotacao.dto;
 
 import com.desafiovotacao.domain.Associado;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,10 @@ public class AssociadoDTO {
 
     private String id;
 
+    @NotNull
     private String nome;
 
+    @NotNull
     private String cpf;
 
     public Associado toEntity() {
