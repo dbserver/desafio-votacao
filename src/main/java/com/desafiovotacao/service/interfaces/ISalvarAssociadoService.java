@@ -4,6 +4,6 @@ import com.desafiovotacao.dto.AssociadoDTO;
 
 public interface ISalvarAssociadoService {
 
-    AssociadoDTO salvar(AssociadoDTO associadoDTO);
+    AssociadoDTO salvar(AssociadoDTO associadoDTO) throws Exception;
 
 }
