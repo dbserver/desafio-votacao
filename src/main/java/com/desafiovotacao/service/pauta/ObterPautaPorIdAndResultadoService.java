@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ObterPautaPorIdAndResultado implements IObterPautaPorIdAndResultado {
+public class ObterPautaPorIdAndResultadoService implements IObterPautaPorIdAndResultado {
 
     private final PautaRepository pautaRepository;
     private final IBuscarVotacaoService buscarVotacaoService;
 
-    public ObterPautaPorIdAndResultado(
+    public ObterPautaPorIdAndResultadoService(
             PautaRepository pautaRepository,
             IBuscarVotacaoService BuscarVotacaoService
     ) {
