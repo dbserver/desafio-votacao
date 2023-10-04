@@ -12,6 +12,8 @@ import com.desafiovotacao.service.interfaces.ICriarVotoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CriarVotoService implements ICriarVotoService {
 
@@ -35,18 +37,35 @@ public class CriarVotoService implements ICriarVotoService {
     @Override
     @Transactional
     public VotoAssociadoDTO criar(VotoAssociadoDTO votoAssociadoDTO) throws Exception {
-        VotoAssociado votoAssociadoEncontrado = this.buscarVotacaoService.buscar(votoAssociadoDTO.getAssociadoId(), votoAssociadoDTO.getSessaoId());
+        VotoAssociado votoAssociadoEncontrado = this.buscarVotacaoService.buscarPorAssociadoAndSessao(votoAssociadoDTO.getAssociadoId(), votoAssociadoDTO.getSessaoId());
 
         if(votoAssociadoEncontrado != null) {
             throw new Exception("Associado já votou nessa sessão.");
         }
+
         Associado associado = this.buscarAssociadoPorIdService.buscar(votoAssociadoDTO.getAssociadoId());
         SessaoPauta sessaoPauta = this.buscarSessaoPorIdService.buscar(votoAssociadoDTO.getSessaoId());
 
-        VotoAssociado votoAssociado = this.votoRepository.save(votoAssociadoDTO.toEntity());
+        if(associado == null) {
+            throw new Exception("Associado não encontrada.");
+        }
+
+        if(sessaoPauta == null) {
+            throw new Exception("Sessão pauta não encontrada.");
+        }
+
+        if(LocalDateTime.now().isAfter(sessaoPauta.getDataFim())){
+            throw new Exception("Não é possível votar pois a sessão já está encerrada.");
+        }
+
+        VotoAssociado votoAssociado = votoAssociadoDTO.toEntity();
         votoAssociado.setSessaoPauta(sessaoPauta);
         votoAssociado.setAssociado(associado);
+        votoAssociado.setData(LocalDateTime.now());
+        votoAssociado.setPautaId(sessaoPauta.getPauta().getId());
 
-        return VotoAssociadoDTO.fromEntity(votoAssociado);
+        VotoAssociado votoAssociadoSalvo = this.votoRepository.save(votoAssociado);
+
+        return VotoAssociadoDTO.fromEntity(votoAssociadoSalvo);
     }
 }

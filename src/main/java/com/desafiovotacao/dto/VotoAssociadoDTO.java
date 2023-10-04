@@ -25,11 +25,15 @@ public class VotoAssociadoDTO {
     @NotNull
     private String sessaoId;
 
+    @NotNull
+    private String pautaId;
+
     public VotoAssociado toEntity() {
         VotoAssociado votoAssociado = new VotoAssociado();
         votoAssociado.setId(this.id);
         votoAssociado.setData(this.data);
         votoAssociado.setTipo(this.tipo);
+        votoAssociado.setPautaId(this.pautaId);
         return votoAssociado;
     }
 
@@ -40,6 +44,7 @@ public class VotoAssociadoDTO {
         votoAssociadoDTO.setTipo(votoAssociado.getTipo());
         votoAssociadoDTO.setAssociadoId(votoAssociado.getAssociado().getId());
         votoAssociadoDTO.setSessaoId(votoAssociado.getSessaoPauta().getId());
+        votoAssociadoDTO.setPautaId(votoAssociado.getPautaId());
         return votoAssociadoDTO;
     }
 }

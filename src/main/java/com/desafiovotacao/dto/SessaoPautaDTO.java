@@ -13,11 +13,11 @@ public class SessaoPautaDTO {
 
     private String id;
 
-    @NotNull
     private LocalDateTime dataInicio;
 
-    @NotNull
     private LocalDateTime dataFim;
+
+    private long duracaoMinutos;
 
     @NotNull
     private String pautaId;
@@ -27,6 +27,7 @@ public class SessaoPautaDTO {
         sessaoPauta.setId(this.id);
         sessaoPauta.setDataInicio(this.dataInicio);
         sessaoPauta.setDataFim(this.dataFim);
+        sessaoPauta.setDuracaoMinutos(this.duracaoMinutos);
         return sessaoPauta;
     }
 
@@ -36,6 +37,7 @@ public class SessaoPautaDTO {
         sessaoPautaDTO.setDataInicio(sessaoPauta.getDataInicio());
         sessaoPautaDTO.setDataFim(sessaoPauta.getDataFim());
         sessaoPautaDTO.setPautaId(sessaoPauta.getPauta().getId());
+        sessaoPautaDTO.setDuracaoMinutos(sessaoPautaDTO.duracaoMinutos);
         return sessaoPautaDTO;
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CriarSessaoPautaService implements ICriarSessaoPautaService {
 
@@ -27,10 +29,22 @@ public class CriarSessaoPautaService implements ICriarSessaoPautaService {
     @Override
     @Transactional
     public SessaoPautaDTO criar(SessaoPautaDTO sessaoPautaDTO) {
+        long duracaoSessao = sessaoPautaDTO.getDuracaoMinutos();
+
         Pauta pauta = this.buscarPautaPorIdService.buscar(sessaoPautaDTO.getPautaId());
 
-        SessaoPauta sessaoPauta = this.sessaoPautaRepository.save(sessaoPautaDTO.toEntity());
+        SessaoPauta sessaoPauta = sessaoPautaDTO.toEntity();
         sessaoPauta.setPauta(pauta);
-        return SessaoPautaDTO.fromEntity(sessaoPauta);
+
+        if(duracaoSessao == 0) {
+            duracaoSessao = 1L;
+        }
+
+        sessaoPauta.setDataInicio(LocalDateTime.now());
+        sessaoPauta.setDataFim(sessaoPauta.getDataInicio().plusMinutes(duracaoSessao));
+        sessaoPauta.setDuracaoMinutos(duracaoSessao);
+
+        SessaoPauta sessaoPautaCriada = this.sessaoPautaRepository.save(sessaoPauta);
+        return SessaoPautaDTO.fromEntity(sessaoPautaCriada);
     }
 }

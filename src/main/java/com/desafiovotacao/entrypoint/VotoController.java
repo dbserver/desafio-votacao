@@ -29,7 +29,7 @@ public class VotoController {
         try{
             response.setData(this.criarVotoService.criar(votoAssociadoDTO));
         } catch (Exception e) {
-            response.setError(e.getMessage());
+            response.setError(e.getMessage() != null  ? e.getMessage() : "Ocorreu um erro. Tente novamente mais tarde.");
         }
         return ResponseEntity.ok(response);
     }

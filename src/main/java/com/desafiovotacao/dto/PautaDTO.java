@@ -14,10 +14,16 @@ public class PautaDTO {
     @NotNull
     private String descricao;
 
+    private Long votosAFavor;
+
+    private Long votosContra;
+
     public Pauta toEntity() {
         Pauta pauta = new Pauta();
         pauta.setId(this.id);
         pauta.setDescricao(this.descricao);
+        pauta.setVotosContra(this.votosContra);
+        pauta.setVotosAFavor(this.votosAFavor);
         return pauta;
     }
 
@@ -25,6 +31,8 @@ public class PautaDTO {
         PautaDTO pautaDTO = new PautaDTO();
         pautaDTO.setId(pauta.getId());
         pautaDTO.setDescricao(pauta.getDescricao());
+        pautaDTO.setVotosContra(pauta.getVotosContra());
+        pautaDTO.setVotosAFavor(pautaDTO.getVotosAFavor());
         return pautaDTO;
     }
 }

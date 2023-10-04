@@ -34,4 +34,6 @@ public class VotoAssociado {
     @JoinColumn(name = "sessao_id")
     private SessaoPauta sessaoPauta;
 
+    @Column(nullable = false)
+    private String pautaId;
 }

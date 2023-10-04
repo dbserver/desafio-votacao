@@ -7,6 +7,8 @@ import com.desafiovotacao.service.interfaces.IBuscarVotacaoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class BuscarVotacaoService implements IBuscarVotacaoService {
 
@@ -18,7 +20,13 @@ public class BuscarVotacaoService implements IBuscarVotacaoService {
 
     @Override
     @Transactional(readOnly = true)
-    public VotoAssociado buscar(String associadoId, String sessaoId) {
+    public VotoAssociado buscarPorAssociadoAndSessao(String associadoId, String sessaoId) {
         return this.votoRepository.findByAssociadoIdAndSessaoPautaId(associadoId, sessaoId).orElse(null);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<VotoAssociado> buscarTodosPorPauta(String pautaId) {
+        return this.votoRepository.findAllByPautaId(pautaId);
     }
 }

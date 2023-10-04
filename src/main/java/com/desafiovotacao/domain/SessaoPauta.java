@@ -24,6 +24,9 @@ public class SessaoPauta {
     @Column(nullable = false)
     private LocalDateTime dataFim;
 
+    @Column(nullable = false)
+    private long duracaoMinutos;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pauta_id")
     private Pauta pauta;
