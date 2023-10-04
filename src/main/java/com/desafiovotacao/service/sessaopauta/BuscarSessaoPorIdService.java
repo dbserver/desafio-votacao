@@ -1,5 +1,5 @@
 
-package com.desafiovotacao.service;
+package com.desafiovotacao.service.sessaopauta;
 
 import com.desafiovotacao.domain.Associado;
 import com.desafiovotacao.domain.SessaoPauta;

@@ -1,4 +1,4 @@
-package com.desafiovotacao.service;
+package com.desafiovotacao.service.associado;
 
 import com.desafiovotacao.dto.AssociadoDTO;
 import com.desafiovotacao.repository.AssociadoRepository;

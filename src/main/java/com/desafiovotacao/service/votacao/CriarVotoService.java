@@ -1,4 +1,4 @@
-package com.desafiovotacao.service;
+package com.desafiovotacao.service.votacao;
 
 import com.desafiovotacao.domain.Associado;
 import com.desafiovotacao.domain.SessaoPauta;

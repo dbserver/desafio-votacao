@@ -1,5 +1,5 @@
 
-package com.desafiovotacao.service;
+package com.desafiovotacao.service.pauta;
 
 import com.desafiovotacao.dto.PautaDTO;
 import com.desafiovotacao.repository.PautaRepository;

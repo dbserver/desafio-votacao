@@ -1,5 +1,5 @@
 
-package com.desafiovotacao.service;
+package com.desafiovotacao.service.votacao;
 
 import com.desafiovotacao.domain.VotoAssociado;
 import com.desafiovotacao.repository.VotoRepository;

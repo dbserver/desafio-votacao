@@ -1,4 +1,4 @@
-package com.desafiovotacao.service;
+package com.desafiovotacao.service.pauta;
 
 import com.desafiovotacao.domain.Pauta;
 import com.desafiovotacao.dto.PautaDTO;
