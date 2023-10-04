@@ -4,6 +4,7 @@ import com.desafiovotacao.dto.ApiResponse;
 import com.desafiovotacao.dto.AssociadoDTO;
 import com.desafiovotacao.service.interfaces.IListarAssociadosService;
 import com.desafiovotacao.service.interfaces.ISalvarAssociadoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,15 @@ public class AssociadoController {
         this.listarAssociadosService = listarAssociadosService;
     }
 
-    @GetMapping
+    @ApiOperation(value = "Retorna uma lista de Associados")
+    @GetMapping(produces="application/json")
     public ResponseEntity<Page<AssociadoDTO>> list(Pageable page) {
         Page<AssociadoDTO> associados = this.listarAssociadosService.listar(page);
         return ResponseEntity.ok(associados);
     }
 
-    @PostMapping
+    @ApiOperation(value = "Criar um associado")
+    @PostMapping(produces="application/json")
     public ResponseEntity<ApiResponse<AssociadoDTO>> salvar(@Validated @RequestBody AssociadoDTO associadoDTO) {
         ApiResponse<AssociadoDTO> response = new ApiResponse<>();
         try{

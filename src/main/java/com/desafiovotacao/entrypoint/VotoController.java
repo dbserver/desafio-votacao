@@ -4,6 +4,8 @@ import com.desafiovotacao.dto.ApiResponse;
 import com.desafiovotacao.dto.AssociadoDTO;
 import com.desafiovotacao.dto.VotoAssociadoDTO;
 import com.desafiovotacao.service.interfaces.ICriarVotoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +25,8 @@ public class VotoController {
         this.criarVotoService = criarVotoService;
     }
 
-    @PostMapping
+    @ApiOperation(value = "Endpoint utilizado para realizar o voto")
+    @PostMapping(produces="application/json")
     public ResponseEntity<ApiResponse<VotoAssociadoDTO>> votar(@Validated @RequestBody VotoAssociadoDTO votoAssociadoDTO) {
         ApiResponse<VotoAssociadoDTO> response = new ApiResponse<>();
         try{
