@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.challenge.enums.SessionStatusEnum.CLOSE;
 
 @Service
@@ -28,7 +30,7 @@ public class VoteServiceImpl implements VoteService {
     public Vote save(VoteRequestDto request) {
         final Associate associate = associateRepository.getReferenceById(request.getAssociateId());
 
-        if (voteRepository.existsByAssociateAndSession(request.getAssociateId(), request.getStaveSessionId())) {
+        if (voteRepository.existsByAssociateAndSession(associate.getId(), request.getStaveSessionId())) {
             throw new IllegalArgumentException("Associado já votou para essa sessão.");
         }
 
@@ -38,6 +40,7 @@ public class VoteServiceImpl implements VoteService {
             throw new IllegalArgumentException("Sessão fechada para voto");
         }
 
+        logger.info("Salvando voto do associado {} para a pauta {} (sessao: {})", associate.getName(), staveSession.getStave().getTitle(), staveSession.getId());
         Vote vote = Vote.builder()
                 .vote(request.getVote())
                 .associate(associate)

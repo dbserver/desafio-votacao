@@ -9,7 +9,7 @@ spring:
   jpa:
     hibernate.ddl-auto: none
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     properties.hibernate.format_sql: true
   flyway:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/mydatabase}

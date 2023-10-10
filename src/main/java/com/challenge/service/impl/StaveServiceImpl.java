@@ -35,15 +35,24 @@ public class StaveServiceImpl implements StaveService {
     private final VoteRepository voteRepository;
     private static final Integer DEFAULT_DURATION_SESSION_IN_MINUTES = 1;
     private static final Long MILLISECONDS_CONVERTER = 60000L;
+
     @Override
     public Stave create(StaveRequestDto request) {
+        logger.info("Criando pauta titulo: {}", request.getTitle());
         return staveRepository.save(Stave.builder().title(request.getTitle()).build());
     }
 
     @Override
     public StaveSession session(Long staveId, StaveSessionRequestDto request) {
-        final StaveSession session = staveSessionRepository.findByStaveId(staveId);
-        return Optional.ofNullable(session).orElseGet(() -> openSession(staveId, request));
+        final StaveSession session =
+                Optional.ofNullable(staveSessionRepository.findByStaveId(staveId)).orElseGet(() -> openSession(staveId, request));
+
+        logger.info("Sesssao: {}", session);
+        if (OPEN == session.getStatus()) {
+            this.scheduleCloseSession(session);
+        }
+
+        return session;
     }
 
     @Override
@@ -51,9 +60,11 @@ public class StaveServiceImpl implements StaveService {
         final Stave stave = staveRepository.getReferenceById(staveId);
         final StaveSession session = staveSessionRepository.findByStaveId(staveId);
 
-        if (OPEN == session.getStatus()){
+        if (OPEN == session.getStatus()) {
             throw new IllegalArgumentException("Sessão está aberta para votação!");
         }
+
+        logger.info("Contabilizando votos para pauta {} (sessao: {})", stave.getTitle(), session.getId());
 
         final List<Vote> votes = voteRepository.findByStaveSession(session);
         final Long yesVotes = votes.stream().filter(vote -> vote.getVote() == YES).count();
@@ -69,14 +80,12 @@ public class StaveServiceImpl implements StaveService {
     private StaveSession openSession(Long staveId, StaveSessionRequestDto request) {
         final Stave stave = staveRepository.getReferenceById(staveId);
         final Integer duration = (request.getDuration() > 0 && request.getDuration() < 60) ? request.getDuration() : DEFAULT_DURATION_SESSION_IN_MINUTES;
-        final StaveSession openSession = staveSessionRepository.save(StaveSession.builder()
+        logger.info("Abrindo nova sessão para pauta {} com duracao {} minutos", stave.getTitle(), duration);
+        return staveSessionRepository.save(StaveSession.builder()
                 .duration(duration)
                 .status(OPEN)
                 .stave(stave)
                 .build());
-        this.scheduleCloseSession(openSession);
-
-        return openSession;
     }
 
     private void scheduleCloseSession(StaveSession session) {
