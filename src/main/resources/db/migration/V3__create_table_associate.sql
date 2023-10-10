@@ -1,0 +1,5 @@
+CREATE TABLE associate (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(250) NOT NULL,
+    document VARCHAR(250) NOT NULL
+)

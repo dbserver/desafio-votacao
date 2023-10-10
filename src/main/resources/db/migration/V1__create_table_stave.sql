@@ -1,0 +1,4 @@
+CREATE TABLE stave (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(250) NOT NULL
+)
