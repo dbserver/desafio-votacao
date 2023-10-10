@@ -11,6 +11,7 @@ import com.challenge.service.impl.VoteServiceImpl;
 import com.challenge.stubs.AssociateStub;
 import com.challenge.stubs.StaveSessionStub;
 import com.challenge.stubs.VoteRequestDtoStub;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -57,6 +58,7 @@ public class VoteServiceTest {
     @Test
     void saveAssociateVote_whenFailsVoteProcessed() {
         when(voteRepository.existsByAssociateAndSession(any(), any())).thenReturn(true);
+        when(associateRepository.getReferenceById(any())).thenReturn(AssociateStub.build());
         assertThrows(IllegalArgumentException.class, () -> voteService.save(VoteRequestDtoStub.build()));
     }
 
@@ -64,6 +66,7 @@ public class VoteServiceTest {
     void saveAssociateVote_whenFailsStaveClosed() {
         when(voteRepository.existsByAssociateAndSession(any(), any())).thenReturn(false);
         when(staveSessionRepository.getReferenceById(any())).thenReturn(StaveSessionStub.buildClose());
+        when(associateRepository.getReferenceById(any())).thenReturn(AssociateStub.build());
         assertThrows(IllegalArgumentException.class, () -> voteService.save(VoteRequestDtoStub.build()));
     }
 }
