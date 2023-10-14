@@ -11,16 +11,9 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
-
-import javax.transaction.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Transactional
-@Rollback(value = false)
 public class PautaControllerIntegrationTest {
-
-    private PautaDTO pautaDTO;
 
     @LocalServerPort
     private int port;
@@ -31,22 +24,10 @@ public class PautaControllerIntegrationTest {
     @Autowired
     private PautaRepository pautaRepository;
 
-    @BeforeEach
-    public void setup() {
-        this.pautaDTO = new PautaDTO();
-        pautaDTO.setVotosAFavor(0L);
-        pautaDTO.setVotosContra(0L);
-        pautaDTO.setDescricao("Teste");
-    }
-
-    @AfterEach
-    public void tearDown() {
-        pautaRepository.deleteByDescricao(this.pautaDTO.getDescricao());
-    }
 
     @Test
     public void execute_shouldCreateAPauta() throws Exception {
-        HttpEntity<PautaDTO> entity = new HttpEntity<>(this.pautaDTO);
+        HttpEntity<PautaDTO> entity = new HttpEntity<>(generatePautaDTO());
 
         ResponseEntity<PautaDTO> response = this.restTemplate.exchange("http://localhost:" + port + "/v1/pautas", HttpMethod.POST, entity, new ParameterizedTypeReference<PautaDTO>() {
         });
@@ -55,4 +36,11 @@ public class PautaControllerIntegrationTest {
         Assertions.assertTrue(notNullCondition);
     }
 
+    private PautaDTO generatePautaDTO() {
+        PautaDTO pautaDTO = new PautaDTO();
+        pautaDTO.setVotosAFavor(0L);
+        pautaDTO.setVotosContra(0L);
+        pautaDTO.setDescricao("Teste");
+        return pautaDTO;
+    }
 }
