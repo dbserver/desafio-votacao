@@ -2,7 +2,9 @@ package com.desafiovotacao.dto;
 
 import com.desafiovotacao.domain.Pauta;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

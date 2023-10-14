@@ -21,8 +21,13 @@ public class SessaoPautaController {
 
     @ApiOperation(value = "Criar uma sessão")
     @PostMapping(produces="application/json")
-    public ResponseEntity<SessaoPautaDTO> salvar(@Validated @RequestBody SessaoPautaDTO sessaoPautaDTO) {
-        SessaoPautaDTO sessaoPautaCriada = this.criarSessaoPautaService.criar(sessaoPautaDTO);
-        return ResponseEntity.ok(sessaoPautaCriada);
+    public ResponseEntity<SessaoPautaDTO> salvar(@Validated @RequestBody SessaoPautaDTO sessaoPautaDTO)  throws Exception {
+        try{
+            SessaoPautaDTO sessaoPautaCriada = this.criarSessaoPautaService.criar(sessaoPautaDTO);
+            return ResponseEntity.ok(sessaoPautaCriada);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

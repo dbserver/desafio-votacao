@@ -1,6 +1,8 @@
 package com.desafiovotacao.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "pautas")
 public class Pauta {
 
