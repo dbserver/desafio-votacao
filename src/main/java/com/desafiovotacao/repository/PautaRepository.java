@@ -11,4 +11,5 @@ public interface PautaRepository extends JpaRepository<Pauta, String> {
 
     Page<Pauta> findAll(Pageable pageable);
 
+    void deleteByDescricao(String descricao);
 }

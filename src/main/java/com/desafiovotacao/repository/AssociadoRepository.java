@@ -14,6 +14,4 @@ public interface AssociadoRepository extends JpaRepository<Associado, String> {
     Page<Associado> findAll(Pageable pageable);
 
     void deleteByCpf(String cpf);
-
-    Associado getByCpf(String cpf);
 }
