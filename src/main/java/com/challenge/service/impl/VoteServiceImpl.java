@@ -1,6 +1,7 @@
 package com.challenge.service.impl;
 
 import com.challenge.dto.VoteRequestDto;
+import com.challenge.exceptions.VoteException;
 import com.challenge.model.Associate;
 import com.challenge.model.StaveSession;
 import com.challenge.model.Vote;
@@ -29,17 +30,9 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote save(VoteRequestDto request) {
         final Associate associate = associateRepository.getReferenceById(request.getAssociateId());
-
-        if (voteRepository.existsByAssociateAndSession(associate.getId(), request.getStaveSessionId())) {
-            throw new IllegalArgumentException("Associado já votou para essa sessão.");
-        }
-
+        this.ifVotedThrowException(associate, request);
         final StaveSession staveSession = staveSessionRepository.getReferenceById(request.getStaveSessionId());
-
-        if (CLOSE == staveSession.getStatus()) {
-            throw new IllegalArgumentException("Sessão fechada para voto");
-        }
-
+        this.ifSessionCloseThrowException(staveSession);
         logger.info("Salvando voto do associado {} para a pauta {} (sessao: {})", associate.getName(), staveSession.getStave().getTitle(), staveSession.getId());
         Vote vote = Vote.builder()
                 .vote(request.getVote())
@@ -48,5 +41,18 @@ public class VoteServiceImpl implements VoteService {
                 .build();
 
         return voteRepository.save(vote);
+    }
+
+    private void ifSessionCloseThrowException(final StaveSession staveSession) {
+        if (CLOSE == staveSession.getStatus()) {
+            logger.info("Sessão(id={}) da pauta id={} encerrada para votos", staveSession.getId(), staveSession.getStave().getId());
+            VoteException.closedVotingSession();
+        }
+    }
+
+    private void ifVotedThrowException(final Associate associate, final VoteRequestDto request) {
+        if (voteRepository.existsByAssociateAndSession(associate.getId(), request.getStaveSessionId())) {
+            VoteException.voteAlreadyCounted();
+        }
     }
 }

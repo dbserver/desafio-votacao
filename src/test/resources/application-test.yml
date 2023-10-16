@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:mydatabase;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  flyway:
+    url: jdbc:h2:mem:mydatabase;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    baseline-version: 1
+    user: sa
+    password: sa
+    enabled: true
+
+flyway:
+  baseline-on-migrate: true
+  locations: classpath:/db/migration
+  enabled: true

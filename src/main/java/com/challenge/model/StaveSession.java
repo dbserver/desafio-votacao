@@ -30,4 +30,19 @@ public class StaveSession {
     @JoinColumn(name = "stave_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Stave stave;
+    public static class StaveSessionBuilder {
+        private static final Integer DEFAULT_DURATION_SESSION_IN_MINUTES = 1;
+        private Integer duration;
+
+        public StaveSessionBuilder duration(Integer duration) {
+            if (duration != null && duration > 0 && duration < 60)  {
+                this.duration = duration;
+            } else {
+                this.duration = DEFAULT_DURATION_SESSION_IN_MINUTES;
+            }
+
+            return this;
+        }
+    }
+
 }

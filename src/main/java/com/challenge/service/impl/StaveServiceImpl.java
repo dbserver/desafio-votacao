@@ -3,6 +3,7 @@ package com.challenge.service.impl;
 import com.challenge.dto.StaveRequestDto;
 import com.challenge.dto.StaveSessionRequestDto;
 import com.challenge.dto.VoteCountResponseDto;
+import com.challenge.exceptions.StaveException;
 import com.challenge.model.Stave;
 import com.challenge.model.StaveSession;
 import com.challenge.model.Vote;
@@ -10,6 +11,7 @@ import com.challenge.repository.StaveRepository;
 import com.challenge.repository.StaveSessionRepository;
 import com.challenge.repository.VoteRepository;
 import com.challenge.service.StaveService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +35,6 @@ public class StaveServiceImpl implements StaveService {
     private final StaveRepository staveRepository;
     private final StaveSessionRepository staveSessionRepository;
     private final VoteRepository voteRepository;
-    private static final Integer DEFAULT_DURATION_SESSION_IN_MINUTES = 1;
     private static final Long MILLISECONDS_CONVERTER = 60000L;
 
     @Override
@@ -44,10 +45,9 @@ public class StaveServiceImpl implements StaveService {
 
     @Override
     public StaveSession session(Long staveId, StaveSessionRequestDto request) {
-        final StaveSession session =
-                Optional.ofNullable(staveSessionRepository.findByStaveId(staveId)).orElseGet(() -> openSession(staveId, request));
+        final StaveSession session = staveSessionRepository.findByStaveId(staveId).orElse(openSession(staveId, request));
 
-        logger.info("Sesssao: {}", session);
+        logger.info("Sessao: {}", session);
         if (OPEN == session.getStatus()) {
             this.scheduleCloseSession(session);
         }
@@ -58,11 +58,9 @@ public class StaveServiceImpl implements StaveService {
     @Override
     public VoteCountResponseDto countVotes(Long staveId) {
         final Stave stave = staveRepository.getReferenceById(staveId);
-        final StaveSession session = staveSessionRepository.findByStaveId(staveId);
+        final StaveSession session = staveSessionRepository.findByStaveId(staveId).orElseThrow(EntityNotFoundException::new);
 
-        if (OPEN == session.getStatus()) {
-            throw new IllegalArgumentException("Sessão está aberta para votação!");
-        }
+        this.ifSessionOpenThrowException(session);
 
         logger.info("Contabilizando votos para pauta {} (sessao: {})", stave.getTitle(), session.getId());
 
@@ -79,10 +77,9 @@ public class StaveServiceImpl implements StaveService {
 
     private StaveSession openSession(Long staveId, StaveSessionRequestDto request) {
         final Stave stave = staveRepository.getReferenceById(staveId);
-        final Integer duration = (request.getDuration() > 0 && request.getDuration() < 60) ? request.getDuration() : DEFAULT_DURATION_SESSION_IN_MINUTES;
-        logger.info("Abrindo nova sessão para pauta {} com duracao {} minutos", stave.getTitle(), duration);
+        logger.info("Abrindo nova sessão para pauta {} com duracao {} minutos", stave.getTitle(), request);
         return staveSessionRepository.save(StaveSession.builder()
-                .duration(duration)
+                .duration(request.getDuration())
                 .status(OPEN)
                 .stave(stave)
                 .build());
@@ -98,5 +95,12 @@ public class StaveServiceImpl implements StaveService {
                 staveSessionRepository.save(session);
             }
         }, session.getDuration() * MILLISECONDS_CONVERTER);
+    }
+
+    private void ifSessionOpenThrowException(StaveSession session) {
+        if (OPEN == session.getStatus()) {
+            logger.info("Votos nao podem ser computados no momento para pauta {} (sessionId={}) ainda aberta para votacao", session.getStave().getTitle(), session.getId());
+            StaveException.sessionStillOpen();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.challenge.service;
 
 import com.challenge.enums.VoteEnum;
+import com.challenge.exceptions.VoteException;
 import com.challenge.model.Associate;
 import com.challenge.model.StaveSession;
 import com.challenge.model.Vote;
@@ -59,7 +60,7 @@ public class VoteServiceTest {
     void saveAssociateVote_whenFailsVoteProcessed() {
         when(voteRepository.existsByAssociateAndSession(any(), any())).thenReturn(true);
         when(associateRepository.getReferenceById(any())).thenReturn(AssociateStub.build());
-        assertThrows(IllegalArgumentException.class, () -> voteService.save(VoteRequestDtoStub.build()));
+        assertThrows(VoteException.class, () -> voteService.save(VoteRequestDtoStub.build()));
     }
 
     @Test
@@ -67,6 +68,6 @@ public class VoteServiceTest {
         when(voteRepository.existsByAssociateAndSession(any(), any())).thenReturn(false);
         when(staveSessionRepository.getReferenceById(any())).thenReturn(StaveSessionStub.buildClose());
         when(associateRepository.getReferenceById(any())).thenReturn(AssociateStub.build());
-        assertThrows(IllegalArgumentException.class, () -> voteService.save(VoteRequestDtoStub.build()));
+        assertThrows(VoteException.class, () -> voteService.save(VoteRequestDtoStub.build()));
     }
 }
