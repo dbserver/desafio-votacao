@@ -40,9 +40,9 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 ### Associados
 #### Cadastrar um associado
   Endpoint para realizar o cadastro de um associado no sistema
-````http
+```http
   POST /session/create
-````
+```
 ##### Dados de entrada
 
 | Campo  |   Tipo   | Obrigatório | Local de entrada |             Descrição              |
@@ -60,9 +60,9 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 ### Pautas
 #### Cadastrar uma pauta
   Endpoint para realizar o cadastro de uma pauta no sistema
-````http
+```http
   POST /ruling/create
-````
+```
 ##### Dados de entrada
 
 |     Campo     |   Tipo   | Obrigatório | Local de entrada |              Descrição              |
@@ -80,9 +80,9 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 
 #### Contagem de votos
   Endpoint para realizar a contagem de votos da sessão mais recente desta pauta.
-````http
+```http
   POST /ruling/countVotes/{rulingId}
-````
+```
 ##### Dados de entrada
 
 |   Campo    |   Tipo    | Obrigatório | Local de entrada |           Descrição           |
@@ -104,9 +104,9 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 
 #### Buscar todas as pautas
 Endpoint para buscar todas as pautas cadastradas no sistema
-````http
+```http
   GET /ruling/list
-````
+```
 ##### Dados de entrada
 
 | Campo | Tipo  | Obrigatório | Local de entrada | Descrição |
@@ -126,9 +126,9 @@ Endpoint para buscar todas as pautas cadastradas no sistema
 
 #### Buscar pauta por código identificador
 Endpoint para buscar uma pauta por meio de seu código identificador
-````http
+```http
   GET /ruling/list/{id}
-````
+```
 ##### Dados de entrada
 
 | Campo |   Tipo    | Obrigatório | Local de entrada |           Descrição           |
@@ -149,9 +149,9 @@ Endpoint para buscar uma pauta por meio de seu código identificador
 ### Sessões
 #### Cadastrar uma sessão
 Endpoint para realizar o cadastro de uma sessão no sistema
-````http
+```http
   POST /session/create
-````
+```
 ##### Dados de entrada
 
 |   Campo    |   Tipo    | Obrigatório | Local de entrada |                                                    Descrição                                                     |
@@ -169,9 +169,9 @@ Endpoint para realizar o cadastro de uma sessão no sistema
 
 #### Listar todas as sessões
 Endpoint para realizar a busca de todas as sessões cadastradas no sistema
-````http
+```http
   GET /session/list
-````
+```
 ##### Dados de entrada
 
 | Campo | Tipo  | Obrigatório | Local de entrada | Descrição |
@@ -190,9 +190,9 @@ Endpoint para realizar a busca de todas as sessões cadastradas no sistema
 
 #### Listar sessão por código identificador
 Endpoint para realizar a busca de uma sessão específica por meio de seu código identificador
-````http
+```http
   GET /session/list/{sessionId}
-````
+```
 ##### Dados de entrada
 
 |    Campo    |   Tipo    | Obrigatório | Local de entrada |           Descrição            |
@@ -212,9 +212,9 @@ Endpoint para realizar a busca de uma sessão específica por meio de seu códig
 ### Votos
 #### Computar um voto
 Endpoint para computar um voto de um associado em uma sessão.
-````http
+```http
   POST /vote/compute
-````
+```
 ##### Dados de entrada
 
 |    Campo    |   Tipo    | Obrigatório | Local de entrada |                                Descrição                                |
@@ -237,9 +237,9 @@ Endpoint para computar um voto de um associado em uma sessão.
 ### CPF Facade
 #### Validar CPF pela facade
 Endpoint para validar o CPF pela facade
-````http
+```http
   POST /facade/{cpf}/validate}
-````
+```
 ##### Dados de entrada
 
 |    Campo    |   Tipo    | Obrigatório | Local de entrada |     Descrição      |
