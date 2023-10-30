@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SessionRepository extends JpaRepository<SessionEntity, Integer> {
-    @Query("SELECT se FROM SessionEntity se WHERE se.ruling.id = :rulingId ORDER BY se.creationDate DESC")
+    @Query("SELECT se " +
+            "FROM SessionEntity se " +
+            "WHERE se.ruling.id = :rulingId " +
+            "AND se.creationDate = (SELECT MAX(se2.creationDate) FROM SessionEntity se2 WHERE se2.ruling.id = se.ruling.id)")
     Optional<SessionEntity> findLatestByRulingId(Integer rulingId);
 
     @Query("SELECT NEW com.example.desafiovotacao.dto.SessionReturnDTO( " +

@@ -15,7 +15,7 @@ public interface RulingRepository extends JpaRepository<RulingEntity, Integer> {
             "   SUM(CASE WHEN ve.vote = FALSE THEN 1 ELSE 0 END) " +
             ") " +
             "FROM RulingEntity re " +
-            "   JOIN SessionEntity se ON se.ruling.id = se.id " +
+            "   JOIN SessionEntity se ON se.ruling.id = re.id " +
             "   JOIN VoteEntity ve ON ve.session.id = se.id " +
             "WHERE re.id = :rulingId " +
             "   AND se.creationDate = (SELECT MAX(se2.creationDate) FROM SessionEntity se2 WHERE se2.ruling.id = re.id)")
