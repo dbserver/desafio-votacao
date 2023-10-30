@@ -1,117 +1,253 @@
-# Votação
+# Desafio Votação - Manual
 
-## Objetivo
+## Sobre
 
-No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Imagine que você deve criar uma solução para dispositivos móveis para gerenciar e participar dessas sessões de votação.
-Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
+Esta aplicação está usando a versão 17 do Java com a versão 3.1.5 do Spring. Esta aplicação, conforme o solicitado no
+desafio, fornece um sistema onde você pode cadastrar pautas, sessões, associados e registrar votos referente às
+pautas.
 
-- Cadastrar uma nova pauta
-- Abrir uma sessão de votação em uma pauta (a sessão de votação deve ficar aberta por
-  um tempo determinado na chamada de abertura ou 1 minuto por default)
-- Receber votos dos associados em pautas (os votos são apenas 'Sim'/'Não'. Cada associado
-  é identificado por um id único e pode votar apenas uma vez por pauta)
-- Contabilizar os votos e dar o resultado da votação na pauta
+## Inicializando a aplicação
 
-Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser considerada como autorizada. A solução deve ser construída em java, usando Spring-boot, mas os frameworks e bibliotecas são de livre escolha (desde que não infrinja direitos de uso).
-
-É importante que as pautas e os votos sejam persistidos e que não sejam perdidos com o restart da aplicação.
-
-O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato padrão dessas mensagens será detalhado no anexo 1.
-
-## Como proceder
-
-Por favor, realize o FORK desse repositório e implemente sua solução no FORK em seu repositório GItHub, ao final, notifique da conclusão para que possamos analisar o código implementado.
-
-Lembre de deixar todas as orientações necessárias para executar o seu código.
-
-### Tarefas bônus
-
-- Tarefa Bônus 1 - Integração com sistemas externos
-  - Criar uma Facade/Client Fake que retorna aleátoriamente se um CPF recebido é válido ou não.
-  - Caso o CPF seja inválido, a API retornará o HTTP Status 404 (Not found). Você pode usar geradores de CPF para gerar CPFs válidos
-  - Caso o CPF seja válido, a API retornará se o usuário pode (ABLE_TO_VOTE) ou não pode (UNABLE_TO_VOTE) executar a operação. Essa operação retorna resultados aleatórios, portanto um mesmo CPF pode funcionar em um teste e não funcionar no outro.
+Esta aplicação tem duas formas de ser inicializada. A principal e mais recomendada é fazendo o uso do Docker.
+Para iniciar desta forma, certifique-se que o seu Docker está inicializado e digite o seguinte na linha de comando:
 
 ```
-// CPF Ok para votar
-{
-    "status": "ABLE_TO_VOTE
-}
-// CPF Nao Ok para votar - retornar 404 no client tb
-{
-    "status": "UNABLE_TO_VOTE
-}
+  docker-compose up --build
 ```
 
-Exemplos de retorno do serviço
+Ao digitar este comando, a aplicação passara pelo processo de build, onde ocorrerão os testes e então estará disponíve
+juntamente ao banco de dados e ao pgadmin caso seja necessário manipular algum dado por fora da própria aplicação. Lembrando que
+o acesso ao pgadmin deve ser permitido somente aos desenvolvedores.
 
-### Tarefa Bônus 2 - Performance
+Caso você não queira inicializar a aplicação pelo Docker, é necessário fornecer uma conexão ao banco de dados compatível
+onde os dados da aplicação possam ser persistidos. Estes dados podem ser configurados no arquivo "application.properties".
+Após realizar a configuração das variáveis você pode buildar e inicializar a aplicação por meio da sua IDE, caso 
+tenha a possibilidade, ou também por meio da linha de comando realizando manualmente o build da aplicação e então o run da mesma.
 
-- Imagine que sua aplicação possa ser usada em cenários que existam centenas de
-  milhares de votos. Ela deve se comportar de maneira performática nesses
-  cenários
-- Testes de performance são uma boa maneira de garantir e observar como sua
-  aplicação se comporta
+## Acessar o PGAdmin
 
-### Tarefa Bônus 3 - Versionamento da API
+Caso o desenvolvedor tenha a necessidade de consultar ou manipular os dados do banco sem utilizar a interface, o ambiente
+construído pelo docker dispõe também a aplicação PGAdmin para realizar essas consultas. Este ambiente pode ser acessado
+pelo endereço: http://localhost:5050/ e fazendo o login conforme o email e senha definidos nas variáveis de ambiente de seu
+docker-compose.
 
-○ Como você versionaria a API da sua aplicação? Que estratégia usar?
 
-## O que será analisado
+## Manual da API - 1.0.0
 
-- Simplicidade no design da solução (evitar over engineering)
-- Organização do código
-- Arquitetura do projeto
-- Boas práticas de programação (manutenibilidade, legibilidade etc)
-- Possíveis bugs
-- Tratamento de erros e exceções
-- Explicação breve do porquê das escolhas tomadas durante o desenvolvimento da solução
-- Uso de testes automatizados e ferramentas de qualidade
-- Limpeza do código
-- Documentação do código e da API
-- Logs da aplicação
-- Mensagens e organização dos commits
+Você pode realizar suas requisições por meio de seu API Client como Insomnia ou Postman, ou pode utilizar a interface
+swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 
-## Dicas
-
-- Teste bem sua solução, evite bugs
-- Deixe o domínio das URLs de callback passiveis de alteração via configuração, para facilitar
-  o teste tanto no emulador, quanto em dispositivos fisicos.
-  Observações importantes
-- Não inicie o teste sem sanar todas as dúvidas
-- Iremos executar a aplicação para testá-la, cuide com qualquer dependência externa e
-  deixe claro caso haja instruções especiais para execução do mesmo
-  Classificação da informação: Uso Interno
-
-## Anexo 1
-
-### Introdução
-
-A seguir serão detalhados os tipos de tela que o cliente mobile suporta, assim como os tipos de campos disponíveis para a interação do usuário.
-
-### Tipo de tela – FORMULARIO
-
-A tela do tipo FORMULARIO exibe uma coleção de campos (itens) e possui um ou dois botões de ação na parte inferior.
-
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada botão quando o mesmo é acionado. Nos casos onde temos campos de entrada
-de dados na tela, os valores informados pelo usuário são adicionados ao corpo da requisição. Abaixo o exemplo da requisição que o aplicativo vai fazer quando o botão “Ação 1” for acionado:
-
+### Associados
+#### Cadastrar um associado
+  Endpoint para realizar o cadastro de um associado no sistema
+```http
+  POST /session/create
 ```
-POST http://seudominio.com/ACAO1
-{
-    “campo1”: “valor1”,
-    “campo2”: 123,
-    “idCampoTexto”: “Texto”,
-    “idCampoNumerico: 999
-    “idCampoData”: “01/01/2000”
-}
+##### Dados de entrada
+
+| Campo  |   Tipo   | Obrigatório | Local de entrada |             Descrição              |
+|:------:|:--------:|:------------:|:----------------:|:----------------------------------:|
+| `nome` | `string` |     Sim      |       Body       | Nome do associado a ser cadastrado |
+| `cpf`  | `string` |     Sim      |       Body       | CPF do associado a ser cadastrado  |
+
+##### Dados de retorno
+
+| Campo |   Tipo    | Obrigatório |                  Descrição                   |
+|:-----:|:---------:|:-----------:|:--------------------------------------------:|
+| `id`  | `integer` |     Sim     | Código identificador gerado para o associado |
+| `cpf` | `string`  |     Sim     |         CPF do associado cadastrado          |
+
+### Pautas
+#### Cadastrar uma pauta
+  Endpoint para realizar o cadastro de uma pauta no sistema
+```http
+  POST /ruling/create
 ```
+##### Dados de entrada
 
-Obs: o formato da url acima é meramente ilustrativo e não define qualquer padrão de formato.
+|     Campo     |   Tipo   | Obrigatório | Local de entrada |              Descrição              |
+|:-------------:|:--------:|:------------:|:----------------:|:-----------------------------------:|
+|    `title`    | `string` |     Sim      |       Body       |  Título da pauta a ser cadastrada   |
+| `description` | `string` |     Sim      |       Body       | Descrição da pauta a ser cadastrada |
 
-### Tipo de tela – SELECAO
+##### Dados de retorno
 
-A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
+|     Campo     |   Tipo    | Obrigatório |              Descrição               |
+|:-------------:|:---------:|:-----------:|:------------------------------------:|
+|  `rulingId`   | `integer` |     Sim     | Código identificador da pauta criada |
+|    `title`    | `string`  |     Sim     |        Título da pauta criada        |
+| `description` | `string`  |     Sim     |      Descrição da pauta criada       |
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
+#### Contagem de votos
+  Endpoint para realizar a contagem de votos da sessão mais recente desta pauta.
+```http
+  POST /ruling/countVotes/{rulingId}
+```
+##### Dados de entrada
 
-# desafio-votacao
+|   Campo    |   Tipo    | Obrigatório | Local de entrada |           Descrição           |
+|:----------:|:---------:|:------------:|:----------------:|:-----------------------------:|
+| `rulingId` | `integer` |     Sim      |       Path       | Código identificador da pauta |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |                Descrição                |
+|:--------------:|:---------:|:-----------:|:---------------------------------------:|
+|    `title`     | `string`  |     Sim     |             Título da pauta             |
+| `description`  | `string`  |     Sim     |           Descrição da pauta            |
+|    `result`    | `string`  |     Sim     |          Resultado da votação           |
+| `inFavorVotes` | `integer` |     Sim     |       Quantidade de votos a favor       |
+| `againstVotes` | `integer` |     Sim     |       Quantidade de votos contra        |
+| `creationDate` | `string`  |     Sim     |        Data de criação da pauta         |
+| `sessionDate`  | `string`  |     Sim     | Data de criação da sessão contabilizada |
+|  `countDate`   | `string`  |     Sim     |       Data de contagem dos votos        |
+
+#### Buscar todas as pautas
+Endpoint para buscar todas as pautas cadastradas no sistema
+```http
+  GET /ruling/list
+```
+##### Dados de entrada
+
+| Campo | Tipo  | Obrigatório | Local de entrada | Descrição |
+|:-----:|:-----:|:-----------:|:----------------:|:---------:|
+| `N/A` | `N/A` |     N/A     |       N/A        |    N/A    |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |           Descrição           |
+|:--------------:|:---------:|:-----------:|:-----------------------------:|
+|      `id`      | `integer` |     Sim     | Código identificador da pauta |
+|    `title`     | `string`  |     Sim     |        Título da pauta        |
+| `description`  | `string`  |     Sim     |      Descrição da pauta       |
+|    `result`    | `string`  |     Sim     |     Resultado da votação      |
+| `creationDate` | `string`  |     Sim     |   Data de criação da pauta    |
+|  `resultDate`  | `string`  |     Não     |   Data da contagem de votos   |
+
+#### Buscar pauta por código identificador
+Endpoint para buscar uma pauta por meio de seu código identificador
+```http
+  GET /ruling/list/{id}
+```
+##### Dados de entrada
+
+| Campo |   Tipo    | Obrigatório | Local de entrada |           Descrição           |
+|:-----:|:---------:|:-----------:|:----------------:|:-----------------------------:|
+| `id`  | `integer` |     Sim     |       Path       | Código identificador da pauta |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |           Descrição           |
+|:--------------:|:---------:|:-----------:|:-----------------------------:|
+|      `id`      | `integer` |     Sim     | Código identificador da pauta |
+|    `title`     | `string`  |     Sim     |        Título da pauta        |
+| `description`  | `string`  |     Sim     |      Descrição da pauta       |
+|    `result`    | `string`  |     Sim     |     Resultado da votação      |
+| `creationDate` | `string`  |     Sim     |   Data de criação da pauta    |
+|  `resultDate`  | `string`  |     Não     |   Data da contagem de votos   |
+
+### Sessões
+#### Cadastrar uma sessão
+Endpoint para realizar o cadastro de uma sessão no sistema
+```http
+  POST /session/create
+```
+##### Dados de entrada
+
+|   Campo    |   Tipo    | Obrigatório | Local de entrada |                                                    Descrição                                                     |
+|:----------:|:---------:|:-----------:|:----------------:|:----------------------------------------------------------------------------------------------------------------:|
+| `rulingId` | `integer` |     Sim     |       Body       |                             Código identificador da pauta na qual a sessão irá votar                             |
+| `duration` | `integer` |     Não     |       Body       | Duração da sessão em segundos. Caso não esteja presente este dado no envio,<br/> será adotado o valor de 60 segundos. |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |               Descrição               |
+|:--------------:|:---------:|:-----------:|:-------------------------------------:|
+|  `sessionId`   | `integer` |     Sim     | Código identificador da sessão criada |
+| `creationDate` | `string`  |     Sim     |       Data de criação da sessão       |
+|   `duration`   | `integer` |     Sim     |     Duração da sessão em segundos     |
+
+#### Listar todas as sessões
+Endpoint para realizar a busca de todas as sessões cadastradas no sistema
+```http
+  GET /session/list
+```
+##### Dados de entrada
+
+| Campo | Tipo  | Obrigatório | Local de entrada | Descrição |
+|:-----:|:-----:|:-----------:|:----------------:|:---------:|
+| `N/A` | `N/A` |     N/A     |       N/A        |    N/A    |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |                   Descrição                    |
+|:--------------:|:---------:|:-----------:|:----------------------------------------------:|
+|      `id`      | `integer` |     Sim     |     Código identificador da sessão criada      |
+| `rulingTitle`  | `string`  |     Sim     |   Título da pauta na qual a sessão pertence    |
+|   `rulingId`   | `integer` |     Sim     | Código identificador na qual a sessão pertence |
+|   `duration`   | `integer` |     Sim     |         Duração da sessão em segundos          |
+| `creationDate` | `string`  |     Sim     |           Data de criação da sessão            |
+
+#### Listar sessão por código identificador
+Endpoint para realizar a busca de uma sessão específica por meio de seu código identificador
+```http
+  GET /session/list/{sessionId}
+```
+##### Dados de entrada
+
+|    Campo    |   Tipo    | Obrigatório | Local de entrada |           Descrição            |
+|:-----------:|:---------:|:-----------:|:----------------:|:------------------------------:|
+| `sessionId` | `integer` |     Sim     |       Path       | Código identificador da sessão |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |                   Descrição                    |
+|:--------------:|:---------:|:-----------:|:----------------------------------------------:|
+|      `id`      | `integer` |     Sim     |     Código identificador da sessão criada      |
+| `rulingTitle`  | `string`  |     Sim     |   Título da pauta na qual a sessão pertence    |
+|   `rulingId`   | `integer` |     Sim     | Código identificador na qual a sessão pertence |
+|   `duration`   | `integer` |     Sim     |         Duração da sessão em segundos          |
+| `creationDate` | `string`  |     Sim     |           Data de criação da sessão            |
+
+### Votos
+#### Computar um voto
+Endpoint para computar um voto de um associado em uma sessão.
+```http
+  POST /vote/compute
+```
+##### Dados de entrada
+
+|    Campo    |   Tipo    | Obrigatório | Local de entrada |                                Descrição                                |
+|:-----------:|:---------:|:-----------:|:----------------:|:-----------------------------------------------------------------------:|
+|    `cpf`    | `string`  |     Sim     |       Body       |                    CPF do associado que está votando                    |
+|   `vote`    | `boolean` |     Sim     |       Body       | Voto do associado. True corresponde à "SIM" e False corresponde à "Não" |
+| `sessionId` | `integer` |     Sim     |       Body       |     Código identificador da sessão em que o associado está votando.     |
+
+##### Dados de retorno
+
+|     Campo      |   Tipo    | Obrigatório |                   Descrição                    |
+|:--------------:|:---------:|:-----------:|:----------------------------------------------:|
+|    `voteId`    | `integer` |     Sim     |     Código identificador do voto computado     |
+|  `sessionId`   | `integer` |     Sim     |     Código identificador da sessão votada      |
+| `cpfAssociate` | `string`  |     Sim     |           CPF do associado que votou           |
+| `computedVote` | `string`  |     Sim     |     Dado do voto do usuário "Sim" ou "Não"     |
+| `sessionDate`  | `string`  |     Sim     |           Data de criação da sessão            |
+|    `topic`     | `string`  |     Sim     | Título da pauta em que a sessão estava votando |
+
+### CPF Facade
+#### Validar CPF pela facade
+Endpoint para validar o CPF pela facade
+```http
+  POST /facade/{cpf}/validate}
+```
+##### Dados de entrada
+
+|    Campo    |   Tipo    | Obrigatório | Local de entrada |     Descrição      |
+|:-----------:|:---------:|:-----------:|:----------------:|:------------------:|
+|    `cpf`    | `string`  |     Sim     |       Path       | CPF para validação |
+
+##### Dados de retorno
+
+|  Campo   |   Tipo   | Obrigatório |                   Descrição                   |
+|:--------:|:--------:|:-----------:|:---------------------------------------------:|
+| `status` | `string` |     Sim     | Status que indica se CPF é válido ou inválido |
