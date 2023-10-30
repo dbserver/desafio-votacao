@@ -40,7 +40,7 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 ### Associados
 #### Cadastrar um associado
   Endpoint para realizar o cadastro de um associado no sistema
-````http request
+````http
   POST /session/create
 ````
 ##### Dados de entrada
@@ -60,7 +60,7 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 ### Pautas
 #### Cadastrar uma pauta
   Endpoint para realizar o cadastro de uma pauta no sistema
-````http request
+````http
   POST /ruling/create
 ````
 ##### Dados de entrada
@@ -80,7 +80,7 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 
 #### Contagem de votos
   Endpoint para realizar a contagem de votos da sessão mais recente desta pauta.
-````http request
+````http
   POST /ruling/countVotes/{rulingId}
 ````
 ##### Dados de entrada
@@ -104,7 +104,7 @@ swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html
 
 #### Buscar todas as pautas
 Endpoint para buscar todas as pautas cadastradas no sistema
-````http request
+````http
   GET /ruling/list
 ````
 ##### Dados de entrada
@@ -126,7 +126,7 @@ Endpoint para buscar todas as pautas cadastradas no sistema
 
 #### Buscar pauta por código identificador
 Endpoint para buscar uma pauta por meio de seu código identificador
-````http request
+````http
   GET /ruling/list/{id}
 ````
 ##### Dados de entrada
@@ -149,7 +149,7 @@ Endpoint para buscar uma pauta por meio de seu código identificador
 ### Sessões
 #### Cadastrar uma sessão
 Endpoint para realizar o cadastro de uma sessão no sistema
-````http request
+````http
   POST /session/create
 ````
 ##### Dados de entrada
@@ -169,7 +169,7 @@ Endpoint para realizar o cadastro de uma sessão no sistema
 
 #### Listar todas as sessões
 Endpoint para realizar a busca de todas as sessões cadastradas no sistema
-````http request
+````http
   GET /session/list
 ````
 ##### Dados de entrada
@@ -190,7 +190,7 @@ Endpoint para realizar a busca de todas as sessões cadastradas no sistema
 
 #### Listar sessão por código identificador
 Endpoint para realizar a busca de uma sessão específica por meio de seu código identificador
-````http request
+````http
   GET /session/list/{sessionId}
 ````
 ##### Dados de entrada
@@ -212,7 +212,7 @@ Endpoint para realizar a busca de uma sessão específica por meio de seu códig
 ### Votos
 #### Computar um voto
 Endpoint para computar um voto de um associado em uma sessão.
-````http request
+````http
   POST /vote/compute
 ````
 ##### Dados de entrada
@@ -237,7 +237,7 @@ Endpoint para computar um voto de um associado em uma sessão.
 ### CPF Facade
 #### Validar CPF pela facade
 Endpoint para validar o CPF pela facade
-````http request
+````http
   POST /facade/{cpf}/validate}
 ````
 ##### Dados de entrada
