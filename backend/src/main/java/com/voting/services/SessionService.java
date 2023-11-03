@@ -1,6 +1,7 @@
 package com.voting.services;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.voting.entities.Session;
 import com.voting.entities.Topic;
 import com.voting.repositories.SessionRepository;
-import com.voting.services.exceptions.ResourceNotFoundException;
+import com.voting.services.exceptions.BadRequestException;
 
 @Service
 public class SessionService {
@@ -23,14 +24,17 @@ public class SessionService {
 	public void startVotingSession(Integer topicId, Integer minutesVoting) {
 		Topic topic = topicService.findById(topicId);
 
+		if (Objects.requireNonNull(findByTopic(topic)).isPresent()) {
+			throw new BadRequestException("Já existe uma sessão cadastrada com este identificador!");
+		}
+
 		createSession(topic, closingDate(minutesVoting));
 	}
 
-	public Session findByTopic(Topic topic) {
-			
-		Optional<Session> session = sessionRepository.findByTopic(topic);
+	public Optional<Session> findByTopic(Topic topic) {
 
-		return session.orElseThrow(() -> new ResourceNotFoundException("A sessão da votação não foi encontrada!"));
+		return sessionRepository.findByTopic(topic);
+
 	}
 
 	private void createSession(Topic topic, Instant closingDate) {
