@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.voting.entities.Session;
 import com.voting.entities.Topic;
 import com.voting.repositories.SessionRepository;
+import com.voting.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class SessionService {
@@ -26,9 +27,10 @@ public class SessionService {
 	}
 
 	public Session findByTopic(Topic topic) {
+			
 		Optional<Session> session = sessionRepository.findByTopic(topic);
 
-		return session.get();
+		return session.orElseThrow(() -> new ResourceNotFoundException("A sessão da votação não foi encontrada!"));
 	}
 
 	private void createSession(Topic topic, Instant closingDate) {
