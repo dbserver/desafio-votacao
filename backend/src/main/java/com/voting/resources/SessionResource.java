@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.voting.services.SessionService;
 
 @RestController
-@RequestMapping(value = "/sessions")
+@RequestMapping(value = "/v1/sessions")
 public class SessionResource {
 
 	@Autowired

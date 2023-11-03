@@ -12,7 +12,7 @@ import com.voting.entities.Vote;
 import com.voting.services.VoteService;
 
 @RestController
-@RequestMapping("/votes")
+@RequestMapping("/v1/votes")
 public class VoteResource {
 
 	@Autowired

@@ -19,7 +19,7 @@ import com.voting.entities.Topic;
 import com.voting.services.TopicService;
 
 @RestController
-@RequestMapping(value = "/topics")
+@RequestMapping(value = "/v1/topics")
 public class TopicResource {
 
 	@Autowired
