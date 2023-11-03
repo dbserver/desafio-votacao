@@ -1,6 +1,7 @@
 package com.voting.services;
 
 import java.time.Instant;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class SessionService {
 		Topic topic = topicService.findById(topicId);
 
 		createSession(topic, closingDate(minutesVoting));
+	}
+
+	public Session findByTopic(Topic topic) {
+		Optional<Session> session = sessionRepository.findByTopic(topic);
+
+		return session.get();
 	}
 
 	private void createSession(Topic topic, Instant closingDate) {
