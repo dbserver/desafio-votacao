@@ -2,13 +2,18 @@ package com.voting.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -23,8 +28,11 @@ public class Session implements Serializable {
 	private Instant closingDate;
 
 	@OneToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id_topic")
 	private Topic topic;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "session", cascade = CascadeType.ALL)
+	private Set<Vote> votes = new HashSet<Vote>();
 
 	public Session() {
 	}
@@ -66,6 +74,10 @@ public class Session implements Serializable {
 
 	public void setTopic(Topic topic) {
 		this.topic = topic;
+	}
+
+	public Set<Vote> getVotes() {
+		return votes;
 	}
 
 	@Override
