@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.voting.entities.Topic;
 import com.voting.repositories.TopicRepository;
+import com.voting.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TopicService {
@@ -20,9 +23,10 @@ public class TopicService {
 	}
 
 	public Topic findById(Integer id) {
+
 		Optional<Topic> topic = topicRepository.findById(id);
 
-		return topic.get();
+		return topic.orElseThrow(() -> new ResourceNotFoundException("A pauta não foi encontrada!"));
 	}
 
 	public Topic save(Topic topic) {
@@ -30,9 +34,15 @@ public class TopicService {
 	}
 
 	public Topic update(Integer id, Topic topic) {
-		Topic entity = topicRepository.getReferenceById(id);
-		updateData(entity, topic);
-		return topicRepository.save(entity);
+		try {
+
+			Topic entity = topicRepository.getReferenceById(id);
+			updateData(entity, topic);
+			return topicRepository.save(entity);
+
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("A pauta não foi encontrada!");
+		}
 	}
 
 	public void delete(Integer id) {
