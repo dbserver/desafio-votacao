@@ -8,5 +8,5 @@ import com.voting.entities.Vote;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
-	Boolean existsByVotingSessionAndCpfVoter(Session session, String cpfVoter);
+	Boolean existsBySessionAndCpfVoter(Session session, String cpfVoter);
 }

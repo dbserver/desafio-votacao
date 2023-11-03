@@ -34,7 +34,7 @@ public class VoteService {
 		vote.setSession(session);
 		vote.setMoment(Instant.now());
 
-		if (voteRepository.existsByVotingSessionAndCpfVoter(session, vote.getCpfVoter())) {
+		if (voteRepository.existsBySessionAndCpfVoter(session, vote.getCpfVoter())) {
 			throw new BadRequestException(
 					"Você já registrou o seu voto para esta pauta, é permitido apenas um voto por pessoa!");
 		}
