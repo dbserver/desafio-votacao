@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.voting.entities.Vote;
 import com.voting.services.VoteService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/v1/votes")
 public class VoteResource {
@@ -22,6 +24,7 @@ public class VoteResource {
 	@Autowired
 	VoteService voteService;
 
+	@Operation(summary = "Registra o voto em uma sessão", method = "POST")
 	@PostMapping("/{topicId}/vote")
 	public ResponseEntity vote(@PathVariable("topicId") Integer topicId, @RequestBody Vote vote) {
 		logger.info("Registrando voto...");
