@@ -1,8 +1,10 @@
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import SessionCard from "../SessionCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../utils/api";
+import Spinner from "../Spinner/Spinner";
+import LoadingSpinner from "../Spinner/Spinner";
 
 export default function Sessions({
   sessions,
@@ -11,13 +13,18 @@ export default function Sessions({
   closedVoting,
   setClosedVoting,
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setSessions([]);
+    setIsLoading(true);
     api
       .get("sessions", {
         params: { showClosedSessions: closedVoting ? "Y" : "N" },
       })
       .then((result) => {
         setSessions(result.data);
+        setIsLoading(false);
       });
   }, [closedVoting, setSessions]);
 
@@ -48,14 +55,18 @@ export default function Sessions({
       </header>
 
       <div className="cards-container">
-        {sessions?.map((session) => (
-          <SessionCard
-            key={`${session.id}-session`}
-            session={session}
-            closedVoting={closedVoting}
-            onClickButton={onClickButton}
-          />
-        ))}
+        {!isLoading ? (
+          sessions?.map((session) => (
+            <SessionCard
+              key={`${session.id}-session`}
+              session={session}
+              closedVoting={closedVoting}
+              onClickButton={onClickButton}
+            />
+          ))
+        ) : (
+          <LoadingSpinner />
+        )}
       </div>
     </section>
   );
