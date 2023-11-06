@@ -1,6 +1,7 @@
 package com.voting.services;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,11 +22,26 @@ public class SessionService {
 	@Autowired
 	private TopicService topicService;
 
+	public List<Session> findAll(String showClosedSessions) {
+
+		if ("Y".equals(showClosedSessions)) {
+			List<Session> sessions = sessionRepository.findClosedSessions(Instant.now());
+
+			for (Session session : sessions) {
+				session.setResult(topicService.getResult(session.getVotes()));
+			}
+
+			return sessions;
+		} else {
+			return sessionRepository.findOpenSessions(Instant.now());
+		}
+	}
+
 	public void startVotingSession(Integer topicId, Integer minutesVoting) {
 		Topic topic = topicService.findById(topicId);
 
 		if (Objects.requireNonNull(findByTopic(topic)).isPresent()) {
-			throw new BadRequestException("Já existe uma sessão cadastrada com este identificador!");
+			throw new BadRequestException("Já existe uma sessão cadastrada para essa pauta!");
 		}
 
 		createSession(topic, closingDate(minutesVoting));
