@@ -3,6 +3,8 @@ package com.voting.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,6 +24,7 @@ public class Vote implements Serializable {
 
 	private Instant moment;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_voting_session")
 	private Session session;
