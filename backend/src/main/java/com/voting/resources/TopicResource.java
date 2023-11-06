@@ -20,6 +20,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.voting.entities.Topic;
 import com.voting.services.TopicService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping(value = "/v1/topics")
 public class TopicResource {
@@ -29,6 +31,7 @@ public class TopicResource {
 	@Autowired
 	private TopicService topicService;
 
+	@Operation(summary = "Busca todas as pautas cadastradas", method = "GET")
 	@GetMapping
 	public ResponseEntity<List<Topic>> findAll() {
 		logger.info("Consultando pautas...");
@@ -37,6 +40,7 @@ public class TopicResource {
 		return ResponseEntity.ok().body(list);
 	}
 
+	@Operation(summary = "Busca uma pauta pelo Id", method = "GET")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Topic> findById(@PathVariable Integer id) {
 		logger.info("Consultando pauta...");
@@ -45,6 +49,7 @@ public class TopicResource {
 		return ResponseEntity.ok().body(topic);
 	}
 
+	@Operation(summary = "Cria uma nova pauta", method = "POST")
 	@PostMapping
 	public ResponseEntity<Topic> save(@RequestBody Topic topic) {
 		logger.info("Registrando nova pauta...");
@@ -56,6 +61,7 @@ public class TopicResource {
 		return ResponseEntity.created(uri).body(topic);
 	}
 
+	@Operation(summary = "Atualiza uma pauta", method = "PUT")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Topic> update(@PathVariable Integer id, @RequestBody Topic topic) {
 		logger.info("Atualizando pauta...");
@@ -65,6 +71,7 @@ public class TopicResource {
 		return ResponseEntity.ok().body(topic);
 	}
 
+	@Operation(summary = "Apaga uma pauta", method = "DELETE")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		logger.info("Deletando pauta...");
