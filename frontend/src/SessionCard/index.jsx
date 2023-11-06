@@ -32,8 +32,8 @@ export default function SessionCard({ session, closedVoting, onClickButton }) {
           </Button>
         ) : (
           <ListGroup className="list-group-flush">
-            <ListGroup.Item>Sim: {session?.result["SIM"]}</ListGroup.Item>
-            <ListGroup.Item>Não: {session?.result["NAO"]}</ListGroup.Item>
+            <ListGroup.Item>Sim: {session.result ? session?.result["SIM"] : 0}</ListGroup.Item>
+            <ListGroup.Item>Não: {session.result ? session?.result["NAO"] : 0}</ListGroup.Item>
           </ListGroup>
         )}
       </Card.Body>
