@@ -9,33 +9,22 @@ export default function SessionCard({ session, closedVoting, onClickButton }) {
       <Card.Body>
         <Card.Title>{session?.topic?.name}</Card.Title>
       </Card.Body>
-      {closedVoting ? (
-        <Card.Subtitle className="ps-4">Resultado:</Card.Subtitle>
-      ) : (
-        <ListGroup className="list-group-flush">
-          <ListGroup.Item>
-            Data de início: {formatDate(session?.openingDate)}
-          </ListGroup.Item>
-          <ListGroup.Item>
-            Data de encerramento: {formatDate(session?.closingDate)}
-          </ListGroup.Item>
-        </ListGroup>
-      )}
+      <ListGroup className="list-group-flush">
+        <ListGroup.Item>
+          Data de início: {formatDate(session?.openingDate)}
+        </ListGroup.Item>
+        <ListGroup.Item>
+          Data de encerramento: {formatDate(session?.closingDate)}
+        </ListGroup.Item>
+      </ListGroup>
       <Card.Body>
-        {!closedVoting ? (
-          <Button
-            variant="primary"
-            className="mt-2"
-            onClick={() => onClickButton(session)}
-          >
-            Votar
-          </Button>
-        ) : (
-          <ListGroup className="list-group-flush">
-            <ListGroup.Item>Sim: {session.result ? session?.result["SIM"] : 0}</ListGroup.Item>
-            <ListGroup.Item>Não: {session.result ? session?.result["NAO"] : 0}</ListGroup.Item>
-          </ListGroup>
-        )}
+        <Button
+          variant="primary"
+          className="mt-2"
+          onClick={() => onClickButton(session)}
+        >
+          {closedVoting ? "Ver resultado" : "Votar"}
+        </Button>
       </Card.Body>
     </Card>
   );

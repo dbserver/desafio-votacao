@@ -9,8 +9,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.voting.entities.Session;
 import com.voting.entities.Topic;
 import com.voting.entities.Vote;
+import com.voting.repositories.SessionRepository;
 import com.voting.repositories.TopicRepository;
 import com.voting.services.exceptions.ResourceNotFoundException;
 
@@ -22,6 +24,15 @@ public class TopicService {
 	@Autowired
 	private TopicRepository topicRepository;
 
+	@Autowired
+	private SessionRepository sessionRepository;
+
+	private Session findSessionByTopic(Topic topic) {
+		Optional<Session> session = sessionRepository.findByTopic(topic);
+
+		return session.orElseThrow(() -> new ResourceNotFoundException("Sessão não encontrada para a pauta!"));
+	}
+
 	public List<Topic> findAll() {
 		return topicRepository.findAll();
 	}
@@ -31,6 +42,15 @@ public class TopicService {
 		Optional<Topic> topic = topicRepository.findById(id);
 
 		return topic.orElseThrow(() -> new ResourceNotFoundException("A pauta não foi encontrada!"));
+	}
+
+	public Topic getTopicResult(Integer id) {
+		Topic topic = findById(id);
+		Session session = findSessionByTopic(topic);
+
+		topic.setResult(getResult(session.getVotes()));
+
+		return topic;
 	}
 
 	public Map<String, Long> getResult(Set<Vote> votes) {

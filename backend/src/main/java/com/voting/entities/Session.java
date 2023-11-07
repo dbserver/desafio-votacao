@@ -3,7 +3,6 @@ package com.voting.entities;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 
 @Entity
 public class Session implements Serializable {
@@ -28,9 +26,6 @@ public class Session implements Serializable {
 
 	private Instant openingDate;
 	private Instant closingDate;
-
-	@Transient
-	private Map<String, Long> result;
 
 	@OneToOne
 	@JoinColumn(name = "id_topic")
@@ -71,14 +66,6 @@ public class Session implements Serializable {
 
 	public void setClosingDate(Instant closingDate) {
 		this.closingDate = closingDate;
-	}
-
-	public Map<String, Long> getResult() {
-		return result;
-	}
-
-	public void setResult(Map<String, Long> result) {
-		this.result = result;
 	}
 
 	public Topic getTopic() {

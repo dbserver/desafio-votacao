@@ -3,8 +3,8 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import SessionCard from "../SessionCard";
 import { useEffect, useState } from "react";
 import { api } from "../utils/api";
-import Spinner from "../Spinner/Spinner";
 import LoadingSpinner from "../Spinner/Spinner";
+import ModalResult from "../ModalResult";
 
 export default function Sessions({
   sessions,
@@ -14,6 +14,8 @@ export default function Sessions({
   setClosedVoting,
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [showModalResult, setShowModalResult] = useState(false);
+  const [topicResult, setTopicResult] = useState(null);
 
   useEffect(() => {
     setSessions([]);
@@ -28,46 +30,67 @@ export default function Sessions({
       });
   }, [closedVoting, setSessions]);
 
-  function onClickButton(session) {
-    onClickVote(session);
+  async function getTopicResult(session) {
+    const id = session?.topic?.id;
+
+    await api.get(`topics/${id}/result`).then((result) => {
+      setTopicResult(result.data);
+    });
+  }
+
+  async function onClickButton(session) {
+    if (closedVoting) {
+      await getTopicResult(session);
+      setShowModalResult(true);
+    } else {
+      onClickVote(session);
+    }
   }
 
   return (
-    <section>
-      <header className="align-end">
-        <ButtonGroup aria-label="Basic example">
-          <Button
-            variant="light"
-            className="me-1"
-            active={!closedVoting}
-            onClick={() => setClosedVoting(false)}
-          >
-            Votações Ativas
-          </Button>
-          <Button
-            variant="light"
-            active={closedVoting}
-            onClick={() => setClosedVoting(true)}
-          >
-            Votações Encerradas
-          </Button>
-        </ButtonGroup>
-      </header>
+    <>
+      <ModalResult
+        showModalResult={showModalResult}
+        setShowModalResult={setShowModalResult}
+        topic={topicResult}
+      />
 
-      <div className="cards-container">
-        {!isLoading ? (
-          sessions?.map((session) => (
-            <SessionCard
-              key={`${session.id}-session`}
-              session={session}
-              closedVoting={closedVoting}
-              onClickButton={onClickButton}
-            />
-          ))
-        ) : (
-          <LoadingSpinner />
-        )}
-      </div>
-    </section>
+      <section>
+        <header className="align-end">
+          <ButtonGroup aria-label="Basic example">
+            <Button
+              variant="light"
+              className="me-1"
+              active={!closedVoting}
+              onClick={() => setClosedVoting(false)}
+            >
+              Votações Ativas
+            </Button>
+            <Button
+              variant="light"
+              active={closedVoting}
+              onClick={() => setClosedVoting(true)}
+            >
+              Votações Encerradas
+            </Button>
+          </ButtonGroup>
+        </header>
+
+        <div className="cards-container">
+          {!isLoading ? (
+            sessions?.map((session) => (
+              <SessionCard
+                key={`${session.id}-session`}
+                session={session}
+                closedVoting={closedVoting}
+                onClickButton={onClickButton}
+              />
+            ))
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
+      </section>
+    </>
   );
 }

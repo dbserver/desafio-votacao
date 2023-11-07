@@ -49,6 +49,15 @@ public class TopicResource {
 		return ResponseEntity.ok().body(topic);
 	}
 
+	@Operation(summary = "Busca o resultado da votação da pauta", method = "GET")
+	@GetMapping(value = "/{id}/result")
+	public ResponseEntity<Topic> getTopicResult(@PathVariable Integer id) {
+		logger.info("Carregando resultado da votação...");
+		Topic topic = topicService.getTopicResult(id);
+
+		return ResponseEntity.ok().body(topic);
+	}
+
 	@Operation(summary = "Cria uma nova pauta", method = "POST")
 	@PostMapping
 	public ResponseEntity<Topic> save(@RequestBody Topic topic) {

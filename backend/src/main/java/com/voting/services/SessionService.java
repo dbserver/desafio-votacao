@@ -25,13 +25,8 @@ public class SessionService {
 	public List<Session> findAll(String showClosedSessions) {
 
 		if ("Y".equals(showClosedSessions)) {
-			List<Session> sessions = sessionRepository.findClosedSessions(Instant.now());
+			return sessionRepository.findClosedSessions(Instant.now());
 
-			for (Session session : sessions) {
-				session.setResult(topicService.getResult(session.getVotes()));
-			}
-
-			return sessions;
 		} else {
 			return sessionRepository.findOpenSessions(Instant.now());
 		}
