@@ -25,8 +25,8 @@ Frontend:
 ```sh
 $ cd desafio-votacao/frontend
 $ npm install
-$ npm run dev
+$ npm start
 ```
 
 A api ficará disponível localmente em [localhost:8080](http://localhost:8080/)
-O frontend será executado localmente em [localhost:5173](http://localhost:5173/).
+O frontend será executado localmente em [localhost:3000](http://localhost:3000/).
