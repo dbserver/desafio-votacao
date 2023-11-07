@@ -28,5 +28,6 @@ $ npm install
 $ npm start
 ```
 
-A api ficará disponível localmente em [localhost:8080](http://localhost:8080/)
+A api ficará disponível localmente em [localhost:8080](http://localhost:8080/).
+
 O frontend será executado localmente em [localhost:3000](http://localhost:3000/).
