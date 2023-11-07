@@ -1,0 +1,26 @@
+#container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#wrapper {
+    width: 100vw;
+    height: 100%;
+    background: #fafafa;
+    padding: 20px;
+    border-top: 1.5px solid rgba(0,0,0,.2);
+}
+
+.align-end {
+    text-align: end;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
