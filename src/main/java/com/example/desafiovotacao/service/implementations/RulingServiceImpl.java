@@ -3,37 +3,40 @@ package com.example.desafiovotacao.service.implementations;
 import com.example.desafiovotacao.dto.*;
 import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
-import com.example.desafiovotacao.exception.RulingExceptions;
-import com.example.desafiovotacao.exception.SessionExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.RulingErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.SessionErrorMessages;
 import com.example.desafiovotacao.repository.RulingRepository;
-import com.example.desafiovotacao.service.interfaces.RulingInterface;
+import com.example.desafiovotacao.service.interfaces.RulingService;
 import com.example.desafiovotacao.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-@Service
-public class RulingService implements RulingInterface {
+import static java.util.Objects.*;
 
-    @Autowired
-    private RulingRepository rulingRepository;
-    @Autowired
-    private SessionService sessionService;
+@Service
+@RequiredArgsConstructor
+public class RulingServiceImpl implements RulingService {
+
+    private final RulingRepository rulingRepository;
+    private final SessionServiceImpl sessionService;
 
     @Override
     public CreatedRulingDTO create(RegisterRulingDTO ruling) {
-        if(ruling.getTitle() == null || ruling.getDescription() == null) {
-            ValidationExceptions.faultyInformation();
-        }
+        validateRegisterRulingDTO(ruling);
 
-        RulingEntity newRuling = new RulingEntity();
-        newRuling.setTitle(ruling.getTitle());
-        newRuling.setDescription(ruling.getDescription());
-        newRuling = rulingRepository.save(newRuling);
+        RulingEntity newRuling = rulingRepository.save(
+                RulingEntity.builder()
+                        .title(ruling.getTitle())
+                        .description(ruling.getDescription())
+                        .build()
+        );
 
         return CreatedRulingDTO.builder()
                 .rulingId(newRuling.getId())
@@ -45,18 +48,18 @@ public class RulingService implements RulingInterface {
     @Override
     public CountingResultsDTO countVotes(Integer rulingId) {
         RulingEntity existingRuling = getRulingEntityIfExists(rulingId);
-        if(existingRuling.getResults() != null) {
-            RulingExceptions.rulingHasAlreadyEnded();
+        if(nonNull(existingRuling.getResults())) {
+            throw new ValidationExceptions(RulingErrorMessages.RULING_HAS_ALREADY_ENDED);
         }
 
         SessionEntity existingSession = sessionService.getSessionByRulingId(existingRuling.getId());
         if(existingSession.isSessionRunning()){
-            SessionExceptions.sessionStillRunning();
+            throw new ValidationExceptions(SessionErrorMessages.SESSION_IS_STILL_RUNNING);
         }
 
         VotesDTO countedVotes = rulingRepository.countVotes(rulingId);
-        if(countedVotes.getVotesInFavor() == countedVotes.getVotesAgainst()){
-            RulingExceptions.rulingHasVotesTied();
+        if(Objects.equals(countedVotes.getVotesInFavor(), countedVotes.getVotesAgainst())){
+            throw new ValidationExceptions(RulingErrorMessages.VOTING_TIE);
         }
 
         existingRuling.setResults(countedVotes.getVotesInFavor() > countedVotes.getVotesAgainst());
@@ -82,22 +85,23 @@ public class RulingService implements RulingInterface {
 
     @Override
     public RulingEntity getRulingEntityIfExists(Integer rulingId) {
-        Optional<RulingEntity> existingRuling = rulingRepository.findById(rulingId);
-        if(existingRuling.isEmpty()){
-            RulingExceptions.rulingDoesNotExist();
-        }
-
-        return existingRuling.get();
+        return rulingRepository.findById(rulingId).orElseThrow(() -> {
+            throw new ValidationExceptions(RulingErrorMessages.RULING_DOES_NOT_EXIST);
+        });
     }
 
     @Override
     public RulingReturnDTO getRulingReturnIfExists(Integer rulingId) {
-        Optional<RulingReturnDTO> existingRuling = rulingRepository.listReturnById(rulingId);
-        if(existingRuling.isEmpty()){
-            RulingExceptions.rulingDoesNotExist();
-        }
+        return rulingRepository.listReturnById(rulingId).orElseThrow(() -> {
+            throw new ValidationExceptions(RulingErrorMessages.RULING_DOES_NOT_EXIST);
+        });
+    }
 
-        return existingRuling.get();
+    @Override
+    public void validateRegisterRulingDTO(RegisterRulingDTO registerRulingDTO) {
+        if(registerRulingDTO.getTitle() == null || registerRulingDTO.getDescription() == null) {
+            throw new ValidationExceptions(InformationErrorMessages.FAULTY_INFORMATION);
+        }
     }
 
 }
