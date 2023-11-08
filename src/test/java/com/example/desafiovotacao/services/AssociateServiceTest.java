@@ -4,6 +4,8 @@ import com.example.desafiovotacao.dto.CreatedAssociateDTO;
 import com.example.desafiovotacao.dto.RegisterAssociateDTO;
 import com.example.desafiovotacao.entity.AssociateEntity;
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.AssociateErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.service.implementations.AssociateServiceImpl;
 import com.example.desafiovotacao.utils.CpfUtils;
@@ -46,7 +48,7 @@ public class AssociateServiceTest {
 
     @Test
     void shouldCreationThrowInvalidCPFException() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exception = assertThrows(ValidationExceptions.class, () -> {
             associateService.create(
                     RegisterAssociateDTO.builder()
                             .cpf("00000000000")
@@ -54,11 +56,13 @@ public class AssociateServiceTest {
                             .build()
             );
         });
+
+        assertEquals(InformationErrorMessages.INVALID_CPF.getDescription(), exception.getMessage());
     }
 
     @Test
     void shouldCreationThrowFaultyInformationException() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exception = assertThrows(ValidationExceptions.class, () -> {
             associateService.create(
                     RegisterAssociateDTO.builder()
                             .cpf(null)
@@ -66,6 +70,8 @@ public class AssociateServiceTest {
                             .build()
             );
         });
+
+        assertEquals(InformationErrorMessages.FAULTY_INFORMATION.getDescription(), exception.getMessage());
     }
 
     @Test
@@ -104,9 +110,11 @@ public class AssociateServiceTest {
 
     @Test
     void shouldThrowAssociateNotFoundExceptionOnGetAssociateByCPF() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exception = assertThrows(ValidationExceptions.class, () -> {
             associateService.getAssociateByCpfIfExists(CpfUtils.generateCPF());
         });
+
+        assertEquals(AssociateErrorMessages.ASSOCIATE_NOT_FOUNT.getDescription(), exception.getMessage());
     }
 
 }

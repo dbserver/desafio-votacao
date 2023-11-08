@@ -7,6 +7,8 @@ import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
 import com.example.desafiovotacao.entity.VoteEntity;
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.VoteErrorMessages;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.repository.RulingRepository;
 import com.example.desafiovotacao.repository.SessionRepository;
@@ -117,7 +119,7 @@ public class VoteServiceTest {
 
     @Test
     void shouldInvalidateInformationWhileComputingVote() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            voteService.create(
                    ComputingVoteDTO.builder()
                            .cpf(null)
@@ -126,11 +128,13 @@ public class VoteServiceTest {
                            .build()
            );
         });
+
+        assertEquals(InformationErrorMessages.FAULTY_INFORMATION.getDescription(), exceptions.getMessage());
     }
 
     @Test
     void shouldThrowInvalidCPFWhileComputingVote() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             voteService.create(
                     ComputingVoteDTO.builder()
                             .cpf("00000000000")
@@ -139,6 +143,8 @@ public class VoteServiceTest {
                             .build()
             );
         });
+
+        assertEquals(InformationErrorMessages.INVALID_CPF.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -152,7 +158,7 @@ public class VoteServiceTest {
                         .build()
         );
 
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            voteService.create(
                    ComputingVoteDTO.builder()
                        .vote(true)
@@ -161,11 +167,13 @@ public class VoteServiceTest {
                        .build()
            );
         });
+
+        assertEquals(VoteErrorMessages.CPF_ALREADY_VOTED_ON_SESSION.getDescription(), exceptions.getMessage());
     }
 
     @Test
     void shouldThrowSessionClosedExceptionWhileComputingVote() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             voteService.create(
                     ComputingVoteDTO.builder()
                             .vote(true)
@@ -174,13 +182,17 @@ public class VoteServiceTest {
                             .build()
             );
         });
+
+        assertEquals(VoteErrorMessages.SESSION_CLOSED_MESSAGE.getDescription(), exceptions.getMessage());
     }
 
     @Test
     void shouldThrowFaultyInformationAtValidateComputingVoteInformation() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             voteService.validateComputingVoteInformation(new ComputingVoteDTO());
         });
+
+        assertEquals(InformationErrorMessages.FAULTY_INFORMATION.getDescription(), exceptions.getMessage());
     }
 
 }

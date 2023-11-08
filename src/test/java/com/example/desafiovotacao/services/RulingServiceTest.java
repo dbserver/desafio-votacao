@@ -9,6 +9,9 @@ import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
 import com.example.desafiovotacao.entity.VoteEntity;
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.RulingErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.SessionErrorMessages;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.repository.RulingRepository;
 import com.example.desafiovotacao.repository.SessionRepository;
@@ -80,7 +83,7 @@ public class RulingServiceTest {
 
     @Test
     void shouldThrowValidationExceptionAtRulingCreation() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            rulingService.create(
                    RegisterRulingDTO.builder()
                            .description(null)
@@ -88,6 +91,8 @@ public class RulingServiceTest {
                            .build()
            );
         });
+
+        assertEquals(InformationErrorMessages.FAULTY_INFORMATION.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -138,9 +143,11 @@ public class RulingServiceTest {
                         .build()
         );
 
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            rulingService.countVotes(newRuling.getId());
         });
+
+        assertEquals(RulingErrorMessages.RULING_HAS_ALREADY_ENDED.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -154,9 +161,11 @@ public class RulingServiceTest {
                         .build()
         );
 
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            rulingService.countVotes(newRuling.getId());
         });
+
+        assertEquals(SessionErrorMessages.SESSION_IS_STILL_RUNNING.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -196,9 +205,11 @@ public class RulingServiceTest {
                         .build()
         );
 
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             rulingService.countVotes(newRuling.getId());
         });
+
+        assertEquals(RulingErrorMessages.VOTING_TIE.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -229,9 +240,11 @@ public class RulingServiceTest {
 
     @Test
     void shouldReturnRulingDoesNotExistOnGetRulingEntity() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             rulingService.getRulingEntityIfExists(1);
         });
+
+        assertEquals(RulingErrorMessages.RULING_DOES_NOT_EXIST.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -250,17 +263,21 @@ public class RulingServiceTest {
 
     @Test
     void shouldThrowRulingExceptionOnGetRulingReturn() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            rulingService.getRulingReturnIfExists(1);
         });
+
+        assertEquals(RulingErrorMessages.RULING_DOES_NOT_EXIST.getDescription(), exceptions.getMessage());
     }
 
 
     @Test
     void shouldThrowFaultyInformationAtValidateRegisterRuling() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            rulingService.validateRegisterRulingDTO(new RegisterRulingDTO());
         });
+
+        assertEquals(InformationErrorMessages.FAULTY_INFORMATION.getDescription(), exceptions.getMessage());
     }
 
 }

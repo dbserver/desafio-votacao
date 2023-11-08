@@ -6,6 +6,9 @@ import com.example.desafiovotacao.dto.StartSessionDTO;
 import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.RulingErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.SessionErrorMessages;
 import com.example.desafiovotacao.repository.RulingRepository;
 import com.example.desafiovotacao.repository.SessionRepository;
 import com.example.desafiovotacao.service.implementations.SessionServiceImpl;
@@ -77,7 +80,7 @@ public class SessionServiceTest {
 
     @Test
     void shouldThrowFaultyInformationAtCreation() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             sessionService.create(
                     StartSessionDTO.builder()
                             .rulingId(null)
@@ -85,11 +88,13 @@ public class SessionServiceTest {
                             .build()
             );
         });
+
+        assertEquals(InformationErrorMessages.FAULTY_INFORMATION.getDescription(), exceptions.getMessage());
     }
 
     @Test
     void shouldThrowRulingDoesNotExistAtCreation() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             sessionService.create(
                     StartSessionDTO.builder()
                             .rulingId(0)
@@ -97,6 +102,8 @@ public class SessionServiceTest {
                             .build()
             );
         });
+
+        assertEquals(RulingErrorMessages.RULING_DOES_NOT_EXIST.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -143,9 +150,11 @@ public class SessionServiceTest {
 
     @Test
     void shouldThrowSessionDontExistByRulingId() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
             sessionService.getSessionByRulingId(0);
         });
+
+        assertEquals(SessionErrorMessages.SESSION_DOES_NOT_EXIST.getDescription(), exceptions.getMessage());
     }
 
     @Test
@@ -164,9 +173,11 @@ public class SessionServiceTest {
 
     @Test
     void shouldThrowSessionExceptionByIdIfExists() {
-        assertThrows(ValidationExceptions.class, () -> {
+        ValidationExceptions exceptions = assertThrows(ValidationExceptions.class, () -> {
            sessionService.getSessionByIdIfExists(0);
         });
+
+        assertEquals(SessionErrorMessages.SESSION_DOES_NOT_EXIST.getDescription(), exceptions.getMessage());
     }
 
 }
