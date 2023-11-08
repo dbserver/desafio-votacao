@@ -1,0 +1,47 @@
+version: '3.8'
+networks:
+  my_network:
+    driver: bridge
+services:
+  db:
+    container_name: postgres_container
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_DB=votes
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5433:5433"
+    networks:
+      - my_network
+  java-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voteapp_container
+    restart: always
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/votes
+      DB_USERNAME: postgres
+      DB_PASSWORD: admin
+      SESSION_DEFAULT_DURATION: 60
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - my_network
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - my_network
