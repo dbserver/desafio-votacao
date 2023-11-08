@@ -3,7 +3,6 @@ package com.example.desafiovotacao.services;
 import com.example.desafiovotacao.dto.CreatedAssociateDTO;
 import com.example.desafiovotacao.dto.RegisterAssociateDTO;
 import com.example.desafiovotacao.entity.AssociateEntity;
-import com.example.desafiovotacao.exception.AssociateExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.service.implementations.AssociateServiceImpl;
@@ -31,7 +30,7 @@ public class AssociateServiceTest {
     void setup() {
         registerAssociateDTO = RegisterAssociateDTO.builder()
                 .name("Name test")
-                .cpf("71940269024")
+                .cpf(CpfUtils.generateCPF())
                 .build();
     }
 
@@ -71,7 +70,7 @@ public class AssociateServiceTest {
 
     @Test
     void shouldCreationThrowAlreadyRegisteredException() {
-        assertThrows(AssociateExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             AssociateEntity associate = associateRepository.save(AssociateEntity.builder()
                             .name("Test user")
                             .cpf(CpfUtils.generateCPF())
@@ -105,7 +104,7 @@ public class AssociateServiceTest {
 
     @Test
     void shouldThrowAssociateNotFoundExceptionOnGetAssociateByCPF() {
-        assertThrows(AssociateExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             associateService.getAssociateByCpfIfExists(CpfUtils.generateCPF());
         });
     }

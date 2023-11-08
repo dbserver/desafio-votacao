@@ -1,6 +1,7 @@
 package com.example.desafiovotacao.utils;
 
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -35,7 +36,7 @@ public class CpfUtils {
 
     public static void validateCPFThrow(String cpf){
         if(!validateCPF(cpf)){
-            ValidationExceptions.invalidCpf();
+            throw new ValidationExceptions(InformationErrorMessages.INVALID_CPF);
         }
     }
 

@@ -1,18 +1,9 @@
 package com.example.desafiovotacao.exception;
 
+import com.example.desafiovotacao.exception.enums.interfaces.ErrorMessages;
+
 public class ValidationExceptions extends RuntimeException{
-
-    private static String FAULTY_INFORMATION = "Os dados fornecidos não estão de acordo com as obrigatoriedades desta requisição";
-    private static String INVALID_CPF = "O CPF informado é invalido. Verifique seus dados";
-
-    public ValidationExceptions(String message) {
-        super(message);
-    }
-
-    public static void faultyInformation(){
-        throw new ValidationExceptions(FAULTY_INFORMATION);
-    }
-    public static void invalidCpf() {
-        throw new ValidationExceptions(INVALID_CPF);
+    public ValidationExceptions(ErrorMessages message) {
+        super(message.getDescription());
     }
 }

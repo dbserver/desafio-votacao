@@ -5,8 +5,6 @@ import com.example.desafiovotacao.dto.SessionReturnDTO;
 import com.example.desafiovotacao.dto.StartSessionDTO;
 import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
-import com.example.desafiovotacao.exception.RulingExceptions;
-import com.example.desafiovotacao.exception.SessionExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
 import com.example.desafiovotacao.repository.RulingRepository;
 import com.example.desafiovotacao.repository.SessionRepository;
@@ -91,7 +89,7 @@ public class SessionServiceTest {
 
     @Test
     void shouldThrowRulingDoesNotExistAtCreation() {
-        assertThrows(RulingExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             sessionService.create(
                     StartSessionDTO.builder()
                             .rulingId(0)
@@ -145,7 +143,7 @@ public class SessionServiceTest {
 
     @Test
     void shouldThrowSessionDontExistByRulingId() {
-        assertThrows(SessionExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             sessionService.getSessionByRulingId(0);
         });
     }
@@ -166,7 +164,7 @@ public class SessionServiceTest {
 
     @Test
     void shouldThrowSessionExceptionByIdIfExists() {
-        assertThrows(SessionExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
            sessionService.getSessionByIdIfExists(0);
         });
     }

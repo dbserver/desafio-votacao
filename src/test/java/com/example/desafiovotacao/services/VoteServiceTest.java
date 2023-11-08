@@ -7,7 +7,6 @@ import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
 import com.example.desafiovotacao.entity.VoteEntity;
 import com.example.desafiovotacao.exception.ValidationExceptions;
-import com.example.desafiovotacao.exception.VoteExceptions;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.repository.RulingRepository;
 import com.example.desafiovotacao.repository.SessionRepository;
@@ -15,7 +14,6 @@ import com.example.desafiovotacao.repository.VoteRepository;
 import com.example.desafiovotacao.service.implementations.VoteServiceImpl;
 import com.example.desafiovotacao.utils.CpfUtils;
 import com.example.desafiovotacao.utils.DateUtils;
-import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -154,7 +152,7 @@ public class VoteServiceTest {
                         .build()
         );
 
-        assertThrows(VoteExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
            voteService.create(
                    ComputingVoteDTO.builder()
                        .vote(true)
@@ -167,7 +165,7 @@ public class VoteServiceTest {
 
     @Test
     void shouldThrowSessionClosedExceptionWhileComputingVote() {
-        assertThrows(VoteExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             voteService.create(
                     ComputingVoteDTO.builder()
                             .vote(true)

@@ -8,8 +8,6 @@ import com.example.desafiovotacao.entity.AssociateEntity;
 import com.example.desafiovotacao.entity.RulingEntity;
 import com.example.desafiovotacao.entity.SessionEntity;
 import com.example.desafiovotacao.entity.VoteEntity;
-import com.example.desafiovotacao.exception.RulingExceptions;
-import com.example.desafiovotacao.exception.SessionExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.repository.RulingRepository;
@@ -140,7 +138,7 @@ public class RulingServiceTest {
                         .build()
         );
 
-        assertThrows(RulingExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
            rulingService.countVotes(newRuling.getId());
         });
     }
@@ -156,7 +154,7 @@ public class RulingServiceTest {
                         .build()
         );
 
-        assertThrows(SessionExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
            rulingService.countVotes(newRuling.getId());
         });
     }
@@ -198,7 +196,7 @@ public class RulingServiceTest {
                         .build()
         );
 
-        assertThrows(RulingExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             rulingService.countVotes(newRuling.getId());
         });
     }
@@ -231,7 +229,7 @@ public class RulingServiceTest {
 
     @Test
     void shouldReturnRulingDoesNotExistOnGetRulingEntity() {
-        assertThrows(RulingExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
             rulingService.getRulingEntityIfExists(1);
         });
     }
@@ -252,7 +250,7 @@ public class RulingServiceTest {
 
     @Test
     void shouldThrowRulingExceptionOnGetRulingReturn() {
-        assertThrows(RulingExceptions.class, () -> {
+        assertThrows(ValidationExceptions.class, () -> {
            rulingService.getRulingReturnIfExists(1);
         });
     }

@@ -3,13 +3,13 @@ package com.example.desafiovotacao.service.implementations;
 import com.example.desafiovotacao.dto.CreatedAssociateDTO;
 import com.example.desafiovotacao.dto.RegisterAssociateDTO;
 import com.example.desafiovotacao.entity.AssociateEntity;
-import com.example.desafiovotacao.exception.AssociateExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.AssociateErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
 import com.example.desafiovotacao.repository.AssociateRepository;
 import com.example.desafiovotacao.service.interfaces.AssociateService;
 import com.example.desafiovotacao.utils.CpfUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class AssociateServiceImpl implements AssociateService {
     public AssociateEntity getAssociateByCpfIfExists(String cpf){
         Optional<AssociateEntity> existingAssociate = associateRepository.findByCpf(cpf);
         if(existingAssociate.isEmpty()) {
-            AssociateExceptions.associateNotFound();
+            throw new ValidationExceptions(AssociateErrorMessages.ASSOCIATE_NOT_FOUNT);
         }
 
         return existingAssociate.get();
@@ -50,7 +50,7 @@ public class AssociateServiceImpl implements AssociateService {
     @Override
     public void validateRegisterAssociateDTO(RegisterAssociateDTO associateDTO) {
         if(associateDTO.getCpf() == null || associateDTO.getName() == null) {
-            ValidationExceptions.faultyInformation();
+            throw new ValidationExceptions(InformationErrorMessages.FAULTY_INFORMATION);
         }
     }
 
@@ -58,7 +58,7 @@ public class AssociateServiceImpl implements AssociateService {
     public void validateAlreadyRegisteredAssociate(String cpf) {
         Optional<AssociateEntity> existingAssociate = associateRepository.findByCpf(cpf);
         if(existingAssociate.isPresent()){
-            AssociateExceptions.associateAlreadyRegistered();
+            throw new ValidationExceptions(AssociateErrorMessages.ASSOCIATE_ALERADY_REGISTERED);
         }
     }
 }

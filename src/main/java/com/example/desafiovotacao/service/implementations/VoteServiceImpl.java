@@ -4,15 +4,13 @@ import com.example.desafiovotacao.dto.ComputingVoteDTO;
 import com.example.desafiovotacao.dto.VotedDTO;
 import com.example.desafiovotacao.entity.VoteEntity;
 import com.example.desafiovotacao.exception.ValidationExceptions;
-import com.example.desafiovotacao.exception.VoteExceptions;
+import com.example.desafiovotacao.exception.enums.implementations.InformationErrorMessages;
+import com.example.desafiovotacao.exception.enums.implementations.VoteErrorMessages;
 import com.example.desafiovotacao.repository.VoteRepository;
-import com.example.desafiovotacao.service.interfaces.AssociateService;
-import com.example.desafiovotacao.service.interfaces.SessionService;
 import com.example.desafiovotacao.service.interfaces.VoteService;
 import com.example.desafiovotacao.utils.CpfUtils;
 import com.example.desafiovotacao.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -37,10 +35,10 @@ public class VoteServiceImpl implements VoteService {
 
         Optional<VoteEntity> existingVote = voteRepository.findByCpfAndSession(computingVoteDTO.getCpf(), computingVoteDTO.getSessionId());
         if(existingVote.isPresent()){
-            VoteExceptions.alreadyVoted();
+            throw new ValidationExceptions(VoteErrorMessages.CPF_ALREADY_VOTED_ON_SESSION);
         }
         if(!newVote.getSession().isSessionRunning()){
-            VoteExceptions.sessionClosed();
+            throw new ValidationExceptions(VoteErrorMessages.SESSION_CLOSED_MESSAGE);
         }
 
         VoteEntity savedVoted = voteRepository.save(newVote);
@@ -57,7 +55,7 @@ public class VoteServiceImpl implements VoteService {
 
     public void validateComputingVoteInformation(ComputingVoteDTO computingVoteDTO) {
         if(computingVoteDTO.getVote() == null || computingVoteDTO.getCpf() == null || computingVoteDTO.getSessionId() == null) {
-            ValidationExceptions.faultyInformation();
+            throw new ValidationExceptions(InformationErrorMessages.FAULTY_INFORMATION);
         }
     }
 }
