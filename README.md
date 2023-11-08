@@ -6,6 +6,11 @@ Esta aplicação está usando a versão 17 do Java com a versão 3.1.5 do Spring
 desafio, fornece um sistema onde você pode cadastrar pautas, sessões, associados e registrar votos referente às
 pautas.
 
+## Testes
+
+Esta aplicação exige ao menos 90% de coverage de testes nas linhas de código. Você pode verificar o coverage por meio de sua IDE
+executando os testes com coverage, ou utilizando outra ferramenta de sua preferência.
+
 ## Inicializando a aplicação
 
 Esta aplicação tem duas formas de ser inicializada. A principal e mais recomendada é fazendo o uso do Docker.
@@ -15,7 +20,7 @@ Para iniciar desta forma, certifique-se que o seu Docker está inicializado e di
   docker-compose up --build
 ```
 
-Ao digitar este comando, a aplicação passara pelo processo de build, onde ocorrerão os testes e então estará disponíve
+Ao digitar este comando, a aplicação passará pelo processo de build, onde ocorrerão os testes e então estará disponível
 juntamente ao banco de dados e ao pgadmin caso seja necessário manipular algum dado por fora da própria aplicação. Lembrando que
 o acesso ao pgadmin deve ser permitido somente aos desenvolvedores.
 
@@ -32,7 +37,7 @@ pelo endereço: http://localhost:5050/ e fazendo o login conforme o email e senh
 docker-compose.
 
 
-## Manual da API - 1.0.0
+## Manual da API - 1.1.0
 
 Você pode realizar suas requisições por meio de seu API Client como Insomnia ou Postman, ou pode utilizar a interface
 swagger disponível no endereço: http://localhost:8080/swagger-ui/index.html

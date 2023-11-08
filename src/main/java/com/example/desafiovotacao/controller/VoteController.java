@@ -2,13 +2,15 @@ package com.example.desafiovotacao.controller;
 
 import com.example.desafiovotacao.dto.ComputingVoteDTO;
 import com.example.desafiovotacao.dto.VotedDTO;
-import com.example.desafiovotacao.service.interfaces.VoteInterface;
+import com.example.desafiovotacao.service.implementations.VoteServiceImpl;
+import com.example.desafiovotacao.service.interfaces.VoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Votos", description = "Cadastre o voto de um associado")
 @RestController
 @RequestMapping("/vote")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VoteController {
-    private final VoteInterface voteService;
+    private final VoteServiceImpl voteService;
 
     @Operation(
             summary = "Computar um novo voto do associado",
@@ -26,11 +28,11 @@ public class VoteController {
     )
     @PostMapping("/compute")
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "201",
             content = @Content(schema = @Schema(implementation = VotedDTO.class))
     )
     public ResponseEntity<VotedDTO> compute(@RequestBody ComputingVoteDTO vote){
-        return ResponseEntity.status(HttpStatus.OK).body(voteService.create(vote));
+        return ResponseEntity.status(HttpStatus.CREATED).body(voteService.create(vote));
     }
 
 }

@@ -3,13 +3,14 @@ package com.example.desafiovotacao.controller;
 import com.example.desafiovotacao.dto.CreatedSessionDTO;
 import com.example.desafiovotacao.dto.SessionReturnDTO;
 import com.example.desafiovotacao.dto.StartSessionDTO;
-import com.example.desafiovotacao.service.implementations.SessionService;
+import com.example.desafiovotacao.service.implementations.SessionServiceImpl;
+import com.example.desafiovotacao.service.interfaces.SessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +20,10 @@ import java.util.List;
 @Tag(name = "Sessão", description = "Consulte ou crie sessões")
 @RestController
 @RequestMapping("/session")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SessionController {
 
-    private final SessionService sessionService;
+    private final SessionServiceImpl sessionService;
 
     @Operation(
             summary = "Criar uma nova sessão de votação",
@@ -30,11 +31,11 @@ public class SessionController {
     )
     @PostMapping("/create")
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "201",
             content = @Content(schema = @Schema(implementation = CreatedSessionDTO.class))
     )
     public ResponseEntity<CreatedSessionDTO> create(@RequestBody StartSessionDTO startSessionDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(sessionService.create(startSessionDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(sessionService.create(startSessionDTO));
     }
 
     @Operation(

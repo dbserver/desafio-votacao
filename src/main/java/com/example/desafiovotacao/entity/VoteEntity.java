@@ -2,6 +2,7 @@ package com.example.desafiovotacao.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(schema = "voteschallenge", name = "votes")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VoteEntity {

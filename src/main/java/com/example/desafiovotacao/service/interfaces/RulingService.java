@@ -8,7 +8,7 @@ import com.example.desafiovotacao.entity.RulingEntity;
 
 import java.util.List;
 
-public interface RulingInterface {
+public interface RulingService {
     CreatedRulingDTO create(RegisterRulingDTO ruling);
 
     CountingResultsDTO countVotes(Integer rulingId);
@@ -18,4 +18,6 @@ public interface RulingInterface {
     RulingEntity getRulingEntityIfExists(Integer rulingId);
 
     RulingReturnDTO getRulingReturnIfExists(Integer rulingId);
+
+    void validateRegisterRulingDTO(RegisterRulingDTO registerRulingDTO);
 }

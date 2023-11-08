@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class DefaultExceptionHandler {
 
-    @ExceptionHandler({SessionExceptions.class, VoteExceptions.class, RulingExceptions.class, AssociateExceptions.class, ValidationExceptions.class})
+    @ExceptionHandler({ValidationExceptions.class})
     private ResponseEntity<String> handleCustomExceptions(Throwable throwable){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(throwable.getMessage());
     }

@@ -10,7 +10,7 @@ import org.springdoc.core.configuration.SpringDocConfiguration;
         info = @Info(
                 title = "Desafio Votação DB",
                 description = "Uma API que cadastra pauta, inicializa sessões e conta a votação de associados",
-                version = "1.0",
+                version = "1.1.0",
                 contact = @Contact(
                         name = "Magno Korzekwa",
                         email = "magnokorzekwa@gmail.com"

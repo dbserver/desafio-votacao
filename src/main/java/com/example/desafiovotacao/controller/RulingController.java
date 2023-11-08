@@ -4,14 +4,17 @@ import com.example.desafiovotacao.dto.CountingResultsDTO;
 import com.example.desafiovotacao.dto.CreatedRulingDTO;
 import com.example.desafiovotacao.dto.RegisterRulingDTO;
 import com.example.desafiovotacao.dto.RulingReturnDTO;
-import com.example.desafiovotacao.service.implementations.RulingService;
+import com.example.desafiovotacao.service.implementations.RulingServiceImpl;
+import com.example.desafiovotacao.service.interfaces.RulingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +23,9 @@ import java.util.List;
 @Tag(name = "Pautas", description = "Consulte e crie pautas ou contabilize os votos da última sessão")
 @RestController
 @RequestMapping("/ruling")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RulingController {
-
-    private final RulingService rulingService;
+    private final RulingServiceImpl rulingService;
 
     @Operation(
             summary = "Criar uma nova pauta",
@@ -31,11 +33,11 @@ public class RulingController {
     )
     @PostMapping("/create")
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "201",
             content = @Content(schema = @Schema(implementation = CreatedRulingDTO.class))
     )
     public ResponseEntity<CreatedRulingDTO> save(@RequestBody RegisterRulingDTO ruling){
-        return new ResponseEntity<>(rulingService.create(ruling), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(rulingService.create(ruling));
     }
 
     @Operation(
