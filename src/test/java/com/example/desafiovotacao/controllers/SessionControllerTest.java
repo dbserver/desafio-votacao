@@ -1,78 +1,101 @@
 package com.example.desafiovotacao.controllers;
 
+
 import com.example.desafiovotacao.controller.SessionController;
 import com.example.desafiovotacao.dto.CreatedSessionDTO;
 import com.example.desafiovotacao.dto.SessionReturnDTO;
 import com.example.desafiovotacao.dto.StartSessionDTO;
-import com.example.desafiovotacao.service.implementations.SessionService;
+import com.example.desafiovotacao.service.implementations.SessionServiceImpl;
 import com.example.desafiovotacao.utils.DateUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@AutoConfigureTestDatabase
+@WebMvcTest(SessionController.class)
 public class SessionControllerTest {
 
-    @InjectMocks
-    private SessionController sessionController;
+    @Autowired
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    @MockBean
+    private SessionServiceImpl sessionServiceImpl;
 
     @Mock
-    private SessionService sessionService;
     private StartSessionDTO startSessionDTO;
     private CreatedSessionDTO createdSessionDTO;
-    private ResponseEntity<CreatedSessionDTO> responseCreatedSession;
     private SessionReturnDTO sessionReturnDTO;
-    private ResponseEntity<SessionReturnDTO> responseSessionReturn;
-    private List<SessionReturnDTO> listSessionReturn;
-    private ResponseEntity<List<SessionReturnDTO>> responseListSessionReturn;
 
     @BeforeEach
-    void setup(){
-        startSessionDTO = new StartSessionDTO(1, null);
-        createdSessionDTO = new CreatedSessionDTO(1, DateUtils.formatDate(new Date()), startSessionDTO.getDuration());
-        responseCreatedSession = ResponseEntity.status(HttpStatus.OK).body(createdSessionDTO);
-        sessionReturnDTO = new SessionReturnDTO(1, "Votação teste", 1, 15, DateUtils.formatDate(new Date()));
-        responseSessionReturn = ResponseEntity.status(HttpStatus.OK).body(sessionReturnDTO);
-        listSessionReturn = new ArrayList<>();
-        listSessionReturn.add(sessionReturnDTO);
-        listSessionReturn.add(new SessionReturnDTO(1, "Votação teste", 1, 60, DateUtils.formatDate(new Date())));
-        responseListSessionReturn = ResponseEntity.status(HttpStatus.OK).body(listSessionReturn);
+    void setup() {
+        startSessionDTO = StartSessionDTO.builder()
+                .duration(60)
+                .rulingId(1)
+                .build();
+        createdSessionDTO = CreatedSessionDTO.builder()
+                .sessionId(1)
+                .creationDate(DateUtils.formatDate(new Date()))
+                .duration(startSessionDTO.getDuration())
+                .build();
+        sessionReturnDTO = SessionReturnDTO.builder()
+                .id(1)
+                .rulingId(1)
+                .rulingTitle("Title test")
+                .duration(60)
+                .creationDate(createdSessionDTO.getCreationDate())
+                .build();
     }
 
     @Test
-    void shouldCreateSession(){
-        when(sessionService.create(startSessionDTO)).thenReturn(createdSessionDTO);
-        var response = assertDoesNotThrow(() -> sessionController.create(startSessionDTO));
-        assertNotNull(response);
-        assertEquals(responseCreatedSession, response);
+    void shouldCreateSession() throws Exception {
+        when(sessionServiceImpl.create(any(StartSessionDTO.class))).thenReturn(createdSessionDTO);
+
+        mockMvc.perform(
+                post("/session/create")
+                        .content(objectMapper.writeValueAsString(startSessionDTO))
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(createdSessionDTO)));
     }
 
     @Test
-    void shouldReturnSessionById(){
-        when(sessionService.listById(createdSessionDTO.getSessionId())).thenReturn(sessionReturnDTO);
-        var response = assertDoesNotThrow(() -> sessionController.findById(createdSessionDTO.getSessionId()));
-        assertNotNull(response);
-        assertEquals(responseSessionReturn, response);
+    void shouldFindSessionById() throws Exception {
+        when(sessionServiceImpl.listById(1)).thenReturn(sessionReturnDTO);
+
+        mockMvc.perform(get("/session/list/{sessionId}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(sessionReturnDTO)));
     }
 
     @Test
-    void shouldListSessions(){
-        when(sessionService.listAll()).thenReturn(listSessionReturn);
-        var response = assertDoesNotThrow(() -> sessionController.list());
-        assertNotNull(response);
-        assertEquals(responseListSessionReturn, response);
+    void shouldListAllSections() throws Exception {
+        when(sessionServiceImpl.listAll()).thenReturn(List.of(sessionReturnDTO));
+
+        mockMvc.perform(get("/session/list"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(sessionReturnDTO))));
     }
 
 }

@@ -7,8 +7,10 @@ import com.example.desafiovotacao.exception.RulingExceptions;
 import com.example.desafiovotacao.exception.SessionExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
 import com.example.desafiovotacao.repository.RulingRepository;
-import com.example.desafiovotacao.service.interfaces.RulingInterface;
+import com.example.desafiovotacao.service.interfaces.RulingService;
+import com.example.desafiovotacao.service.interfaces.SessionService;
 import com.example.desafiovotacao.utils.DateUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +19,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RulingService implements RulingInterface {
+@RequiredArgsConstructor
+public class RulingServiceImpl implements RulingService {
 
-    @Autowired
-    private RulingRepository rulingRepository;
-    @Autowired
-    private SessionService sessionService;
+    private final RulingRepository rulingRepository;
+    private final SessionServiceImpl sessionService;
 
     @Override
     public CreatedRulingDTO create(RegisterRulingDTO ruling) {
-        if(ruling.getTitle() == null || ruling.getDescription() == null) {
-            ValidationExceptions.faultyInformation();
-        }
+        validateRegisterRulingDTO(ruling);
 
         RulingEntity newRuling = new RulingEntity();
         newRuling.setTitle(ruling.getTitle());
@@ -98,6 +97,13 @@ public class RulingService implements RulingInterface {
         }
 
         return existingRuling.get();
+    }
+
+    @Override
+    public void validateRegisterRulingDTO(RegisterRulingDTO registerRulingDTO) {
+        if(registerRulingDTO.getTitle() == null || registerRulingDTO.getDescription() == null) {
+            ValidationExceptions.faultyInformation();
+        }
     }
 
 }

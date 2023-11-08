@@ -6,34 +6,24 @@ import com.example.desafiovotacao.entity.AssociateEntity;
 import com.example.desafiovotacao.exception.AssociateExceptions;
 import com.example.desafiovotacao.exception.ValidationExceptions;
 import com.example.desafiovotacao.repository.AssociateRepository;
-import com.example.desafiovotacao.service.interfaces.AssociateInterface;
+import com.example.desafiovotacao.service.interfaces.AssociateService;
 import com.example.desafiovotacao.utils.CpfUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
-public class AssociateService implements AssociateInterface {
-
-    @Autowired
-    private AssociateRepository associateRepository;
+@RequiredArgsConstructor
+public class AssociateServiceImpl implements AssociateService {
+    private final AssociateRepository associateRepository;
 
     @Override
     public CreatedAssociateDTO create(RegisterAssociateDTO associate) {
-        if(associate.getCpf() == null || associate.getName() == null) {
-            ValidationExceptions.faultyInformation();
-        }
-        if(!CpfUtils.validateCPF(associate.getCpf())) {
-            ValidationExceptions.invalidCpf();
-        }
-
-        Optional<AssociateEntity> existingAssociate = associateRepository.findByCpf(associate.getCpf());
-        if(existingAssociate.isPresent()){
-            AssociateExceptions.associateAlreadyRegistered();
-        }
+        validateRegisterAssociateDTO(associate);
+        CpfUtils.validateCPFThrow(associate.getCpf());
+        validateAlreadyRegisteredAssociate(associate.getCpf());
 
         AssociateEntity newAssociate = associateRepository.save(
                 AssociateEntity.builder().
@@ -48,6 +38,7 @@ public class AssociateService implements AssociateInterface {
                 .build();
     }
 
+    @Override
     public AssociateEntity getAssociateByCpfIfExists(String cpf){
         Optional<AssociateEntity> existingAssociate = associateRepository.findByCpf(cpf);
         if(existingAssociate.isEmpty()) {
@@ -55,5 +46,19 @@ public class AssociateService implements AssociateInterface {
         }
 
         return existingAssociate.get();
+    }
+    @Override
+    public void validateRegisterAssociateDTO(RegisterAssociateDTO associateDTO) {
+        if(associateDTO.getCpf() == null || associateDTO.getName() == null) {
+            ValidationExceptions.faultyInformation();
+        }
+    }
+
+    @Override
+    public void validateAlreadyRegisteredAssociate(String cpf) {
+        Optional<AssociateEntity> existingAssociate = associateRepository.findByCpf(cpf);
+        if(existingAssociate.isPresent()){
+            AssociateExceptions.associateAlreadyRegistered();
+        }
     }
 }

@@ -2,13 +2,15 @@ package com.example.desafiovotacao.controller;
 
 import com.example.desafiovotacao.dto.CreatedAssociateDTO;
 import com.example.desafiovotacao.dto.RegisterAssociateDTO;
-import com.example.desafiovotacao.service.implementations.AssociateService;
+import com.example.desafiovotacao.service.implementations.AssociateServiceImpl;
+import com.example.desafiovotacao.service.interfaces.AssociateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Associados", description = "Crie associados")
 @RestController
 @RequestMapping("/associate")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AssociateController {
 
-    private final AssociateService associateService;
+    private final AssociateServiceImpl associateService;
 
     @Operation(
             summary = "Cadastrar um novo associado",
@@ -30,11 +32,11 @@ public class AssociateController {
     )
     @PostMapping("/create")
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "201",
             content = @Content(schema = @Schema(implementation = CreatedAssociateDTO.class))
     )
-    public ResponseEntity<CreatedAssociateDTO> create(@RequestBody RegisterAssociateDTO associate) {
-        return ResponseEntity.status(HttpStatus.OK).body(associateService.create(associate));
+    private ResponseEntity<CreatedAssociateDTO> create(@RequestBody RegisterAssociateDTO associate) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(associateService.create(associate));
     }
 
 }

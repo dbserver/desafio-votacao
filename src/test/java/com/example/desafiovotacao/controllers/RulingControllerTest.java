@@ -5,97 +5,119 @@ import com.example.desafiovotacao.dto.CountingResultsDTO;
 import com.example.desafiovotacao.dto.CreatedRulingDTO;
 import com.example.desafiovotacao.dto.RegisterRulingDTO;
 import com.example.desafiovotacao.dto.RulingReturnDTO;
-import com.example.desafiovotacao.service.implementations.RulingService;
+import com.example.desafiovotacao.service.implementations.RulingServiceImpl;
 import com.example.desafiovotacao.utils.DateUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@AutoConfigureTestDatabase
+@WebMvcTest(RulingController.class)
 public class RulingControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @InjectMocks
-    private RulingController rulingController;
+    @MockBean
+    private RulingServiceImpl rulingServiceImpl;
 
     @Mock
-    private RulingService rulingService;
     private RegisterRulingDTO registerRulingDTO;
     private CreatedRulingDTO createdRulingDTO;
-    private ResponseEntity<CreatedRulingDTO> responseCreateRuling;
-    private CountingResultsDTO countingResultsDTO;
-    private ResponseEntity<CountingResultsDTO> responseCountingResults;
     private RulingReturnDTO rulingReturnDTO;
-    private ResponseEntity<RulingReturnDTO> responseRulingDTO;
-    private List<RulingReturnDTO> rulingReturnList;
-    private ResponseEntity<List<RulingReturnDTO>> responseRulingList;
-
+    private CountingResultsDTO countingResultsDTO;
 
     @BeforeEach
-    void setup(){
-        registerRulingDTO = new RegisterRulingDTO("Votação teste", "Descrição teste");
-        createdRulingDTO = new CreatedRulingDTO(1, "Votação teste", "Descrição teste");
-        responseCreateRuling = ResponseEntity.status(HttpStatus.OK).body(createdRulingDTO);
-        countingResultsDTO = CountingResultsDTO.builder()
-                .sessionDate(DateUtils.formatDate(new Date()))
-                .creationDate(DateUtils.formatDate(new Date()))
-                .countDate(DateUtils.formatDate(new Date()))
-                .result("Sim")
-                .againstVotes(1L)
-                .inFavorVotes(2L)
-                .title("Votação teste")
-                .description("Descrição teste")
+    void setup() {
+        registerRulingDTO = RegisterRulingDTO.builder()
+                .description("Description test")
+                .title("Title test")
                 .build();
-        responseCountingResults = ResponseEntity.status(HttpStatus.OK).body(countingResultsDTO);
-        rulingReturnDTO = new RulingReturnDTO(1, "Votação Teste", "Descrição teste", "Sim", DateUtils.formatDate(new Date()), DateUtils.formatDate(new Date()));
-        responseRulingDTO = ResponseEntity.status(HttpStatus.OK).body(rulingReturnDTO);
-        rulingReturnList = new ArrayList<>();
-        rulingReturnList.add(rulingReturnDTO);
-        rulingReturnList.add(new RulingReturnDTO(2, "Votação Teste", "Descrição teste", "Não", DateUtils.formatDate(new Date()), DateUtils.formatDate(new Date())));
-        responseRulingList = ResponseEntity.status(HttpStatus.OK).body(rulingReturnList);
+        createdRulingDTO = CreatedRulingDTO.builder()
+                .rulingId(1)
+                .description(registerRulingDTO.getDescription())
+                .title(registerRulingDTO.getTitle())
+                .build();
+        rulingReturnDTO = RulingReturnDTO.builder()
+                .id(1)
+                .resultDate(null)
+                .creationDate(DateUtils.formatDate(new Date()))
+                .title(createdRulingDTO.getTitle())
+                .description(createdRulingDTO.getDescription())
+                .result(null)
+                .build();
+        countingResultsDTO = CountingResultsDTO.builder()
+                .result("Sim")
+                .againstVotes(0L)
+                .inFavorVotes(1L)
+                .countDate(DateUtils.formatDate(new Date()))
+                .creationDate(DateUtils.formatDate(new Date()))
+                .sessionDate(DateUtils.formatDate(new Date()))
+                .title(createdRulingDTO.getTitle())
+                .description(createdRulingDTO.getDescription())
+                .build();
+    }
+
+
+    @Test
+    void shouldCountVotes() throws Exception {
+        when(rulingServiceImpl.countVotes(1)).thenReturn(countingResultsDTO);
+
+        mockMvc.perform(post("/ruling/countVotes/{rulingId}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(countingResultsDTO)));
     }
 
     @Test
-    void shouldCreateAssociate(){
-        when(rulingService.create(registerRulingDTO)).thenReturn(createdRulingDTO);
-        var response = assertDoesNotThrow(() -> rulingController.save(registerRulingDTO));
-        assertNotNull(response);
-        assertEquals(responseCreateRuling, response);
+    void shouldCreateRuling() throws Exception {
+        when(rulingServiceImpl.create(any(RegisterRulingDTO.class))).thenReturn(createdRulingDTO);
+
+        mockMvc.perform(post("/ruling/create")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(registerRulingDTO))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(createdRulingDTO)));
     }
 
     @Test
-    void shouldCountVotes(){
-        when(rulingService.countVotes(createdRulingDTO.getRulingId())).thenReturn(countingResultsDTO);
-        var response = assertDoesNotThrow(() -> rulingController.countVotes(createdRulingDTO.getRulingId()));
-        assertNotNull(response);
-        assertEquals(responseCountingResults, response);
+    void shouldListAllRuling() throws Exception {
+        when(rulingServiceImpl.listAll()).thenReturn(List.of(rulingReturnDTO));
+
+        mockMvc.perform(get("/ruling/list"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(List.of(rulingReturnDTO))));
     }
 
     @Test
-    void shouldReturnRulingList(){
-        when(rulingService.listAll()).thenReturn(rulingReturnList);
-        var response = assertDoesNotThrow(() -> rulingController.list());
-        assertNotNull(response);
-        assertEquals(responseRulingList, response);
-    }
+    void shouldReturnRulingById() throws Exception {
+        when(rulingServiceImpl.getRulingReturnIfExists(1)).thenReturn(rulingReturnDTO);
 
-    @Test
-    void shouldReturnRuling(){
-        when(rulingService.getRulingReturnIfExists(createdRulingDTO.getRulingId())).thenReturn(rulingReturnDTO);
-        var response = assertDoesNotThrow(() -> rulingController.listById(createdRulingDTO.getRulingId()));
-        assertNotNull(response);
-        assertEquals(responseRulingDTO, response);
+        mockMvc.perform( get("/ruling/list/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(objectMapper.writeValueAsString(rulingReturnDTO)))
+        ;
     }
-
 }

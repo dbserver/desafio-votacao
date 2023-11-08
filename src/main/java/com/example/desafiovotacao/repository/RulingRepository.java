@@ -5,10 +5,12 @@ import com.example.desafiovotacao.dto.RulingReturnDTO;
 import com.example.desafiovotacao.dto.VotesDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface RulingRepository extends JpaRepository<RulingEntity, Integer> {
     @Query("SELECT NEW com.example.desafiovotacao.dto.VotesDTO(" +
             "   SUM(CASE WHEN ve.vote = TRUE THEN 1 ELSE 0 END), " +

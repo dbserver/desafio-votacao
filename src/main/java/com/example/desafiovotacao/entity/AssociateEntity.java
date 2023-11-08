@@ -18,6 +18,7 @@ public class AssociateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     private String cpf;
     private String name;
     @Column(insertable = false, updatable = false)
