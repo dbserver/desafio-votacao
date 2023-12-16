@@ -3,9 +3,7 @@ package com.challenge.votation.service;
 import com.challenge.votation.exception.VotationException;
 import com.challenge.votation.exception.VotationNotFoundException;
 import com.challenge.votation.mapper.AgendaMapper;
-import com.challenge.votation.model.Agenda;
-import com.challenge.votation.model.AgendaStatus;
-import com.challenge.votation.model.Vote;
+import com.challenge.votation.model.*;
 import com.challenge.votation.repository.AgendaRepository;
 import com.challenge.votation.repository.entity.AgendaEntity;
 import com.challenge.votation.repository.entity.VoteEntity;
@@ -28,25 +26,25 @@ public class AgendaService {
 
     private final VoteService voteService;
 
-    public Agenda createAgenda(Agenda agenda) {
+    public AgendaCreateResponse createAgenda(AgendaCreateRequest agendaCreateRequest) {
         AgendaEntity agendaEntity = new AgendaEntity();
-        agendaEntity.setName(agenda.getAgendaName());
+        agendaEntity.setName(agendaCreateRequest.getAgendaName());
 
         AgendaEntity agendaCreated = agendaRepository.save(agendaEntity);
         log.info("Agenda has been created: {}", agendaCreated);
 
-        return agendaMapper.map(agendaCreated);
+        return agendaMapper.mapAgendaCreateResponse(agendaCreated);
     }
 
-    public Agenda openAgenda(Long agendaId, Agenda agenda) {
+    public AgendaOpenResponse openAgenda(Long agendaId, AgendaOpenRequest agendaOpenRequest) {
         AgendaEntity agendaEntity = findAgendaById(agendaId);
         if (agendaEntity.getStartDate() != null || agendaEntity.getEndDate() != null) {
             throw new VotationException("Agenda is already opened.");
         }
-        openAgenda(agendaEntity, agenda);
-        log.info("Agenda has been opened: {}", agenda);
+        openAgenda(agendaEntity, agendaOpenRequest);
+        log.info("Agenda has been opened: {}", agendaOpenRequest);
 
-        return agendaMapper.map(agendaEntity);
+        return agendaMapper.mapAgendaOpenResponse(agendaEntity);
     }
 
     private AgendaEntity findAgendaById(Long agendaId) {
@@ -58,21 +56,21 @@ public class AgendaService {
         return optAgendaEntity.get();
     }
 
-    private void openAgenda(AgendaEntity agendaEntity, Agenda agenda) {
-        if (agenda.getAgendaEnd() == null) {
-            agenda.setAgendaEnd(LocalDateTime.now().plusMinutes(1));
+    private void openAgenda(AgendaEntity agendaEntity, AgendaOpenRequest agendaOpenRequest) {
+        if (agendaOpenRequest.getAgendaEnd() == null) {
+            agendaOpenRequest.setAgendaEnd(LocalDateTime.now().plusMinutes(1));
         } else {
-            if (agenda.getAgendaEnd().isBefore(LocalDateTime.now())) {
+            if (agendaOpenRequest.getAgendaEnd().isBefore(LocalDateTime.now())) {
                 throw new VotationException("The Agenda End Date informed is in the past.");
             }
         }
 
         agendaEntity.setStartDate(LocalDateTime.now());
-        agendaEntity.setEndDate(agenda.getAgendaEnd());
+        agendaEntity.setEndDate(agendaOpenRequest.getAgendaEnd());
         agendaRepository.save(agendaEntity);
     }
 
-    public void vote(Long agendaId, Vote vote) {
+    public void vote(Long agendaId, AgendaVoteRequest agendaVoteRequest) {
         AgendaEntity agendaEntity = findAgendaById(agendaId);
         if (agendaEntity.getStartDate() == null || agendaEntity.getEndDate() == null) {
             throw new VotationException("Agenda it's not open yet.");
@@ -82,54 +80,54 @@ public class AgendaService {
             throw new VotationException("Agenda it's already closed.");
         }
 
-        voteService.saveVote(agendaEntity, vote);
+        voteService.saveVote(agendaEntity, agendaVoteRequest);
     }
 
-    public Agenda getAgendaStatus(Long agendaId) {
+    public AgendaResponse getAgendaStatus(Long agendaId) {
         AgendaEntity agendaEntity = findAgendaById(agendaId);
         return getAgendaData(agendaEntity);
     }
 
-    private Agenda getAgendaData(AgendaEntity agendaEntity) {
+    private AgendaResponse getAgendaData(AgendaEntity agendaEntity) {
         log.info("Getting Agenda Data: {}", agendaEntity.getId());
-        Agenda agenda = agendaMapper.map(agendaEntity);
+        AgendaResponse agendaResponse = agendaMapper.mapAgendaResponse(agendaEntity);
 
         if (agendaEntity.getEndDate() == null) {
-            agenda.setAgendaStatus(AgendaStatus.NOT_STARTED);
+            agendaResponse.setAgendaStatus(AgendaStatus.NOT_STARTED);
         } else if (LocalDateTime.now().isAfter(agendaEntity.getEndDate())) {
-            agenda.setAgendaStatus(AgendaStatus.FINISHED);
+            agendaResponse.setAgendaStatus(AgendaStatus.FINISHED);
         } else {
-            agenda.setAgendaStatus(AgendaStatus.IN_PROGRESS);
+            agendaResponse.setAgendaStatus(AgendaStatus.IN_PROGRESS);
         }
 
-        setAgendaVotes(agendaEntity, agenda);
+        setAgendaVotes(agendaEntity, agendaResponse);
 
-        return agenda;
+        return agendaResponse;
     }
 
-    private void setAgendaVotes(AgendaEntity agendaEntity, Agenda agenda) {
+    private void setAgendaVotes(AgendaEntity agendaEntity, AgendaResponse agendaResponse) {
         log.info("Setting Agenda Votes");
         Set<VoteEntity> votes = agendaEntity.getVotes();
         long totalVotes = votes.size();
         long yesVotes = votes.stream().filter(VoteEntity::isVote).count();
         long noVotes = votes.stream().filter(vote -> !vote.isVote()).count();
-        agenda.setTotalVotes(totalVotes);
-        agenda.setYesVotes(yesVotes);
-        agenda.setNoVotes(noVotes);
+        agendaResponse.setTotalVotes(totalVotes);
+        agendaResponse.setYesVotes(yesVotes);
+        agendaResponse.setNoVotes(noVotes);
 
         if (yesVotes == noVotes) {
-            agenda.setAgendaResult(null);
-            agenda.setAgendaResultDescription("It's a tie, the number of votes are equal");
+            agendaResponse.setAgendaResult(null);
+            agendaResponse.setAgendaResultDescription("It's a tie, the number of votes are equal");
         } else if (yesVotes > noVotes) {
-            agenda.setAgendaResult(true);
-            agenda.setAgendaResultDescription("YES is the most votaded");
+            agendaResponse.setAgendaResult(true);
+            agendaResponse.setAgendaResultDescription("YES is the most votaded");
         } else {
-            agenda.setAgendaResult(false);
-            agenda.setAgendaResultDescription("NO is the most votaded");
+            agendaResponse.setAgendaResult(false);
+            agendaResponse.setAgendaResultDescription("NO is the most votaded");
         }
     }
 
-    public Page<Agenda> getAgendasStatus(Pageable pageable) {
+    public Page<AgendaResponse> getAgendasStatus(Pageable pageable) {
         Page<AgendaEntity> entities = agendaRepository.findAll(pageable);
 
         return entities.map(this::getAgendaData);
