@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(name = "AgendaVoteRequest", description = "Body Request to vote")
 public class AgendaVoteRequest {
 
