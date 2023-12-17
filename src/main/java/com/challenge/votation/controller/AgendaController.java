@@ -33,7 +33,7 @@ public class AgendaController {
 
     @Operation(summary = "Create Agenda", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK", content = {
+            @ApiResponse(responseCode = "201", description = "Created", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = AgendaCreateResponse.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid Parameters", content = {
