@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,18 +28,17 @@ class ScheduleServiceImplTest {
     private ScheduleRepository scheduleRepositoryMock;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         when(scheduleRepositoryMock.save(any(Schedule.class))).thenReturn(ScheduleCreator.scheduleValid());
     }
 
     @Test
-    public void createSchedule_WhenSuccessful(){
-        assertThatCode(() -> scheduleService.createSchedule(ScheduleCreator.scheduleDTO()))
-                .doesNotThrowAnyException();
+    public void createSchedule_WhenSuccessful() {
+        assertThatCode(() -> scheduleService.createSchedule(ScheduleCreator.scheduleDTO())).doesNotThrowAnyException();
     }
 
     @Test
-    public void createScheduleExisting_WhenNotSuccessful(){
+    public void createScheduleExisting_WhenNotSuccessful() {
         when(scheduleRepositoryMock.existsByTitle(anyString())).thenReturn(true);
         ExistingResourceException existingResourceException = assertThrows(ExistingResourceException.class, () -> scheduleService.createSchedule(ScheduleCreator.createScheduleDtoValid()));
 

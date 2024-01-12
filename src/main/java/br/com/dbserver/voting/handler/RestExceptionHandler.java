@@ -4,7 +4,6 @@ import br.com.dbserver.voting.exceptions.ExceptionDetails;
 import br.com.dbserver.voting.exceptions.ExistingResourceException;
 import br.com.dbserver.voting.exceptions.ValidationExceptionDetails;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -39,7 +38,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        ResponseEntity responseEntity = new ResponseEntity<>(new ValidationExceptionDetails(
+        ResponseEntity<ValidationExceptionDetails> responseEntity = new ResponseEntity<>(new ValidationExceptionDetails(
                 "Bad Request Exception, Campos Inválidos",
                 BAD_REQUEST.value(),
                 "Verifique o erro do(s) campo(s)",

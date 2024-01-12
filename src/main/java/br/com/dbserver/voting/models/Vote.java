@@ -9,7 +9,7 @@ public class Vote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "associate_id")
@@ -25,18 +25,18 @@ public class Vote {
     public Vote() {
     }
 
-    public Vote(Long id, Associate associate, Schedule schedule, TypeVote typeVote) {
+    public Vote(Integer id, Associate associate, Schedule schedule, TypeVote typeVote) {
         this.id = id;
         this.associate = associate;
         this.schedule = schedule;
         this.typeVote = typeVote;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

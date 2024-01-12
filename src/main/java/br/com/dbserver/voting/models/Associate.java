@@ -9,7 +9,7 @@ public class Associate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -20,13 +20,13 @@ public class Associate {
     public Associate() {
     }
 
-    public Associate(Long id, String name, String cpf) {
+    public Associate(Integer id, String name, String cpf) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -36,5 +36,17 @@ public class Associate {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

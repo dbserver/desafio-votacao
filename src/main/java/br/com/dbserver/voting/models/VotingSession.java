@@ -1,5 +1,6 @@
 package br.com.dbserver.voting.models;
 
+import br.com.dbserver.voting.enums.StatusVotingSession;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -11,7 +12,7 @@ public class VotingSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
@@ -25,21 +26,26 @@ public class VotingSession {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime end;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusVotingSession status;
+
     public VotingSession() {
     }
 
-    public VotingSession(Long id, Schedule schedule, LocalDateTime start, LocalDateTime end) {
+    public VotingSession(Integer id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSession status) {
         this.id = id;
         this.schedule = schedule;
         this.start = start;
         this.end = end;
+        this.status = status;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -65,5 +71,13 @@ public class VotingSession {
 
     public void setEnd(LocalDateTime end) {
         this.end = end;
+    }
+
+    public StatusVotingSession getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusVotingSession status) {
+        this.status = status;
     }
 }
