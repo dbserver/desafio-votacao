@@ -1,5 +1,6 @@
 package br.com.dbserver.voting.controllers;
 
+import br.com.dbserver.voting.dtos.AssociateDTO;
 import br.com.dbserver.voting.dtos.ScheduleDTO;
 import br.com.dbserver.voting.helpers.Constants;
 import br.com.dbserver.voting.services.ScheduleService;
@@ -22,16 +23,16 @@ import static java.time.LocalDateTime.now;
 public class ScheduleController {
 
     private static final Logger logger = LoggerFactory.getLogger(ScheduleController.class);
-    final ScheduleService service;
+    final ScheduleService scheduleService;
 
-    public ScheduleController(ScheduleService service) {
-        this.service = service;
+    public ScheduleController(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
     }
 
     @PostMapping
     public ResponseEntity<Void> createSchedule(@RequestBody @Valid ScheduleDTO scheduleDTO){
         logger.info("Criando uma pauta, inicio -  {}", localDateTimeToString(now()));
-        service.createSchedule(scheduleDTO);
+        scheduleService.createSchedule(scheduleDTO);
         logger.info("Criando uma pauta, fim -  {}", localDateTimeToString(now()));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -39,7 +40,7 @@ public class ScheduleController {
     @GetMapping
     public ResponseEntity<Page<ScheduleDTO>> listAll(Pageable pageable){
         logger.info("Listando pautas, inicio -  {}", localDateTimeToString(now()));
-        Page<ScheduleDTO> schedules = service.listAll(pageable);
+        Page<ScheduleDTO> schedules = scheduleService.listAll(pageable);
         logger.info("Listando pautas, fim -  {}", localDateTimeToString(now()));
         return new ResponseEntity<>(schedules, HttpStatus.OK);
     }

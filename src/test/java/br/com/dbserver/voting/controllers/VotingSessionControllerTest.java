@@ -69,7 +69,7 @@ class VotingSessionControllerTest {
     @Test
     public void shouldCreateVotingSessionValidationFailure() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.post(Constants.API_VERSION + "/session/open")
+        mockMvc.perform(MockMvcRequestBuilders.post(Constants.API_VERSION + "/voting-session/open")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(VotingSessionCreator.votingSessionRequestDTOInvalid())))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());

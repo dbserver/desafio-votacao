@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface VotingSessionRepository extends JpaRepository<VotingSession, Integer> {
+public interface VotingSessionRepository extends JpaRepository<VotingSession, UUID> {
 
-    boolean existsByScheduleIdAndStatus(Integer id, StatusVotingSession status);
+    boolean existsByScheduleIdAndStatus(UUID id, StatusVotingSession status);
 }

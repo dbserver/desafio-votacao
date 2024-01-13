@@ -2,6 +2,7 @@ package br.com.dbserver.voting.handler;
 
 import br.com.dbserver.voting.exceptions.ExceptionDetails;
 import br.com.dbserver.voting.exceptions.ExistingResourceException;
+import br.com.dbserver.voting.exceptions.InvalidCpfException;
 import br.com.dbserver.voting.exceptions.ValidationExceptionDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +53,30 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
         return this.handleExceptionInternal(ex, responseEntity, headers, status, request);
+    }
+
+    @ExceptionHandler(InvalidCpfException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionDetails handlerInvalidCpfException(InvalidCpfException exception) {
+        return new ExceptionDetails(
+                BAD_REQUEST.name(),
+                BAD_REQUEST.value(),
+                exception.getMessage(),
+                exception.getClass().getName(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionDetails handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
+        return new ExceptionDetails(
+                BAD_REQUEST.name(),
+                BAD_REQUEST.value(),
+                exception.getMessage(),
+                exception.getClass().getName(),
+                LocalDateTime.now()
+        );
     }
 
 }

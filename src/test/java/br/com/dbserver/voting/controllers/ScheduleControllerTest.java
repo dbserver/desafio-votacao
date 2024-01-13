@@ -82,6 +82,7 @@ class ScheduleControllerTest {
         Pageable pageable = Pageable.unpaged();
         String expectedTitle = ScheduleCreator.createScheduleDtoValid().title();
         Page<ScheduleDTO> schedulePage = scheduleController.listAll(pageable).getBody();
+
         assertThat(schedulePage).isNotEmpty().hasSize(1);
         assertThat(schedulePage.toList()).isNotEmpty();
         assertThat(schedulePage.toList().get(0).title()).isEqualTo(expectedTitle);

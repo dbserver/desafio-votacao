@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,20 +47,20 @@ class VotingSessionServiceImplTest {
 
     @BeforeEach
     void setup() {
-        when(scheduleRepository.findById(anyInt())).thenReturn(Optional.of(ScheduleCreator.scheduleValid()));
+        when(scheduleRepository.findById(any())).thenReturn(Optional.of(ScheduleCreator.scheduleValid()));
         when(votingSessionRepository.save(any(VotingSession.class))).thenReturn(VotingSessionCreator.votingSession());
     }
 
     @Test
     void openVotingShouldReturnVotingSessionResponseDTO() {
-        VotingSessionRequestDTO requestDTO = new VotingSessionRequestDTO("1", null);
+        VotingSessionRequestDTO requestDTO = new VotingSessionRequestDTO("d6df5158-cd61-48f3-a8cb-0660c24d1a23", null);
 
         Schedule schedule = new Schedule();
-        schedule.setId(1);
+        schedule.setId(UUID.randomUUID());
 
         VotingSessionResponseDTO expectedResponseDTO = VotingSessionCreator.votingSessionResponseDTO();
-        doReturn(Optional.of(schedule)).when(scheduleRepository).findById(anyInt());
-        doReturn(false).when(votingSessionRepository).existsByScheduleIdAndStatus(anyInt(), eq(StatusVotingSession.OPEN));
+        doReturn(Optional.of(schedule)).when(scheduleRepository).findById(any());
+        doReturn(false).when(votingSessionRepository).existsByScheduleIdAndStatus(any(), eq(StatusVotingSession.OPEN));
         doReturn(expectedResponseDTO).when(votingSessionToVotingSessionResponseDtoMapper).map(any(), any());
 
         VotingSessionResponseDTO result = votingSessionService.openVoting(requestDTO);
@@ -70,13 +71,13 @@ class VotingSessionServiceImplTest {
 
     @Test
     void openVotingShouldThrowExistingResourceExceptionWhenSessionExists() {
-        VotingSessionRequestDTO requestDTO = new VotingSessionRequestDTO("1", null);
+        VotingSessionRequestDTO requestDTO = new VotingSessionRequestDTO("d6df5158-cd61-48f3-a8cb-0660c24d1a23", null);
 
         Schedule schedule = new Schedule();
-        schedule.setId(1);
+        schedule.setId(UUID.randomUUID());;
 
-        doReturn(Optional.of(schedule)).when(scheduleRepository).findById(anyInt());
-        doReturn(true).when(votingSessionRepository).existsByScheduleIdAndStatus(anyInt(), eq(StatusVotingSession.OPEN));
+        doReturn(Optional.of(schedule)).when(scheduleRepository).findById(any());
+        doReturn(true).when(votingSessionRepository).existsByScheduleIdAndStatus(any(), eq(StatusVotingSession.OPEN));
 
         assertThrows(ExistingResourceException.class, () -> votingSessionService.openVoting(requestDTO));
     }

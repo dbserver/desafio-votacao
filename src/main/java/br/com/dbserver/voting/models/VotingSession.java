@@ -5,14 +5,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "voting_session")
 public class VotingSession {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
@@ -33,7 +34,7 @@ public class VotingSession {
     public VotingSession() {
     }
 
-    public VotingSession(Integer id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSession status) {
+    public VotingSession(UUID id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSession status) {
         this.id = id;
         this.schedule = schedule;
         this.start = start;
@@ -41,11 +42,11 @@ public class VotingSession {
         this.status = status;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

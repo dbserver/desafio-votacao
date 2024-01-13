@@ -33,9 +33,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     @CacheEvict(value = {"list-schedule"}, allEntries = true)
     public void createSchedule(ScheduleDTO scheduleDTO) {
-        if(scheduleRepository.existsByTitle(scheduleDTO.title())){
-            throw new ExistingResourceException("Pauta existente");
-        }
         Schedule schedule = scheduleMapper.map(scheduleDTO, new Schedule());
         scheduleRepository.save(schedule);
     }

@@ -17,7 +17,7 @@ import static br.com.dbserver.voting.helpers.Util.localDateTimeToString;
 import static java.time.LocalDateTime.now;
 
 @RestController
-@RequestMapping(path = Constants.API_VERSION + "/session")
+@RequestMapping(path = Constants.API_VERSION + "/voting-session")
 public class VotingSessionController {
 
     final VotingSessionService votingSessionService;

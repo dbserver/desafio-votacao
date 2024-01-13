@@ -3,13 +3,15 @@ package br.com.dbserver.voting.models;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
-@Table(name = "associate")
+@Table(name = "associate", uniqueConstraints = {@UniqueConstraint(columnNames = "cpf")})
 public class Associate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(name = "name")
     private String name;
@@ -20,13 +22,13 @@ public class Associate {
     public Associate() {
     }
 
-    public Associate(Integer id, String name, String cpf) {
+    public Associate(UUID id, String name, String cpf) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -38,7 +40,7 @@ public class Associate {
         return cpf;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

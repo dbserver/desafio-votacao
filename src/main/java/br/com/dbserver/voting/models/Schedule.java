@@ -2,13 +2,15 @@ package br.com.dbserver.voting.models;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "schedule")
 public class Schedule{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @Column(name = "title")
     private String title;
@@ -16,16 +18,16 @@ public class Schedule{
     public Schedule() {
     }
 
-    public Schedule(Integer id, String title) {
+    public Schedule(UUID id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

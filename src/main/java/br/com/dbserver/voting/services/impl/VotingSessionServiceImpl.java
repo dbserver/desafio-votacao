@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,11 +45,11 @@ public class VotingSessionServiceImpl implements VotingSessionService {
     @CacheEvict(value = {"list-voting-session"}, allEntries = true)
     public VotingSessionResponseDTO openVoting(VotingSessionRequestDTO votingSessionRequestDTO) {
 
-        Optional<Schedule> schedule = scheduleRepository.findById(Integer.parseInt(votingSessionRequestDTO.scheduleId()));
+        Optional<Schedule> schedule = scheduleRepository.findById(UUID.fromString(votingSessionRequestDTO.scheduleId()));
 
         VotingSessionResponseDTO votingSessionResponse = new VotingSessionResponseDTO(
-                0,
-                new ScheduleDTO(0, ""),
+                UUID.randomUUID(),
+                new ScheduleDTO(UUID.randomUUID(), ""),
                 "",
                 "",
                 "");
@@ -79,8 +80,8 @@ public class VotingSessionServiceImpl implements VotingSessionService {
     public Page<VotingSessionResponseDTO> listAll(Pageable pageable) {
         Page<VotingSession> allSessions = votingSessionRepository.findAll(pageable);
         VotingSessionResponseDTO votingSessionResponseDTO = new VotingSessionResponseDTO(
-                0,
-                new ScheduleDTO(0, ""),
+                UUID.randomUUID(),
+                new ScheduleDTO(UUID.randomUUID(), ""),
                 "",
                 "",
                 "");

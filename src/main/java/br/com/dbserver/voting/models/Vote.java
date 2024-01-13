@@ -3,13 +3,15 @@ package br.com.dbserver.voting.models;
 import br.com.dbserver.voting.enums.TypeVote;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "vote")
 public class Vote {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "associate_id")
@@ -25,18 +27,18 @@ public class Vote {
     public Vote() {
     }
 
-    public Vote(Integer id, Associate associate, Schedule schedule, TypeVote typeVote) {
+    public Vote(UUID id, Associate associate, Schedule schedule, TypeVote typeVote) {
         this.id = id;
         this.associate = associate;
         this.schedule = schedule;
         this.typeVote = typeVote;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
