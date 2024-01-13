@@ -9,6 +9,7 @@ public class PautaDTO {
 	private String nome;
 	
 	private String statusSessao;
+	
 
 	public String getNome() {
 		return nome;
@@ -33,6 +34,10 @@ public class PautaDTO {
 	public void setStatusSessao(String statusSessao) {
 		this.statusSessao = statusSessao;
 	}
+
+
+	
+	
 	
 	
 	

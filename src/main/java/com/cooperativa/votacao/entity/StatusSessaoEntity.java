@@ -13,6 +13,11 @@ public class StatusSessaoEntity {
     
     private String nomeStatusSessao;
     
+    
+
+	public StatusSessaoEntity() {
+		super();
+	}
 
 	public StatusSessaoEntity(StatusSessaoEnum statusSessaoEnum) {
 		this.id = statusSessaoEnum.getId();

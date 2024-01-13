@@ -27,6 +27,11 @@ public class PautaEntity {
 	private LocalDateTime tempoSessao;
 	
 
+	
+	public PautaEntity() {
+		super();
+	}
+
 	public PautaEntity(String nome, StatusSessaoEntity statusSessao) {
 		this.nome = nome;
 		this.statusSessao = statusSessao;

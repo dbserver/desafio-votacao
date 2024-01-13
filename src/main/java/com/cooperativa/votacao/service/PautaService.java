@@ -6,4 +6,5 @@ public interface PautaService {
 	
 	public PautaDTO cadastrar(PautaDTO pautaDTO);
 
+	
 }

@@ -27,4 +27,5 @@ public class PautaServiceImpl implements PautaService {
 				new StatusSessaoEntity(StatusSessaoEnum.CRIADO))));
 	}
 
+	
 }
