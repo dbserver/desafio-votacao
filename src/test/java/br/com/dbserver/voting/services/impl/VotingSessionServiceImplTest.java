@@ -3,7 +3,7 @@ package br.com.dbserver.voting.services.impl;
 import br.com.dbserver.voting.converters.vottingsession.VotingSessionToVotingSessionResponseDtoMapper;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionRequestDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionResponseDTO;
-import br.com.dbserver.voting.enums.StatusVotingSession;
+import br.com.dbserver.voting.enums.StatusVotingSessionEnum;
 import br.com.dbserver.voting.exceptions.ExistingResourceException;
 import br.com.dbserver.voting.helpers.ScheduleCreator;
 import br.com.dbserver.voting.helpers.VotingSessionCreator;
@@ -36,10 +36,10 @@ class VotingSessionServiceImplTest {
     private VotingSessionServiceImpl votingSessionService;
 
     @Mock
-    private VotingSessionRepository votingSessionRepository;
+    private VotingSessionRepository votingSessionRepositoryMock;
 
     @Mock
-    private ScheduleRepository scheduleRepository;
+    private ScheduleRepository scheduleRepositoryMock;
 
     @Mock
     private VotingSessionToVotingSessionResponseDtoMapper votingSessionToVotingSessionResponseDtoMapper;
@@ -47,8 +47,8 @@ class VotingSessionServiceImplTest {
 
     @BeforeEach
     void setup() {
-        when(scheduleRepository.findById(any())).thenReturn(Optional.of(ScheduleCreator.scheduleValid()));
-        when(votingSessionRepository.save(any(VotingSession.class))).thenReturn(VotingSessionCreator.votingSession());
+        when(scheduleRepositoryMock.findById(any())).thenReturn(Optional.of(ScheduleCreator.scheduleValid()));
+        when(votingSessionRepositoryMock.save(any(VotingSession.class))).thenReturn(VotingSessionCreator.votingSession());
     }
 
     @Test
@@ -59,8 +59,8 @@ class VotingSessionServiceImplTest {
         schedule.setId(UUID.randomUUID());
 
         VotingSessionResponseDTO expectedResponseDTO = VotingSessionCreator.votingSessionResponseDTO();
-        doReturn(Optional.of(schedule)).when(scheduleRepository).findById(any());
-        doReturn(false).when(votingSessionRepository).existsByScheduleIdAndStatus(any(), eq(StatusVotingSession.OPEN));
+        doReturn(Optional.of(schedule)).when(scheduleRepositoryMock).findById(any());
+        doReturn(false).when(votingSessionRepositoryMock).existsByScheduleIdAndStatus(any(), eq(StatusVotingSessionEnum.OPEN));
         doReturn(expectedResponseDTO).when(votingSessionToVotingSessionResponseDtoMapper).map(any(), any());
 
         VotingSessionResponseDTO result = votingSessionService.openVoting(requestDTO);
@@ -76,8 +76,8 @@ class VotingSessionServiceImplTest {
         Schedule schedule = new Schedule();
         schedule.setId(UUID.randomUUID());;
 
-        doReturn(Optional.of(schedule)).when(scheduleRepository).findById(any());
-        doReturn(true).when(votingSessionRepository).existsByScheduleIdAndStatus(any(), eq(StatusVotingSession.OPEN));
+        doReturn(Optional.of(schedule)).when(scheduleRepositoryMock).findById(any());
+        doReturn(true).when(votingSessionRepositoryMock).existsByScheduleIdAndStatus(any(), eq(StatusVotingSessionEnum.OPEN));
 
         assertThrows(ExistingResourceException.class, () -> votingSessionService.openVoting(requestDTO));
     }
@@ -88,7 +88,7 @@ class VotingSessionServiceImplTest {
         VotingSessionResponseDTO expectedResponseDTO = VotingSessionCreator.votingSessionResponseDTO();
 
         Page<VotingSession> votingSessionPage = new PageImpl<>(List.of(new VotingSession()));
-        doReturn(votingSessionPage).when(votingSessionRepository).findAll(pageable);
+        doReturn(votingSessionPage).when(votingSessionRepositoryMock).findAll(pageable);
         doReturn(expectedResponseDTO).when(votingSessionToVotingSessionResponseDtoMapper).map(any(), any());
 
         Page<VotingSessionResponseDTO> result = votingSessionService.listAll(pageable);

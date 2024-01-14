@@ -2,11 +2,12 @@ package br.com.dbserver.voting.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "schedule")
-public class Schedule{
+public class Schedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

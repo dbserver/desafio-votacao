@@ -1,10 +1,8 @@
 package br.com.dbserver.voting.controllers;
 
-import br.com.dbserver.voting.dtos.ScheduleDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionRequestDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionResponseDTO;
 import br.com.dbserver.voting.helpers.Constants;
-import br.com.dbserver.voting.helpers.ScheduleCreator;
 import br.com.dbserver.voting.helpers.VotingSessionCreator;
 import br.com.dbserver.voting.services.VotingSessionService;
 import com.fasterxml.jackson.databind.ObjectMapper;

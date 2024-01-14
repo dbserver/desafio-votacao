@@ -1,6 +1,5 @@
 package br.com.dbserver.voting.controllers;
 
-import br.com.dbserver.voting.dtos.AssociateDTO;
 import br.com.dbserver.voting.dtos.ScheduleDTO;
 import br.com.dbserver.voting.helpers.Constants;
 import br.com.dbserver.voting.services.ScheduleService;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static br.com.dbserver.voting.helpers.Util.localDateTimeToString;
 import static java.time.LocalDateTime.now;

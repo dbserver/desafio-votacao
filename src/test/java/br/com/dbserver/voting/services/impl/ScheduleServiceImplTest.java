@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 
@@ -48,7 +49,7 @@ class ScheduleServiceImplTest {
 
     @Test
     public void shouldListAllSchedulesSuccessfully(){
-        Pageable pageable = Pageable.unpaged();
+        Pageable pageable = PageRequest.of(10, 10);
         String expectedTitle = ScheduleCreator.createScheduleDtoValid().title();
         Page<ScheduleDTO> schedulePage = scheduleService.listAll(pageable);
 

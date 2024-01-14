@@ -2,11 +2,9 @@ package br.com.dbserver.voting.services.impl;
 
 import br.com.dbserver.voting.converters.associate.AssociateDtoToAssociateMapper;
 import br.com.dbserver.voting.dtos.AssociateDTO;
-import br.com.dbserver.voting.dtos.ScheduleDTO;
 import br.com.dbserver.voting.exceptions.InvalidCpfException;
 import br.com.dbserver.voting.helpers.Util;
 import br.com.dbserver.voting.models.Associate;
-import br.com.dbserver.voting.models.Schedule;
 import br.com.dbserver.voting.repositories.AssociateRepository;
 import br.com.dbserver.voting.services.AssociateService;
 import jakarta.transaction.Transactional;
@@ -45,7 +43,7 @@ public class AssociateServiceImpl implements AssociateService {
     }
 
     @Override
-    @Cacheable(cacheNames = "list-associate")
+    @Cacheable(value = "list-associate")
     public Page<AssociateDTO> listAll(Pageable pageable) {
         Page<Associate> associatePage = associateRepository.findAll(pageable);
 

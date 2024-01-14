@@ -1,5 +1,5 @@
 package br.com.dbserver.voting.enums;
 
-public enum StatusVotingSession {
+public enum StatusVotingSessionEnum {
     OPEN, CLOSE
 }

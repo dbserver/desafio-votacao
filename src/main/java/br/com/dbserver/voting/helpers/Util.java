@@ -3,6 +3,7 @@ package br.com.dbserver.voting.helpers;
 import br.com.caelum.stella.validation.CPFValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +17,7 @@ public class Util {
     }
 
     public static String removeNonNumericCharacterFromCpf(String cpf){
-        return cpf.replaceAll("[^0-9]", "");
+        return StringUtils.hasText(cpf) ? cpf.replaceAll("[^0-9]", "") : "";
     }
 
     public static boolean validCpf(String cpf) {

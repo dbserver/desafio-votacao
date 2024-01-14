@@ -3,11 +3,12 @@ package br.com.dbserver.voting.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "associate", uniqueConstraints = {@UniqueConstraint(columnNames = "cpf")})
-public class Associate {
+@Table(name = "associate")
+public class Associate implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

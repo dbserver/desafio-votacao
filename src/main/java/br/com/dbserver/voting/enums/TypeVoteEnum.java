@@ -1,6 +1,6 @@
 package br.com.dbserver.voting.enums;
 
-public enum TypeVote {
+public enum TypeVoteEnum {
     SIM, NAO
 }
 

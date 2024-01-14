@@ -1,13 +1,16 @@
-package br.com.dbserver.voting.models;
+package br.com.dbserver.voting.models.vote;
 
-import br.com.dbserver.voting.enums.TypeVote;
+import br.com.dbserver.voting.enums.TypeVoteEnum;
+import br.com.dbserver.voting.models.Associate;
+import br.com.dbserver.voting.models.Schedule;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "vote")
-public class Vote {
+public class Vote implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,12 +25,12 @@ public class Vote {
     private Schedule schedule;
 
     @Enumerated(EnumType.STRING)
-    private TypeVote typeVote;
+    private TypeVoteEnum typeVote;
 
     public Vote() {
     }
 
-    public Vote(UUID id, Associate associate, Schedule schedule, TypeVote typeVote) {
+    public Vote(UUID id, Associate associate, Schedule schedule, TypeVoteEnum typeVote) {
         this.id = id;
         this.associate = associate;
         this.schedule = schedule;
@@ -58,11 +61,11 @@ public class Vote {
         this.schedule = schedule;
     }
 
-    public TypeVote getTypeVote() {
+    public TypeVoteEnum getTypeVote() {
         return typeVote;
     }
 
-    public void setTypeVote(TypeVote typeVote) {
-        this.typeVote = typeVote;
+    public void setTypeVote(TypeVoteEnum typeVoteEnum) {
+        this.typeVote = typeVoteEnum;
     }
 }

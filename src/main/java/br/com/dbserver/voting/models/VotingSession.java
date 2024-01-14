@@ -1,15 +1,16 @@
 package br.com.dbserver.voting.models;
 
-import br.com.dbserver.voting.enums.StatusVotingSession;
+import br.com.dbserver.voting.enums.StatusVotingSessionEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "voting_session")
-public class VotingSession {
+public class VotingSession implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,12 +30,12 @@ public class VotingSession {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private StatusVotingSession status;
+    private StatusVotingSessionEnum status;
 
     public VotingSession() {
     }
 
-    public VotingSession(UUID id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSession status) {
+    public VotingSession(UUID id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSessionEnum status) {
         this.id = id;
         this.schedule = schedule;
         this.start = start;
@@ -74,11 +75,11 @@ public class VotingSession {
         this.end = end;
     }
 
-    public StatusVotingSession getStatus() {
+    public StatusVotingSessionEnum getStatus() {
         return status;
     }
 
-    public void setStatus(StatusVotingSession status) {
+    public void setStatus(StatusVotingSessionEnum status) {
         this.status = status;
     }
 }

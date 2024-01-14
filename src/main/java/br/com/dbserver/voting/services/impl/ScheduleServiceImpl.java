@@ -2,7 +2,6 @@ package br.com.dbserver.voting.services.impl;
 
 import br.com.dbserver.voting.converters.schedule.ScheduleDtoToScheduleMapper;
 import br.com.dbserver.voting.dtos.ScheduleDTO;
-import br.com.dbserver.voting.exceptions.ExistingResourceException;
 import br.com.dbserver.voting.models.Schedule;
 import br.com.dbserver.voting.repositories.ScheduleRepository;
 import br.com.dbserver.voting.services.ScheduleService;
@@ -38,7 +37,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    @Cacheable(cacheNames = "list-schedule")
+    @Cacheable(value = "list-schedule")
     public Page<ScheduleDTO> listAll(Pageable pageable) {
         Page<Schedule> schedulePage = scheduleRepository.findAll(pageable);
 

@@ -3,7 +3,6 @@ package br.com.dbserver.voting.controllers;
 import br.com.dbserver.voting.dtos.ScheduleDTO;
 import br.com.dbserver.voting.helpers.Constants;
 import br.com.dbserver.voting.helpers.ScheduleCreator;
-import br.com.dbserver.voting.models.Schedule;
 import br.com.dbserver.voting.services.ScheduleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

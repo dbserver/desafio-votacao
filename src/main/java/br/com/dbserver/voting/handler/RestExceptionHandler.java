@@ -1,9 +1,6 @@
 package br.com.dbserver.voting.handler;
 
-import br.com.dbserver.voting.exceptions.ExceptionDetails;
-import br.com.dbserver.voting.exceptions.ExistingResourceException;
-import br.com.dbserver.voting.exceptions.InvalidCpfException;
-import br.com.dbserver.voting.exceptions.ValidationExceptionDetails;
+import br.com.dbserver.voting.exceptions.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -79,4 +76,42 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(VotingException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionDetails handlerVotingException(VotingException exception) {
+        return new ExceptionDetails(
+                BAD_REQUEST.name(),
+                BAD_REQUEST.value(),
+                exception.getMessage(),
+                exception.getClass().getName(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public ExceptionDetails handlerNotFoundException(NotFoundException exception) {
+        return new ExceptionDetails(
+                NOT_FOUND.name(),
+                NOT_FOUND.value(),
+                exception.getMessage(),
+                exception.getClass().getName(),
+                LocalDateTime.now()
+        );
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionDetails handlerIllegalArgumentException(IllegalArgumentException exception) {
+        return new ExceptionDetails(
+                BAD_REQUEST.name(),
+                BAD_REQUEST.value(),
+                exception.getMessage(),
+                exception.getClass().getName(),
+                LocalDateTime.now()
+        );
+    }
+
 }
+
+

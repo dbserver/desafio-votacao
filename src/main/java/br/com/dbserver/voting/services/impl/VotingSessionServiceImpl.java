@@ -4,7 +4,7 @@ import br.com.dbserver.voting.converters.vottingsession.VotingSessionToVotingSes
 import br.com.dbserver.voting.dtos.ScheduleDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionRequestDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionResponseDTO;
-import br.com.dbserver.voting.enums.StatusVotingSession;
+import br.com.dbserver.voting.enums.StatusVotingSessionEnum;
 import br.com.dbserver.voting.exceptions.ExistingResourceException;
 import br.com.dbserver.voting.models.Schedule;
 import br.com.dbserver.voting.models.VotingSession;
@@ -56,7 +56,7 @@ public class VotingSessionServiceImpl implements VotingSessionService {
 
         if (schedule.isPresent()) {
 
-            if(votingSessionRepository.existsByScheduleIdAndStatus(schedule.get().getId(), StatusVotingSession.OPEN)){
+            if(votingSessionRepository.existsByScheduleIdAndStatus(schedule.get().getId(), StatusVotingSessionEnum.OPEN)){
                 throw new ExistingResourceException("Votação em andamento para essa pauta, nao é possivel criar outra");
             }
 
@@ -66,7 +66,7 @@ public class VotingSessionServiceImpl implements VotingSessionService {
                 votingSession = votingTime(Integer.parseInt(votingSessionRequestDTO.votingEndTime()));
             }
 
-            votingSession.setStatus(StatusVotingSession.OPEN);
+            votingSession.setStatus(StatusVotingSessionEnum.OPEN);
             votingSession.setSchedule(schedule.get());
             VotingSession votingSessionSaved = votingSessionRepository.save(votingSession);
             votingSessionResponse = votingSessionToVotingSessionResponseDtoMapper.map(votingSessionSaved, votingSessionResponse);
@@ -76,7 +76,7 @@ public class VotingSessionServiceImpl implements VotingSessionService {
     }
 
     @Override
-    @Cacheable(cacheNames = "list-voting-session")
+    @Cacheable(value = "list-voting-session")
     public Page<VotingSessionResponseDTO> listAll(Pageable pageable) {
         Page<VotingSession> allSessions = votingSessionRepository.findAll(pageable);
         VotingSessionResponseDTO votingSessionResponseDTO = new VotingSessionResponseDTO(
