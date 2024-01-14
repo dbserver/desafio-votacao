@@ -1,9 +1,11 @@
 package br.com.dbserver.voting.controllers;
 
+import br.com.dbserver.voting.dtos.CpfValidationResponseDTO;
 import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.vote.VoteRequestDTO;
 import br.com.dbserver.voting.dtos.vote.VoteResponseDTO;
 import br.com.dbserver.voting.helpers.*;
+import br.com.dbserver.voting.services.CpfValidationService;
 import br.com.dbserver.voting.services.VoteService;
 import br.com.dbserver.voting.services.VotingCacheService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,12 +51,16 @@ class VoteControllerTest {
     @Mock
     private VotingCacheService votingCacheService;
 
+    @Mock
+    private CpfValidationService cpfValidationService;
+
     @BeforeEach
     void setup(){
         when(voteServiceMock.voting(any(VoteRequestDTO.class))).thenReturn(VoteCreator.voteResponseDTO());
         when(voteServiceMock.listVoteInProgress()).thenReturn(List.of(VoteCreator.resultOfTheVoteDTOValid()));
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSession()));
         when(votingCacheService.getCachedAssociate(anyString())).thenReturn(Optional.of(AssociateCreator.associateValid()));
+        when(cpfValidationService.validateCpf(anyString())).thenReturn(ResponseEntity.of(Optional.of(new CpfValidationResponseDTO("ABLE_TO_VOTE"))));
     }
 
     @Test
@@ -66,7 +72,7 @@ class VoteControllerTest {
         ResponseEntity<VoteResponseDTO> entity = voteController.createVote(requestDTO);
         assertThat(entity).isNotNull();
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(VoteCreator.voteResponseDTO()).isEqualTo(entity.getBody());
+        assertThat(VoteCreator.voteResponseDTO().getVote()).isEqualTo(entity.getBody().getVote());
     }
 
     @Test

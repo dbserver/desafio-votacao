@@ -1,4 +1,4 @@
-package br.com.dbserver.voting.models.vote;
+package br.com.dbserver.voting.services.impl.vote;
 
 import br.com.dbserver.voting.models.Associate;
 import br.com.dbserver.voting.models.VotingSession;

@@ -1,4 +1,4 @@
-package br.com.dbserver.voting.models.vote;
+package br.com.dbserver.voting.models;
 
 import br.com.dbserver.voting.enums.TypeVoteEnum;
 import br.com.dbserver.voting.models.Associate;

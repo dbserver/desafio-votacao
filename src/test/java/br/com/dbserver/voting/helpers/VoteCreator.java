@@ -7,7 +7,7 @@ import br.com.dbserver.voting.enums.StatusVotingSessionEnum;
 import br.com.dbserver.voting.enums.TypeVoteEnum;
 import br.com.dbserver.voting.models.Associate;
 import br.com.dbserver.voting.models.Schedule;
-import br.com.dbserver.voting.models.vote.Vote;
+import br.com.dbserver.voting.models.Vote;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class VoteCreator {
 
     public static VoteResponseDTO voteResponseDTO(){
-        return new VoteResponseDTO("pauta salva", "user", "SIM", "");
+        return new VoteResponseDTO("pauta salva", "user", "SIM");
     }
 
     public static VoteRequestDTO voteRequestDTOValid(){

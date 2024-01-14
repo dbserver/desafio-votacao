@@ -1,4 +1,4 @@
-package br.com.dbserver.voting.models.vote;
+package br.com.dbserver.voting.services.impl.vote;
 
 import br.com.dbserver.voting.exceptions.NotFoundException;
 import br.com.dbserver.voting.models.Associate;

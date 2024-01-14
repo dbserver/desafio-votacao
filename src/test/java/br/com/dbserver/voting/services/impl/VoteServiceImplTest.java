@@ -1,6 +1,7 @@
 package br.com.dbserver.voting.services.impl;
 
 
+import br.com.dbserver.voting.dtos.CpfValidationResponseDTO;
 import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.vote.VoteRequestDTO;
 import br.com.dbserver.voting.exceptions.NotFoundException;
@@ -8,8 +9,9 @@ import br.com.dbserver.voting.exceptions.VotingException;
 import br.com.dbserver.voting.helpers.AssociateCreator;
 import br.com.dbserver.voting.helpers.VoteCreator;
 import br.com.dbserver.voting.helpers.VotingSessionCreator;
-import br.com.dbserver.voting.models.vote.Vote;
+import br.com.dbserver.voting.models.Vote;
 import br.com.dbserver.voting.repositories.VoteRepository;
+import br.com.dbserver.voting.services.CpfValidationService;
 import br.com.dbserver.voting.services.VotingCacheService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +37,9 @@ class VoteServiceImplTest {
     @Mock
     private VotingCacheService votingCacheService;
 
+    @Mock
+    private CpfValidationService cpfValidationService;
+
     @InjectMocks
     private VoteServiceImpl voteService;
 
@@ -42,6 +48,7 @@ class VoteServiceImplTest {
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSession()));
         when(votingCacheService.getCachedAssociate(anyString())).thenReturn(Optional.of(AssociateCreator.associateValid()));
         when(votingCacheService.voteProgress()).thenReturn(List.of(VoteCreator.resultOfTheVoteDTOValid()));
+        when(cpfValidationService.validateCpf(anyString())).thenReturn(ResponseEntity.of(Optional.of(new CpfValidationResponseDTO("ABLE_TO_VOTE"))));
     }
 
     @Test

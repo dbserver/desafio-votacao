@@ -112,6 +112,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(UnableVoteException.class)
+    @ResponseStatus(NOT_FOUND)
+    public UnableVoteExceptionDetails handlerUnableVoteException(UnableVoteException exception) {
+        return new UnableVoteExceptionDetails(exception.getMessage());
+    }
+
 }
 
 
