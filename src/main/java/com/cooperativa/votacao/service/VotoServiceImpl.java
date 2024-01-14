@@ -2,6 +2,8 @@ package com.cooperativa.votacao.service;
 
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,8 @@ import com.cooperativa.votacao.repository.VotoRepository;
 @Transactional
 public class VotoServiceImpl implements VotoService{
 	
+	private static Logger log = LoggerFactory.getLogger(VotoServiceImpl.class);
+	
 	@Autowired
 	private PautaService pautaService;
 	
@@ -33,6 +37,8 @@ public class VotoServiceImpl implements VotoService{
 
 	@Override
 	public void votar(VotoDTO votoDTO) {
+		log.info("Voto do associado idAssociado "+votoDTO.getIdAssociado());
+		
 		PautaEntity pautaEntity= pautaService.buscarPorId(votoDTO.getIdPauta());
 		
 		sessaoService.validarSessao(pautaEntity.getStatusSessao(),StatusSessaoEnum.ABERTO );

@@ -29,7 +29,7 @@ public class PautaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(pautaService.cadastrar(pautaDTO));
 	}
 	
-	@GetMapping("/ContabilizacaoVotacao/{idPauta}")
+	@GetMapping("/contabilizacaoVotacao/{idPauta}")
 	public ResponseEntity<ContabilizacaoVotacaoPauta> buscarContabilizacaoVotacaoPorPauta(@PathVariable Integer idPauta){
 		return ResponseEntity.status(HttpStatus.OK).body(pautaService.buscarContabilizacaoVotacaoPorPauta(idPauta));
 	}

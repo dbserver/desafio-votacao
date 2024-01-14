@@ -2,6 +2,8 @@ package com.cooperativa.votacao.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import com.cooperativa.votacao.repository.PautaRepository;
 @Transactional
 public class PautaServiceImpl implements PautaService {
 	
+    private static Logger log = LoggerFactory.getLogger(PautaServiceImpl.class);
+	
 	@Autowired
 	private PautaRepository pautaRepository;
 	
@@ -31,18 +35,24 @@ public class PautaServiceImpl implements PautaService {
 
 	@Override
 	public PautaDTO cadastrar(PautaDTO pautaDTO) {
+		log.info("Cadastrando pauta "+pautaDTO.getNome());
+		
 		return pautaMapper.entityToDTO(pautaRepository.save(new PautaEntity(pautaDTO.getNome(), 
 				new StatusSessaoEntity(StatusSessaoEnum.CRIADO))));
 	}
 
 	@Override
 	public PautaEntity buscarPorId(Integer id) {
+		log.info("Consultando idPauta "+ id);
+		
 		return pautaRepository.findById(id).
 				orElseThrow(()-> new PautaNaoEncontradaException("Pauta não encontrada"));
 	}
 
 	@Override
 	public void atualizar(PautaEntity pautaEntity) {
+		log.info("Atualizando  pauta idPauta "+pautaEntity.getId());
+		
 		pautaRepository.save(pautaEntity);
 	}
 
@@ -60,6 +70,8 @@ public class PautaServiceImpl implements PautaService {
 
 	@Override
 	public List<PautaEntity> buscarPorStatusSessao(StatusSessaoEntity statusSessaoEntity) {
+		log.info("Buscando status sessao "+statusSessaoEntity.getNomeStatusSessao());
+		
 		return pautaRepository.findByStatusSessao(statusSessaoEntity);
 	}
 
