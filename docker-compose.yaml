@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - cache:/root/redis
+      - ./cache/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=root
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=16
+  mysql:
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=voting
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - data:/var/lib/mysql
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  data:
+    driver: local
+  cache:
+    driver: local
