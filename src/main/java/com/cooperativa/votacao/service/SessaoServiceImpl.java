@@ -1,5 +1,7 @@
 package com.cooperativa.votacao.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +27,22 @@ public class SessaoServiceImpl implements SessaoService {
 			
 		 this.validarSessao(pautaEntity.getStatusSessao(),StatusSessaoEnum.CRIADO);
 		 pautaEntity.setStatusSessao(new StatusSessaoEntity(StatusSessaoEnum.ABERTO));
-		 pautaEntity.setTempoSessao(aberturaSessaoDTO.getTempoSessao());
+		 
+		 if(aberturaSessaoDTO.getTempoSessao()==null)
+			pautaEntity.setTempoSessao(LocalDateTime.now().plusMinutes(1));
+		 else 
+		    pautaEntity.setTempoSessao(aberturaSessaoDTO.getTempoSessao());
 	
 		 pautaService.atualizar(pautaEntity);
+	}
+	
+	@Override
+	public void finalizarSessao() {
+		 pautaService.buscarPorStatusSessao
+				(new StatusSessaoEntity(StatusSessaoEnum.ABERTO)).stream().filter(e->this.verificaSessaoExpirada(e)).forEach(e->{
+					e.setStatusSessao(new StatusSessaoEntity(StatusSessaoEnum.FINALIZADO));
+					pautaService.atualizar(e);
+				});
 	}
 	
 	@Override
@@ -45,5 +60,12 @@ public class SessaoServiceImpl implements SessaoService {
 		}
 			  
 	}
+
+	private boolean verificaSessaoExpirada(PautaEntity pautaEntity) {
+		return LocalDateTime.now().isAfter(pautaEntity.getTempoSessao());
+	}
+	
+
+	
 
 }

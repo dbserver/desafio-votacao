@@ -9,5 +9,7 @@ public interface SessaoService {
 	public void abrirSessaoVotacao(AberturaSessaoDTO aberturaSessaoDTO);
 	
 	public void validarSessao(StatusSessaoEntity statusSessaoEntity, StatusSessaoEnum statusSessaoValida);
+	
+	public void finalizarSessao();
 
 }

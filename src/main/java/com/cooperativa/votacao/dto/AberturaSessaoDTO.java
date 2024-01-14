@@ -28,10 +28,7 @@ public class AberturaSessaoDTO {
 	}
 
 	public void setTempoSessao(LocalDateTime tempoSessao) {
-		if(tempoSessao!=null)
-			this.tempoSessao=tempoSessao;
-		else
-			this.tempoSessao=LocalDateTime.now().plusMinutes(1l);
+		this.tempoSessao=tempoSessao;
 	}
 	
 	
