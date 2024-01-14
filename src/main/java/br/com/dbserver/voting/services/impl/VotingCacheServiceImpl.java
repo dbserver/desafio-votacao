@@ -10,6 +10,7 @@ import br.com.dbserver.voting.services.VotingCacheService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,13 +25,13 @@ public class VotingCacheServiceImpl implements VotingCacheService {
     }
 
     @Override
-    @Cacheable(value = "votingSessions", key = "#sessionId")
+    @Cacheable(value = "votingSession")
     public Optional<VotingSession> getCachedVotingSession(String sessionId) {
         return votingSessionRepository.findById(UUID.fromString(sessionId));
     }
 
     @Override
-    @Cacheable(value = "associates", key = "#cpf")
+    @Cacheable(value = "associate")
     public Optional<Associate> getCachedAssociate(String cpf) {
         String cpfAssociate = Util.removeNonNumericCharacterFromCpf(cpf);
         return associateRepository.findByCpf(cpfAssociate);
@@ -38,8 +39,8 @@ public class VotingCacheServiceImpl implements VotingCacheService {
 
     @Override
     @Cacheable(value = "voteProgress")
-    public Optional<ResultOfTheVoteDTO> voteProgress() {
-        return votingSessionRepository.voteProgress();
+    public List<ResultOfTheVoteDTO> voteProgress() {
+        return votingSessionRepository.voteProgress().stream().toList();
     }
 
 }

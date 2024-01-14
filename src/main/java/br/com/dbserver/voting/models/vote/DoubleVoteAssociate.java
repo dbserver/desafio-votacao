@@ -19,8 +19,8 @@ public class DoubleVoteAssociate extends ValidatorVote {
     @Override
     public boolean valid(Optional<VotingSession> votingSession, Optional<Associate> associate) {
 
-        if(associate.isPresent()){
-            if(voteRepository.existsByAssociate(associate.get())){
+        if(associate.isPresent() && votingSession.isPresent()){
+            if(voteRepository.existsByAssociateAndSchedule(associate.get(), votingSession.get().getSchedule())){
                 throw new ExistingResourceException("Associado ja fez seu voto");
             }
         }

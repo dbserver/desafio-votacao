@@ -1,5 +1,6 @@
 package br.com.dbserver.voting.controllers;
 
+import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionRequestDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionResponseDTO;
 import br.com.dbserver.voting.helpers.Constants;
@@ -41,6 +42,14 @@ public class VotingSessionController {
         Page<VotingSessionResponseDTO> openVotes = votingSessionService.listAll(pageable);
         logger.info("Listando sessoes abertas de votacao para uma pauta, fim -  {}", localDateTimeToString(now()));
         return new ResponseEntity<>(openVotes, HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/close/{sessionId}")
+    public ResponseEntity<ResultOfTheVoteDTO> closeVoting(@PathVariable String sessionId){
+        logger.info("Encerrando votacao para uma pauta, inicio -  {}", localDateTimeToString(now()));
+        ResultOfTheVoteDTO resultOfTheVoteDTO = votingSessionService.closeVoting(sessionId);
+        logger.info("Encerrando votacao para uma pauta, fim -  {}", localDateTimeToString(now()));
+        return new ResponseEntity<>(resultOfTheVoteDTO, HttpStatus.OK);
     }
 
 }

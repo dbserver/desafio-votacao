@@ -12,17 +12,13 @@ import org.springframework.stereotype.Component;
 public class VotingSessionToVotingSessionResponseDtoMapper implements Mapper<VotingSession, VotingSessionResponseDTO> {
     @Override
     public VotingSessionResponseDTO map(VotingSession votingSession, VotingSessionResponseDTO votingSessionResponseDTO) {
-
-        votingSessionResponseDTO = new VotingSessionResponseDTO(
+        return new VotingSessionResponseDTO(
                 votingSession.getId(),
                 getScheduleDTO(votingSession.getSchedule()),
                 Util.localDateTimeToString(votingSession.getStart()),
                 Util.localDateTimeToString(votingSession.getEnd()),
                 votingSession.getStatus().name()
         );
-
-
-        return votingSessionResponseDTO;
     }
 
     private ScheduleDTO getScheduleDTO(Schedule schedule){

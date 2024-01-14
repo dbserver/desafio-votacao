@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,9 @@ public interface VotingSessionRepository extends JpaRepository<VotingSession, UU
             "SUM(CASE WHEN v.typeVote = 'SIM' THEN 1 ELSE 0 END), " +
             "SUM(CASE WHEN v.typeVote = 'NAO' THEN 1 ELSE 0 END), " +
             "vs.status) " +
-            "FROM VotingSession vs JOIN Vote v ON vs.schedule.id = v.schedule.id GROUP BY vs.id")
-    Optional<ResultOfTheVoteDTO> voteProgress();
+            "FROM VotingSession vs " +
+            "JOIN Vote v ON vs.schedule.id = v.schedule.id " +
+            "WHERE vs.status = 'OPEN' " +
+            "GROUP BY vs.id")
+    List<ResultOfTheVoteDTO> voteProgress();
 }

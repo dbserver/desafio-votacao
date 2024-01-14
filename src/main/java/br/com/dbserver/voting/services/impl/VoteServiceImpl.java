@@ -37,9 +37,9 @@ public class VoteServiceImpl implements VoteService {
     @Override
     @Transactional
     @Caching(evict = {
-            @CacheEvict(value = "votingSessions", key = "#voteRequestDTO.idSessionVoting()"),
-            @CacheEvict(value = "associates", key = "#cpf"),
-            @CacheEvict(value = "voteProgress")
+            @CacheEvict(value = "votingSession", allEntries = true),
+            @CacheEvict(value = "associate", allEntries = true),
+            @CacheEvict(value = "voteProgress", allEntries = true)
     })
     public VoteResponseDTO voting(VoteRequestDTO voteRequestDTO) {
         AtomicReference<VoteResponseDTO> voteResponseDTO = new AtomicReference<>(new VoteResponseDTO("", "", "", ""));
@@ -68,9 +68,7 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public List<ResultOfTheVoteDTO> listVoteInProgress() {
-        return votingCacheService.voteProgress()
-                .map(List::of)
-                .orElseGet(ArrayList::new);
+        return votingCacheService.voteProgress();
     }
 
 

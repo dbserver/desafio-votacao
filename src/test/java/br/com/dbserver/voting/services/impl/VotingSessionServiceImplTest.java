@@ -1,10 +1,13 @@
 package br.com.dbserver.voting.services.impl;
 
 import br.com.dbserver.voting.converters.vottingsession.VotingSessionToVotingSessionResponseDtoMapper;
+import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionRequestDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionResponseDTO;
 import br.com.dbserver.voting.enums.StatusVotingSessionEnum;
 import br.com.dbserver.voting.exceptions.ExistingResourceException;
+import br.com.dbserver.voting.exceptions.NotFoundException;
+import br.com.dbserver.voting.exceptions.VotingException;
 import br.com.dbserver.voting.helpers.ScheduleCreator;
 import br.com.dbserver.voting.helpers.VotingSessionCreator;
 import br.com.dbserver.voting.models.Schedule;
@@ -25,7 +28,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.*;
 
@@ -96,6 +99,56 @@ class VotingSessionServiceImplTest {
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
         assertThat(result.getContent().get(0)).isEqualTo(expectedResponseDTO);
+    }
+
+    @Test
+    public void shouldCloseOpenVotingSessionWhenSuccessfully() {
+        VotingSession votingSession = VotingSessionCreator.votingSession();
+
+        // Mock do comportamento do repositório
+        when(votingSessionRepositoryMock.findById(votingSession.getId())).thenReturn(Optional.of(VotingSessionCreator.votingSession()));
+        when(votingSessionRepositoryMock.save(any(VotingSession.class))).thenReturn(VotingSessionCreator.votingSession());
+        when(votingSessionRepositoryMock.voteProgress()).thenReturn(List.of(VotingSessionCreator.resultOfTheVoteDTOValid()));
+
+        // Executa o método que queremos testar
+        ResultOfTheVoteDTO result = votingSessionService.closeVoting(votingSession.getId().toString());
+
+        // Verificações
+        assertNotNull(result);
+        assertEquals(StatusVotingSessionEnum.CLOSE, result.getStatus());
+    }
+
+    @Test
+    public void shouldThrowNotFoundExceptionWhenSessionNotFound() {
+        // Criação de dados de exemplo
+        String sessionId = "123e4567-e89b-12d3-a456-426614174001";
+
+        // Mock do comportamento do repositório quando a sessão não é encontrada
+        when(votingSessionRepositoryMock.findById(UUID.fromString(sessionId))).thenReturn(Optional.empty());
+
+        // Executa o método que queremos testar e espera uma exceção
+        assertThrows(NotFoundException.class, () -> votingSessionService.closeVoting(sessionId));
+
+        // Verificações
+        verify(votingSessionRepositoryMock, never()).save(any(VotingSession.class));
+    }
+
+    @Test
+    public void shouldThrowVotingExceptionAlreadyClosed() {
+        // Criação de dados de exemplo
+        String sessionId = "123e4567-e89b-12d3-a456-426614174001";
+        VotingSession votingSession = new VotingSession();
+        votingSession.setId(UUID.fromString(sessionId));
+        votingSession.setStatus(StatusVotingSessionEnum.CLOSE);
+
+        // Mock do comportamento do repositório
+        when(votingSessionRepositoryMock.findById(UUID.fromString(sessionId))).thenReturn(Optional.of(votingSession));
+
+        // Executa o método que queremos testar e espera uma exceção
+        assertThrows(VotingException.class, () -> votingSessionService.closeVoting(sessionId));
+
+        // Verificações
+        verify(votingSessionRepositoryMock, never()).save(any(VotingSession.class));
     }
 
 }

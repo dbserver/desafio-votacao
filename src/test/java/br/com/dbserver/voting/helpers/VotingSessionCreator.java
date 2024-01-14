@@ -1,6 +1,7 @@
 package br.com.dbserver.voting.helpers;
 
 import br.com.dbserver.voting.dtos.ScheduleDTO;
+import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionRequestDTO;
 import br.com.dbserver.voting.dtos.votingsession.VotingSessionResponseDTO;
 import br.com.dbserver.voting.enums.StatusVotingSessionEnum;
@@ -55,5 +56,17 @@ public class VotingSessionCreator {
                 LocalDateTime.of(2023, 1, 12, 12, 20),
                 LocalDateTime.of(2023, 12, 12, 12, 30),
                 StatusVotingSessionEnum.OPEN);
+    }
+
+    public static ResultOfTheVoteDTO resultOfTheVoteDTOValid(){
+        return new ResultOfTheVoteDTO(
+                UUID.fromString("7534bc0c-2d1e-48d6-9d0a-ebafe51a4b3d"),
+                LocalDateTime.of(2023, 1, 12, 12, 20),
+                LocalDateTime.of(2023, 12, 12, 12, 30),
+                new Schedule(UUID.fromString("cf8ccd5f-145f-4c10-82c0-a36f5080b188"), "assempleia 1"),
+                8L,
+                5L,
+                StatusVotingSessionEnum.CLOSE
+        );
     }
 }

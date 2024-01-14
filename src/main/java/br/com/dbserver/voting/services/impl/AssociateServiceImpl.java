@@ -10,6 +10,7 @@ import br.com.dbserver.voting.services.AssociateService;
 import jakarta.transaction.Transactional;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,10 @@ public class AssociateServiceImpl implements AssociateService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"list-associate"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "associate", allEntries = true),
+            @CacheEvict(value = {"associates"}, allEntries = true)
+    })
     public void createAssociate(AssociateDTO associateDTO) {
 
         if(!Util.validCpf(associateDTO.cpf())){
@@ -43,7 +47,7 @@ public class AssociateServiceImpl implements AssociateService {
     }
 
     @Override
-    @Cacheable(value = "list-associate")
+    @Cacheable(value = "associates")
     public Page<AssociateDTO> listAll(Pageable pageable) {
         Page<Associate> associatePage = associateRepository.findAll(pageable);
 

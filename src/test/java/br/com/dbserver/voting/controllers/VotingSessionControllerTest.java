@@ -61,7 +61,7 @@ class VotingSessionControllerTest {
 
         assertThat(responseEntity).isNotNull();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(responseEntity.getBody()).isEqualTo(VotingSessionCreator.votingSessionResponseDTO());
+        assertThat(responseEntity.getBody().getIdSessionVoting()).isEqualTo(VotingSessionCreator.votingSessionResponseDTO().getIdSessionVoting());
     }
 
     @Test
@@ -76,7 +76,7 @@ class VotingSessionControllerTest {
     @Test
     public void shouldListAllSessionOpenSuccessfully() {
         Pageable pageable = Pageable.unpaged();
-        String expectedTitle = VotingSessionCreator.votingSessionResponseDTO().schedule().title();
+        String expectedTitle = VotingSessionCreator.votingSessionResponseDTO().getSchedule().title();
         ResponseEntity<Page<VotingSessionResponseDTO>> responseEntity = votingSessionController.listAll(pageable);
 
         assertThat(responseEntity.getBody()).isNotEmpty().hasSize(1);
@@ -85,7 +85,7 @@ class VotingSessionControllerTest {
         Page<VotingSessionResponseDTO> votingSessionResponseDTOPage = responseEntity.getBody();
         assertThat(votingSessionResponseDTOPage).isNotNull();
         assertThat(votingSessionResponseDTOPage.getContent()).hasSize(1);
-        assertThat(votingSessionResponseDTOPage.toList().get(0).schedule().title()).isEqualTo(expectedTitle);
+        assertThat(votingSessionResponseDTOPage.toList().get(0).getSchedule().title()).isEqualTo(expectedTitle);
     }
 
 

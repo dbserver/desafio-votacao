@@ -41,7 +41,7 @@ class VoteServiceImplTest {
     void setUp() {
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSession()));
         when(votingCacheService.getCachedAssociate(anyString())).thenReturn(Optional.of(AssociateCreator.associateValid()));
-        when(votingCacheService.voteProgress()).thenReturn(Optional.of(VoteCreator.resultOfTheVoteDTOValid()));
+        when(votingCacheService.voteProgress()).thenReturn(List.of(VoteCreator.resultOfTheVoteDTOValid()));
     }
 
     @Test
