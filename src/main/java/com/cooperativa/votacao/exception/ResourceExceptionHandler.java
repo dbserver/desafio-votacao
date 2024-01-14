@@ -15,7 +15,21 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(SessaoException.class)
-	public ResponseEntity<ErroDTO> handleExcecaoRegraNegocio(SessaoException e,
+	public ResponseEntity<ErroDTO> handleSessaoException(SessaoException e,
+			HttpServletRequest request, HandlerMethod handlerMethod) {	
+		ErroDTO erroDTO = new ErroDTO(400,HttpStatus.BAD_REQUEST.name(), e.getMessage());
+		return new  ResponseEntity<ErroDTO>(erroDTO, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(PautaNaoEncontradaException.class)
+	public ResponseEntity<ErroDTO> handlePautaNaoEncontradaException(PautaNaoEncontradaException e,
+			HttpServletRequest request, HandlerMethod handlerMethod) {	
+		ErroDTO erroDTO = new ErroDTO(404,HttpStatus.NOT_FOUND.name(), e.getMessage());
+		return new  ResponseEntity<ErroDTO>(erroDTO, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(VotoInvalidoException.class)
+	public ResponseEntity<ErroDTO> handleVotoInvalidoException(VotoInvalidoException e,
 			HttpServletRequest request, HandlerMethod handlerMethod) {	
 		ErroDTO erroDTO = new ErroDTO(400,HttpStatus.BAD_REQUEST.name(), e.getMessage());
 		return new  ResponseEntity<ErroDTO>(erroDTO, HttpStatus.BAD_REQUEST);

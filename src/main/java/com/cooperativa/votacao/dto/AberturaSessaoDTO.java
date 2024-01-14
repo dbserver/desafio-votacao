@@ -9,17 +9,18 @@ import jakarta.validation.constraints.NotNull;
 public class AberturaSessaoDTO {
 	
 	@NotNull
-	private  Integer id;
+	private  Integer idPauta;
 
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime tempoSessao;
 
-	public Integer getId() {
-		return id;
+
+	public Integer getIdPauta() {
+		return idPauta;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdPauta(Integer idPauta) {
+		this.idPauta = idPauta;
 	}
 
 	public LocalDateTime getTempoSessao() {

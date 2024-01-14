@@ -8,6 +8,7 @@ import com.cooperativa.votacao.dto.PautaDTO;
 import com.cooperativa.votacao.entity.PautaEntity;
 import com.cooperativa.votacao.entity.StatusSessaoEntity;
 import com.cooperativa.votacao.entity.StatusSessaoEnum;
+import com.cooperativa.votacao.exception.PautaNaoEncontradaException;
 import com.cooperativa.votacao.mapper.PautaMapper;
 import com.cooperativa.votacao.repository.PautaRepository;
 
@@ -25,6 +26,17 @@ public class PautaServiceImpl implements PautaService {
 	public PautaDTO cadastrar(PautaDTO pautaDTO) {
 		return pautaMapper.entityToDTO(pautaRepository.save(new PautaEntity(pautaDTO.getNome(), 
 				new StatusSessaoEntity(StatusSessaoEnum.CRIADO))));
+	}
+
+	@Override
+	public PautaEntity buscarPorId(Integer id) {
+		return pautaRepository.findById(id).
+				orElseThrow(()-> new PautaNaoEncontradaException("Pauta não encontrada"));
+	}
+
+	@Override
+	public void atualizar(PautaEntity pautaEntity) {
+		pautaRepository.save(pautaEntity);
 	}
 
 	
