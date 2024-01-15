@@ -1,3 +1,10 @@
+#Como executar o código
+Foi utilizado banco de mysql, então no resources do projeto está o arquivo "script_votacao.sql" precisa ser se executado este script para criar tabela e fazer carga de dominio e configurar o banco no arquivo "application.properties"
+O documento explicando como foi feita a solução de cada funcionalidade está no resources, o nome do arquivo é "documento_funcionalidade.pdf"
+O arquivo do swagger está na pasta resource com o nome "swagger_votacao.yaml" 
+
+
+
 # Votação
 
 ## Objetivo
