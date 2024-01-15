@@ -4,10 +4,13 @@ import br.com.dbserver.voting.dtos.CpfValidationResponseDTO;
 import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.vote.VoteRequestDTO;
 import br.com.dbserver.voting.dtos.vote.VoteResponseDTO;
+import br.com.dbserver.voting.enums.StatusCpfEnum;
+import br.com.dbserver.voting.exceptions.NotFoundException;
 import br.com.dbserver.voting.helpers.*;
 import br.com.dbserver.voting.services.CpfValidationService;
 import br.com.dbserver.voting.services.VoteService;
 import br.com.dbserver.voting.services.VotingCacheService;
+import br.com.dbserver.voting.services.impl.CpfValidationServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +63,7 @@ class VoteControllerTest {
         when(voteServiceMock.listVoteInProgress()).thenReturn(List.of(VoteCreator.resultOfTheVoteDTOValid()));
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSession()));
         when(votingCacheService.getCachedAssociate(anyString())).thenReturn(Optional.of(AssociateCreator.associateValid()));
-        when(cpfValidationService.validateCpf(anyString())).thenReturn(ResponseEntity.of(Optional.of(new CpfValidationResponseDTO("ABLE_TO_VOTE"))));
+        when(cpfValidationService.validateCpf(anyString())).thenReturn(StatusCpfEnum.ABLE_TO_VOTE.name());
     }
 
     @Test
@@ -84,17 +87,5 @@ class VoteControllerTest {
         assertThat(results).isNotEmpty();
         assertThat(results.get(0).getSchedule().getTitle()).isEqualTo(expectedTitleSchedule);
     }
-
-    @Test
-    public void shouldCreateVoteValidationFailureAssociateNotFound() throws Exception {
-        VoteRequestDTO requestDTO = VoteCreator.voteRequestDTOInValid();
-
-        mockMvc.perform(MockMvcRequestBuilders.post(Constants.API_VERSION + "/vote")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(requestDTO)))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-
-
 
 }

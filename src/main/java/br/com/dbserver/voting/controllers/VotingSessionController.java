@@ -45,7 +45,7 @@ public class VotingSessionController {
     }
 
     @PutMapping(path = "/close/{sessionId}")
-    public ResponseEntity<ResultOfTheVoteDTO> closeVoting(@PathVariable String sessionId){
+    public ResponseEntity<ResultOfTheVoteDTO> closeVoting(@PathVariable Integer sessionId){
         logger.info("Encerrando votacao para uma pauta, inicio -  {}", localDateTimeToString(now()));
         ResultOfTheVoteDTO resultOfTheVoteDTO = votingSessionService.closeVoting(sessionId);
         logger.info("Encerrando votacao para uma pauta, fim -  {}", localDateTimeToString(now()));

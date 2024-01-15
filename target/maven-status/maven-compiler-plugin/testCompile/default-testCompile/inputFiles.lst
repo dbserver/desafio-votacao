@@ -1,0 +1,14 @@
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/VotingApplicationTests.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/services/impl/VotingSessionServiceImplTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/controllers/AssociateControllerTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/helpers/ScheduleCreator.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/helpers/VoteCreator.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/controllers/VotingSessionControllerTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/handler/RestExceptionHandlerTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/controllers/ScheduleControllerTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/services/impl/AssociateServiceImplTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/services/impl/ScheduleServiceImplTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/helpers/AssociateCreator.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/controllers/VoteControllerTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/services/impl/VoteServiceImplTest.java
+/Users/alissonferreira/projetos/poc/desafio-votacao/src/test/java/br/com/dbserver/voting/helpers/VotingSessionCreator.java

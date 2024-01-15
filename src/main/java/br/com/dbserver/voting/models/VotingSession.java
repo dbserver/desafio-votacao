@@ -6,15 +6,15 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "voting_session")
 public class VotingSession implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
@@ -35,7 +35,7 @@ public class VotingSession implements Serializable {
     public VotingSession() {
     }
 
-    public VotingSession(UUID id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSessionEnum status) {
+    public VotingSession(Integer id, Schedule schedule, LocalDateTime start, LocalDateTime end, StatusVotingSessionEnum status) {
         this.id = id;
         this.schedule = schedule;
         this.start = start;
@@ -43,11 +43,11 @@ public class VotingSession implements Serializable {
         this.status = status;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

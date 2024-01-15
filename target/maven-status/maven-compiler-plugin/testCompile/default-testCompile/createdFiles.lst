@@ -1,0 +1,14 @@
+br/com/dbserver/voting/controllers/VoteControllerTest.class
+br/com/dbserver/voting/controllers/VotingSessionControllerTest.class
+br/com/dbserver/voting/helpers/AssociateCreator.class
+br/com/dbserver/voting/services/impl/AssociateServiceImplTest.class
+br/com/dbserver/voting/handler/RestExceptionHandlerTest.class
+br/com/dbserver/voting/services/impl/ScheduleServiceImplTest.class
+br/com/dbserver/voting/services/impl/VotingSessionServiceImplTest.class
+br/com/dbserver/voting/VotingApplicationTests.class
+br/com/dbserver/voting/helpers/VotingSessionCreator.class
+br/com/dbserver/voting/controllers/AssociateControllerTest.class
+br/com/dbserver/voting/services/impl/VoteServiceImplTest.class
+br/com/dbserver/voting/helpers/ScheduleCreator.class
+br/com/dbserver/voting/controllers/ScheduleControllerTest.class
+br/com/dbserver/voting/helpers/VoteCreator.class

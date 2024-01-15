@@ -4,6 +4,7 @@ package br.com.dbserver.voting.services.impl;
 import br.com.dbserver.voting.dtos.CpfValidationResponseDTO;
 import br.com.dbserver.voting.dtos.vote.ResultOfTheVoteDTO;
 import br.com.dbserver.voting.dtos.vote.VoteRequestDTO;
+import br.com.dbserver.voting.enums.StatusCpfEnum;
 import br.com.dbserver.voting.exceptions.NotFoundException;
 import br.com.dbserver.voting.exceptions.VotingException;
 import br.com.dbserver.voting.helpers.AssociateCreator;
@@ -48,7 +49,7 @@ class VoteServiceImplTest {
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSession()));
         when(votingCacheService.getCachedAssociate(anyString())).thenReturn(Optional.of(AssociateCreator.associateValid()));
         when(votingCacheService.voteProgress()).thenReturn(List.of(VoteCreator.resultOfTheVoteDTOValid()));
-        when(cpfValidationService.validateCpf(anyString())).thenReturn(ResponseEntity.of(Optional.of(new CpfValidationResponseDTO("ABLE_TO_VOTE"))));
+        when(cpfValidationService.validateCpf(anyString())).thenReturn(StatusCpfEnum.ABLE_TO_VOTE.name());
     }
 
     @Test
@@ -63,7 +64,7 @@ class VoteServiceImplTest {
     @Test
     void shouldThrowVotingExceptionWhenVotingIsClosed() {
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSessionClose()));
-        VoteRequestDTO invalidVoteRequestDTO = new VoteRequestDTO("session-id", "357.672.271-87", "NAO");
+        VoteRequestDTO invalidVoteRequestDTO = new VoteRequestDTO("1", "357.672.271-87", "NAO");
 
         assertThrows(VotingException.class, () -> voteService.voting(invalidVoteRequestDTO));
     }
@@ -71,7 +72,7 @@ class VoteServiceImplTest {
     @Test
     void shouldThrowNotFoundExceptionWhenAssociateInvalid() {
         when(votingCacheService.getCachedAssociate(anyString())).thenReturn(Optional.empty());
-        VoteRequestDTO invalidVoteRequestDTO = new VoteRequestDTO("session-id", "123.456.789-10", "NAO");
+        VoteRequestDTO invalidVoteRequestDTO = new VoteRequestDTO("1", "123.456.789-10", "NAO");
 
         assertThrows(NotFoundException.class, () -> voteService.voting(invalidVoteRequestDTO));
     }
@@ -79,7 +80,7 @@ class VoteServiceImplTest {
     @Test
     void shouldThrowVotingExceptionWhenVotingOutOfTime() {
         when(votingCacheService.getCachedVotingSession(any())).thenReturn(Optional.of(VotingSessionCreator.votingSessionOutOfTime()));
-        VoteRequestDTO invalidVoteRequestDTO = new VoteRequestDTO("session-id", "123.456.789-10", "SIM");
+        VoteRequestDTO invalidVoteRequestDTO = new VoteRequestDTO("1", "123.456.789-10", "SIM");
 
         assertThrows(VotingException.class, () -> voteService.voting(invalidVoteRequestDTO));
     }

@@ -4,15 +4,15 @@ package br.com.dbserver.voting.models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "associate")
 public class Associate implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -23,13 +23,13 @@ public class Associate implements Serializable {
     public Associate() {
     }
 
-    public Associate(UUID id, String name, String cpf) {
+    public Associate(Integer id, String name, String cpf) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -41,7 +41,7 @@ public class Associate implements Serializable {
         return cpf;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

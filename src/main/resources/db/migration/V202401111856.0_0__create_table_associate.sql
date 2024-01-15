@@ -1,5 +1,5 @@
 CREATE TABLE `associate` (
-    `id`   binary(16) NOT NULL,
+    `id`   bigint NOT NULL AUTO_INCREMENT,
     `cpf`  varchar(255) DEFAULT NULL,
     `name` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`),
