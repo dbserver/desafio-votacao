@@ -49,8 +49,6 @@ Ao rodar os comando maven acima, será gerado um pacote jar na pasta target dent
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto.
-
 * [Spring](https://start.spring.io/) - O framework web usado.
 * [Maven](https://maven.apache.org/) - Gerente de Dependência.
 * [Docker](https://www.docker.com/) -  container usado para o mysql e redis.
@@ -65,5 +63,11 @@ No path da Api estamos usando o prefix v1 para controle de versão seguido do re
 ## ✒️ Autor
 
 * **Alisson Ferreira** - [perfil](https://github.com/ferreiralisson)
+
+---
+
+## Informações adicionais
+
+* **Api Fake para validação de cpf** - [perfil](https://github.com/ferreiralisson/validator-api)
 
 ---
