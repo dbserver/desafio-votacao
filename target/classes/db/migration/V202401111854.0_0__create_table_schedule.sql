@@ -1,5 +1,5 @@
 CREATE TABLE `schedule` (
-    `id`    binary(16) NOT NULL,
+    `id`    bigint NOT NULL AUTO_INCREMENT,
     `title` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `title_UNIQUE` (`title`)

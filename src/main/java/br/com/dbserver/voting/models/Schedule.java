@@ -10,8 +10,9 @@ import java.util.UUID;
 public class Schedule implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "title")
     private String title;
@@ -19,16 +20,16 @@ public class Schedule implements Serializable {
     public Schedule() {
     }
 
-    public Schedule(UUID id, String title) {
+    public Schedule(Integer id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

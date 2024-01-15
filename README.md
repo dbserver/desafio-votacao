@@ -1,3 +1,7 @@
+# Instruções de uso
+
+Para saber o passo a passo de execução do projeto acesse o arquivo **HELP.md** presente na raiz desse projeto
+
 # Votação
 
 ## Objetivo

@@ -1,19 +1,23 @@
 package br.com.dbserver.voting.services.impl;
 
-import br.com.dbserver.voting.controllers.AssociateController;
 import br.com.dbserver.voting.dtos.CpfValidationResponseDTO;
+import br.com.dbserver.voting.enums.StatusCpfEnum;
+import br.com.dbserver.voting.exceptions.UnableVoteException;
+import br.com.dbserver.voting.exceptions.UnavailableServiceException;
 import br.com.dbserver.voting.helpers.Util;
 import br.com.dbserver.voting.services.CpfValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Collections;
+import java.util.Objects;
 
 @Service
 public class CpfValidationServiceImpl implements CpfValidationService {
@@ -30,21 +34,32 @@ public class CpfValidationServiceImpl implements CpfValidationService {
     }
 
     @Override
-    public ResponseEntity<CpfValidationResponseDTO> validateCpf(String cpf) {
+    public String validateCpf(String cpf) {
         try {
             String apiUrl = UriComponentsBuilder.fromHttpUrl(cpfValidationApiUrl)
                     .path("/{cpf}")
                     .buildAndExpand(Util.removeNonNumericCharacterFromCpf(cpf))
                     .toUriString();
 
-            return restTemplate.getForEntity(apiUrl, CpfValidationResponseDTO.class);
-        } catch (ResourceAccessException e) {
-            // Registra a exceção no log
-            Logger logger = LoggerFactory.getLogger(getClass());
-            logger.error("Erro de conexão: o serviço de validação de CPF não está disponível.", e);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-            // Retorna uma resposta padrão ou null, dependendo do seu caso
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<CpfValidationResponseDTO> responseEntity = restTemplate.exchange(
+                    apiUrl,
+                    HttpMethod.GET,
+                    requestEntity,
+                    CpfValidationResponseDTO.class
+            );
+            return Objects.requireNonNull(responseEntity.getBody()).status();
+
+        } catch (HttpClientErrorException e) {
+            logger.info(e.getMessage());
+            throw new UnableVoteException(StatusCpfEnum.UNABLE_TO_VOTE.name());
+        } catch (Exception e) {
+            throw new UnavailableServiceException("Erro ao chamar a API de validação de CPF: ".concat(e.getMessage()));
         }
     }
+
 }

@@ -1,9 +1,9 @@
 CREATE TABLE `voting_session` (
-    `id`            binary(16) NOT NULL,
+    `id`            bigint NOT NULL AUTO_INCREMENT,
     `end_session`   datetime(6)           DEFAULT NULL,
     `start_session` datetime(6)           DEFAULT NULL,
     `status`        enum ('OPEN','CLOSE') DEFAULT NULL,
-    `schedule_id`   binary(16)            DEFAULT NULL,
+    `schedule_id`   bigint                DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `fk_schedule` (`schedule_id`),
     CONSTRAINT `fk_schedule` FOREIGN KEY (`schedule_id`) REFERENCES `schedule` (`id`)

@@ -24,7 +24,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ExistingResourceException.class)
     @ResponseStatus(CONFLICT)
-    public ExceptionDetails handlerNotFoundException(ExistingResourceException exception) {
+    public ExceptionDetails handlerExistingResourceException(ExistingResourceException exception) {
         return new ExceptionDetails(
                 CONFLICT.name(),
                 CONFLICT.value(),
@@ -90,7 +90,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
-    public ExceptionDetails handlerNotFoundException(NotFoundException exception) {
+    public ExceptionDetails handlerExistingResourceException(NotFoundException exception) {
         return new ExceptionDetails(
                 NOT_FOUND.name(),
                 NOT_FOUND.value(),
@@ -117,6 +117,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public UnableVoteExceptionDetails handlerUnableVoteException(UnableVoteException exception) {
         return new UnableVoteExceptionDetails(exception.getMessage());
     }
+
+    @ExceptionHandler(UnavailableServiceException.class)
+    @ResponseStatus(SERVICE_UNAVAILABLE)
+    public ExceptionDetails handlerUnavailableServiceException(UnavailableServiceException exception) {
+        return new ExceptionDetails(
+                SERVICE_UNAVAILABLE.name(),
+                SERVICE_UNAVAILABLE.value(),
+                exception.getMessage(),
+                exception.getClass().getName(),
+                LocalDateTime.now()
+        );
+    }
+
+
 
 }
 

@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class ResultOfTheVoteDTO implements Serializable {
-    private UUID id;
+    private Integer id;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
     private LocalDateTime startSession;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
@@ -22,7 +21,7 @@ public class ResultOfTheVoteDTO implements Serializable {
     public ResultOfTheVoteDTO() {
     }
 
-    public ResultOfTheVoteDTO(UUID id, LocalDateTime startSession, LocalDateTime endSession, Schedule schedule, Long totalYes, Long totalNo, StatusVotingSessionEnum status) {
+    public ResultOfTheVoteDTO(Integer id, LocalDateTime startSession, LocalDateTime endSession, Schedule schedule, Long totalYes, Long totalNo, StatusVotingSessionEnum status) {
         this.id = id;
         this.startSession = startSession;
         this.endSession = endSession;
@@ -32,11 +31,11 @@ public class ResultOfTheVoteDTO implements Serializable {
         this.status = status;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -87,5 +86,6 @@ public class ResultOfTheVoteDTO implements Serializable {
     public void setStatus(StatusVotingSessionEnum status) {
         this.status = status;
     }
+
 }
 

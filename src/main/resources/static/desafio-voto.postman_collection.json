@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "d1097e65-d685-4240-9089-73974c13c1ad",
+		"name": "desafio-voto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4262576",
+		"_collection_link": "https://www.postman.com/apisystemsaude/workspace/challenges/collection/4262576-d1097e65-d685-4240-9089-73974c13c1ad?action=share&source=collection_link&creator=4262576"
+	},
+	"item": [
+		{
+			"name": "create schedule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"assempleia 1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/schedule",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list all schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/schedule",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voting session",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"scheduleId\": \"1\",\n    \"votingEndTime\": 60\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/voting-session/open",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"voting-session",
+						"open"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voting session",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/voting-session",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"voting-session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create associate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"associate\",\n    \"cpf\": \"840.687.320-51\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/associate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"associate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list all associate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/associate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"associate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "voting",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idSessionVoting\": \"9\",\n    \"cpf\": \"10294042407\",\n    \"vote\": \"SIM\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/vote",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"vote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vote progress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/vote/progress",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"vote",
+						"progress"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "close vote",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/voting-session/close/9",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"voting-session",
+						"close",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fake Validation Cpf",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url_fake_validation}}/validation/12345678910",
+					"host": [
+						"{{base_url_fake_validation}}"
+					],
+					"path": [
+						"validation",
+						"12345678910"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

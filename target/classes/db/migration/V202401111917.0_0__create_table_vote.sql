@@ -1,8 +1,8 @@
 CREATE TABLE `vote` (
-    `id`           binary(16) NOT NULL,
+    `id`           bigint NOT NULL AUTO_INCREMENT,
     `type_vote`    enum ('SIM','NAO') DEFAULT NULL,
-    `associate_id` binary(16)         DEFAULT NULL,
-    `schedule_id`  binary(16)         DEFAULT NULL,
+    `associate_id` bigint             DEFAULT NULL,
+    `schedule_id`  bigint             DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `associate_fk` (`associate_id`),
     KEY `schedule_fk` (`schedule_id`),

@@ -26,7 +26,6 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +33,6 @@ public class VotingSessionServiceImpl implements VotingSessionService {
 
     final VotingSessionRepository votingSessionRepository;
     final ScheduleRepository scheduleRepository;
-
 
     final VotingSessionToVotingSessionResponseDtoMapper votingSessionToVotingSessionResponseDtoMapper;
 
@@ -46,7 +44,6 @@ public class VotingSessionServiceImpl implements VotingSessionService {
 
     @Override
     @Transactional
-
     @Caching(evict = {
             @CacheEvict(value = "associate", allEntries = true),
             @CacheEvict(value = "voteProgress", allEntries = true),
@@ -54,10 +51,9 @@ public class VotingSessionServiceImpl implements VotingSessionService {
             @CacheEvict(value = {"votingSessions"}, allEntries = true)
     })
     public VotingSessionResponseDTO openVoting(VotingSessionRequestDTO votingSessionRequestDTO) {
-        Optional<Schedule> schedule = scheduleRepository.findById(UUID.fromString(votingSessionRequestDTO.scheduleId()));
+        Optional<Schedule> schedule = scheduleRepository.findById(Integer.parseInt(votingSessionRequestDTO.scheduleId()));
 
         if (schedule.isEmpty()) {
-            // Trate o caso em que o cronograma não existe
             throw new NotFoundException("Pauta não encontrada");
         }
 
@@ -91,14 +87,13 @@ public class VotingSessionServiceImpl implements VotingSessionService {
     }
 
     @Override
-    @Transactional
     @Caching(evict = {
             @CacheEvict(value = "votingSession", allEntries = true),
             @CacheEvict(value = "votingSessions", allEntries = true),
             @CacheEvict(value = "voteProgress", allEntries = true)
     })
-    public ResultOfTheVoteDTO closeVoting(String sessionId) {
-        VotingSession votingSession = votingSessionRepository.findById(UUID.fromString(sessionId))
+    public ResultOfTheVoteDTO closeVoting(Integer sessionId) {
+        VotingSession votingSession = votingSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new NotFoundException("Sessao de votos nao encontrada"));
 
         if (votingSession.getStatus() == StatusVotingSessionEnum.CLOSE) {
@@ -108,12 +103,9 @@ public class VotingSessionServiceImpl implements VotingSessionService {
         votingSession.setStatus(StatusVotingSessionEnum.CLOSE);
         votingSessionRepository.save(votingSession);
 
-        List<ResultOfTheVoteDTO> resultOfTheVoteDTO = votingSessionRepository.voteProgress();
-
-        // Retorna o primeiro resultado encontrado
-        return resultOfTheVoteDTO.stream().findFirst().orElse(null);
+        return votingSessionRepository.voteProgressByIdSession(sessionId)
+                .orElseThrow(() -> new NotFoundException("Sessao de votacao fechada sem resultado"));
     }
-
 
     private VotingSession votingTime(int durationMinutes) {
         VotingSession votingSession = new VotingSession();

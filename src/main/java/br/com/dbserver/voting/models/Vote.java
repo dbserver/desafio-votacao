@@ -1,20 +1,18 @@
 package br.com.dbserver.voting.models;
 
 import br.com.dbserver.voting.enums.TypeVoteEnum;
-import br.com.dbserver.voting.models.Associate;
-import br.com.dbserver.voting.models.Schedule;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 @Table(name = "vote")
 public class Vote implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "associate_id")
@@ -24,24 +22,30 @@ public class Vote implements Serializable {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "voting_session_id", nullable = false)
+    private VotingSession votingSession;
+
+
     @Enumerated(EnumType.STRING)
     private TypeVoteEnum typeVote;
 
     public Vote() {
     }
 
-    public Vote(UUID id, Associate associate, Schedule schedule, TypeVoteEnum typeVote) {
+    public Vote(Integer id, Associate associate, Schedule schedule, VotingSession votingSession, TypeVoteEnum typeVote) {
         this.id = id;
         this.associate = associate;
         this.schedule = schedule;
+        this.votingSession = votingSession;
         this.typeVote = typeVote;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,5 +71,13 @@ public class Vote implements Serializable {
 
     public void setTypeVote(TypeVoteEnum typeVoteEnum) {
         this.typeVote = typeVoteEnum;
+    }
+
+    public VotingSession getVotingSession() {
+        return votingSession;
+    }
+
+    public void setVotingSession(VotingSession votingSession) {
+        this.votingSession = votingSession;
     }
 }

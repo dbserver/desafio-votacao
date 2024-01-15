@@ -11,5 +11,5 @@ public interface VotingSessionService {
 
     Page<VotingSessionResponseDTO> listAll(Pageable pageable);
 
-    ResultOfTheVoteDTO closeVoting(String sessionId);
+    ResultOfTheVoteDTO closeVoting(Integer sessionId);
 }

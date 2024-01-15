@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class VotingCacheServiceImpl implements VotingCacheService {
@@ -27,7 +26,7 @@ public class VotingCacheServiceImpl implements VotingCacheService {
     @Override
     @Cacheable(value = "votingSession")
     public Optional<VotingSession> getCachedVotingSession(String sessionId) {
-        return votingSessionRepository.findById(UUID.fromString(sessionId));
+        return votingSessionRepository.findById(Integer.parseInt(sessionId));
     }
 
     @Override
