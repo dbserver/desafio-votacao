@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.ehcache.org/ehcache-core http://www.ehcache.org/ehcache-core-3.9.5.xsd"
+         xmlns="http://www.ehcache.org/ehcache-core">
+
+    <diskStore path="java.io.tmpdir/ehcache"/>
+
+    <defaultCache
+            maxElementsInMemory="1000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="180"
+            overflowToDisk="true"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="60"
+            memoryStoreEvictionPolicy="LRU">
+
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+
+</ehcache>
