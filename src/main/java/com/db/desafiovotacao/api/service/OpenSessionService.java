@@ -3,6 +3,7 @@ package com.db.desafiovotacao.api.service;
 import com.db.desafiovotacao.api.domain.Status;
 import com.db.desafiovotacao.api.entity.Agenda;
 import com.db.desafiovotacao.api.entity.Session;
+import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
 import com.db.desafiovotacao.api.exception.SessionNotFoundException;
 import com.db.desafiovotacao.api.record.AgendaRecord;
 import com.db.desafiovotacao.api.record.SessionRecord;
@@ -23,10 +24,10 @@ public class OpenSessionService implements OpenSessionServiceInterface{
     @Autowired
     private AgendaRepository agendaRepository;
 
-    public SessionRecord openSession(UUID agendaId, Duration duration) throws SessionNotFoundException {
+    public SessionRecord openSession(UUID agendaId, Duration duration) throws AgendaNotFoundException {
 
         Agenda agenda = agendaRepository.findById(agendaId)
-                .orElseThrow(() -> new SessionNotFoundException("Agenda not found:" + agendaId));
+                .orElseThrow(() -> new AgendaNotFoundException("Agenda not found:" + agendaId));
 
         Session session = new Session();
         session.setAgenda(agenda);
