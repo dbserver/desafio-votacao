@@ -1,11 +1,15 @@
 package com.db.desafiovotacao.mockito;
 
+import com.db.desafiovotacao.api.converters.VoteRecordConverter;
 import com.db.desafiovotacao.api.entity.Agenda;
 import com.db.desafiovotacao.api.entity.Member;
 import com.db.desafiovotacao.api.entity.Vote;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
 import com.db.desafiovotacao.api.exception.MemberNotFoundException;
 import com.db.desafiovotacao.api.exception.OperationNotPermittedException;
+import com.db.desafiovotacao.api.record.VoteAgendaRecord;
+import com.db.desafiovotacao.api.record.VoteMemberRecord;
+import com.db.desafiovotacao.api.record.VoteRecord;
 import com.db.desafiovotacao.api.repository.AgendaRepository;
 import com.db.desafiovotacao.api.repository.MemberRepository;
 import com.db.desafiovotacao.api.repository.VoteRepository;
@@ -15,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Optional;
@@ -28,16 +34,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig
+@ComponentScan(basePackages = "com.db.desafiovotacao.converters")
 public class VoteServiceTest {
     @InjectMocks
     private VoteService voteService;
-
+    @Spy
+    private VoteRecordConverter voteRecordConverter;
     @Mock
     private VoteRepository voteRepository;
-
     @Mock
     private MemberRepository memberRepository;
-
     @Mock
     private AgendaRepository agendaRepository;
 
@@ -60,12 +66,12 @@ public class VoteServiceTest {
         when(voteRepository.existsByMemberAndAgenda(member, agenda)).thenReturn(false);
         when(voteRepository.save(any(Vote.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Vote newVote = voteService.vote(memberId, agendaId, vote);
+        VoteRecord newVote = voteService.vote(memberId, agendaId, vote);
 
         assertNotNull(newVote, "newVote is null");
-        assertEquals(member, newVote.getMember(), "Member is not correct");
-        assertEquals(agenda, newVote.getAgenda(), "Agenda is not correct");
-        assertEquals(vote, newVote.getVoted(), "Vote is not correct");
+        assertEquals(new VoteMemberRecord(null,null), newVote.voteMemberRecord(), "Member is not correct");
+        assertEquals(new VoteAgendaRecord(null,null,null), newVote.voteAgendaRecord(), "Agenda is not correct");
+        assertEquals(vote, newVote.voted(), "Vote is not correct");
 
         verify(voteRepository).save(any(Vote.class));
     }

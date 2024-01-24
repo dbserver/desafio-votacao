@@ -1,8 +1,6 @@
 package com.db.desafiovotacao.api.controller;
 
-import com.db.desafiovotacao.api.entity.Session;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
-import com.db.desafiovotacao.api.record.OpenSessionAgendaRecord;
 import com.db.desafiovotacao.api.record.OpenSessionRecord;
 import com.db.desafiovotacao.api.service.OpenSessionServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,8 +36,7 @@ public class SessionController {
     public ResponseEntity<OpenSessionRecord> openSession(@Parameter(description = "id of agenda to be searched")@PathVariable("agendaId") UUID agendaId,
                                                          @Parameter(description = "duration of session")@RequestParam(required = true) Duration duration) throws AgendaNotFoundException {
         try {
-            Session session = openSessionService.openSession(agendaId, duration);
-            return ResponseEntity.ok(new OpenSessionRecord(session.getId(), session.getDataBegin(), session.getDataEnd(), new OpenSessionAgendaRecord(session.getAgenda().getId(),session.getAgenda().getName(),session.getAgenda().getVotes()), session.getStatus()));
+            return ResponseEntity.ok(openSessionService.openSession(agendaId, duration));
         } catch (AgendaNotFoundException e) {
             throw e;
         }

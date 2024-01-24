@@ -1,9 +1,12 @@
 package com.db.desafiovotacao.api.service;
 
+import com.db.desafiovotacao.api.converters.OpenSessionRecordConverter;
 import com.db.desafiovotacao.api.domain.Status;
 import com.db.desafiovotacao.api.entity.Agenda;
 import com.db.desafiovotacao.api.entity.Session;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
+import com.db.desafiovotacao.api.record.OpenSessionAgendaRecord;
+import com.db.desafiovotacao.api.record.OpenSessionRecord;
 import com.db.desafiovotacao.api.repository.AgendaRepository;
 import com.db.desafiovotacao.api.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,10 @@ public class OpenSessionService implements OpenSessionServiceInterface{
     @Autowired
     private AgendaRepository agendaRepository;
 
-    public Session openSession(UUID agendaId, Duration duration) throws AgendaNotFoundException {
+    @Autowired
+    private OpenSessionRecordConverter openSessionRecordConverter;
+
+    public OpenSessionRecord openSession(UUID agendaId, Duration duration) throws AgendaNotFoundException {
 
         Agenda agenda = agendaRepository.findById(agendaId)
                 .orElseThrow(() -> new AgendaNotFoundException("Agenda not found:" + agendaId));
@@ -31,7 +37,7 @@ public class OpenSessionService implements OpenSessionServiceInterface{
         session.setDataBegin(LocalDateTime.now());
         session.setDataEnd(LocalDateTime.now().plus(duration != null ? duration : Duration.ofMinutes(1)));
         session.setStatus(Status.OPENED);
-
-        return sessionRepository.save(session);
+        session= sessionRepository.save(session);
+        return openSessionRecordConverter.toOpenSessionRecord(session);
     }
 }

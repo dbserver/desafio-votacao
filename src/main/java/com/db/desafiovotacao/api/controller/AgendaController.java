@@ -1,6 +1,5 @@
 package com.db.desafiovotacao.api.controller;
 
-import com.db.desafiovotacao.api.entity.Agenda;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
 import com.db.desafiovotacao.api.record.CreateAgendaResponseRecord;
 import com.db.desafiovotacao.api.service.CountVotesServiceInterface;
@@ -36,11 +35,10 @@ public class AgendaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agenda created with success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = String.class)) })})
+                            schema = @Schema(implementation = CreateAgendaResponseRecord.class)) })})
     @PostMapping
     public ResponseEntity<CreateAgendaResponseRecord> createAgenda(@Parameter(description = "Agenda's name")@RequestParam(required = true)String name) {
-        Agenda agenda = createAgendaService.createAgenda(name);
-        return ResponseEntity.ok(new CreateAgendaResponseRecord(agenda.getId(),agenda.getName()));
+        return ResponseEntity.ok(createAgendaService.createAgenda(name));
     }
 
     @Operation(summary = "Open a session")

@@ -1,11 +1,15 @@
 package com.db.desafiovotacao.mockito;
 
+import com.db.desafiovotacao.api.converters.CreateAgendaResponseRecordConverter;
 import com.db.desafiovotacao.api.entity.Agenda;
+import com.db.desafiovotacao.api.record.CreateAgendaResponseRecord;
 import com.db.desafiovotacao.api.repository.AgendaRepository;
 import com.db.desafiovotacao.api.service.CreateAgendaService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
@@ -16,10 +20,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig
+@ComponentScan(basePackages = "com.db.desafiovotacao.converters")
 public class CreateAgendaServiceTest {
 
     @InjectMocks
     CreateAgendaService createAgendaService;
+
+    @Spy
+    CreateAgendaResponseRecordConverter createAgendaResponseRecordConverter;
 
     @Mock
     AgendaRepository agendaRepository;
@@ -30,10 +38,10 @@ public class CreateAgendaServiceTest {
         when(agendaRepository.save(any())).thenReturn(agendaResponseMocked);
 
 
-        Agenda agendaResponse = createAgendaService.createAgenda("Agenda's name");
+        CreateAgendaResponseRecord createAgendaResponseRecord = createAgendaService.createAgenda("Agenda's name");
 
-        assertEquals(agendaResponseMocked.getId(), agendaResponse.getId(), "ID is not correct");
-        assertEquals(agendaResponseMocked.getName(), agendaResponse.getName(), "Name is not correct");
-        assertNull(agendaResponse.getVotes(), "Votes is not correct");
+        assertEquals(agendaResponseMocked.getId(), createAgendaResponseRecord.id(), "ID is not correct");
+        assertEquals(agendaResponseMocked.getName(), createAgendaResponseRecord.name(), "Name is not correct");
+
     }
 }
