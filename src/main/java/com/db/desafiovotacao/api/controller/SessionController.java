@@ -1,9 +1,9 @@
 package com.db.desafiovotacao.api.controller;
 
+import com.db.desafiovotacao.api.entity.Session;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
-import com.db.desafiovotacao.api.exception.SessionNotFoundException;
-import com.db.desafiovotacao.api.record.SessionRecord;
-import com.db.desafiovotacao.api.record.VoteRecord;
+import com.db.desafiovotacao.api.record.OpenSessionAgendaRecord;
+import com.db.desafiovotacao.api.record.OpenSessionRecord;
 import com.db.desafiovotacao.api.service.OpenSessionServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,15 +31,15 @@ public class SessionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Session opened with success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = SessionRecord.class)) }),
+                            schema = @Schema(implementation = OpenSessionRecord.class)) }),
             @ApiResponse(responseCode = "405", description = "Agenda not found",
                     content = @Content) })
     @PostMapping("/{agendaId}")
-    public ResponseEntity<SessionRecord> openSession(@Parameter(description = "id of agenda to be searched")@PathVariable UUID agendaId,
-                                                     @Parameter(description = "duration of session")@RequestParam(required = false) Duration duration) throws AgendaNotFoundException {
+    public ResponseEntity<OpenSessionRecord> openSession(@Parameter(description = "id of agenda to be searched")@PathVariable("agendaId") UUID agendaId,
+                                                         @Parameter(description = "duration of session")@RequestParam(required = true) Duration duration) throws AgendaNotFoundException {
         try {
-            SessionRecord sessionRecored = openSessionService.openSession(agendaId, duration);
-            return ResponseEntity.ok(sessionRecored);
+            Session session = openSessionService.openSession(agendaId, duration);
+            return ResponseEntity.ok(new OpenSessionRecord(session.getId(), session.getDataBegin(), session.getDataEnd(), new OpenSessionAgendaRecord(session.getAgenda().getId(),session.getAgenda().getName(),session.getAgenda().getVotes()), session.getStatus()));
         } catch (AgendaNotFoundException e) {
             throw e;
         }

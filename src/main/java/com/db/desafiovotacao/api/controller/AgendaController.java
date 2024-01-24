@@ -1,11 +1,12 @@
 package com.db.desafiovotacao.api.controller;
 
+import com.db.desafiovotacao.api.entity.Agenda;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
-import com.db.desafiovotacao.api.record.AgendaRecord;
-import com.db.desafiovotacao.api.record.SessionRecord;
+import com.db.desafiovotacao.api.record.CreateAgendaResponseRecord;
 import com.db.desafiovotacao.api.service.CountVotesServiceInterface;
 import com.db.desafiovotacao.api.service.CreateAgendaServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 @Tag(name = "1-Agenda", description = "Agenda management APIs")
 @RestController
-@RequestMapping("/agenda")
+@RequestMapping("/agendas")
 public class AgendaController {
     private final CountVotesServiceInterface countVotesService;
 
@@ -35,18 +36,18 @@ public class AgendaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Agenda created with success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AgendaRecord.class)) })})
+                            schema = @Schema(implementation = String.class)) })})
     @PostMapping
-    public ResponseEntity<AgendaRecord> createAgenda(@RequestBody AgendaRecord agendaRecord) {
-        AgendaRecord agendaRecorded = createAgendaService.save(agendaRecord);
-        return ResponseEntity.ok(agendaRecorded);
+    public ResponseEntity<CreateAgendaResponseRecord> createAgenda(@Parameter(description = "Agenda's name")@RequestParam(required = true)String name) {
+        Agenda agenda = createAgendaService.createAgenda(name);
+        return ResponseEntity.ok(new CreateAgendaResponseRecord(agenda.getId(),agenda.getName()));
     }
 
     @Operation(summary = "Open a session")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Session opened with success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AgendaRecord.class)) }),
+                            schema = @Schema(implementation = String.class)) }),
             @ApiResponse(responseCode = "404", description = "Agenda not found",
                     content = @Content) })
     @GetMapping("/{agendaId}/result")

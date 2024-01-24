@@ -1,7 +1,7 @@
 package com.db.desafiovotacao.api.service;
 
-import com.db.desafiovotacao.api.record.AgendaRecord;
+import com.db.desafiovotacao.api.entity.Agenda;
 
 public interface CreateAgendaServiceInterface {
-    public AgendaRecord save(AgendaRecord agendaRecord);
+    public Agenda createAgenda(String name);
 }

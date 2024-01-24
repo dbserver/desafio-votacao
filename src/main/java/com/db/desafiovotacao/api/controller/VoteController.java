@@ -1,8 +1,11 @@
 package com.db.desafiovotacao.api.controller;
 
+import com.db.desafiovotacao.api.entity.Vote;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
 import com.db.desafiovotacao.api.exception.MemberNotFoundException;
 import com.db.desafiovotacao.api.exception.OperationNotPermittedException;
+import com.db.desafiovotacao.api.record.VoteAgendaRecord;
+import com.db.desafiovotacao.api.record.VoteMemberRecord;
 import com.db.desafiovotacao.api.record.VoteRecord;
 import com.db.desafiovotacao.api.service.VoteServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,10 +42,10 @@ public class VoteController {
     @PostMapping
     public ResponseEntity<VoteRecord> vote(@Parameter(description = "id of member to be searched")@RequestParam UUID memberId,
                                            @Parameter(description = "id of agenda to be searched")@RequestParam UUID agendaId,
-                                           @Parameter(description = "vote flag")@RequestParam Boolean voted) throws AgendaNotFoundException, MemberNotFoundException, OperationNotPermittedException {
+                                           @Parameter(description = "vote flag")@RequestParam Boolean voteFlag) throws AgendaNotFoundException, MemberNotFoundException, OperationNotPermittedException {
         try {
-            VoteRecord voteRecorded = voteService.vote(memberId, agendaId, voted);
-            return ResponseEntity.ok(voteRecorded);
+            Vote vote = voteService.vote(memberId, agendaId, voteFlag);
+            return ResponseEntity.ok(new VoteRecord(vote.getId(), new VoteMemberRecord(vote.getMember().getId(), vote.getMember().getName()),new VoteAgendaRecord(vote.getAgenda().getId(),vote.getAgenda().getName(), vote.getAgenda().getVotes()), vote.getVoted()));
         } catch (AgendaNotFoundException | MemberNotFoundException | OperationNotPermittedException e) {
             throw e;
         }

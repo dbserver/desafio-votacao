@@ -6,9 +6,6 @@ import com.db.desafiovotacao.api.entity.Vote;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
 import com.db.desafiovotacao.api.exception.MemberNotFoundException;
 import com.db.desafiovotacao.api.exception.OperationNotPermittedException;
-import com.db.desafiovotacao.api.record.AgendaRecord;
-import com.db.desafiovotacao.api.record.MemberRecord;
-import com.db.desafiovotacao.api.record.VoteRecord;
 import com.db.desafiovotacao.api.repository.AgendaRepository;
 import com.db.desafiovotacao.api.repository.MemberRepository;
 import com.db.desafiovotacao.api.repository.VoteRepository;
@@ -28,7 +25,7 @@ public class VoteService implements VoteServiceInterface{
     @Autowired
     private AgendaRepository agendaRepository;
 
-    public VoteRecord vote(UUID memberId, UUID agendaId, Boolean voted) throws MemberNotFoundException, AgendaNotFoundException, OperationNotPermittedException {
+    public Vote vote(UUID memberId, UUID agendaId, Boolean voted) throws MemberNotFoundException, AgendaNotFoundException, OperationNotPermittedException {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException("Member not found"));
 
@@ -44,8 +41,6 @@ public class VoteService implements VoteServiceInterface{
         newVote.setMember(member);
         newVote.setAgenda(agenda);
         newVote.setVoted(voted);
-        newVote=voteRepository.save(newVote);
-
-        return new VoteRecord(newVote.getId(), new MemberRecord(newVote.getMember().getId(), newVote.getMember().getName()),new AgendaRecord(newVote.getAgenda().getId(), newVote.getAgenda().getVotes()), newVote.getVoted());
+        return voteRepository.save(newVote);
     }
 }

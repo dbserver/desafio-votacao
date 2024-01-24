@@ -13,12 +13,14 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class Agenda implements Serializable {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private String name;
     @OneToMany(mappedBy = "agenda")
     private List<Vote> votes;
 
