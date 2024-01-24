@@ -3,7 +3,6 @@ package com.db.desafiovotacao.api.controller;
 import com.db.desafiovotacao.api.exception.AgendaNotFoundException;
 import com.db.desafiovotacao.api.exception.MemberNotFoundException;
 import com.db.desafiovotacao.api.exception.OperationNotPermittedException;
-import com.db.desafiovotacao.api.exception.SessionNotFoundException;
 import com.db.desafiovotacao.api.record.VoteRecord;
 import com.db.desafiovotacao.api.service.VoteServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
