@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/associado")
+@RequestMapping("${VersionApi.VERSION}/associado")
 public class AssociadoController {
     @Autowired
 
