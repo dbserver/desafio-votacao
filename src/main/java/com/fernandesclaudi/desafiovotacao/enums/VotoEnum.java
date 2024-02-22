@@ -1,8 +1,12 @@
 package com.fernandesclaudi.desafiovotacao.enums;
 
 
-public class VotoEnum {
+import lombok.AllArgsConstructor;
 
-    public static final String SIM = "S";
-    public static final String NAO = "N";
+@AllArgsConstructor
+public enum VotoEnum {
+    SIM("S"),
+    NAO("N");
+
+    public final String value;
 }

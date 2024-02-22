@@ -10,7 +10,7 @@ CREATE TABLE public.pauta (
 	id int8 NOT NULL,
 	idredator int8 NOT NULL,
 	titulo varchar(50) NOT NULL,
-	dataCriacao date NOT NULL,
+	dtpauta date NOT NULL,
 	CONSTRAINT pauta_pk PRIMARY KEY (id),
 	CONSTRAINT pauta_associado_fk FOREIGN KEY (id) REFERENCES public.associado(id)
 );
