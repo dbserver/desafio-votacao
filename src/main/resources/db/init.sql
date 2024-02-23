@@ -12,7 +12,7 @@ CREATE TABLE public.pauta (
 	titulo varchar(50) NOT NULL,
 	dtpauta date NOT NULL,
 	CONSTRAINT pauta_pk PRIMARY KEY (id),
-	CONSTRAINT pauta_associado_fk FOREIGN KEY (id) REFERENCES public.associado(id)
+	CONSTRAINT pauta_associado_fk FOREIGN KEY (idredator) REFERENCES public.associado(id)
 );
 
 CREATE TABLE public.sessao (
@@ -22,7 +22,7 @@ CREATE TABLE public.sessao (
 	dtinicio timestamp NOT NULL,
 	dtfim timestamp NOT NULL,
 	CONSTRAINT sessao_pk PRIMARY KEY (id),
-	CONSTRAINT sessao_pauta_fk FOREIGN KEY (id) REFERENCES public.pauta(id)
+	CONSTRAINT sessao_pauta_fk FOREIGN KEY (idpauta) REFERENCES public.pauta(id)
 );
 
 CREATE TABLE public.voto (
@@ -32,6 +32,6 @@ CREATE TABLE public.voto (
 	voto char NOT NULL,
 	dtvoto timestamp NOT NULL,
 	CONSTRAINT voto_pk PRIMARY KEY (id, idassociado),
-	CONSTRAINT voto_associado_fk FOREIGN KEY (idassociado) REFERENCES public.associado(id)
+	CONSTRAINT voto_associado_fk FOREIGN KEY (idassociado) REFERENCES public.associado(id),
 	CONSTRAINT voto_sessao_fk FOREIGN KEY (idsessao) REFERENCES public.sessao(id)
 );
