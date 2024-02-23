@@ -16,6 +16,5 @@ public class SessaoDto {
     private PautaDto pauta;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
-    private Integer countVotosSim;
-    private Integer countVotosNao;
+
 }

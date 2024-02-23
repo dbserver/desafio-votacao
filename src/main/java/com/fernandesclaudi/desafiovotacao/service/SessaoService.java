@@ -1,5 +1,6 @@
 package com.fernandesclaudi.desafiovotacao.service;
 
+import com.fernandesclaudi.desafiovotacao.dto.ContabilizacaoDto;
 import com.fernandesclaudi.desafiovotacao.dto.SessaoDto;
 import com.fernandesclaudi.desafiovotacao.dto.VotoDto;
 import com.fernandesclaudi.desafiovotacao.enums.VotoEnum;
@@ -7,9 +8,11 @@ import com.fernandesclaudi.desafiovotacao.exceptions.IBaseException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IValorInvalidoException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IValorNaoInformadoException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IRegistroNaoEncontradoException;
+import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.model.Pauta;
 import com.fernandesclaudi.desafiovotacao.model.Sessao;
 import com.fernandesclaudi.desafiovotacao.model.Voto;
+import com.fernandesclaudi.desafiovotacao.repository.AssociadoRepository;
 import com.fernandesclaudi.desafiovotacao.repository.PautaRepository;
 import com.fernandesclaudi.desafiovotacao.repository.SessaoRepository;
 import com.fernandesclaudi.desafiovotacao.repository.VotoRepository;
@@ -28,9 +31,10 @@ public class SessaoService {
     private SessaoRepository sessaoRepository;
     @Autowired
     private PautaRepository pautaRepository;
-
     @Autowired
     private VotoRepository votoRepository;
+    @Autowired
+    private AssociadoRepository associadoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -66,7 +70,7 @@ public class SessaoService {
         return sessaoRepository.findByDataFimAfter(LocalDateTime.now());
     }
 
-    public VotoDto registrarVoto(VotoDto votoDto) throws IValorNaoInformadoException, IValorInvalidoException {
+    public Voto registrarVoto(VotoDto votoDto) {
         if ((votoDto.getAssociado() == null) || (votoDto.getAssociado().getId() == 0L)) {
             throw new IValorNaoInformadoException("associado");
         }
@@ -79,8 +83,9 @@ public class SessaoService {
             throw new IValorInvalidoException("Valor do voto inválido. Esperado S (Sim) ou N (Não)");
         }
 
-        if (LocalDateTime.now().isAfter(votoDto.getSessao().getDataFim())) {
-            throw new IBaseException("Sessão encerrada", HttpStatus.UNPROCESSABLE_ENTITY);
+        Optional<Associado> associado = this.associadoRepository.findById(votoDto.getAssociado().getId());
+        if (associado.isEmpty()) {
+            throw new IRegistroNaoEncontradoException("Associado");
         }
 
         Optional<Sessao> sessao = sessaoRepository.findById(votoDto.getSessao().getId());
@@ -88,10 +93,22 @@ public class SessaoService {
             throw new IRegistroNaoEncontradoException("Sessão");
         }
 
-        return null;
+        if (this.votoRepository.existsVotoBySessao_IdAndAssociado_Id(sessao.get().getId(), associado.get().getId())) {
+            throw new IBaseException("Associado ja votou nesta sessão", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        if (LocalDateTime.now().isAfter(sessao.get().getDataFim())) {
+            throw new IBaseException("Sessão encerrada", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        Voto voto = this.modelMapper.map(votoDto, Voto.class);
+        voto.setSessao(sessao.get());
+        voto.setAssociado(associado.get());
+        voto.setDtVoto(LocalDateTime.now());
+        return this.votoRepository.save(voto);
     }
 
-    public SessaoDto contabilizarVotos(Long idSessao) {
+    public ContabilizacaoDto contabilizarVotos(Long idSessao) {
         if (idSessao == 0L) {
             throw new IValorNaoInformadoException("id");
         }
@@ -106,10 +123,12 @@ public class SessaoService {
             throw new IBaseException("Nenhum voto foi registrado nesta sessão", HttpStatus.NOT_FOUND);
         }
 
-        SessaoDto sessaoDto = this.modelMapper.map(sessao, SessaoDto.class);
-        sessaoDto.setCountVotosNao((int) votos.stream().filter(voto -> voto.getVoto().value.equals(VotoEnum.NAO.value)).count());
-        sessaoDto.setCountVotosSim((int) votos.stream().filter(voto -> voto.getVoto().value.equals(VotoEnum.SIM.value)).count());
+        ContabilizacaoDto contabilizacaoDto = new ContabilizacaoDto(
+                (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.NAO.getValue())).count(),
+                (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.SIM.getValue())).count(),
+                votos.size()
+        );
 
-        return sessaoDto;
+        return contabilizacaoDto;
     }
 }

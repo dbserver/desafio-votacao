@@ -1,11 +1,13 @@
 package com.fernandesclaudi.desafiovotacao.controller;
 
 import com.fernandesclaudi.desafiovotacao.config.VersionApi;
+import com.fernandesclaudi.desafiovotacao.dto.ContabilizacaoDto;
 import com.fernandesclaudi.desafiovotacao.dto.SessaoDto;
 import com.fernandesclaudi.desafiovotacao.dto.VotoDto;
 import com.fernandesclaudi.desafiovotacao.exceptions.IValorNaoInformadoException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IRegistroNaoEncontradoException;
 import com.fernandesclaudi.desafiovotacao.model.Sessao;
+import com.fernandesclaudi.desafiovotacao.model.Voto;
 import com.fernandesclaudi.desafiovotacao.service.SessaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +32,12 @@ public class SessaoController {
     }
 
     @PostMapping("votar")
-    private ResponseEntity<VotoDto> votar(@RequestBody VotoDto votoDto) throws IRegistroNaoEncontradoException {
+    private ResponseEntity<Voto> votar(@RequestBody VotoDto votoDto) throws IRegistroNaoEncontradoException {
         return ResponseEntity.ok(sessaoService.registrarVoto(votoDto));
     }
 
-    @GetMapping("contabilizar")
-    private ResponseEntity<SessaoDto> contabilizar(@RequestParam Long idSessao) {
+    @GetMapping("contabilizar/{idSessao}")
+    private ResponseEntity<ContabilizacaoDto> contabilizar(@PathVariable Long idSessao) {
         return ResponseEntity.ok(sessaoService.contabilizarVotos(idSessao));
     }
 
