@@ -3,7 +3,9 @@ package com.fernandesclaudi.desafiovotacao.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,13 +19,15 @@ public class Sessao {
     @Column(name = "duracao")
     private Long duracao;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idpauta", referencedColumnName = "id")
     private Pauta pauta;
 
     @Column(name = "dtinicio")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dataInicio;
     @Column(name = "dtfim")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dataFim;
 
     @OneToMany(fetch = FetchType.LAZY)
