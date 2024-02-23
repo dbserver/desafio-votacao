@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class IRegistroNaoEncontradoException extends IBaseException {
 
-    public IRegistroNaoEncontradoException(String entidade, HttpStatus httpStatus) {
-        super("Nenhum registro para " + entidade + " foi encontrado", httpStatus);
+    public IRegistroNaoEncontradoException(String entidade) {
+        super("Nenhum registro para " + entidade + " foi encontrado", HttpStatus.NOT_FOUND);
     }
 }
