@@ -1,6 +1,7 @@
 package com.fernandesclaudi.desafiovotacao.controller;
 
 
+import com.fernandesclaudi.desafiovotacao.config.VersionApi;
 import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.service.AssociadoService;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("${VersionApi.VERSION}/associado")
+@RequestMapping(VersionApi.VERSION + "/associado")
 public class AssociadoController {
     @Autowired
 
