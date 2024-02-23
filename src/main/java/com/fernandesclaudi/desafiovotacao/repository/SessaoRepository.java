@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface SessaoRepository extends JpaRepository<Sessao, Long> {
     List<Sessao> findByDataFimAfter(LocalDateTime dataFim);
+    List<Sessao> findByDataFimAfterAndPauta_Id(LocalDateTime dataFim, Long idPauta);
 }

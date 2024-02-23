@@ -29,7 +29,4 @@ public class Sessao {
     @Column(name = "dtfim")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime dataFim;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Voto> votos;
 }
