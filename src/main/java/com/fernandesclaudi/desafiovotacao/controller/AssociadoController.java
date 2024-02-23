@@ -2,6 +2,7 @@ package com.fernandesclaudi.desafiovotacao.controller;
 
 
 import com.fernandesclaudi.desafiovotacao.config.VersionApi;
+import com.fernandesclaudi.desafiovotacao.dto.AssociadoDto;
 import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.service.AssociadoService;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class AssociadoController {
     }
 
     @PostMapping
-    public ResponseEntity<Associado> save(@RequestBody Associado associado) {
-        return ResponseEntity.ok(associadoService.save(associado));
+    public ResponseEntity<Associado> save(@RequestBody AssociadoDto associadoDto) {
+        return ResponseEntity.ok(associadoService.save(associadoDto));
     }
 }
