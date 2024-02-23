@@ -1,23 +1,53 @@
 package com.fernandesclaudi.desafiovotacao.service;
 
+import com.fernandesclaudi.desafiovotacao.dto.PautaDto;
+import com.fernandesclaudi.desafiovotacao.exceptions.IRegistroNaoEncontradoException;
+import com.fernandesclaudi.desafiovotacao.exceptions.IValorNaoInformadoException;
+import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.model.Pauta;
+import com.fernandesclaudi.desafiovotacao.repository.AssociadoRepository;
 import com.fernandesclaudi.desafiovotacao.repository.PautaRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PautaService {
     @Autowired
     private PautaRepository PautaRepository;
+    @Autowired
+    private AssociadoRepository associadoRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public Pauta findById(Long id) {
         Optional<Pauta> pauta = PautaRepository.findById(id);
         return pauta.orElse(null);
     }
 
-    public Pauta save(Pauta pauta) {
+    public List<Pauta> findAllByRedator(Long idRedator) {
+        return PautaRepository.findAllByRedator_IdOrderByDataDesc(idRedator);
+    }
+
+    public Pauta save(PautaDto pautaDto) throws IValorNaoInformadoException, IRegistroNaoEncontradoException {
+        if (pautaDto.getTitulo().isBlank()) {
+            throw new IValorNaoInformadoException("pauta.titulo", HttpStatus.BAD_REQUEST);
+        }
+
+        if (pautaDto.getRedator() == null) throw new IValorNaoInformadoException("pauta.redator", HttpStatus.BAD_REQUEST);
+
+        Associado associado = this.associadoRepository.findById(pautaDto.getRedator().getId())
+                .orElseThrow(() -> new IRegistroNaoEncontradoException("Associado", HttpStatus.NOT_FOUND));
+
+        Pauta pauta = this.modelMapper.map(pautaDto, Pauta.class);
+        pauta.setRedator(associado);
+        pauta.setData(LocalDate.now());
         return PautaRepository.save(pauta);
     }
 }

@@ -14,7 +14,7 @@ public class Pauta {
     private Long id;
     @Column(name = "titulo")
     private String titulo;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idredator", referencedColumnName = "id")
     private Associado redator;
     @Column(name = "dtpauta")
