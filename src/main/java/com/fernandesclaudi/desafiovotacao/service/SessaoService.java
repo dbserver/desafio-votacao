@@ -123,12 +123,10 @@ public class SessaoService {
             throw new IBaseException("Nenhum voto foi registrado nesta sessão", HttpStatus.NOT_FOUND);
         }
 
-        ContabilizacaoDto contabilizacaoDto = new ContabilizacaoDto(
+        return new ContabilizacaoDto(
                 (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.NAO.getValue())).count(),
                 (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.SIM.getValue())).count(),
                 votos.size()
         );
-
-        return contabilizacaoDto;
     }
 }
