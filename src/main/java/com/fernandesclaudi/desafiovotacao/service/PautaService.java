@@ -28,22 +28,22 @@ public class PautaService {
 
     public Pauta findById(Long id) {
         Optional<Pauta> pauta = PautaRepository.findById(id);
-        return pauta.orElse(null);
+        return pauta.orElseThrow(() -> new IRegistroNaoEncontradoException("Pauta"));
     }
 
     public List<Pauta> findAllByRedator(Long idRedator) {
         return PautaRepository.findAllByRedator_IdOrderByDataDesc(idRedator);
     }
 
-    public Pauta save(PautaDto pautaDto) throws IValorNaoInformadoException, IRegistroNaoEncontradoException {
-        if (pautaDto.getTitulo().isBlank()) {
-            throw new IValorNaoInformadoException("pauta.titulo", HttpStatus.BAD_REQUEST);
+    public Pauta save(PautaDto pautaDto) {
+        if ((pautaDto.getTitulo() == null) || (pautaDto.getTitulo().isBlank())) {
+            throw new IValorNaoInformadoException("pauta.titulo");
         }
 
-        if (pautaDto.getRedator() == null) throw new IValorNaoInformadoException("pauta.redator", HttpStatus.BAD_REQUEST);
+        if (pautaDto.getRedator() == null) throw new IValorNaoInformadoException("pauta.redator");
 
         Associado associado = this.associadoRepository.findById(pautaDto.getRedator().getId())
-                .orElseThrow(() -> new IRegistroNaoEncontradoException("Associado", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new IRegistroNaoEncontradoException("Associado"));
 
         Pauta pauta = this.modelMapper.map(pautaDto, Pauta.class);
         pauta.setRedator(associado);
