@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,4 +22,7 @@ public class Voto {
     private VotoEnum voto;
     @Column(name = "dtvoto")
     private LocalDateTime dtVoto;
+    @OneToOne
+    @JoinColumn(name = "idsessao", referencedColumnName = "id")
+    private Sessao sessao;
 }
