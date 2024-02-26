@@ -5,12 +5,17 @@ import com.fernandesclaudi.desafiovotacao.config.VersionApi;
 import com.fernandesclaudi.desafiovotacao.dto.AssociadoDto;
 import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.service.AssociadoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Associado", description = "Associado API")
 @RestController
 @RequestMapping(VersionApi.VERSION + "/associado")
 public class AssociadoController {
@@ -25,6 +30,11 @@ public class AssociadoController {
         return associadoService.findById(id);
     }
 
+    @Operation(summary = "Registrar associado", description = "Registra um novo associado")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Associado registrado com sucesso"),
+            @ApiResponse(responseCode = "409", description = "Já existe um associado com o CPF informado")
+    })
     @PostMapping
     public ResponseEntity<Associado> save(@RequestBody @Valid AssociadoDto associadoDto) {
         return ResponseEntity.ok(associadoService.save(associadoDto));

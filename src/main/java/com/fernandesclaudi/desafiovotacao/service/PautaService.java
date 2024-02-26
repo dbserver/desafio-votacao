@@ -35,9 +35,6 @@ public class PautaService {
     }
 
     public Pauta save(PautaDto pautaDto) {
-
-        if (pautaDto.getRedator() == null) throw new IValorNaoInformadoException("pauta.redator");
-
         Associado associado = this.associadoRepository.findById(pautaDto.getRedator().getId())
                 .orElseThrow(() -> new IRegistroNaoEncontradoException("Associado"));
 
