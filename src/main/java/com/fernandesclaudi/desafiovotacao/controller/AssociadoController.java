@@ -3,6 +3,7 @@ package com.fernandesclaudi.desafiovotacao.controller;
 
 import com.fernandesclaudi.desafiovotacao.config.VersionApi;
 import com.fernandesclaudi.desafiovotacao.dto.AssociadoDto;
+import com.fernandesclaudi.desafiovotacao.dto.CpfDto;
 import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.service.AssociadoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,14 @@ public class AssociadoController {
             @Min(value = 1, message = "Valor mínimo para o id deve ser 1")
             @PathVariable Long id) {
         return associadoService.findById(id);
+    }
+
+    @GetMapping("/is-valid/{cpf}")
+    public ResponseEntity<String> isValid(
+            @PathVariable
+            @Valid
+            @CPF(message = "Cpf inválido") String cpf) {
+        return ResponseEntity.ok(associadoService.isValidCpf(cpf));
     }
 
     @Operation(summary = "Registrar associado", description = "Registra um novo associado")
