@@ -14,7 +14,8 @@ import java.util.List;
 public class Sessao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "seq_sessao", sequenceName = "seq_sessao", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_sessao")
     private Long id;
     @Column(name = "duracao")
     private Long duracao;

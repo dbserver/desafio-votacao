@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,9 +41,6 @@ public class SessaoService {
     private ModelMapper modelMapper;
 
     public Sessao abrir(SessaoDto sessaoDto) throws IRegistroNaoEncontradoException, IValorNaoInformadoException {
-        if ((sessaoDto.getPauta() == null) || (sessaoDto.getPauta().getId() == 0L)) {
-            throw new IValorNaoInformadoException("sessao.pauta");
-        }
 
         Optional<Pauta> pauta = pautaRepository.findById(sessaoDto.getPauta().getId());
         if (pauta.isEmpty()) {
@@ -71,17 +69,6 @@ public class SessaoService {
     }
 
     public Voto registrarVoto(VotoDto votoDto) {
-        if ((votoDto.getAssociado() == null) || (votoDto.getAssociado().getId() == 0L)) {
-            throw new IValorNaoInformadoException("associado");
-        }
-
-        if ((votoDto.getSessao() == null) || (votoDto.getSessao().getId() == 0L)) {
-            throw new IValorNaoInformadoException("sessao");
-        }
-
-        if (votoDto.getVoto() == null) {
-            throw new IValorInvalidoException("Valor do voto inválido. Esperado S (Sim) ou N (Não)");
-        }
 
         Optional<Associado> associado = this.associadoRepository.findById(votoDto.getAssociado().getId());
         if (associado.isEmpty()) {
@@ -93,15 +80,16 @@ public class SessaoService {
             throw new IRegistroNaoEncontradoException("Sessão");
         }
 
+        if (LocalDateTime.now().isAfter(sessao.get().getDataFim())) {
+            throw new IBaseException("Sessão já encerrada.", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
         if (this.votoRepository.existsVotoBySessao_IdAndAssociado_Id(sessao.get().getId(), associado.get().getId())) {
             throw new IBaseException("Associado ja votou nesta sessão", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        if (LocalDateTime.now().isAfter(sessao.get().getDataFim())) {
-            throw new IBaseException("Sessão encerrada", HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-
-        Voto voto = this.modelMapper.map(votoDto, Voto.class);
+        Voto voto = new Voto();
+        voto.setVoto(VotoEnum.findByValue(votoDto.getVoto()));
         voto.setSessao(sessao.get());
         voto.setAssociado(associado.get());
         voto.setDtVoto(LocalDateTime.now());
@@ -109,9 +97,6 @@ public class SessaoService {
     }
 
     public ContabilizacaoDto contabilizarVotos(Long idSessao) {
-        if (idSessao == 0L) {
-            throw new IValorNaoInformadoException("id");
-        }
 
         Optional<Sessao> sessao = sessaoRepository.findById(idSessao);
         if (sessao.isEmpty()) {
@@ -124,8 +109,8 @@ public class SessaoService {
         }
 
         return new ContabilizacaoDto(
-                (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.NAO.getValue())).count(),
                 (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.SIM.getValue())).count(),
+                (int) votos.stream().filter(voto -> voto.getVoto().getValue().equals(VotoEnum.NAO.getValue())).count(),
                 votos.size()
         );
     }
