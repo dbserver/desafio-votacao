@@ -2,8 +2,6 @@ package com.fernandesclaudi.desafiovotacao.enums;
 
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 public enum VotoEnum {
     SIM("S"),
@@ -19,4 +17,14 @@ public enum VotoEnum {
     public String getValue() {
         return value;
     }
+
+    public static VotoEnum findByValue(String value){
+        for(VotoEnum v : values()){
+            if( v.value.equals(value)){
+                return v;
+            }
+        }
+        return null;
+    }
+
 }

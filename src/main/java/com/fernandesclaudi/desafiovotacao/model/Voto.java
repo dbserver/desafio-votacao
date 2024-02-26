@@ -2,6 +2,7 @@ package com.fernandesclaudi.desafiovotacao.model;
 
 import com.fernandesclaudi.desafiovotacao.enums.VotoEnum;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,8 @@ import java.util.List;
 @Table(name = "voto")
 public class Voto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "seq_voto", sequenceName = "seq_voto", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_voto")
     private Long id;
     @ManyToOne
     @JoinColumn(name = "idassociado", referencedColumnName = "id")
