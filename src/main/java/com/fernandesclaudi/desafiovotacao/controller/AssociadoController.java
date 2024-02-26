@@ -32,6 +32,12 @@ public class AssociadoController {
         return associadoService.findById(id);
     }
 
+    @Operation(summary = "Validar Cpf", description = "Valida se um Cpf está habilitado para votar")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Cpf válido para votar"),
+            @ApiResponse(responseCode = "400", description = "Cpf inválido"),
+            @ApiResponse(responseCode = "404", description = "Cpf não habilitado para votação")
+    })
     @GetMapping("/is-valid/{cpf}")
     public ResponseEntity<String> isValid(
             @PathVariable
