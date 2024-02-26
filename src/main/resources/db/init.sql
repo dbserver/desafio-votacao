@@ -35,3 +35,8 @@ CREATE TABLE public.voto (
 	CONSTRAINT voto_associado_fk FOREIGN KEY (idassociado) REFERENCES public.associado(id),
 	CONSTRAINT voto_sessao_fk FOREIGN KEY (idsessao) REFERENCES public.sessao(id)
 );
+
+CREATE SEQUENCE seq_voto START 1;
+CREATE SEQUENCE seq_pauta START 1;
+CREATE SEQUENCE seq_sessao START 1;
+CREATE SEQUENCE seq_associado START 1;
