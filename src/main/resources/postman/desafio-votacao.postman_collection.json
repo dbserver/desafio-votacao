@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "fd396640-a3c3-487b-97b9-713c224f2e9e",
+		"name": "desafio-votacao",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32578355"
+	},
+	"item": [
+		{
+			"name": "Cpf valido",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/v1/associado/is-valid/42408069092",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"associado",
+						"is-valid",
+						"42408069092"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Associado",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Thagner Moreira Uramoto\",\r\n    \"cpf\": \"09207808650\"    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/v1/associado",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"associado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associado by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save Pauta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"redator\": {\r\n        \"id\": 2\r\n    }\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/v1/pauta",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"pauta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pautas por Redator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/v1/pauta/redator/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"pauta",
+						"redator",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Abrir Sessao",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pauta\": {\r\n        \"id\": 1\r\n    },\r\n    \"duracao\": 250\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/v1/sessao/abrir",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"sessao",
+						"abrir"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sessões Abertas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/v1/sessao/abertas",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"sessao",
+						"abertas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Votar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"associado\": {\r\n        \"id\": 2\r\n    },\r\n    \"sessao\": {\r\n        \"id\": 202\r\n    },\r\n    \"voto\": \"N\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/v1/sessao/votar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"sessao",
+						"votar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Contabilizar",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		}
+	]
+}
