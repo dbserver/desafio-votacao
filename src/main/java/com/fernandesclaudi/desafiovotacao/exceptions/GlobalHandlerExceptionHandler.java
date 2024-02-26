@@ -2,10 +2,7 @@ package com.fernandesclaudi.desafiovotacao.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.lang.Nullable;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,7 +29,7 @@ public class GlobalHandlerExceptionHandler extends ResponseEntityExceptionHandle
     }
 
     @Override
-    protected ResponseEntity<Object> handleHandlerMethodValidationException(HandlerMethodValidationException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleHandlerMethodValidationException(HandlerMethodValidationException ex, @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
         return ResponseEntity.status(status).body(ex.getAllValidationResults().stream().map(validationResult -> {
             String errorMessage = validationResult.getResolvableErrors().stream().findFirst().get().getDefaultMessage();
             assert errorMessage != null;
@@ -41,7 +38,7 @@ public class GlobalHandlerExceptionHandler extends ResponseEntityExceptionHandle
     }
 
     @ExceptionHandler(IBaseException.class)
-    public ResponseEntity<Object> handleConflict(IBaseException ex, WebRequest request) {
+    public ResponseEntity<Object> handleConflict(IBaseException ex) {
        return ResponseEntity.status(ex.getHttpStatus()).body(ex.getMessage());
     }
 

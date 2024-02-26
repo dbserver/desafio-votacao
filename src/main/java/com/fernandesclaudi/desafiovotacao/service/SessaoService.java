@@ -5,7 +5,6 @@ import com.fernandesclaudi.desafiovotacao.dto.SessaoDto;
 import com.fernandesclaudi.desafiovotacao.dto.VotoDto;
 import com.fernandesclaudi.desafiovotacao.enums.VotoEnum;
 import com.fernandesclaudi.desafiovotacao.exceptions.IBaseException;
-import com.fernandesclaudi.desafiovotacao.exceptions.IValorInvalidoException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IValorNaoInformadoException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IRegistroNaoEncontradoException;
 import com.fernandesclaudi.desafiovotacao.model.Associado;
@@ -22,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

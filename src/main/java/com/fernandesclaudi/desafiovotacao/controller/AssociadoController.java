@@ -7,7 +7,6 @@ import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.service.AssociadoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

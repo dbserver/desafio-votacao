@@ -1,12 +1,10 @@
 package com.fernandesclaudi.desafiovotacao.dto;
 
 import com.fernandesclaudi.desafiovotacao.model.Associado;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
 

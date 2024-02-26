@@ -3,12 +3,10 @@ package com.fernandesclaudi.desafiovotacao.service;
 import com.fernandesclaudi.desafiovotacao.dto.AssociadoDto;
 import com.fernandesclaudi.desafiovotacao.exceptions.IRegistroJaInseridoException;
 import com.fernandesclaudi.desafiovotacao.exceptions.IRegistroNaoEncontradoException;
-import com.fernandesclaudi.desafiovotacao.exceptions.IValorNaoInformadoException;
 import com.fernandesclaudi.desafiovotacao.model.Associado;
 import com.fernandesclaudi.desafiovotacao.repository.AssociadoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,7 +20,7 @@ public class AssociadoService {
 
 
     public Associado findById(Long id) {
-        Optional<Associado> associado = associadoRepository.findById(id);
+        Optional<Associado> associado = this.associadoRepository.findById(id);
         return associado.orElseThrow(() -> new IRegistroNaoEncontradoException("Pauta"));
     }
 

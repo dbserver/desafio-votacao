@@ -3,10 +3,7 @@ package com.fernandesclaudi.desafiovotacao.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
