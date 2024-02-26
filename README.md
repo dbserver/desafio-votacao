@@ -3,7 +3,7 @@
 - Em resources, existe o arquivo init.sql. Com ele é possível criar as tabelas e sequences necessárias.
 - Postman para enviar as requisições
 - Existe um arquivo no repositório chamado docker-compose para criação do container do banco de dados
-- Comandos docker :
+- Orientação para subir container docker :
   - Ir até a pasta do projeto
   - docker compose up -d
 - Em src/main/resources/postman foi colocada uma coleção para auxiliar na chamada dos métodos
