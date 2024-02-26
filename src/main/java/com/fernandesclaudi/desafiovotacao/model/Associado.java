@@ -8,7 +8,8 @@ import lombok.Data;
 @Table(name = "associado")
 public class Associado {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "seq_associado", sequenceName = "seq_associado", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_associado")
     private Long id;
     @Column(name = "nome")
     private String nome;

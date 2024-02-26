@@ -20,10 +20,6 @@ public class AssociadoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public Associado findByCpf(String cpf) {
-
-        return associadoRepository.findByCpf(cpf);
-    }
 
     public Associado findById(Long id) {
         Optional<Associado> associado = associadoRepository.findById(id);
@@ -31,11 +27,8 @@ public class AssociadoService {
     }
 
     public Associado save(AssociadoDto associadoDto) {
-        if (associadoDto.getCpf().isBlank()) {
-            throw new IValorNaoInformadoException("cpf");
-        }
 
-        Associado associadoEncontrado = findByCpf(associadoDto.getCpf());
+        Associado associadoEncontrado = associadoRepository.findByCpf(associadoDto.getCpf());
         if (associadoEncontrado != null) {
             throw new IRegistroJaInseridoException("Já existe um associado com o CPF informado.");
         }
