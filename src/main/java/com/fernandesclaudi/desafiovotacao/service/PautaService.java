@@ -36,9 +36,6 @@ public class PautaService {
     }
 
     public Pauta save(PautaDto pautaDto) {
-        if ((pautaDto.getTitulo() == null) || (pautaDto.getTitulo().isBlank())) {
-            throw new IValorNaoInformadoException("pauta.titulo");
-        }
 
         if (pautaDto.getRedator() == null) throw new IValorNaoInformadoException("pauta.redator");
 
